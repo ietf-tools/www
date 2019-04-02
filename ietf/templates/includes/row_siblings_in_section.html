@@ -1,0 +1,27 @@
+<div class="three none body-white float-right mobile-colour rule-mobile side-col">
+    <div class="this-section feedback">
+        <a class="see" href="#">In this section</a>
+        <a class="hide">Hide in this section</a>
+    </div>
+    <ul class="side-nav sticky">
+      <li class="section"><a href="{{ page.get_parent.url }}">{{ page.get_parent.title }}</a></li>
+      {% for sibling in page.siblings %}
+        {% if sibling.slug == page.slug %}
+          <li class="active">
+            <a href="{{ sibling.url }}">{{ sibling.title }}</a>
+            {% if page.subpages %}
+              <ul>
+                {% for subpage in page.subpages %}
+                  <li>
+                    <a href="{{ subpage.url }}" >{{ subpage.title }}</a>
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </li>
+        {% else %}
+          <li><a href="{{ sibling.url }}">{{ sibling.title }}</a></li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+</div>

@@ -1,0 +1,16 @@
+<div class="standard-snippet">
+    <label>Working Group</label>
+    <h2><a href="{{ working_group.url }}">{{ working_group.name }}</a></h2>
+    <p class="push-down">{{ working_group.description|truncatechars:200 }}</p>
+    <small>
+        <span class="bold">{{ working_group.acronym }}</span>
+        {% if working_group.active %}
+            <span>active</span>
+        {% else %}
+            <span>not active</span>
+        {% endif %}
+        {% if working_group.list_email %}
+            <span><a class="internal mail" href="mailto:{{ working_group.list_email }}">{{ working_group.list_email }}</a></span>
+        {% endif %}
+    </small>
+</div>

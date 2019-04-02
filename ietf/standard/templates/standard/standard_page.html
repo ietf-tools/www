@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% load bibliography %}
+
+{% block main_content %}
+
+    <div class="no-overflow-x">
+
+        <div class="body-white rule-desktop">
+            <div class="container">
+                {% include 'includes/breadcrumbs.html' %}
+                {% include 'includes/optional-introduction.html' with value=self %}
+                {% include "includes/social_fields.html" %}
+            </div>
+        </div>
+
+        <div class="container cf">
+
+            {% include "includes/row_siblings_in_section.html" with page=self %}
+
+            {# main content row #}
+            <div class="nine">
+
+                {% if self.prepared_key_info and self.prepared_in_depth %}
+                <ul class="tabs two-col-small no-margin cf bleed-left">
+                    {% if self.prepared_key_info %}
+                        <li class="key-info active" style="display: none;">Key Info</li>
+                    {% endif %}
+                    {% if self.prepared_in_depth %}
+                        <li class="in-depth border-right" style="display: none;">In depth</li>
+                    {% endif %}
+                </ul>
+                {% endif %}
+
+                {# content #}
+                <div class="body body-panel bleed-left clearfix">
+                    {% if self.prepared_key_info %}
+                        <div class="key-info-tab has-references">
+                        <h2 class="nojs">Key Info</h2>
+                            {{ self.prepared_key_info|safe }}
+                        </div>
+                    {% endif %}
+
+                    {% if self.prepared_in_depth %}
+                        <div class="in-depth-tab has-references {% if self.prepared_key_info %}hide{% endif %}">
+                        <h2 class="nojs">In depth</h2>
+                            {{ self.prepared_in_depth|safe }}
+                        </div>
+                    {% endif %}
+
+                    {% bibliography self %}
+                </div>
+
+
+                {% if self.working_groups.exists %}
+                    <div class="body body-panel bleed-left clearfix">
+                        {% for working_group in self.working_groups.all %}
+                            {% include 'snippets/working_group.html' with working_group=working_group.working_group %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                {% if self.rfcs.exists %}
+                    <div class="body body-panel bleed-left clearfix">
+                        {% for rfc in self.rfcs.all %}
+                            {% include 'snippets/rfc.html' with rfc=rfc.rfc %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                {% if self.internet_drafts.exists %}
+                    <div class="body body-panel bleed-left clearfix">
+                        {% for internet_draft in self.internet_drafts.all %}
+                            {% include 'snippets/internet_draft.html' with draft=internet_draft.internet_draft %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                {% if self.faq_items.all %}
+                    <div class="body body-panel bleed-left clearfix">
+                        <div class="faq">
+                            <!-- To compensate for the 20px padding / text still lines up -->
+                            <ul class="shift-left">
+                                <li class="title">Frequently asked questions</li>
+                                {% for item in self.faq_items.all %}
+                                    <li>
+                                        <li class="question">
+                                            <h4>{{ item.question }}</h4>
+                                        </li>
+                                        <li class="answer">
+                                            <p>{{ item.answer }}</p>
+                                        </li>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                {% endif %}
+
+            </div>
+            {# end main content row #}
+
+        </div>
+
+        {% include "includes/highlight.html" %}
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script type="text/javascript">
+        {% if self.prepared_key_info %}
+            if ($(window).width() >= 1150) {
+                $('.side-col.float-right').height($('.key-info-tab').height());
+            }
+        {% elif self.prepared_in_depth %}
+            if ($(window).width() >= 1150) {
+                $('.side-col.float-right').height($('.in-depth-tab').height());
+            }
+        {% endif %}
+
+        {% if self.prepared_key_info %}
+            $('.key-info').show();
+        {% endif %}
+        {% if self.prepared_in_depth %}
+            $('.in-depth').show();
+        {% endif %}
+
+        $('.in-depth').click(function() {
+            $('.in-depth').addClass('active');
+            $('.key-info').removeClass('active');
+            $('.key-info-tab').addClass('hide');
+            $('.in-depth-tab').removeClass('hide');
+            if ($(window).width() >= 1150) {
+                $('.side-col.float-right').height($('.no-overflow-x').height());
+            }
+        });
+        $('.key-info').click(function(){
+            $('.key-info').addClass('active');
+            $('.in-depth').removeClass('active');
+            $('.key-info-tab').removeClass('hide');
+            $('.in-depth-tab').addClass('hide');
+            if ($(window).width() >= 1150) {
+                $('.side-col.float-right').height($('.no-overflow-x').height());
+            }
+        });
+    </script>
+{% endblock %}

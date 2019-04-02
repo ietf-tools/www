@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+
+{% block main_content %}
+
+    <div class="subtle-white">
+
+        <div class="body-white rule-desktop">
+            <div class="container">
+                {% include 'includes/breadcrumbs.html' %}
+                {% include 'includes/optional-introduction.html' with value=self %}
+                {% include 'includes/social_fields.html' %}
+            </div>
+        </div>
+
+
+        <div class="container">
+            <div class="row">
+
+                {# side nav #}
+                {% include 'includes/row_siblings_in_section.html' with page=self %}
+
+
+                {# content #}
+                <div class="seven body-colour body cf">
+                    <form class="big-search" action="{{ self.url }}" method="get">
+                        <label for="search" style="display: none;">Search</label>
+                        <input id="search" aria-label="search" type="text" placeholder="Enter your query here" name="query" {% if search_query %} value="{{ search_query }}"{% endif %}>
+                        <button class="" type="submit">Go</button>
+                    </form>
+                    {# pagination #}
+                    {% if glossary_items %}
+                        <div class="pagination-centered">
+                            {% if glossary_items.has_previous %}
+                                <a href="{{ self.url }}?page={{ glossary_items.previous_page_number }}">&laquo;</a>
+
+                                {% if glossary_items.number >= 3 %}
+                                    <a href="{{ self.url }}?page=1">1</a>
+                                {% endif %}
+                                {% if glossary_items.number > 3 %}
+                                    &hellip;
+                                {% endif %}
+
+                                <a href="{{ self.url }}?page={{ glossary_items.previous_page_number }}">{{ glossary_items.previous_page_number }}</a>
+                            {% else %}
+                                &laquo;
+                            {% endif %}
+
+                            {{ glossary_items.number }}
+
+                            {% if glossary_items.has_next %}
+                                <a href="{{ self.url }}?page={{ glossary_items.next_page_number }}">{{ glossary_items.next_page_number }}</a>
+
+                                {% if glossary_items.number < glossary_items.paginator.num_pages|add:"-2" %}
+                                    &hellip;
+                                {% endif %}
+                                {% if glossary_items.number <= glossary_items.paginator.num_pages|add:"-2" %}
+                                    <a href="{{ self.url }}?page={{ glossary_items.paginator.num_pages }}">{{ glossary_items.paginator.num_pages }}</a>
+                                {% endif %}
+
+                                <a href="{{ self.url }}?page={{ glossary_items.next_page_number }}">&raquo;</a>
+                            {% else %}
+                                &raquo;
+                            {% endif %}
+                        </div>
+                    {% endif %}
+
+                    {% for glossary_item in glossary_items %}
+                        {% if glossary_item.link %}<a href="{{ glossary_item.link }}">{% endif %}
+                            <h4>{{ glossary_item.title }}</h4>
+                        {% if glossary_item.link %}</a>{% endif %}
+                        <p>{{ glossary_item.body|richtext }}</p>
+                    {% empty %}
+                        <p>No results found for <strong>{{ search_query }}</strong></p>
+                    {% endfor %}
+
+                    {% if glossary_items %}
+                        {# pagination #}
+                        <div class="pagination-centered">
+                            {% if glossary_items.has_previous %}
+                                <a href="{{ self.url }}?page={{ glossary_items.previous_page_number }}">&laquo;</a>
+
+                                {% if glossary_items.number >= 3 %}
+                                    <a href="{{ self.url }}?page=1">1</a>
+                                {% endif %}
+                                {% if glossary_items.number > 3 %}
+                                    &hellip;
+                                {% endif %}
+
+                                <a href="{{ self.url }}?page={{ glossary_items.previous_page_number }}">{{ glossary_items.previous_page_number }}</a>
+                            {% else %}
+                                &laquo;
+                            {% endif %}
+
+                            {{ glossary_items.number }}
+
+                            {% if glossary_items.has_next %}
+                                <a href="{{ self.url }}?page={{ glossary_items.next_page_number }}">{{ glossary_items.next_page_number }}</a>
+
+                                {% if glossary_items.number < glossary_items.paginator.num_pages|add:"-2" %}
+                                    &hellip;
+                                {% endif %}
+                                {% if glossary_items.number <= glossary_items.paginator.num_pages|add:"-2" %}
+                                    <a href="{{ self.url }}?page={{ glossary_items.paginator.num_pages }}">{{ glossary_items.paginator.num_pages }}</a>
+                                {% endif %}
+
+                                <a href="{{ self.url }}?page={{ glossary_items.next_page_number }}">&raquo;</a>
+                            {% else %}
+                                &raquo;
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>  {# end container #}
+
+       {% include "includes/highlight.html" %}
+
+    </div>  {# end subtle white #}
+
+{% endblock %}

@@ -1,0 +1,18 @@
+{% load ietf_tags %}
+
+{% with settings.utils.SocialMediaSettings as social_media_settings %}
+    <div class="social-sharebar">
+        <div class="social-sharebar__button">Share this page</div>
+        <div class="social-sharebar__icons">
+            <a title="Share on Facebook" href="https://www.facebook.com/dialog/feed?app_id={{ social_media_settings.facebook_app_id }}&amp;link={{ page.full_url|urlencode }}&amp;picture={% social_image page request.site %}&amp;name={{ page.title|urlencode }}&amp;description={% social_text page request.site 'True '%}&amp;redirect_uri={{ page.full_url|urlencode }}">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 64"><path d="M30 0v10.3s-7.6-.8-9.5 2.2c-1 1.6-.4 6.2-.5 9.6h10.1c-.9 3.9-1.5 6.6-2.1 9.9h-8v32H6V32.1H.1V22H6c.2-7.3.3-14.6 3.9-18.3C14.1-.5 18 0 30 0z"/></svg>
+            </a>
+            <a title="Share on Twitter" href="https://twitter.com/intent/tweet?text={% social_text page request.site 'True' %}&amp;url={{ page.full_url|urlencode }}&amp;via={{ social_media_settings.twitter_handle|urlencode }}">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 51.9"><path d="M43.5 0c5.1-.1 7.8 1.8 10.4 4.1 2.2-.2 5-1.4 6.7-2.3.5-.3 1.1-.6 1.6-.9-1 2.6-2.3 4.6-4.3 6.2-.4.3-.9.8-1.4 1 2.8 0 5.2-1.3 7.4-2-1.2 1.9-2.8 3.8-4.5 5.1-.7.5-1.4 1.1-2 1.6 0 3 0 5.9-.6 8.4-3.3 14.7-12 24.7-25.7 29-4.9 1.5-12.9 2.2-18.6.8-2.8-.7-5.3-1.5-7.7-2.5-1.3-.6-2.5-1.2-3.7-1.9-.3-.1-.7-.3-1.1-.6 1.3 0 2.8.4 4.2.2 1.3-.2 2.6-.2 3.7-.4 3-.7 5.6-1.5 7.9-2.8 1.1-.6 2.8-1.4 3.6-2.3-1.5 0-2.8-.3-3.9-.7-4.2-1.5-6.7-4.3-8.3-8.4 1.3.1 5 .5 5.9-.3-1.6-.1-3.2-1-4.3-1.7-3.4-2.1-6.2-5.7-6.2-11.2.4.2.9.4 1.3.6.9.4 1.7.6 2.8.8.4.1 1.3.3 1.8.2h-.1c-.7-.8-1.7-1.3-2.4-2.1C3.8 15 1.7 10.8 3 5.8c.3-1.3.9-2.4 1.4-3.4h.1c.2.6.8 1 1.2 1.4 1.1 1.4 2.5 2.6 3.9 3.7 4.8 3.7 9.1 6.1 16 7.8 1.8.4 3.8.8 5.9.8-.6-1.7-.4-4.5.1-6.2 1.2-4.2 3.7-7.2 7.4-8.8.9-.4 1.9-.7 2.9-.9.6-.1 1.1-.1 1.6-.2z"/></svg>
+            </a>
+            <a title="Share on LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&amp;url={{ page.full_url|urlencode }}&amp;title={{ page.title|urlencode }}&amp;summary={% social_text page request.site 'True' %}&amp;source={{ social_media_settings.site_name|urlencode }}">
+                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/" x="0px" y="0px" viewBox="0 0 32 32" xml:space="preserve"> <defs> </defs> <path d="M26 25.963h-4.185v-6.55c0-1.56-.027-3.57-2.175-3.57-2.18 0-2.51 1.7-2.51 3.46v6.66h-4.182V12.495h4.012v1.84h.058c.558-1.058 1.924-2.174 3.96-2.174 4.24 0 5.022 2.79 5.022 6.418v7.386zM8.23 10.655a2.426 2.426 0 0 1 0-4.855 2.427 2.427 0 0 1 0 4.855zm-2.098 1.84h4.19v13.468h-4.19V12.495z" fill-rule="evenodd"></path></svg>
+            </a>
+        </div>
+    </div>
+{% endwith %}

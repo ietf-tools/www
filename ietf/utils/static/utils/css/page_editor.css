@@ -1,0 +1,8 @@
+/* Make "Heading" blocks look like the h2 headings in the rich text area */
+
+.blockname-heading .fieldname-heading input{
+    font-size: 2.5em;
+    font-weight: 600;
+    font-family: Roboto Slab, Georgia, serif;
+    color: #666;
+}

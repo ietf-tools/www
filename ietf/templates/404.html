@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block body_class %}template-404{% endblock %}
+
+{% block main_content %}
+
+    <div class="subtle-white">
+        <div class="body-white rule-desktop">
+            <div class="container">
+                <ul class="breadcrumb">
+                    <li><a href="/"><span class="icon ion-android-home"></span></a></li>
+                </ul>
+                <h1>HTTP Status Code: <br />
+                    <a href="https://datatracker.ietf.org/doc/rfc7231/?include_text=1">404 Page Not Found</a></h1>
+
+                <p>There was no Web page at the <a href="https://www.ietf.org/rfc/rfc1738.txt">URL</a> provided. Please use the standard site navigation above or the search bar below to find what you’re looking for.</p>
+
+                <form action="{% url 'search' %}" method="get" name="search">
+                    <input name="query" type="text" placeholder="Search" required="">
+                    <button class="" type="submit">Go</button>
+                </form>
+
+                <div class="body">
+                    <h2>Report problems</h2>
+
+                    <p>If you followed a link on the www.ietf.org site, it must be broken. Please <a href="mailto:ietf-action@ietf.org">email us</a> to report it and we’ll fix it.</p>
+
+                    <p>If you followed a link from another site, it may be outdated or mispelled. <a href="mailto:ietf-action@ietf.org">Email us</a> a link to where you came from and we can try to contact the other site to fix the problem.</p>
+
+                    <p>If you typed the address, please check that you typed it correctly (or use the search bar to find the page you were seeking).</p>
+
+                    <h2>IETF-related information about HTTP 404 Codes</h2>
+
+                    <div class="rich-text">
+                        <ul>
+                            <li><a href="https://datatracker.ietf.org/doc/rfc7230/">RFC7230 published in 2014 defines the 404 error code</a></li>
+
+                            <li><a href="http://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml#http-status-codes-1">IANA Registry of HTTP Status Codes</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

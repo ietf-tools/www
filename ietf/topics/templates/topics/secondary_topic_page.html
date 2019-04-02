@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+{% load wagtailimages_tags wagtailcore_tags %}
+
+{% block main_content %}
+<div class="gradient-sharp-subtle">
+    <div class="body-white rule-blue">
+        <div class="container rel">
+            {% include 'includes/breadcrumbs.html' %}
+
+            {% if self.feed_image %}
+                <div class="topic-header-image">
+                    {% image self.feed_image original as feed_image %}
+                    <img src="{{ feed_image.url }}" alt="{{ self.feed_image.title }}">
+                </div>
+            {% endif %}
+
+            <div class="topic-header-text">
+                {% include 'includes/optional-introduction.html' with value=self %}
+                {% include 'includes/social_fields.html' %}
+                <div class="more-wrapper" style="display: none">
+                    {% if self.key_info and self.in_depth %}
+                        <div class="read-more">
+                            <a class="see">Key info</a>
+                            <a class="hide">Close key info</a>
+                        </div>
+                        <div class="read-more-two">
+                            <a class="see">In depth</a>
+                            <a class="hide">Close in depth</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            {% if self.key_info %}
+                <div class="read-more-content">
+                    <div class="body no-pad">
+                        {% include "includes/streamfield.html" with content=self.key_info %}
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if self.in_depth %}
+                <div class="read-more-content-two">
+                    <div class="body no-pad">
+                        {% include "includes/streamfield.html" with content=self.in_depth %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="container">
+        {% include 'includes/row_siblings_in_section.html' with page=self %}
+
+        {% if self.working_groups %}
+            <div class="nine body-subtle">
+                <div class="body">
+                    <h2 class="section-title">Current working groups</h2>
+                    {% for batch in self.working_groups %}
+                        <ul class="group-list three-col">
+                            {% for working_group in batch %}
+                            <li>
+                                <h3><a href="{{ working_group.url }}">{{ working_group.name }}</a></h3>
+                                <p>{{ working_group.description|truncatewords:50 }}</p>
+                                <small>
+                                    <span>
+                                        {# Charter #}
+                                        {# <label>Approved</label> how? #}
+                                        <label>Charter</label>
+                                        <a href="{{ working_group.charter_url }}">{{ working_group.get_charter_acronym }}</a>
+                                    </span>
+                                    <br>
+                                    <span>{{ working_group.acronym }}</span>
+                                    {% if working_group.active %}<span>Active</span>{% endif %}
+                                    <span>{{ working_group.get_area.name }}</span>
+                                </small>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    {% endfor %}
+
+                    <p>
+                        <a class="datatracker-btn" href="{{ self.area.url }}">See the full list of working groups</a>
+                    </p>
+                </div>
+            </div>
+        {% endif %}
+
+    </div>
+
+    {% if self.RFCs %}
+    <div class="border-blue-white">
+        <div class="container">
+            <div class="nine body-subtle rule-blue-top">
+                <div class="body">
+                    <h2 class="section-title">RFCs</h2>
+                    {% for batch in self.RFCs %}
+                        <ul class="group-list three-col">
+                            {% for rfc in batch %}
+                            <li>
+                                <h3><a href="{{ rfc.url }}">{{ rfc.title }}</a></h3>
+                                <p class="push-down">{{ rfc.abstract|truncatewords:50 }}</p>
+                                <small>
+                                    <span class="divider">
+                                        <label>RFC {{ rfc.rfc }}</label>
+                                    </span>
+                                    <span class="no-divider">{{ rfc.time }}</span>
+                                    <br>
+                                    <span class="no-divider"><a href="{{ rfc.working_group.url }}">{{ rfc.working_group.acronym }}</a></span>
+                                </small>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if self.internet_drafts %}
+    <div class="border-blue-white">
+        <div class="container">
+            <div class="nine body-subtle rule-blue-top">
+                <div class="body">
+                    <h2 class="section-title">Internet drafts</h2>
+                    {% for batch in self.internet_drafts %}
+                        <ul class="group-list three-col">
+                            {% for draft in batch %}
+                            <li>
+                                <h3><a href="{{ draft.url }}">{{ draft.title }}</a></h3>
+                                <p>{{ draft.abstract|truncatewords:50 }}</p>
+                                <small>
+                                    <span class="divider">
+                                        <label>Internet-Draft</label>
+                                    </span>
+                                    {% if draft.active %}
+                                        Active
+                                    {% endif %}
+                                </small>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if self.people.exists %}
+        <div class="border-blue-white">
+            <div class="container">
+                <div class="nine body-subtle rule-blue-top">
+                    <div class="body">
+                        <h2 class="section-title">People</h2>
+                        <ul class="people-list two-col">
+                            {% for person in self.people.all %}
+                                {% if page.area %}
+                                    {% include "datatracker/person.html" with person=person.person area=page.area %}
+                                {% else %}
+                                    {% include "datatracker/person.html" with person=person.person %}
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+
+</div> {# end gradient-sharp-subtle #}
+
+
+
+{# related news and blogs #}
+{% if self.get_blog_pages %}
+<div class="gradient-sharp-subtle">
+    <div class="border-blue-white">
+        <div class="container">
+            <div class="nine body-subtle rule-blue-top">
+                <div class="body">
+                    {# related blogs #}
+                    <h2 class="section-title">Related blogs</h2>
+                    <ul class="news-listing three-col">
+                        {% for page in self.get_blog_pages %}
+                        <li>
+                            <h3><a href="{% pageurl page %}">{{ page.title }}</a></h3>
+                            <p>{{ page.feed_text }}</p>
+                            <ul>
+                                {% if page.author.name %}
+                                    <li class="important">{{ page.author.name }}</li>
+                                {% endif %}
+                                <li>{{ page.date }}</li>
+                            </ul>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endif %}
+
+{% include "includes/highlight.html" %}
+
+{% endblock main_content %}

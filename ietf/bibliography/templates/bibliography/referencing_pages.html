@@ -1,0 +1,23 @@
+{% extends "wagtailadmin/base.html" %}
+
+{% block titletag %}{{ title }}{% endblock %}
+
+{% block content %}
+    {% include "wagtailadmin/shared/header.html" with title=title icon="folder" %}
+    <div class="nice-padding">
+        <table class="listing">
+            <thead>
+                <tr class="table-headers">
+                    <th>name</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for page in pages %}
+                    <tr>
+                        <td><a href="{{ page.url }}">{{ page.title }}</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

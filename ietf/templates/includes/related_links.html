@@ -1,0 +1,11 @@
+<div class="text">
+    {% if related_links %}
+        <h3 class="small">you might be interested in</h3>
+        {% for link in related_links %}
+            <p class="sub">
+                <a href="{{ link.link }}">{{ link.title }}</a>
+                <span class="icon ion-ios-arrow-forward"></span>
+            </p>
+        {% endfor %}
+    {% endif %}
+</div>

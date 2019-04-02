@@ -1,0 +1,8 @@
+<div class="general-CTA">
+    <h2>{{ snippet.title }}</h2>
+    <p>{{ snippet.blurb }}</p>
+    <a href="{% url 'disclaimer' snippet.id %}" class="btn btn-primary">
+        <span class="icon ion-ios-paperplane"></span>
+        {{ snippet.button_text }}
+    </a>
+</div>

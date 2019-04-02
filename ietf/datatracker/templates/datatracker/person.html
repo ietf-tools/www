@@ -1,0 +1,14 @@
+{% load wagtailimages_tags datatracker_tags %}
+
+{% if area %}
+    {% person_area_role person area as area_role %}
+{% endif %}
+
+<li>
+    <div class="blue-image">
+        <img src="{{ person.photo_thumb }}" alt="{{ person.name }}">
+    </div>
+    <h4>{{ person.name }}{% if area %}<span>{{ area_role }}</span>{% elif person.role %}<span>{{ person.role }}</span>{% endif %}</h4>
+    {% if person.biography %}<p>{{ person.biography|striptags }}</p>{% endif %}
+    <small><a href="mailto:{{ person.email }}">{{ person.email }}</a></small>
+</li>

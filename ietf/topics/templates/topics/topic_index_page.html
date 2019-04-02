@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% load wagtailimages_tags wagtailcore_tags %}
+
+{% block main_content %}
+  <div class="body-white rule-blue">
+    <div class="sml-container center">
+      {% include 'includes/breadcrumbs.html' %}
+      <h1 class="center-div">{{ self.title }}</h1>
+      <p class="intro center-div">{{ self.introduction }}</p>
+      {% include 'includes/social_fields.html' %}
+    </div>
+  </div>
+
+  {# primary topics #}
+  <div class="body-colour">
+    <ul class="topic-list">
+      {% for primary_topic in self.primary_topics %}
+        <li>
+            <a href="{% pageurl primary_topic %}">
+                <div class="container body">
+                    {% if primary_topic.feed_image %}
+                        <div class="img-holder">
+                            {% image primary_topic.feed_image original as feed_image %}
+                            <img src="{{ feed_image.url }}" alt="{{ primary_topic.feed_image.title }}">
+                        </div>
+                    {% endif %}
+                    <div class="text-holder">
+                        <h2>{{ primary_topic.title }}</h2>
+                        <p>{{ primary_topic.feed_text }}</p>
+                    </div>
+                </div>
+            </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  {# secondary topics #}
+  <div class="body body-subtle">
+    <div class="container">
+      <ul class="sub-topic two-col">
+        {% for secondary_topic in self.secondary_topics %}
+          <li>
+            {% if secondary_topic.feed_image %}
+              {% image secondary_topic.feed_image original as feed_image %}
+              <img src="{{ feed_image.url }}" alt="{{ secondary_topic.feed_image.title }}">
+            {% endif %}
+            <h2><a href="{% pageurl secondary_topic %}">{{ secondary_topic.title }}</a></h2>
+            <p>{{ secondary_topic.feed_text }}</p>
+
+            <ul class="tags">
+                {% for primary_topic in secondary_topic.primary_topics.all %}
+                    <li><a href="{{ primary_topic.page.url }}">{{ primary_topic.page.title }}</a></li>
+                {% endfor %}
+            </ul>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+{% endblock main_content %}

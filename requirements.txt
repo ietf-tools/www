@@ -1,0 +1,18 @@
+Django==1.11.16
+djangorestframework>=3.8,<3.9
+psycopg2==2.7.5
+django-redis==4.8.0
+celery==3.1.17
+wagtail==2.3
+django-libsass==0.6
+libsass==0.8.3
+Pillow==5.3.0
+requests==2.20.0
+docutils==0.12
+future==0.15.2
+django-q==0.8.0
+django_compressor==2.2
+redlock==1.2.0
+
+# Sentry
+raven==6.9.0

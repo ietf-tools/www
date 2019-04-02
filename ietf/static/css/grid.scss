@@ -1,0 +1,373 @@
+//  ==========================================================================
+//  Grid
+//  ==========================================================================
+
+//Structure // site grid
+$margin-right: 2%;
+$half-margin-right: 1%;
+$margin-bottom: 2%;
+$max-width: 1350px;
+
+//Col
+$margin-right-large-tab: 2%;
+$margin-bottom-large: 2%;
+$margin-right-large: 2%;
+
+// GRID ==========================================================================//
+.one {
+}
+
+.two {
+	@extend .one;
+}
+
+.two-half {
+	@extend .one;
+}
+
+.three {
+	@extend .one;
+}
+
+.four {
+	@extend .one;
+}
+
+.five {
+	@extend .one;
+}
+
+.six {
+	@extend .one;
+}
+
+.seven {
+	@extend .one;
+}
+
+.eight {
+	@extend .one;
+}
+
+.nine {
+	@extend .one;
+}
+
+.ten {
+	@extend .one;
+}
+
+@media #{$tabletxl} {
+	.break-smaller {
+		.one {
+			width: calc(100% / 12 - #{$margin-right});
+			float: left;
+			margin: 0 $margin-right 0 0;
+			&.float-right {
+				float: right;
+			}
+			&.mobile-colour {
+				margin: 0;
+				padding: 0;
+			}
+			&.none {
+				margin: 0;
+			}
+		}
+
+		.two {
+			width: calc(100% / 6 - #{$margin-right});
+		}
+
+		.two-half {
+			width: calc(100% / 2.4 - #{$margin-right});
+		}
+
+		.three {
+			width: calc(100% / 4 - #{$margin-right});
+		}
+
+		.four {
+			width: calc(100% / 3 - #{$margin-right});
+		}
+
+		.five {
+			width: calc(100% / 2.4 - #{$margin-right});
+		}
+
+		.six {
+			width: calc(100% / 2 - #{$margin-right});
+		}
+
+		.seven {
+			width: calc(100% / 1.66 - #{$margin-right});
+		}
+
+		.eight {
+			width: calc(100% / 1.416 - #{$margin-right});
+		}
+
+		.nine {
+			width: calc(100% / 1.3 - #{$margin-right});
+		}
+
+		.ten {
+			width: calc(100% / 1.2 - #{$margin-right});
+		}
+	}
+}
+
+@media #{$desktop} {
+	.one {
+		width: calc(100% / 12 - #{$margin-right});
+		float: left;
+		margin: 0 $margin-right 0 0;
+		&.float-right {
+			float: right;
+		}
+		&.mobile-colour {
+			margin: 0;
+			padding: 0;
+		}
+		&.none {
+			margin: 0;
+		}
+	}
+
+	.two {
+		width: calc(100% / 6 - #{$margin-right});
+	}
+
+	.two-half {
+		width: calc(100% / 2.4 - #{$margin-right});
+	}
+
+	.three {
+		width: calc(100% / 4 - #{$margin-right});
+	}
+
+	.four {
+		width: calc(100% / 3 - #{$margin-right});
+	}
+
+	.five {
+		width: calc(100% / 2.4 - #{$margin-right});
+	}
+
+	.six {
+		width: calc(100% / 2 - #{$margin-right});
+	}
+
+	.seven {
+		width: calc(100% / 1.66 - #{$margin-right});
+	}
+
+	.eight {
+		width: calc(100% / 1.50 - #{$margin-right});
+	}
+
+	.nine {
+		width: calc(100% / 1.3 - #{$margin-right});
+	}
+
+	.ten {
+		width: calc(100% / 1.2 - #{$margin-right});
+	}
+
+}
+
+
+// This grid sucks –Jamesg
+// Col ==========================================================================//
+
+.full-col {
+	> * {
+		width: calc(100% / 1 - #{$half-margin-right});
+		float: left;
+		margin: 0 $margin-right-large $margin-bottom-large 0;
+		&:last-of-type {
+			margin-right: 0;
+			width: calc(100% / 1 - #{$margin-right});
+		}
+	}
+	&.no-margin {
+		> * {
+			width: calc(100% / 1);
+		}
+	}
+}
+.two-col {
+	@extend .full-col;
+}
+
+.three-col {
+	@extend .full-col;
+}
+
+.three-col-small {
+	@extend .full-col;
+}
+
+.four-col {
+	@extend .full-col;
+}
+
+.four-col-small {
+	@extend .full-col;
+}
+
+.three-col-small {
+	> * {
+		width: calc(100% / 3 - #{$half-margin-right});
+		&:last-of-type {
+			width: calc(100% / 3);
+		}
+	}
+	&.no-margin {
+		> * {
+			width: calc(100% / 3);
+		}
+	}
+}
+
+.two-col-small {
+	> * {
+		float: left;
+		width: calc(100% / 2 - #{$half-margin-right});
+	}
+	&.no-margin {
+		> * {
+			width: calc(100% / 2);
+		}
+	}
+}
+
+.four-col-small {
+	> * {
+		width: calc(100% / 4 - #{$half-margin-right});
+		&:last-of-type {
+			width: calc(100% / 4);
+		}
+	}
+	&.no-margin {
+		> * {
+			width: calc(100% / 4);
+		}
+	}
+}
+
+@media #{$tablet} {
+	.two-col {
+		> * {
+			width: calc(100% / 2 - #{$half-margin-right});
+			margin: 0 $margin-right-large-tab $margin-bottom-large 0;
+			&:nth-child(2n) {
+				margin-right: 0;
+			}
+			&:last-of-type {
+				width: calc(100% / 2 - #{$half-margin-right});
+			}
+		}
+		&.no-margin {
+			> * {
+				width: calc(100% / 2);
+			}
+		}
+		&.no-margin-bottom {
+			> * {
+				margin-bottom: 0;
+			}
+		}
+	}
+
+	.three-col {
+		> * {
+			width: calc(100% / 3 - #{$half-margin-right});
+			margin: 0 $margin-right-large-tab $margin-bottom-large 0;
+			&:last-of-type {
+				width: calc(100% / 3 - #{$margin-right});
+			}
+		}
+		&.no-margin {
+			> * {
+				width: calc(100% / 3);
+			}
+		}
+		&.no-margin-bottom {
+			> * {
+				margin-bottom: 0;
+			}
+		}
+	}
+
+	.four-col {
+		> * {
+			width: calc(100% / 4 - #{$half-margin-right});
+			margin: 0 $margin-right-large-tab $margin-bottom-large 0;
+			&:last-of-type {
+				width: calc(100% / 4);
+			}
+		}
+		&.no-margin {
+			> * {
+				width: calc(100% / 4);
+			}
+		}
+		&.no-margin-bottom {
+			> * {
+				margin-bottom: 0;
+			}
+		}
+	}
+
+	.six-col {
+		> * {
+			width: calc(100% / 6 - #{$half-margin-right});
+			margin: 0 $margin-right-large-tab $margin-bottom-large 0;
+			&:last-of-type {
+				width: calc(100% / 6);
+			}
+		}
+		&.no-margin {
+			> * {
+				width: calc(100% / 6);
+			}
+		}
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

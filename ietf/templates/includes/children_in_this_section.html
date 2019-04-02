@@ -1,0 +1,13 @@
+{% with page.get_children as children %}
+    {% if children %}
+        <div>
+            <button class="show">In this section</button>
+            <button class="hide">Close</button>
+        </div>
+        <ul>
+            {% for child in children %}
+                <li><a href="{{ child.url }}">{{ child.title }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}

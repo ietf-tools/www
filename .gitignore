@@ -1,0 +1,9 @@
+*.pyc
+.DS_Store
+*.swp
+/venv/
+/static/
+/media/
+/docs/_build/
+/ietf/static/node_modules
+/ietf/static/yarn-error.log

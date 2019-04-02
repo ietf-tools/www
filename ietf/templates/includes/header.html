@@ -1,0 +1,131 @@
+{% load static wagtailcore_tags %}
+
+<header id="show-search">
+    <div class="nav-search-top">
+        <form action="{% url 'search' %}" method="get" name="search">
+            <label for="nav-search" style="display: none;">Search</label>
+            <input id="nav-search" aria-label="Search" name="query" type="text" placeholder="Search" required="">
+            <button class="" type="submit">Go</button>
+        </form>
+    </div>
+
+    <div class="container" id="menu-open">
+        <div class="cf">
+            <div class="icon-mobile hamburger feedback">
+                <a title="open menu" href="#menu-open" class="open-menu click">
+                    <span class="icon ion-android-menu"></span>
+                </a>
+                <a title="close menu" href="#menu-closed" class="close-menu click">
+                    <span class="icon ion-android-menu"></span>
+                </a>
+            </div>
+
+            <!-- Mobile search -->
+            <div class="icon-mobile feedback search-open">
+                <a href="#show-search" class="click show-search">
+                    <span class="icon ion-search"></span>
+                    <span>Search</span>
+                </a>
+                <a href="#" class="click hide-search">
+                    <span class="icon ion-search"></span>
+                    <span>Search</span>
+                </a>
+            </div>
+            <!-- Mobile search end -->
+        </div>
+
+        <div class="logo-holder">
+            <div class="logo">
+                <a href="{{ HOME.url }}"><img src="{% static 'img/ietf-logo.gif' %}" alt="IETF logo"></a>
+            </div>
+        </div>
+
+        <div class="nav-holder">
+            <!-- Hides sub nav on mobile / shows on desktop-->
+            <div class="mobile-tablet">
+                <ul class="nav-sub">
+                    <li>
+                        <a href="{{ BLOG_INDEX.url }}"> News &amp; blog</a>
+                        <ul>
+                            {% for item in settings.utils.SecondaryMenu.news_and_blogs_menu_items.all %}
+                                <li><a href="{{ BLOG_INDEX.url }}?primary_topic={{ item.snippet.id }}">{{ item.snippet.title }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="{{ settings.utils.SecondaryMenu.contact_page.url }}">Contact</a>
+                    </li>
+                    <li class="search search-open">
+                        <a href="#show-search" class="click show-search">
+                            <span class="icon ion-search"></span>
+                            <span>Search</span>
+                        </a>
+                        <a href="#" class="click hide-search">
+                            <span class="icon ion-search"></span>
+                            <span>Search</span>
+                        </a>
+                    </li>
+                    <li class="more">
+                        <a href="{% if settings.utils.SecondaryMenu.tools_page %}{% pageurl settings.utils.SecondaryMenu.tools_page %}{% endif %}">Tools</a>
+                        <ul>
+                            {% for item in settings.utils.SecondaryMenu.tools_menu_items.all %}
+                                <li><a href="{{ item.url}}">{{ item.title }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <nav>
+                <ul>
+                    {% for item in MENU %}
+                        <li>
+                            <a {% if item.pk == self.pk %}class="active"{% endif %} href="{{ item.url }}">{{ item.title }}</a>
+                            {% if item.subitems %}
+                                <ul>
+                                    {% for subitem in item.subitems %}
+                                        <li><a {% if subitem.pk == self.pk %}class="active"{% endif %} href="{{ subitem.url }}">{{ subitem.title }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </nav>
+
+            <!-- Hides sub nav on desktop / shows on mobile-->
+                <ul class="nav-sub mobile-show-tab">
+                    <li>
+                        <a href="{{ BLOG_INDEX.url }}"> News &amp; blogs</a>
+                        <ul>
+                            {% for item in settings.utils.SecondaryMenu.news_and_blogs_menu_items.all %}
+                                <li><a href="{{ BLOG_INDEX.url }}?primary_topic={{ item.snippet.id }}">{{ item.snippet.title }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="{{ settings.utils.SecondaryMenu.contact_page.url }}">Contact</a>
+                    </li>
+                    <li class="search search-open">
+                        <a href="#show-search" class="click show-search">
+                            <span class="icon ion-search"></span>
+                            <span>Search</span>
+                        </a>
+                        <a href="#" class="click hide-search">
+                            <span class="icon ion-search"></span>
+                            <span>Search</span>
+                        </a>
+                    </li>
+                    <li class="more">
+                        <a href="{% if settings.utils.SecondaryMenu.tools_page %}{% pageurl settings.utils.SecondaryMenu.tools_page %}{% endif %}">Tools</a>
+                        <ul>
+                            {% for item in settings.utils.SecondaryMenu.tools_menu_items.all %}
+                                <li><a href="{{ item.url}}">{{ item.title }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                </ul>
+        </div>
+    </div>
+
+</header>

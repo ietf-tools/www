@@ -1,0 +1,69 @@
+{
+  "name": "IETF-static-tooling",
+  "version": "1.0.0",
+  "author": "Torchbox Ltd",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/torchbox/ietf/"
+  },
+  "browserslist": [
+    "> 3%",
+    "iOS 8",
+    "last 2 versions"
+  ],
+  "config": {
+    "src_js": "js-src/",
+    "dest_js": "js"
+  },
+  "scripts": {
+    "//[ Utility ]//": "",
+    "serve": "browser-sync start --config browsersync.config.js",
+    "http": "http-server './dist' -p 4000",
+    "reload": "browser-sync reload",
+    "clean:lab": "rm -rf $npm_package_config_dest_html/{*.html,js/**,css/**,img/**, fonts/** }",
+    "clean:dist": "rm -rf $npm_package_config_dist/{js/**,css/**,images/**, fonts/**, patternlab/{annotations,css,fonts,js,patternlab-components,patterns}}",
+    "clean": "npm-run-all -p clean:*",
+    "git:init": "rm -rf .git && git init && git add . && git commit -m 'Project start'",
+    "//[ Javascript ]//": "",
+    "compile:js": "rollup -c ",
+    "compile:js:dev": "npm run compile:js -- --environment input:main.js",
+    "compile:js:watch": "npm run compile:js -- --environment input:main.js,production --watch",
+    "compile:js:prod": "npm run compile:js -- --environment input:main.js,production",
+    "compile:js:debug": "npm run compile:js -- --environment input:main.js,production --watch",
+    "//[ Linting ]//": "",
+    "lint:js": "eslint $npm_package_config_src_js --ignore-pattern **/vendor/**/*.js || true",
+    "//[ Format ]//": "",
+    "format": "prettier --write --single-quote --tab-width 4 $npm_package_config_src_patterns'/**/{*.json,*.js,*.scss}'",
+    "//[ Watches ]//": "",
+    "watch:js": "onchange $npm_package_config_dest_js'/**/**' -- npm-run-all -p reload lint:js",
+    "watch": "npm-run-all -p watch:*"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.0.1",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-plugin-import-glob": "^2.0.0",
+    "babel-preset-es2015": "^6.24.1",
+    "browser-sync": "^2.18.13",
+    "eslint": "^4.8.0",
+    "npm-run-all": "^4.1.1",
+    "onchange": "^3.2.1",
+    "prettier": "^1.7.4",
+    "rollup": "^0.50.0",
+    "rollup-plugin-babel": "^3.0.2",
+    "rollup-plugin-commonjs": "^8.2.1",
+    "rollup-plugin-eslint": "^4.0.0",
+    "rollup-plugin-filesize": "^1.4.2",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-sizes": "^0.4.0",
+    "rollup-plugin-uglify": "^2.0.1",
+    "rollup-watch": "^4.3.1"
+  },
+  "engines": {
+    "node": ">=4"
+  },
+  "dependencies": {
+    "pikaday": "^1.6.1",
+    "siema": "^1.4.6"
+  }
+}

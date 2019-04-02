@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load wagtailimages_tags wagtailcore_tags %}
+
+{% block main_content %}
+    <div class="gradient-sharp-subtle">
+        <div class="body-white rule-blue">
+            <div class="container rel">
+                {% include 'includes/breadcrumbs.html' %}
+
+                {% if self.feed_image %}
+                    <div class="topic-header-image">
+                        {% image self.feed_image original as feed_image %}
+                        <img src="{{ feed_image.url }}" alt="{{ self.feed_image.title }}">
+                    </div>
+                {% endif %}
+
+                <div class="topic-header-text">
+                    {% include 'includes/optional-introduction.html' with value=self %}
+                    {% include 'includes/social_fields.html' %}
+                    <div class="more-wrapper" style="display: none">
+                        {% if self.key_info and self.in_depth %}
+                            <div class="read-more">
+                                <a class="see">Key info</a>
+                                <a class="hide">Close key info</a>
+                            </div>
+                            <div class="read-more-two">
+                                <a class="see">In depth</a>
+                                <a class="hide">Close in depth</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="container">
+                {% if self.key_info %}
+                    <div id="key-info" class="read-more-content active">
+                        <div class="body">{{ self.key_info }}</div>
+                    </div>
+                {% endif %}
+
+                {% if self.in_depth %}
+                    <div id="in-depth" class="read-more-content-two {% if not self.key_info %}active{% endif %}">
+                        <div class="body">{{ self.in_depth }}</div>
+                    </div>
+                {% endif %}
+
+            </div>
+        </div>
+
+        <div class="container">
+            {# side nav #}
+            {% include 'includes/row_siblings_in_section.html' with page=self %}
+
+            <div class="nine">
+                <div class="body body-subtle">
+                    <ul class="sub-topic full-col">
+                        {% for through in self.secondary_topics.all %}
+                            {% with through.secondary_topic as secondary_topic %}
+                                <li>
+                                    <h2><a href="{% pageurl secondary_topic %}">{{ secondary_topic.title }}</a></h2>
+                                    <p>{{ secondary_topic.feed_text }}</p>
+                                    <ul class="data-tracker-links">
+                                        <li><a href="{{ secondary_topic.area.url }}">Current working groups</a></li>
+                                    </ul>
+                                </li>
+                            {% endwith %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include "includes/highlight.html" %}
+
+{% endblock main_content %}
+
+
+{% block content %}
+    {% for topic in self.related_topics %}
+        {% image topic.feed_image original %}
+        <h2><a href="{{ topic.url }}">{{ topic.title }}</a></h2>
+        <p>{{ topic.feed_text }}</p>
+    {% endfor %}
+{% endblock %}

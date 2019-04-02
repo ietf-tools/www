@@ -1,0 +1,9 @@
+<footer class="cf">
+    <div class="container">
+        <ul class="links">
+            {% for item in settings.utils.FooterLinks.footer_link_items.all %}
+                <li><a href="{{ item.link }}">{{ item.title }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</footer>

@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags %}
+
+{% block title %}Search{% endblock %}
+
+{% block main_content %}
+
+<div class="subtle-white">
+
+  <div class="body-white rule-desktop">
+    <div class="container">
+      <ul class="breadcrumb">{# no further crumbs are necessary since we are at the top level anyway #}
+        <li><a href="/"><span class="icon ion-android-home"></span></a></li>
+      </ul>
+      <h1>Search results for www.ietf.org</h1>
+      <form class="big-search" action="{% url 'search' %}" method="get">
+        <label for="big-search" style="display: none;">Search</label>
+        <input id="big-search" aria-label="search" type="text" placeholder="Enter your query here" name="query" {% if search_query %} value="{{ search_query }}"{% endif %}>
+        <button class="" type="submit">Go</button>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- side nav -->
+  <div class="container">
+    <div class="row">
+      <div class="four none body-white float-right mobile-colour rule-mobile js-equal-height-body-right-col">
+          <ul class="side-nav sticky">
+              <h4>Search IETF Email Archives</h4>
+              <li class="section standard-form">
+                  <form class="big-search" action="https://mailarchive.ietf.org/arch/search/" method="GET" target="_blank">
+                      <label for="side-nav-search" style="display: none;">Search</label>
+                      <input id="side-nav-search" aria-label="search the email archive" placeholder="Search the email archive" name="q" type="text">
+                      <button class="side-nav" type="submit">Go</button>
+                  </form>
+              </li>
+              <h4>Search IETF Datatracker</h4>
+              <li class="section standard-form">
+                  <form class="big-search" action="https://datatracker.ietf.org/doc/search/" method="GET" target="_blank">
+                    <label for="search-datatracker" style="display: none;">Search</label>
+
+                      <input id="search-datatracker" aria-label="search datatracker" placeholder="Search datatracker" name="name" type="text">
+                      <button class="side-nav" type="submit">Go</button>
+                      <input type="hidden" name="rcs" value="on">
+                      <input type="hidden" name="activedrafts" value="on">
+                      <input type="hidden" name="by" value="group">
+                  </form>
+              </li>
+          </ul>
+      </div>
+
+
+      <div class="eight body-colour body-visable cf">
+
+        {% if search_picks %}
+          <ul class="results-list">
+            {% for result in search_picks %}
+              <a href="{% pageurl result.page %}">
+                <li>
+                  <h3>{{ result.page }}</h3>
+                  {% if result.description %}
+                    <p>{{ result.description|safe }}</p>
+                  {% endif %}
+                  {% if result.page.search_description %}
+                    <p>{{ result.page.search_description|safe }}</p>
+                  {% endif %}
+                </li>
+              </a>
+            {% endfor %}
+          </ul>
+        {% endif %}
+
+        {% if search_results %}
+          <ul class="results-list">
+            {% for result in search_results %}
+              <a href="{% pageurl result %}">
+                <li>
+                  <h3>{{ result }}</h3>
+                  {% if result.search_description %}
+                    <p>{{ result.search_description|safe }}</p>
+                  {% endif %}
+                </li>
+              </a>
+            {% endfor %}
+          </ul>
+
+          {% if search_results.has_previous %}
+            <a href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.previous_page_number }}" class="btn btn-secondary">Previous</a>
+          {% endif %}
+
+          {% if search_results.has_next %}
+            <a href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.next_page_number }}" class="btn btn-secondary">Next</a>
+          {% endif %}
+        {% elif search_query %}
+          {% if not search_picks %}
+            No results found
+          {% endif %}
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+{% endblock main_content %}

@@ -1,0 +1,10 @@
+{% load wagtailimages_tags %}{% spaceless %}
+{% if value.caption %}
+    <div class="img-caption">
+        {% image value original %}
+        <div class="caption">{{ value.caption }}</div>
+    </div>
+{% else %}
+    {% image value original %}
+{% endif %}
+{% endspaceless %}

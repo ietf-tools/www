@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block head_content %}
+    {% include 'includes/optional-introduction.html' with value=self %}
+    {% include 'includes/social_fields.html' %}
+{% endblock %}
+
+{% block content %}
+    <div class="body-colour">
+        <div class="container">
+            <div class="body">
+                <ul class="event-list two-col ">
+                    {% for promoted_event in self.promoted_events.all %}
+                        <li>
+                            {% with promoted_event.promoted_event as event %}
+                                {% image event.main_image max-545x910 as event_image %}
+                                <img src="{{ event_image.url }}" alt="{{ event.main_image.title }}">
+                                <div class="text-holder">
+                                    <h3><a href="{{ event.url }}">{{ event.title }}</a></h3>
+                                    <p>{{ event.introduction|truncatewords:30 }} </p>
+                                    <small>
+                                        {% if event.date %}
+                                            <span>{{ event.date }}</span>
+                                        {% endif %}
+                                            <span>{{ event.listing_location }}</span>
+                                        {% if event.host %}
+                                            <span>{{ event.host.title }}</span>
+                                        {% endif %}
+                                    </small>
+                                </div>
+                            {% endwith %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    {% if self.upcoming_events %}
+        <div class="rule-blue-top body-subtle">
+            <div class="container">
+                <div class="body no-overflow">
+                    <h2 class="section-title no-top">Upcoming events</h2>
+                    <ul class="event-list-sub three-col">
+                        {% for event in self.upcoming_events %}
+                        <li>
+                            <h4><a href="{{ event.url }}">{{ event.title }}</a></h4>
+                            <small>
+                                {% if event.date %}
+                                    <span>{{ event.date }}</span>
+                                {% endif %}
+                                    <span>{{ event.listing_location }}</span>
+                                {% if event.host %}
+                                    <span>{{ event.host.title }}</span>
+                                {% endif %}
+                            </small>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if self.past_events %}
+        <div class="rule-blue-top body-subtle">
+            <div class="container">
+                <div class="body no-overflow">
+                    <h2 class="section-title no-top">Past events</h2>
+                    <ul class="event-list-sub three-col">
+                        {% for event in self.past_events|slice:":18" %}
+                            <li>
+                                <h4><a href="{{ event.url }}">{{ event.title }}</a></h4>
+                                <small>
+                                    {% if event.date %}
+                                        <span>{{ event.date }}</span>
+                                    {% endif %}
+                                    <span>{{ event.listing_location }}</span>
+                                    {% if event.host %}
+                                        <span>{{ event.host.title }}</span>
+                                    {% endif %}
+                                </small>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}

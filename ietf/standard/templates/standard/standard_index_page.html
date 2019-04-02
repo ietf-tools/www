@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+
+{% block head_content %}
+  {% include 'includes/optional-introduction.html' with value=self %}
+  {% include "includes/social_fields.html" %}
+
+  <div class="more-wrapper" style="display: none">
+    {% if self.key_info and self.in_depth %}
+      <div class="read-more">
+        <a class="see">Key info</a>
+        <a class="hide">Close Key info</a>
+      </div>
+      <div class="read-more-two">
+        <a class="see">In depth</a>
+        <a class="hide">Close In depth</a>
+      </div>
+    {% endif %}
+
+    {% if self.key_info %}
+      <div class="read-more-content">
+        {% include_block self.key_info %}
+      </div>
+    {% endif %}
+
+    {% if self.in_depth %}
+      <div class="read-more-content-two">
+        {% include_block self.in_depth %}
+      </div>
+    {% endif %}
+  </div>
+
+{% endblock head_content %}
+
+{% block content %}
+
+  <ul class="text-listing two-col">
+    {% for child in self.children %}
+        <li>
+        <div class="content-text">
+          <h2 class="xlarge"><a href="{% pageurl child %}">{{ child.title }}</a></h2>
+          <p>{% if child.search_description %}{{ child.search_description }}{% else %}{{ child.introduction }}{% endif %}</p>
+        </div>
+        {% if child.feed_related_links.exists %}
+          <span class="feedback link-toggle">
+            <a class="see">Related</a>
+            <a class="hide">Close</a>
+          </span>
+          <ul>
+            <li class="content">
+              {% for related in child.feed_related_links.all %}
+                <li><a href="{{ related.link }}">{{ related.title }}</a></li>
+              {% endfor %}
+            </li>
+          </ul>
+        {% endif %}
+    </li>
+    {% endfor %}
+
+  </ul>
+
+{% endblock %}

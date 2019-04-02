@@ -1,0 +1,25 @@
+{% load i18n %}
+{% trans "Choose" as choose_str %}
+
+{% include "wagtailadmin/shared/header.html" with title=choose_str subtitle=snippet_type.name icon="doc-empty-inverse" %}
+
+
+<div class="nice-padding">
+    {% include 'snippets/_snippet_link_types.html' %}
+
+    <form class="search-bar snippet-search" action="{% url 'snippet_link:chooser' snippet_type=snippet_type.link_type %}" method="GET">
+        <ul class="fields">
+            {% for field in searchform %}
+                {% include "wagtailadmin/shared/field_as_li.html" with field=field %}
+            {% endfor %}
+            <li class="submit">
+                <label for="browse-search" style="display: none;">Search</label>
+                <input id="browse-search" type="submit" value="{% trans 'Search' %}" />
+            </li>
+        </ul>
+    </form>
+
+    <div id="search-results" class="listing">
+        {% include 'snippets/includes/_results.html' %}
+    </div>
+</div>

@@ -1,0 +1,25 @@
+{% extends "wagtailadmin/base.html" %}
+
+{% block titletag %}References{% endblock %}
+
+{% block content %}
+    {% include "wagtailadmin/shared/header.html" with title="References" icon="folder" %}
+    <div class="nice-padding">
+        <table class="listing">
+            <thead>
+                <tr class="table-headers">
+                    <th>name</th>
+                    <th>citation count</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for type in types %}
+                    <tr>
+                        <td><a href="{% url 'referenced_objects' type.0.id %}" %}>{{ type.0 }}</a></td>
+                        <td>{{ type.1 }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

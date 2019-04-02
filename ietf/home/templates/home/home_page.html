@@ -1,0 +1,196 @@
+{% extends "base.html" %}
+{% load static wagtailimages_tags %}
+
+{% block body_class %}template-{{ self.get_verbose_name|slugify }}{% endblock %}
+
+{% block main_content %}
+
+    <div class="body-subtle">
+
+        {% image self.main_image max-4000x4000 as bg_image %}
+
+        <div class="header-image-full main-feature rule-desktop" style="background-image: url({% if bg_image.url %}{{ bg_image.url }}{% else %}{% static 'img/group-01.jpg' %}{% endif %});">
+            <div class="container">
+                <h1>{{ self.heading }}</h1>
+                <p class="intro">{{ self.introduction }}</p>
+              {% if self.button_link %}
+                <a href="{{ self.button_link.url }}" class="btn btn-outline-white btn-big">{{ self.button_text }}</a>
+              {% endif %}
+            </div>
+        </div>
+
+        <!-- Events -->
+        <div class="rule-blue body">
+            <div class="container">
+                <div class="two-col">
+                  <div>
+                    <h2 class="home-title">Upcoming events</h2>
+                    <ul class="event-list">
+                      {% with self.upcoming_events.0 as event %}
+                        {% if event %}
+                          {% include "includes/event-w-image.html" %}
+                        {% endif %}
+                      {% endwith %}
+                      {% with self.upcoming_events.1 as event %}
+                        {% if event %}
+                          {% include "includes/event-w-image.html" %}
+                        {% endif %}
+                      {% endwith %}
+                    </ul>
+                    <a class="default" href="{{ self.event_index.url }}"><div class="btn btn-secondary-outline sml">All events</div></a>
+                  </div>
+                    <div>
+                        <h2 class="home-title">What's new?</h2>
+                        <ul class="teaser-blog">
+                          {% for blog in self.blogs %}
+                            <li>
+                                <h3><a href="{{ blog.url }}">{{ blog.title }}</a></h3>
+                                <p>{{ blog.feed_text }}</p>
+                                <small>
+                                    <span class="title">{{ blog.author.name }}</span>
+                                    <span>{{ blog.author.title }}</span>
+                                    <span>{{ blog.date|date:"DATE_FORMAT" }}</span>
+                                </small>
+                            </li>
+                          {% endfor %}
+                        </ul>
+                        <a class="default" href="{{ self.blog_index.url }}"><div class="btn btn-secondary-outline sml">All news</div></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sign up -->
+        <div class="rule-blue body-no-space">
+            <div class="home-search container">
+                <div class="home-search__item home-search__item--search">
+                    <h2 class="home-title top">Search the IETF email archive</h2>
+                    <p class="home-search__text">Much of the daily work of the IETF is conducted on electronic mailing lists. A new mail archive tool realizing the requirements developed in <a href="https://datatracker.ietf.org/doc/rfc6778/">RFC 6778</a> is now in use:</p>
+                    <div class="standard-form">
+                        <form class="search-mail-list" action="https://mailarchive.ietf.org/arch/search/" method="GET" target="_blank">
+                            <label for="home-search" style="display: none;">Search</label>
+                            <input id="home-search" aria-label="search the email archive" type="text" placeholder="Search the email archive" name="q" required="">
+                            <button class="" type="submit">Go</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="home-search__item home-search__item--data-tracker">
+                    <h2 class="home-title top">Search IETF Datatracker</h2>
+                    <p class="home-search__text">The IETF Datatracker contains data about IETF documents, working groups, meetings, agendas, minutes, presentations, and more:</p>
+                    <div class="standard-form">
+                        <form class="search-mail-list" action="https://datatracker.ietf.org/doc/search/" method="GET" target="_blank">
+                            <label for="search-datatracker" style="display: none;">Search</label>
+
+                            <input id="search-datatracker" aria-label="search datatracker" placeholder="Search datatracker" name="name" type="text">
+                            <button class="" type="submit">Go</button>
+                            <input type="hidden" name="rcs" value="on">
+                            <input type="hidden" name="activedrafts" value="on">
+                            <input type="hidden" name="by" value="group">
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="rule-blue body">
+            <!-- Undertstanding process -->
+            <div class="container">
+                <h2 class="home-title">Understanding the Internet Engineering Task Force</h2>
+                <div class="eight">
+                  <div class="jsonly">
+                    <ul class="tab-process">
+                        <li class="first-tab-toggle active">
+                            Working Groups
+                        </li>
+                        <li class="second-tab-toggle">
+                            Request for Comments (RFC<span style="text-transform: lowercase">s</span>)
+                        </li>
+                    </ul>
+                  </div>
+                    <!-- content -->
+                    <!-- first tab content -->
+                    <div class="tab-process-content first-tab active">
+                      <h2 class="nojs">Working groups</h2>
+                      <p>{{ self.working_groups_section_body }}</p>
+                      <ul class="actions">
+                          {% for link in self.working_groups_section_links.all %}
+                            <li><a class="default" href="{{ link.link }}">{{ link.title }}</a></li>
+                          {% endfor %}
+                        </ul>
+                    </div>
+                    <!-- second tab content -->
+                    <div class="tab-process-content second-tab">
+                      <h2 class="nojs">Request for Comments (RFC<span style="text-transform: lowercase">s</span>)</h2>
+                      <p>{{ self.request_for_comments_section_body }}</p>
+                      <ul class="actions">
+                          {% for link in self.request_for_comments_section_links.all %}
+                            <li><a class="default" href="{{ link.link }}">{{ link.title }}</a></li>
+                          {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="four desktop">
+                    <!-- first tab content -->
+                    <div class="tab-process-content first-tab active">
+                        <ul class="group-list">
+                            <li>
+                              <h3>Featured Working Group</h3>
+                              {% include 'snippets/working_group.html' with working_group=self.highlighted_working_group %}
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- Second tab content -->
+                    <div class="tab-process-content second-tab">
+                        <ul class="group-list">
+                            <li>
+                              <h3>Featured RFC</h3>
+                              {% include 'snippets/rfc.html' with rfc=self.highlighted_request_for_comment %}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="body-subtle">
+            <!-- Topics of interest -->
+            <div class="container">
+                <h2 class="home-title top center">Topics of interest</h2>
+                <ul class="topics-teaser three-col no-margin-bottom">
+                  {% for topic in self.primary_topics %}
+                    <li>
+                        <a href="{{ topic.url }}">
+                        {% if topic.feed_image %}
+                          <div class="img-holder">
+                            {% image topic.feed_image max-300x300 as feed_image %}
+                            <img src="{{ feed_image.url }}" alt="{{ topic.feed_image.title }}">
+                          </div>
+                        {% endif %}
+                        <h2>{{ topic.title }}</h2>
+                        <p>{{ topic.introduction }}</p>
+                        </a>
+                    </li>
+                  {% endfor %}
+                </ul>
+                <div class="center">
+                    <a href="{{ self.topic_index.url }}"><div class="btn btn-secondary-line">All topics</div></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if self.call_to_action.render %}
+    <div class="body-secondary">
+        <div class="container">
+            <div class="body-secondary">
+                <div class="general-CTA">
+                    {{ self.call_to_action.render }}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+{% endblock main_content %}
