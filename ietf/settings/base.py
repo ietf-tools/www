@@ -68,6 +68,9 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admindocs',
+
+    'mod_wsgi.server',
+
 )
 
 MIDDLEWARE = [

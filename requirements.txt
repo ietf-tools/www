@@ -13,6 +13,7 @@ future==0.15.2
 django-q==0.8.0
 django_compressor==2.2
 redlock==1.2.0
+mod_wsgi>=4.6
 
 # Sentry
 raven==6.9.0
