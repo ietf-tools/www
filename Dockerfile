@@ -1,8 +1,6 @@
 FROM opensuse/leap
 
-RUN zypper -n update
-
-RUN zypper -n install \
+RUN zypper -n update && zypper -n install \
         apache2 \
         apache2-devel \
         gcc \
@@ -18,6 +16,11 @@ EXPOSE 8001:8001
 
 RUN mkdir /code
 WORKDIR /code
+
+# Doing this step before copying the whole codebase improves docker's ability to reuse cached layers at build time
+COPY --chown=wwwrun:www ./requirements.txt /code/requirements.txt
+RUN pip install -r requirements.txt
+
 COPY --chown=wwwrun:www . /code/
 
 RUN mkdir /code/static
@@ -26,7 +29,6 @@ RUN chown wwwrun:www /code/static
 RUN mkdir /code/logs
 RUN chown wwwrun:www /code/logs
 
-RUN pip install -r requirements.txt
 
 RUN echo "SECRET_KEY='garbage'" > ietf/settings/local.py
 ENV DJANGO_SETTINGS_MODULE=ietf.settings.production
