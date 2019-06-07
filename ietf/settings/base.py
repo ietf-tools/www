@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'ietf.datatracker',
     'ietf.bibliography',
     'ietf.images',
+    'ietf.documents',
 
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
@@ -209,3 +210,5 @@ WAGTAILADMIN_RICH_TEXT_EDITORS = {
 WAGTAIL_SITE_NAME = "ietf"
 WAGTAIL_USAGE_COUNT_ENABLED = True
 WAGTAILIMAGES_IMAGE_MODEL = 'images.IETFImage'
+WAGTAILDOCS_DOCUMENT_MODEL = 'documents.IetfDocument'
+
