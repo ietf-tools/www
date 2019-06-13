@@ -1,9 +1,6 @@
 import os
 import sys
 
-import raven
-from raven.exceptions import InvalidGitRepository
-
 from .base import *
 
 # Do not set SECRET_KEY, Postgres or LDAP password or any other sensitive data here.
@@ -126,29 +123,15 @@ LOGGING = {
             'level': 'ERROR',
             'class': 'django.utils.log.AdminEmailHandler',
         },
-        'sentry': {
-            'level': 'ERROR',
-            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
-        },
     },
     'loggers': {
-        'ietf': {
-            'handlers': ['sentry'],
-            'level': 'INFO',
-            'propagate': False,
-        },
-        'wagtail': {
-            'handlers': ['sentry'],
-            'level': 'INFO',
-            'propagate': False,
-        },
         'django.request': {
-            'handlers':     ['mail_admins', 'sentry'],
+            'handlers':     ['mail_admins'],
             'level':        'ERROR',
             'propagate':    False,
         },
         'django.security': {
-            'handlers':     ['mail_admins', 'sentry'],
+            'handlers':     ['mail_admins'],
             'level':        'ERROR',
             'propagate':    False,
         },
@@ -167,36 +150,6 @@ if 'ERROR_LOG' in env:
     }
     LOGGING['loggers']['django.request']['handlers'].append('errors_file')
     LOGGING['loggers']['django.security']['handlers'].append('errors_file')
-
-
-# Sentry
-if 'SENTRY_DSN' in env:
-    INSTALLED_APPS += (
-        'raven.contrib.django.raven_compat',
-    )
-
-    RAVEN_CONFIG = {
-        'dsn': '{}?verify_ssl=0'.format(env['SENTRY_DSN']),
-        'tags': {},
-    }
-    RAVEN_CONFIG['tags']['lang'] = 'python'
-
-    # Prevent logging errors from the django shell.
-    # Errors from other management commands will be still logged.
-    if len(sys.argv) > 1 and sys.argv[1] in ['shell', 'shell_plus']:
-        RAVEN_CONFIG['ignore_exceptions'] = ['*']
-
-    # There's a chooser to toggle between environments at the top right corner on sentry.io
-    # Values are typically 'staging' or 'production' but can be set to anything else if needed.
-    if 'SENTRY_ENVIRONMENT' in env:
-        RAVEN_CONFIG['environment'] = env['SENTRY_ENVIRONMENT']
-
-    # We first assume that the Git repository is present and we can detect the
-    # commit hash from it.
-    try:
-        RAVEN_CONFIG['release'] = raven.fetch_git_sha(BASE_DIR)
-    except InvalidGitRepository:
-        pass
 
 try:
     from .local import *
