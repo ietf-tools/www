@@ -14,9 +14,19 @@ if [ -n "${WWWRUN_UID}" -o -n "${WWW_GID}" ]; then
   chown -R wwwrun:www /code
 fi
 
+if [ ! -f "ietf/settings/local.py" ]; then
+    echo "local.py not found. Exiting."
+    exit 1
+fi
+
+if [ ! -d "mod_wsgi-express-8001" ]; then
+    echo "mod_wsgi-express-8001 not found. Exiting."
+    exit 1
+fi
+
 ./mod_wsgi-express-8001/apachectl start
 
-echo "[hit enter key to exit] or run 'docker stop <container>'"
+echo "Successfully started. [hit enter key to exit] or run 'docker stop <container>'"
 read
 
 ./mod_wsgi-express-8001/apachectl stop
