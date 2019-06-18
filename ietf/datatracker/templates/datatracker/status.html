@@ -13,7 +13,6 @@
                     <th>last page seen</th>
                     <th>local count</th>
                     <th>remote count</th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -24,12 +23,6 @@
                         <td>{{ object.last_page_seen }}</td>
                         <td>{{ object.local_count }}</td>
                         <td>{{ object.remote_count }}</td>
-                        <td>
-                            <form method="post">
-                                {% csrf_token %}
-                                <button name="id" value="{{ object.id }}">Update</button>
-                            </form>
-                        </td>
                     </tr>
                 {% endfor %}
             </tbody>

@@ -7,14 +7,12 @@ from urllib.parse import unquote
 
 import requests
 
-from django_q.tasks import async
 from requests import exceptions
 
 from django.db import models
 from django.utils.html import strip_tags
 from django.contrib.contenttypes.models import ContentType
 from django.utils import timezone
-from django.db.models.signals import post_init
 
 from modelcluster.queryset import FakeQuerySet
 
@@ -22,40 +20,10 @@ from wagtail.search import index
 from wagtail.snippets.models import register_snippet
 
 from ..snippets.models import Group
-from ietf.datatracker import utils
-
 
 DATATRACKER_URI = "https://datatracker.ietf.org"
 DATATRACKER_TIMEOUT = 30
 DATATRACKER_ITEMS_PER_PAGE = 50
-LOCK_TIME = 1000 * 60 * 60  # Minimum length of time between "live" Datatracker updates (1 hour)
-
-
-class DisconnectSignal():
-    """
-    Temporarily disconnect a model from a signal
-    """
-    def __init__(self, signal, receiver, sender, dispatch_uid=None):
-        self.signal = signal
-        self.receiver = receiver
-        self.sender = sender
-        self.dispatch_uid = dispatch_uid
-
-    def __enter__(self):
-        self.signal.disconnect(
-            receiver=self.receiver,
-            sender=self.sender,
-            dispatch_uid=self.dispatch_uid,
-            weak=False
-        )
-
-    def __exit__(self, type, value, traceback):
-        self.signal.connect(
-            receiver=self.receiver,
-            sender=self.sender,
-            dispatch_uid=self.dispatch_uid,
-            weak=False
-        )
 
 
 class DatatrackerMeta(models.Model):
@@ -78,90 +46,6 @@ class DatatrackerMeta(models.Model):
         return requests.get(
             DATATRACKER_URI + self.content_type.model_class().PATH, params=params, timeout=DATATRACKER_TIMEOUT
         ).json()['meta']['total_count']
-
-
-class DatatrackerQuerySet(models.QuerySet):
-    """
-    Query the datatracker api as if it were a local db, fall back to normal filtering
-    """
-    def datatracker_filter(self, *args, **kwargs):
-        try:
-            params = {'format': 'json'}
-            params.update(self.model.ARGS)
-            filter_args = kwargs
-
-            if 'resource_uri' in filter_args:
-                # If we've got a uri just go ahead and fetch from it
-                results = [requests.get(
-                    DATATRACKER_URI + filter_args['resource_uri'], timeout=DATATRACKER_TIMEOUT,
-                    params=params
-                ).json()]
-            else:
-                if 'parent' in filter_args:
-                    # Datatracker filters on id, not uri
-                    parent_uri = filter_args.pop('parent')
-                    params['parent'] = parent_uri.split('/')[-2]
-                if 'group' in filter_args:
-                    # Datatracker filters on id, not uri
-                    group_uri = filter_args.pop('group')
-                    params['group'] = group_uri.split('/')[-2]
-
-                params.update(filter_args)
-                results = requests.get(
-                    DATATRACKER_URI + self.model.PATH,
-                    params=params, timeout=DATATRACKER_TIMEOUT
-                ).json()['objects']
-
-            datatracker_objects = []
-            for result in results:
-                with DisconnectSignal(
-                        signal=post_init, receiver=update_instance_receiver, sender=self.model
-                ): # Don't hit Datatracker again
-                    datatracker_object = self.model()
-                for field in self.model.FIELDS:
-                    if result[field]:
-                        setattr(datatracker_object, field, strip_tags(result[field]))
-                    else:
-                        setattr(datatracker_object, field, "")
-                datatracker_objects.append(datatracker_object)
-            return FakeQuerySet(self.model, datatracker_objects)
-        except requests.exceptions.ConnectionError:
-            return super(DatatrackerQuerySet, self).filter(*args, **kwargs)
-
-
-def update_instance(instance):
-    try:
-        result = requests.get(
-            DATATRACKER_URI + instance.resource_uri,
-            params={'format': 'json'}, timeout=DATATRACKER_TIMEOUT
-        )
-        if result.status_code == 200:
-            updated = False
-            result_json = result.json()
-            for field in instance.FIELDS:
-                result_field = strip_tags(result_json.get(field, ""))
-                if getattr(instance, field) != result_field:
-                    setattr(instance, field, result_field)
-                    updated = True
-            if updated:
-                instance.save()
-    except requests.exceptions.ConnectionError as e:
-        pass
-
-
-def update_instance_receiver(**kwargs):
-    instance = kwargs.get('instance')
-    rl = utils.get_redlock()
-    lock = rl.create_lock(
-        'queued_update-{}-{}'.format(instance.__class__.__name__, instance.id),
-        retry_times=1, ttl=LOCK_TIME, retry_delay=1
-    )
-    if lock.acquire():
-        async(update_instance, instance)
-    else:
-        # The update was either already in the queue or so something else went wrong
-        # Don't try to queue it
-        return
 
 
 class DatatrackerMixin(object):
@@ -221,38 +105,35 @@ class DatatrackerMixin(object):
         )
         meta.last_updated = timezone.now()
 
-        with DisconnectSignal(
-                signal=post_init, receiver=update_instance_receiver, sender=cls
-        ): # Don't hit Datatracker again
-            active_items = []
-            for item in cls.fetch(meta=meta):
-                active_items.append(item[cls.IDENTIFIER])
-                defaults = {'active': True}
-                for field in cls.FIELDS:
-                    if item[field]:
-                        defaults[field] = strip_tags(item[field])
-                    else:
-                        defaults[field] = ""
-                args = {'defaults': defaults}
-                args[cls.IDENTIFIER] = item[cls.IDENTIFIER]
-                try:
-                    item_obj, created = cls.objects.update_or_create(**args)
-                except Exception as e:
-                    print("could not execute import, update error")
-                    import traceback
-                    traceback.print_exc()
-                    # we will not raise this exception since it only applies to a single items; so it will be skipped
-            # If it's in the database but not returned by the
-            # API it's inactive and shouldn't be displayed
+        active_items = []
+        for item in cls.fetch(meta=meta):
+            active_items.append(item[cls.IDENTIFIER])
+            defaults = {'active': True}
+            for field in cls.FIELDS:
+                if item[field]:
+                    defaults[field] = strip_tags(item[field])
+                else:
+                    defaults[field] = ""
+            args = {'defaults': defaults}
+            args[cls.IDENTIFIER] = item[cls.IDENTIFIER]
             try:
-                cls.objects.exclude(
-                    **{cls.IDENTIFIER + '__in': active_items}
-                ).update(active=False)
+                item_obj, created = cls.objects.update_or_create(**args)
             except Exception as e:
-                print("could not disable inactive items, update error")
+                print("could not execute import, update error")
                 import traceback
                 traceback.print_exc()
-                raise
+                # we will not raise this exception since it only applies to a single items; so it will be skipped
+        # If it's in the database but not returned by the
+        # API it's inactive and shouldn't be displayed
+        try:
+            cls.objects.exclude(
+                **{cls.IDENTIFIER + '__in': active_items}
+            ).update(active=False)
+        except Exception as e:
+            print("could not disable inactive items, update error")
+            import traceback
+            traceback.print_exc()
+            raise
 
         return len(active_items)
 
@@ -299,9 +180,6 @@ class Area(DatatrackerMixin, models.Model, index.Indexed):
     class Meta:
         ordering = ['name']
         verbose_name = "Area"
-
-
-#post_init.connect(update_instance_receiver, Area)
 
 
 @register_snippet
@@ -369,9 +247,6 @@ class WorkingGroup(DatatrackerMixin, models.Model, index.Indexed):
     class Meta:
         ordering = ['name']
         verbose_name = "Working Group"
-
-
-#post_init.connect(update_instance_receiver, WorkingGroup)
 
 
 @register_snippet
@@ -454,9 +329,6 @@ class RFC(DatatrackerMixin, models.Model, index.Indexed):
         verbose_name = "RFC"
 
 
-#post_init.connect(update_instance_receiver, RFC)
-
-
 @register_snippet
 class InternetDraft(DatatrackerMixin, models.Model, index.Indexed):
     PATH = '/api/v1/doc/document/'
@@ -507,9 +379,6 @@ class InternetDraft(DatatrackerMixin, models.Model, index.Indexed):
     class Meta:
         ordering = ['title']
         verbose_name = "Internet Draft"
-
-
-#post_init.connect(update_instance_receiver, InternetDraft)
 
 
 @register_snippet
@@ -570,9 +439,6 @@ class Charter(DatatrackerMixin, models.Model, index.Indexed):
     class Meta:
         ordering = ['title']
         verbose_name = "Charter"
-
-
-#post_init.connect(update_instance_receiver, Charter)
 
 
 @register_snippet
@@ -700,5 +566,3 @@ class Person(DatatrackerMixin, models.Model, index.Indexed):
         verbose_name = "Person"
         verbose_name_plural = "People"
 
-
-#post_init.connect(update_instance_receiver, Person)

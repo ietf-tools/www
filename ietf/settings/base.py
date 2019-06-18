@@ -60,7 +60,6 @@ INSTALLED_APPS = (
     'modelcluster',
     'compressor',
     'taggit',
-    'django_q',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -174,22 +173,8 @@ CACHES = {
         'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
         'LOCATION': 'cache_table',
     },
-    'tasks': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': '127.0.0.1:6379',
-        'KEY_PREFIX': 'ietf_tasks',
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-        }
-    }
 }
 
-Q_CLUSTER = {
-    'name': 'default',
-    'workers': 4,
-    'django_redis': 'tasks',
-    'timeout': 90,
-}
 
 WAGTAILSEARCH_BACKENDS = {
     'default': {

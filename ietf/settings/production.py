@@ -82,37 +82,6 @@ DATABASES = {
 }
 
 
-# Redis
-# Redis location can either be passed through with REDIS_HOST or REDIS_SOCKET
-
-if 'REDIS_HOST' in env:
-    REDIS_LOCATION = env['REDIS_HOST']
-    BROKER_URL = 'redis://%s' % env['REDIS_HOST']
-
-elif 'REDIS_SOCKET' in env:
-    REDIS_LOCATION = 'unix://%s' % env['REDIS_SOCKET']
-    BROKER_URL = 'redis+socket://%s' % env['REDIS_SOCKET']
-
-else:
-    REDIS_LOCATION = '127.0.0.1:6379'
-
-
-if REDIS_LOCATION is not None:
-    CACHES = {
-        'default': {
-            'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
-            'LOCATION': 'cache_table',
-        },
-        'tasks': {
-            'BACKEND': 'django_redis.cache.RedisCache',
-            'LOCATION': REDIS_LOCATION,
-            'KEY_PREFIX': '{}_tasks'.format(APP_NAME),
-            'OPTIONS': {
-                'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-            }
-        }
-    }
-
 # Logging
 
 LOGGING = {
