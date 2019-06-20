@@ -1,0 +1,3 @@
+#!/bin/sh
+
+# Commands here will be executed hourly by cron on the host system
