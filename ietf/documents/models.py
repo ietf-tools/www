@@ -1,4 +1,3 @@
-from django.db import models
 
 from wagtail.documents.models import Document
 

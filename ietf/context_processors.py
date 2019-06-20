@@ -1,5 +1,4 @@
 from django.conf import settings
-from django.db.models.functions import Coalesce
 
 from ietf.blog.models import BlogIndexPage
 from ietf.home.models import HomePage

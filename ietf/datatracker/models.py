@@ -14,8 +14,6 @@ from django.utils.html import strip_tags
 from django.contrib.contenttypes.models import ContentType
 from django.utils import timezone
 
-from modelcluster.queryset import FakeQuerySet
-
 from wagtail.search import index
 from wagtail.snippets.models import register_snippet
 
@@ -118,7 +116,7 @@ class DatatrackerMixin(object):
             args[cls.IDENTIFIER] = item[cls.IDENTIFIER]
             try:
                 item_obj, created = cls.objects.update_or_create(**args)
-            except Exception as e:
+            except Exception:
                 print("could not execute import, update error")
                 import traceback
                 traceback.print_exc()
@@ -129,7 +127,7 @@ class DatatrackerMixin(object):
             cls.objects.exclude(
                 **{cls.IDENTIFIER + '__in': active_items}
             ).update(active=False)
-        except Exception as e:
+        except Exception:
             print("could not disable inactive items, update error")
             import traceback
             traceback.print_exc()

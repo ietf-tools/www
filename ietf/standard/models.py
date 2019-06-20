@@ -16,11 +16,7 @@ from modelcluster.fields import ParentalKey
 
 from ..utils.models import PromoteMixin, RelatedLink
 from ..utils.blocks import StandardBlock
-from ..snippets.models import CallToAction, MailingListSignup
 from ..bibliography.models import BibliographyMixin
-from ..datatracker.models import (
-    Area, WorkingGroup, RFC, InternetDraft, Charter
-)
 
 
 class StandardPageFAQItem(Orderable, models.Model):

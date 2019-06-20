@@ -14,7 +14,6 @@ from modelcluster.fields import ParentalKey
 
 from ..snippets.models import GlossaryItem
 from ..utils.models import PromoteMixin, RelatedLink
-from ..snippets.models import CallToAction, MailingListSignup
 
 
 class GlossaryPageRelatedLink(Orderable, RelatedLink):

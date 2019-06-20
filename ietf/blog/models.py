@@ -24,9 +24,8 @@ from ..bibliography.models import BibliographyMixin
 from ..utils.models import FeedSettings, PromoteMixin
 from ..utils.blocks import StandardBlock
 from ..snippets.models import (
-    Role, Group, PrimaryTopic, SecondaryTopic
+    PrimaryTopic, SecondaryTopic
 )
-from ..datatracker.models import Person
 
 
 def ordered_live_annotated_blogs(sibling=None):
