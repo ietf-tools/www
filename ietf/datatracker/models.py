@@ -41,7 +41,7 @@ class DatatrackerMeta(models.Model):
 
     @property
     def remote_count(self):
-        params = {'format': 'json'}
+        params = {'format': 'json', 'limit':'1'}
         params.update(self.content_type.model_class().ARGS)
         return requests.get(
             DATATRACKER_URI + self.content_type.model_class().PATH, params=params, timeout=DATATRACKER_TIMEOUT
