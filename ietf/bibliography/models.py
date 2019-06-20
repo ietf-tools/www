@@ -131,7 +131,7 @@ class BibliographyMixin(models.Model):
                 if not all(source_fields_being_updated) or not all(prepared_fields_being_updated):
                     raise ValueError('Either all prepared content fields must be updated or none')
             else:
-                update_bibliography_items = False
+                recreate_bibliography_items = False
 
         if recreate_bibliography_items:
             self.bibliography_items.all().delete()
