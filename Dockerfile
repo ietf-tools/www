@@ -34,5 +34,7 @@ RUN chown wwwrun:www /code/static
 RUN mkdir /code/logs
 RUN chown wwwrun:www /code/logs
 
+ENV DJANGO_SETTINGS_MODULE ietf.settings.production
+
 ENTRYPOINT ./docker-entry.sh
 
