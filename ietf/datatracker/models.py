@@ -139,7 +139,7 @@ class DatatrackerMixin(object):
 @register_snippet
 class Area(DatatrackerMixin, models.Model, index.Indexed):
     PATH = '/api/v1/group/group/'
-    ARGS = {'type': 'area'}
+    ARGS = {'type': 'area', 'order_by': 'id'}
     FIELDS = [
         'name',
         'resource_uri',
@@ -183,7 +183,7 @@ class Area(DatatrackerMixin, models.Model, index.Indexed):
 @register_snippet
 class WorkingGroup(DatatrackerMixin, models.Model, index.Indexed):
     PATH = '/api/v1/group/group/'
-    ARGS = {'state': 'active', 'type': 'wg'}
+    ARGS = {'state': 'active', 'type': 'wg', 'order_by': 'id'}
     FIELDS = [
         'name',
         'parent',
@@ -250,7 +250,7 @@ class WorkingGroup(DatatrackerMixin, models.Model, index.Indexed):
 @register_snippet
 class RFC(DatatrackerMixin, models.Model, index.Indexed):
     PATH = '/api/v1/doc/document/'
-    ARGS = {'states__slug': 'rfc'}
+    ARGS = {'states__slug': 'rfc', 'order_by': 'id'}
     FIELDS = [
         'name',
         'resource_uri',
@@ -330,7 +330,7 @@ class RFC(DatatrackerMixin, models.Model, index.Indexed):
 @register_snippet
 class InternetDraft(DatatrackerMixin, models.Model, index.Indexed):
     PATH = '/api/v1/doc/document/'
-    ARGS = {'states__type__slug': 'draft', 'states__slug': 'active'}
+    ARGS = {'states__type__slug': 'draft', 'states__slug': 'active', 'order_by':'id'}
     FIELDS = [
         'name',
         'resource_uri',
@@ -382,7 +382,7 @@ class InternetDraft(DatatrackerMixin, models.Model, index.Indexed):
 @register_snippet
 class Charter(DatatrackerMixin, models.Model, index.Indexed):
     PATH = '/api/v1/doc/document/'
-    ARGS = {'type': 'charter'}
+    ARGS = {'type': 'charter', 'order_by':'id'}
     FIELDS = [
         'name',
         'resource_uri',
@@ -462,7 +462,7 @@ class RoleName(DatatrackerMixin, models.Model, index.Indexed):
 @register_snippet
 class Role(DatatrackerMixin, models.Model, index.Indexed):
     PATH = '/api/v1/group/role/'
-    ARGS = {}
+    ARGS = {'order_by':'id'}
     FIELDS = [
         'email',
         'group',
@@ -486,7 +486,7 @@ class Role(DatatrackerMixin, models.Model, index.Indexed):
 @register_snippet
 class Email(DatatrackerMixin, models.Model, index.Indexed):
     PATH = '/api/v1/person/email/'
-    ARGS = {'active': True}
+    ARGS = {'active': True, 'order_by':'address'}
     FIELDS = [
         'address',
         'person',
@@ -506,7 +506,7 @@ class Email(DatatrackerMixin, models.Model, index.Indexed):
 @register_snippet
 class Person(DatatrackerMixin, models.Model, index.Indexed):
     PATH = '/api/v1/person/person/'
-    ARGS = {}
+    ARGS = {'order_by':'id'}
     FIELDS = [
         'name',
         'resource_uri',
