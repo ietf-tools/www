@@ -3,18 +3,24 @@ FROM opensuse/leap
 RUN zypper -n update && zypper -n install \
         apache2 \
         apache2-devel \
+        bind-utils \
         command-not-found \
+        coreutils \
+        findutils \
         gcc \
         gcc-c++ \
+        iputils \
         less \
+        lftp \
         net-tools \
         net-tools-deprecated \
+        rsync \
         python3 \
         python3-devel \
         python3-pip \
         sudo \
         vim 
-
+        
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 5
 
 EXPOSE 8001:8001
