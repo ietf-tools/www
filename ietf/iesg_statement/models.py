@@ -4,6 +4,7 @@ from functools import partial
 from django.db import models
 from django.db.models.functions import Coalesce
 from django.shortcuts import redirect
+
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils import functional
 from django.utils.safestring import mark_safe
@@ -21,36 +22,16 @@ from wagtail.admin.edit_handlers import (
 )
 
 from ..bibliography.models import BibliographyMixin
-from ..utils.models import FeedSettings, PromoteMixin
+#from ..utils.models import FeedSettings, PromoteMixin
+from ..utils.models import PromoteMixin
 from ..utils.blocks import StandardBlock
-from ..snippets.models import (
-    PrimaryTopic, SecondaryTopic
-)
+from ..snippets.models import SecondaryTopic
+
+def filter_pages_by_topic(pages, topic):
+    return pages.filter(topics__topic=topic)
 
 
-def ordered_live_annotated_blogs(sibling=None):
-    blogs = BlogPage.objects.live()
-    if sibling:
-        blogs = blogs.sibling_of(sibling)
-    blogs = blogs.annotate(
-        d=Coalesce('date_published', 'first_published_at')
-    ).order_by('-d')
-    return blogs
-
-
-def filter_pages_by_primary_topic(pages, primary_topic):
-    return pages.filter(primary_topics__topic=primary_topic)
-
-
-def get_primary_topic_by_id(id):
-    return PrimaryTopic.objects.get(id=id)
-
-
-def filter_pages_by_secondary_topic(pages, secondary_topic):
-    return pages.filter(secondary_topics__topic=secondary_topic)
-
-
-def get_secondary_topic_by_id(id):
+def get_topic_by_id(id):
     return SecondaryTopic.objects.get(id=id)
 
 
@@ -69,13 +50,9 @@ def parse_date_search_input(date):
 def build_filter_text(**kwargs):
     if any(kwargs):
         text_fragments = []
-        if kwargs.get('primary_topic'):
+        if kwargs.get('topic'):
             text_fragments.append(
-                '<span>{}</span>'.format(kwargs.get('primary_topic'))
-                )
-        if kwargs.get('secondary_topic'):
-            text_fragments.append(
-                '<span>{}</span>'.format(kwargs.get('secondary_topic'))
+                '<span>{}</span>'.format(kwargs.get('topic'))
                 )
         if kwargs.get('date_from') and kwargs.get('date_to'):
             text_fragments.append(
@@ -97,93 +74,29 @@ def build_filter_text(**kwargs):
 
 
 parameter_functions_map = {
-    'primary_topic': [get_primary_topic_by_id, filter_pages_by_primary_topic],
-    'secondary_topic': [get_secondary_topic_by_id,
-                        filter_pages_by_secondary_topic],
+    'topic': [get_topic_by_id, filter_pages_by_topic],
     'date_from': [parse_date_search_input, filter_pages_by_date_from],
     'date_to': [parse_date_search_input, filter_pages_by_date_to]
 }
 
 
-class BlogPagePrimaryTopic(models.Model):
-    """
-    A through model from :model:`blog.BlogPage`
-    to :model:`snippets.PrimaryTopic`
-    """
+class IESGStatementTopic(models.Model):
+
     page = ParentalKey(
-        'blog.BlogPage',
-        related_name='primary_topics'
-    )
-    topic = models.ForeignKey(
-        'snippets.PrimaryTopic',
-        related_name='+',
-    )
-
-    panels = [
-        SnippetChooserPanel('topic')
-    ]
-
-
-class BlogPageSecondaryTopic(models.Model):
-    """
-    A through model from :model:`blog.BlogPage`
-    to :model:`snippets.SecondaryTopic`
-    """
-    page = ParentalKey(
-        'blog.BlogPage',
-        related_name='secondary_topics'
+        'iesg_statement.IESGStatementPage',
+        related_name='topics'
     )
     topic = models.ForeignKey(
         'snippets.SecondaryTopic',
-        related_name='+'
+        related_name='+',
     )
 
     panels = [
         SnippetChooserPanel('topic')
     ]
 
+class IESGStatementPage(Page, BibliographyMixin, PromoteMixin):
 
-class BlogPageAuthor(models.Model):
-    """
-    A through model from :model:`blog.BlogPage`
-    to :model:`datatracker.Person`
-    """
-    page = ParentalKey(
-        'blog.BlogPage',
-        related_name='authors'
-    )
-    author = models.ForeignKey(
-        'datatracker.Person',
-        on_delete=models.CASCADE,
-        related_name='+',
-    )
-    role = models.ForeignKey(
-        'snippets.Role',
-        null=True, blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        help_text="Override the person's current role for this blog post."
-    )
-
-    panels = [
-        SnippetChooserPanel('author'),
-        SnippetChooserPanel('role'),
-    ]
-
-
-class BlogPage(Page, BibliographyMixin, PromoteMixin):
-    """
-    A page for the IETF's news and commentary.
-
-    Pages may be categorised by :model:`snippets.PrimaryTopic` or
-    :model:`snippets.SecondaryTopic`.
-    """
-    author_group = models.ForeignKey(
-        'snippets.Group',
-        null=True, blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-    )
     date_published = models.DateTimeField(
         null=True, blank=True,
         help_text="Use this field to override the date that the "
@@ -207,12 +120,9 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
     )
     CONTENT_FIELD_MAP = {'body': 'prepared_body'}
 
-    @property
-    def first_author(self):
-        try:
-            return self.authors.first().author
-        except AttributeError:
-            return self.authors.none()
+    parent_page_types = ['iesg_statement.IESGStatementIndexPage']
+    subpage_types = []
+
 
     @property
     def date(self):
@@ -255,13 +165,12 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
         ).order_by('-d')
 
     def get_context(self, request, *args, **kwargs):
-        context = super(BlogPage, self).get_context(request, *args, **kwargs)
+        context = super(IESGStatementPage, self).get_context(request, *args, **kwargs)
         siblings = self.siblings
         query_string = "?"
         filter_text_builder = build_filter_text
-        feed_settings = FeedSettings.for_site(request.site)
+        # TODO feed_settings = FeedSettings.for_site(request.site)
 
-        # This is mostly duplicted in BlogIndexPage
         for parameter, functions in parameter_functions_map.items():
             search_query = request.GET.get(parameter)
             if search_query:
@@ -286,14 +195,11 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
             parent_url=self.get_parent().url,
             filter_text = filter_text,
             siblings=siblings,
-            primary_topics=BlogPagePrimaryTopic.objects.all().values_list(
-                'topic__pk', 'topic__title'
-            ).distinct(),
-            secondary_topics=BlogPageSecondaryTopic.objects.all().values_list(
+            topics=IESGStatementTopic.objects.all().values_list(
                 'topic__pk', 'topic__title'
             ).distinct(),
             query_string=query_string,
-            blog_feed_title=feed_settings.blog_feed_title
+            # TODO blog_feed_title=feed_settings.blog_feed_title
         )
         return context
 
@@ -302,70 +208,55 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
         return BibliographyMixin.serve_preview(self, request, mode_name)
 
     class Meta:
-        verbose_name = "Blog, News, Statement Page"
+        verbose_name = "IESG Statement Page"
 
-BlogPage.content_panels = Page.content_panels + [
-    InlinePanel('authors', label="Authors"),
-    SnippetChooserPanel('author_group'),
+IESGStatementPage.content_panels = Page.content_panels + [
     FieldPanel('date_published'),
     FieldPanel('introduction'),
     StreamFieldPanel('body'),
-    InlinePanel('primary_topics', label="Primary Topics"),
-    InlinePanel('secondary_topics', label="Secondary Topics"),
+    InlinePanel('topics', label="Topics"),
 ]
 
-BlogPage.promote_panels = Page.promote_panels + PromoteMixin.panels
+IESGStatementPage.promote_panels = Page.promote_panels + PromoteMixin.panels
 
 
-class BlogIndexPage(Page):
-    """
-    This page automatically redirects to the latest :model:`blog.BlogPage`.
+class IESGStatementIndexPage(Page):
 
-    Use it to organise :model:`blog.BlogPage` models.
-    """
+    def get_context(self, request):
+        context = super().get_context(request)
+        context['statements'] = IESGStatementPage.objects.child_of(self).live().order_by('-date_published')
+        return context
+
     def serve(self, request, *args, **kwargs):
-        # IESG statements were moved under the IESG about/groups page. Queries to the
-        # base /blog/ page that used a query string to filter for IESG statements can't
-        # be redirected through ordinary redirection, so we're doing it here.
-        if request.GET.get('primary_topic')=='7':
-            query_string = ''
-            topic = request.GET.get('secondary_topic')
-            if topic:
-                query_string = query_string + 'topic=' + topic
-            date_from = request.GET.get('date_from')
-            if date_from:
-                separator = '&' if query_string else ''
-                query_string = query_string + separator + 'date_from=' + date_from
-            date_to = request.GET.get('date_to')
-            if date_to:
-                separator = '&' if query_string else ''
-                query_string = query_string + separator + 'date_to' + date_to
-            target_url = '/about/groups/iesg/statements'
-            if query_string:
-                target_url = target_url + '?' + query_string
-            return redirect(target_url)
-        else:
-            blogs = ordered_live_annotated_blogs()
-            first_blog_url = blogs.first().url
+        has_filter = False
+        for parameter, _ in parameter_functions_map.items():
+            if request.GET.get(parameter):
+                has_filter = True
+                break
+
+        if (has_filter):
+            statements = IESGStatementPage.objects.child_of(self).live().order_by('-date_published')
+            first_statement_url = statements.first().url
             query_string = "?"
 
-            # This is duplicated in BlogPage
             for parameter, functions in parameter_functions_map.items():
                 search_query = request.GET.get(parameter)
                 if search_query:
                     try:
                         related_object = functions[0](search_query)
-                        blogs = functions[1](blogs, related_object)
+                        statements = functions[1](statements, related_object)
                         query_string += "%s=%s&" % (parameter, search_query)
                     except (ValueError, ObjectDoesNotExist):
                         pass
-            if blogs:
-                first_blog_url = blogs.first().url
-            return redirect(first_blog_url + query_string)
+            if statements:
+                first_statement_url = statements.first().url
+            return redirect(first_statement_url + query_string)
+        else:
+            return super().serve(request,*args,**kwargs)
 
-    search_fields = []
 
-    subpage_types = ['blog.BlogPage']
+    subpage_types = ['iesg_statement.IESGStatementPage']
 
     class Meta:
-        verbose_name = "Blog, News, Statement Index Page"
+        verbose_name = "IESG Statements Index Page"
+

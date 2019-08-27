@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'ietf.bibliography',
     'ietf.images',
     'ietf.documents',
+    'ietf.iesg_statement',
 
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
