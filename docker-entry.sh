@@ -10,10 +10,6 @@ if [ -n "${WWW_GID}" ]; then
   groupmod -g "${WWW_GID}" www
 fi
 
-#if [ -n "${WWWRUN_UID}" -o -n "${WWW_GID}" ]; then
-#  chown -R wwwrun:www /code
-#fi
-
 if [ ! -f "ietf/settings/local.py" ]; then
     echo "local.py not found. Exiting."
     exit 1
