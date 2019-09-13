@@ -154,6 +154,9 @@ class IESGStatementPage(Page, BibliographyMixin, PromoteMixin):
         except IndexError:
             return siblings[-1]
 
+    def coalesced_published_date(self):
+        return self.date_published or self.first_published_at
+
     @property
     def feed_text(self):
         return self.search_description or self.introduction
@@ -184,6 +187,9 @@ class IESGStatementPage(Page, BibliographyMixin, PromoteMixin):
                     pass
 
         filter_text = filter_text_builder()
+
+        siblings = siblings.filter(d__lt=self.coalesced_published_date())[:5]
+
 
         if filter_text:
             if siblings:
