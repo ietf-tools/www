@@ -1,5 +1,7 @@
 FROM opensuse/leap
 
+ENV LANG en_US.UTF-8  
+
 RUN zypper -n update && zypper -n install \
         apache2 \
         apache2-devel \
