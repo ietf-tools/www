@@ -20,6 +20,7 @@ from wagtail.search import index
 from wagtail.admin.edit_handlers import (
     StreamFieldPanel, FieldPanel, InlinePanel
 )
+from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 
 from ..bibliography.models import BibliographyMixin
 #from ..utils.models import FeedSettings, PromoteMixin
@@ -226,14 +227,19 @@ IESGStatementPage.content_panels = Page.content_panels + [
 IESGStatementPage.promote_panels = Page.promote_panels + PromoteMixin.panels
 
 
-class IESGStatementIndexPage(Page):
+class IESGStatementIndexPage(RoutablePageMixin, Page):
 
     def get_context(self, request):
         context = super().get_context(request)
         context['statements'] = IESGStatementPage.objects.child_of(self).live().order_by('-date_published')
         return context
 
-    def serve(self, request, *args, **kwargs):
+    @route(r'^all/$')
+    def all_entries(self, request, *args, **kwargs):
+        return super().serve(request, *args, **kwargs)
+
+    @route(r'^$')
+    def redirect_first(self, request, *args, **kwargs):
         has_filter = False
         for parameter, _ in parameter_functions_map.items():
             if request.GET.get(parameter):

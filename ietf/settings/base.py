@@ -57,6 +57,7 @@ INSTALLED_APPS = (
     'wagtail.contrib.settings',
     'wagtail.contrib.table_block',
     'wagtail.contrib.postgres_search',
+    'wagtail.contrib.routable_page',
 
     'modelcluster',
     'compressor',

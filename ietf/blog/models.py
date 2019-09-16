@@ -19,6 +19,7 @@ from wagtail.search import index
 from wagtail.admin.edit_handlers import (
     StreamFieldPanel, FieldPanel, InlinePanel
 )
+from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 
 from ..bibliography.models import BibliographyMixin
 from ..utils.models import FeedSettings, PromoteMixin
@@ -322,13 +323,21 @@ BlogPage.content_panels = Page.content_panels + [
 BlogPage.promote_panels = Page.promote_panels + PromoteMixin.panels
 
 
-class BlogIndexPage(Page):
-    """
-    This page automatically redirects to the latest :model:`blog.BlogPage`.
+class BlogIndexPage(RoutablePageMixin, Page):
 
-    Use it to organise :model:`blog.BlogPage` models.
-    """
-    def serve(self, request, *args, **kwargs):
+    def get_context(self, request):
+        context = super().get_context(request)
+        context['entries'] = BlogPage.objects.child_of(self).live().annotate(
+            coalesced_published_date=Coalesce('date_published', 'first_published_at')
+        ).order_by('-coalesced_published_date')
+        return context
+
+    @route(r'^all/$')
+    def all_entries(self, request, *args, **kwargs):
+        return super().serve(request,*args,**kwargs)
+
+    @route(r'^$')
+    def redirect_first(self, request, *args, **kwargs):
         # IESG statements were moved under the IESG about/groups page. Queries to the
         # base /blog/ page that used a query string to filter for IESG statements can't
         # be redirected through ordinary redirection, so we're doing it here.
@@ -364,8 +373,10 @@ class BlogIndexPage(Page):
                         query_string += "%s=%s&" % (parameter, search_query)
                     except (ValueError, ObjectDoesNotExist):
                         pass
+                        
             if blogs:
                 first_blog_url = blogs.first().url
+
             return redirect(first_blog_url + query_string)
 
     search_fields = []

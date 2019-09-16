@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load wagtailroutablepage_tags %}
 {% load bibliography %}
 
 {% block extra_meta %}
@@ -54,6 +55,13 @@
                             </div>
                         </li>
                     {% endfor %}
+                    <li>
+                        <a href="{% routablepageurl self.get_parent.specific 'all_entries' %}">
+                            <div class="text">
+                                <p>Show all</p>
+                            </div>
+                        </a>
+                    </li>
                     <div class="toggle-list-close">Close blog listing</div>
                 </ul>
             </li>
@@ -201,6 +209,13 @@
                         </div>
                     </li>
                 {% endfor %}
+                <li>
+                    <a href="{% routablepageurl self.get_parent.specific 'all_entries' %}">
+                        <div class="text">
+                            <p>Show all</p>
+                        </div>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
