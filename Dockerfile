@@ -17,11 +17,14 @@ RUN zypper -n update && zypper -n install \
         net-tools \
         net-tools-deprecated \
         rsync \
+        postgresql96-devel \
         python3 \
         python3-devel \
         python3-pip \
         sudo \
         vim 
+
+ENV PATH="$PATH:/usr/lib/postgresql96/bin"
         
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 5
 
