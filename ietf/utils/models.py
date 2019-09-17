@@ -94,17 +94,17 @@ class PromoteMixin(models.Model):
         abstract = True
 
 
-class NewsAndBlogsMenuItem(Orderable, models.Model):
-    model = ParentalKey('utils.SecondaryMenu',
-                        related_name='news_and_blogs_menu_items')
-    snippet = models.ForeignKey(
-        'snippets.PrimaryTopic',
-        related_name='+'
-    )
-
-    panels = [
-        SnippetChooserPanel('snippet')
-    ]
+#class NewsAndBlogsMenuItem(Orderable, models.Model):
+#    model = ParentalKey('utils.SecondaryMenu',
+#                        related_name='news_and_blogs_menu_items')
+#    snippet = models.ForeignKey(
+#        'snippets.PrimaryTopic',
+#        related_name='+'
+#    )
+#
+#    panels = [
+#        SnippetChooserPanel('snippet')
+#    ]
 
 
 class ToolsMenuItem(Orderable, models.Model):

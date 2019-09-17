@@ -4,12 +4,44 @@ from __future__ import unicode_literals
 
 from django.db import migrations
 
+def forward(apps, schema_editor):
+    PrimaryTopic = apps.get_model('snippets','PrimaryTopic')
+    SecondaryTopic = apps.get_model('snippets','SecondaryTopic')
+
+    BlogPagePrimaryTopic = apps.get_model('blog','BlogPagePrimaryTopic')
+    BlogPageSecondaryTopic = apps.get_model('blog','BlogPageSecondaryTopic')
+
+    secondary_news = SecondaryTopic.objects.create(title="News",page=None)
+
+    for bppt in BlogPagePrimaryTopic.objects.filter(topic__title="News"):
+        BlogPageSecondaryTopic.objects.create(page=bppt.page, topic=secondary_news)
+        bppt.delete()
+
+    PrimaryTopic.objects.filter(title="News").delete()
+
+def reverse(apps, schema_editor):
+    PrimaryTopic = apps.get_model('snippets','PrimaryTopic')
+    SecondaryTopic = apps.get_model('snippets','SecondaryTopic')
+
+    BlogPagePrimaryTopic = apps.get_model('blog','BlogPagePrimaryTopic')
+    BlogPageSecondaryTopic = apps.get_model('blog','BlogPageSecondaryTopic')
+
+    primary_news = PrimaryTopic.objects.create(title="News",page=None)
+
+    for bpst in BlogPageSecondaryTopic.objects.filter(topic__title="News"):
+        BlogPagePrimaryTopic.objects.create(page=bpst.page, topic=secondary_news)
+        bpst.delete()
+
+    SecondaryTopic.objects.filter(title="News").delete()
+
 
 class Migration(migrations.Migration):
 
     dependencies = [
         ('snippets', '0026_auto_20170227_1401'),
+        ('blog', '0026_merge_20171219_1320'),
     ]
 
     operations = [
+        migrations.RunPython(forward,reverse),
     ]

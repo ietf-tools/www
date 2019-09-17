@@ -46,11 +46,6 @@
                 <ul class="nav-sub">
                     <li>
                         <a href="{{ BLOG_INDEX.url }}"> News &amp; blog</a>
-                        <ul>
-                            {% for item in settings.utils.SecondaryMenu.news_and_blogs_menu_items.all %}
-                                <li><a href="{{ BLOG_INDEX.url }}?primary_topic={{ item.snippet.id }}">{{ item.snippet.title }}</a></li>
-                            {% endfor %}
-                        </ul>
                     </li>
                     <li>
                         <a href="{{ settings.utils.SecondaryMenu.contact_page.url }}">Contact</a>
@@ -97,11 +92,6 @@
                 <ul class="nav-sub mobile-show-tab">
                     <li>
                         <a href="{{ BLOG_INDEX.url }}"> News &amp; blogs</a>
-                        <ul>
-                            {% for item in settings.utils.SecondaryMenu.news_and_blogs_menu_items.all %}
-                                <li><a href="{{ BLOG_INDEX.url }}?primary_topic={{ item.snippet.id }}">{{ item.snippet.title }}</a></li>
-                            {% endfor %}
-                        </ul>
                     </li>
                     <li>
                         <a href="{{ settings.utils.SecondaryMenu.contact_page.url }}">Contact</a>

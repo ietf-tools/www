@@ -24,9 +24,7 @@ from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 from ..bibliography.models import BibliographyMixin
 from ..utils.models import FeedSettings, PromoteMixin
 from ..utils.blocks import StandardBlock
-from ..snippets.models import (
-    PrimaryTopic, SecondaryTopic
-)
+from ..snippets.models import SecondaryTopic 
 
 
 def ordered_live_annotated_blogs(sibling=None):
@@ -38,13 +36,6 @@ def ordered_live_annotated_blogs(sibling=None):
     ).order_by('-d')
     return blogs
 
-
-def filter_pages_by_primary_topic(pages, primary_topic):
-    return pages.filter(primary_topics__topic=primary_topic)
-
-
-def get_primary_topic_by_id(id):
-    return PrimaryTopic.objects.get(id=id)
 
 
 def filter_pages_by_secondary_topic(pages, secondary_topic):
@@ -70,10 +61,6 @@ def parse_date_search_input(date):
 def build_filter_text(**kwargs):
     if any(kwargs):
         text_fragments = []
-        if kwargs.get('primary_topic'):
-            text_fragments.append(
-                '<span>{}</span>'.format(kwargs.get('primary_topic'))
-                )
         if kwargs.get('secondary_topic'):
             text_fragments.append(
                 '<span>{}</span>'.format(kwargs.get('secondary_topic'))
@@ -98,31 +85,12 @@ def build_filter_text(**kwargs):
 
 
 parameter_functions_map = {
-    'primary_topic': [get_primary_topic_by_id, filter_pages_by_primary_topic],
+    'primary_topic': [lambda x: None, lambda x,y : x ],
     'secondary_topic': [get_secondary_topic_by_id,
                         filter_pages_by_secondary_topic],
     'date_from': [parse_date_search_input, filter_pages_by_date_from],
     'date_to': [parse_date_search_input, filter_pages_by_date_to]
 }
-
-
-class BlogPagePrimaryTopic(models.Model):
-    """
-    A through model from :model:`blog.BlogPage`
-    to :model:`snippets.PrimaryTopic`
-    """
-    page = ParentalKey(
-        'blog.BlogPage',
-        related_name='primary_topics'
-    )
-    topic = models.ForeignKey(
-        'snippets.PrimaryTopic',
-        related_name='+',
-    )
-
-    panels = [
-        SnippetChooserPanel('topic')
-    ]
 
 
 class BlogPageSecondaryTopic(models.Model):
@@ -175,9 +143,6 @@ class BlogPageAuthor(models.Model):
 class BlogPage(Page, BibliographyMixin, PromoteMixin):
     """
     A page for the IETF's news and commentary.
-
-    Pages may be categorised by :model:`snippets.PrimaryTopic` or
-    :model:`snippets.SecondaryTopic`.
     """
     author_group = models.ForeignKey(
         'snippets.Group',
@@ -292,9 +257,6 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
             parent_url=self.get_parent().url,
             filter_text = filter_text,
             siblings=siblings,
-            primary_topics=BlogPagePrimaryTopic.objects.all().values_list(
-                'topic__pk', 'topic__title'
-            ).distinct(),
             secondary_topics=BlogPageSecondaryTopic.objects.all().values_list(
                 'topic__pk', 'topic__title'
             ).distinct(),
@@ -316,7 +278,6 @@ BlogPage.content_panels = Page.content_panels + [
     FieldPanel('date_published'),
     FieldPanel('introduction'),
     StreamFieldPanel('body'),
-    InlinePanel('primary_topics', label="Primary Topics"),
     InlinePanel('secondary_topics', label="Secondary Topics"),
 ]
 

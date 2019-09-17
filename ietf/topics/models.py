@@ -18,9 +18,7 @@ from ..utils.blocks import StandardBlock
 from ..datatracker.models import (
     WorkingGroup, RFC, InternetDraft
 )
-from ..snippets.models import (
-    PrimaryTopic, SecondaryTopic,
-)
+from ..snippets.models import SecondaryTopic
 
 
 class TopicIndexPage(Page, PromoteMixin):
@@ -127,12 +125,6 @@ class PrimaryTopicPage(Page, PromoteMixin):
     @property
     def siblings(self):
         return self.get_siblings().live().public().filter(show_in_menus=True).specific()
-
-    def save(self, *args, **kwargs):
-        super(PrimaryTopicPage, self).save(*args, **kwargs)
-        PrimaryTopic.objects.update_or_create(
-            page=self, defaults={'title': self.title}
-        )
 
     class Meta:
         verbose_name = "Topic Page"

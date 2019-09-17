@@ -207,39 +207,6 @@ class MailingListSignup(models.Model, Indexed, RenderableSnippetMixin):
 
 
 @register_snippet
-class PrimaryTopic(models.Model, Indexed):
-    """
-    These snippets categorise blog posts. They are created automatically
-    whenever a new :model:`topics.PrimaryTopicPage` is saved.
-    """
-    title = models.CharField(
-        max_length=255,
-        help_text="The name of this topic."
-    )
-    page = models.ForeignKey(
-        'topics.PrimaryTopicPage',
-        null=True, blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        editable=False
-    )
-
-    search_fields = [
-        index.SearchField('title'),
-    ]
-
-    panels = [
-        FieldPanel('title'),
-    ]
-
-    def __str__(self):
-        return self.title
-
-    class Meta:
-        ordering = ['title']
-
-
-@register_snippet
 class SecondaryTopic(models.Model, Indexed):
     """
     These snippets categorise blog posts. They are created automatically

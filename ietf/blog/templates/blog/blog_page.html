@@ -73,15 +73,6 @@
                             <div class="right-side-bleed"></div>
                             <ul class="horizontal-filters three-col no-margin cf">
                                 <li class="filter-select">
-                                    <span>CATEGORIES</span>
-                                    <select name="primary_topic">
-                                        <option value="">All</option>
-                                        {% for primary_topic in primary_topics %}
-                                        <option value="{{ primary_topic.0 }}" {% if request.GET.primary_topic == primary_topic.0|slugify %}selected="selected"{% endif %}>{{ primary_topic.1 }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </li>
-                                <li class="filter-select">
                                     <span>TOPICS</span>
                                     <select name="secondary_topic">
                                         <option value="">All</option>
@@ -109,16 +100,7 @@
                 <form method="GET" action="{{ parent_url }}">
                     <div class="left-side-bleed"></div>
                     <div class="right-side-bleed"></div>
-                    <ul class="horizontal-filters three-col no-margin cf">
-                        <li class="filter-select">
-                            <span>CATEGORIES</span>
-                            <select name="primary_topic">
-                                <option value="">All</option>
-                                {% for primary_topic in primary_topics %}
-                                <option value="{{ primary_topic.0 }}" {% if request.GET.primary_topic == primary_topic.0|slugify %}selected="selected"{% endif %}>{{ primary_topic.1 }}</option>
-                                {% endfor %}
-                            </select>
-                        </li>
+                    <ul class="horizontal-filters two-col no-margin cf">
                         <li class="filter-select">
                             <span>TOPICS</span>
                             <select name="secondary_topic">
