@@ -223,13 +223,17 @@ class SecondaryTopic(models.Model, Indexed):
         related_name='+',
         editable=False
     )
+    slug = models.CharField(max_length=511, unique=True)
+
 
     search_fields = [
         index.SearchField('title'),
+        index.SearchField('slug'),
     ]
 
     panels = [
         FieldPanel('title'),
+        FieldPanel('slug'),
     ]
 
     def __str__(self):
