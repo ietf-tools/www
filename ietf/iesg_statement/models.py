@@ -231,7 +231,9 @@ class IESGStatementIndexPage(RoutablePageMixin, Page):
 
     def get_context(self, request):
         context = super().get_context(request)
-        context['statements'] = IESGStatementPage.objects.child_of(self).live().order_by('-date_published')
+        context['statements'] = IESGStatementPage.objects.child_of(self).live().annotate(
+            d=Coalesce('date_published', 'first_published_at')
+        ).order_by('-d')
         return context
 
     @route(r'^all/$')
@@ -247,7 +249,9 @@ class IESGStatementIndexPage(RoutablePageMixin, Page):
                 break
 
         if (has_filter):
-            statements = IESGStatementPage.objects.child_of(self).live().order_by('-date_published')
+            statements = IESGStatementPage.objects.child_of(self).live().annotate(
+                d=Coalesce('date_published', 'first_published_at')
+            ).order_by('-d')
             first_statement_url = statements.first().url
             query_string = "?"
 
