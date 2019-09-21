@@ -77,7 +77,7 @@
                                     <select name="secondary_topic">
                                         <option value="">All</option>
                                         {% for secondary_topic in secondary_topics %}
-                                        <option value="{{ secondary_topic.0 }}" {% if request.GET.secondary_topic == secondary_topic.0|slugify %}selected="selected"{% endif %}>{{ secondary_topic.1 }}</option>
+                                        <option value="{{ secondary_topic.0 }}" {% if filter_topic.pk == secondary_topic.0 %}selected="selected"{% endif %}>{{ secondary_topic.1 }}</option>
                                         {% endfor %}
                                     </select>
                                 </li>
@@ -106,7 +106,7 @@
                             <select name="secondary_topic">
                                 <option value="">All</option>
                                 {% for secondary_topic in secondary_topics %}
-                                <option value="{{ secondary_topic.0 }}" {% if request.GET.secondary_topic == secondary_topic.0|slugify %}selected="selected"{% endif %}>{{ secondary_topic.1 }}</option>
+                                <option value="{{ secondary_topic.0 }}" {% if filter_topic.pk == secondary_topic.0 %}selected="selected"{% endif %}>{{ secondary_topic.1 }}</option>
                                 {% endfor %}
                             </select>
                         </li>
@@ -191,6 +191,15 @@
                         </div>
                     </li>
                 {% endfor %}
+                {% if filter_topic %}
+                     <li>
+                        <a href="{% routablepageurl self.get_parent.specific 'filtered_entries' filter_topic.slug %}">
+                            <div class="text">
+                                <p>Show all in {{ filter_topic.title }}</p>
+                            </div>
+                        </a>
+                    </li>
+                {% endif %}
                 <li>
                     <a href="{% routablepageurl self.get_parent.specific 'all_entries' %}">
                         <div class="text">

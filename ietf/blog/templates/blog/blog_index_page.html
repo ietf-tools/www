@@ -1,14 +1,30 @@
 {% extends "base.html" %}
-
+{% load wagtailroutablepage_tags %}
 
 {% block main_content %}
 {# sidebar #}       
 {% include "includes/social-sharebar.html" %}
 
+
 <div class="page-wrap container">
-    <div class="row sticky-container">
-        {% include 'includes/breadcrumbs.html' %}
-        <h1>{{self.title}}</h1>
+  <div class="row sticky-container">
+    <div class="rule-desktop">
+      {% include 'includes/breadcrumbs.html' %}
+      <h1>{{self.title}}</h1>
+      {% if self.filter_topic %}
+        <h2 class="searched">You have filtered by {{ self.filter_topic.title }}</h2>
+      {% endif %}
+    </div>
+    <div class="container cf">
+      <div class="three none float-right side-col">
+        <ul>
+          <li><a href="{% routablepageurl self 'all_entries' %}">All</a></li>
+          {% for topic in topics %}
+            <li><a href="{% routablepageurl self 'filtered_entries' topic.slug %}">{{ topic.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="nine body body-panel bleed-left clearfix">
         <table>
         {% for entry in entries %}
           <tr>
@@ -17,8 +33,9 @@
           </tr>
         {% endfor %}
         </table>
-
+      </div>
     </div>
+  </div>
 </div>
 
 {% endblock %}

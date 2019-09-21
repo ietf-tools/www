@@ -3,7 +3,7 @@ from functools import partial
 
 from django.db import models
 from django.db.models.functions import Coalesce
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils import functional
 from django.utils.safestring import mark_safe
@@ -35,12 +35,6 @@ def ordered_live_annotated_blogs(sibling=None):
         d=Coalesce('date_published', 'first_published_at')
     ).order_by('-d')
     return blogs
-
-
-
-def filter_pages_by_secondary_topic(pages, secondary_topic):
-    return pages.filter(secondary_topics__topic=secondary_topic)
-
 
 def get_secondary_topic_by_id(id):
     return SecondaryTopic.objects.get(id=id)
@@ -85,9 +79,6 @@ def build_filter_text(**kwargs):
 
 
 parameter_functions_map = {
-    'primary_topic': [lambda x: None, lambda x,y : x ],
-    'secondary_topic': [get_secondary_topic_by_id,
-                        filter_pages_by_secondary_topic],
     'date_from': [parse_date_search_input, filter_pages_by_date_from],
     'date_to': [parse_date_search_input, filter_pages_by_date_to]
 }
@@ -173,6 +164,10 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
     )
     CONTENT_FIELD_MAP = {'body': 'prepared_body'}
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.filter_topic = None
+
     @property
     def first_author(self):
         try:
@@ -219,9 +214,12 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
 
     @functional.cached_property
     def siblings(self):
-        return self.__class__.objects.live().sibling_of(self).annotate(
+        qs = self.__class__.objects.live().sibling_of(self).annotate(
             d=Coalesce('date_published', 'first_published_at')
         ).order_by('-d')
+        if self.filter_topic:
+            qs = qs.filter(secondary_topics__topic=self.filter_topic)
+        return qs
 
     def get_context(self, request, *args, **kwargs):
         context = super(BlogPage, self).get_context(request, *args, **kwargs)
@@ -245,6 +243,12 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
 
         filter_text = filter_text_builder()
 
+        if self.filter_topic:
+            if filter_text:
+                filter_text = ','.join([self.filter_topic.title, filter_text])
+            else:
+                filter_text = self.filter_topic.title
+
         siblings = siblings.filter(d__lt=self.coalesced_published_date())[:5]
 
         if filter_text:
@@ -256,6 +260,7 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
         context.update(
             parent_url=self.get_parent().url,
             filter_text = filter_text,
+            filter_topic = self.filter_topic,
             siblings=siblings,
             secondary_topics=BlogPageSecondaryTopic.objects.all().values_list(
                 'topic__pk', 'topic__title'
@@ -264,6 +269,23 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
             blog_feed_title=feed_settings.blog_feed_title
         )
         return context
+
+    def serve(self, request, *args, **kwargs):
+        topic_id = request.GET.get('secondary_topic')
+        if topic_id:
+            filter_topic = get_object_or_404(SecondaryTopic,id=topic_id)
+            query_string_segments=[]
+            for parameter, function in parameter_functions_map.items():
+                search_query = request.GET.get(parameter)
+                if search_query:
+                    query_string_segments.append('%s=%s' % (parameter, search_query))
+            query_string = '&'.join(query_string_segments)
+            target_url = self.get_parent().specific.reverse_subpage('redirect_first',args=(filter_topic.slug,))
+            if query_string:
+                target_url = target_url + '?' + query_string
+            return redirect(target_url)
+        else:
+            return super().serve(request, *args, **kwargs)
 
     def serve_preview(self, request, mode_name):
         """ This is another hack to overcome the MRO issue we were seeing """
@@ -286,19 +308,34 @@ BlogPage.promote_panels = Page.promote_panels + PromoteMixin.panels
 
 class BlogIndexPage(RoutablePageMixin, Page):
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.filter_topic = None
+
     def get_context(self, request):
         context = super().get_context(request)
-        context['entries'] = BlogPage.objects.child_of(self).live().annotate(
+        entry_qs = BlogPage.objects.child_of(self).live()
+        if self.filter_topic:
+            entry_qs = entry_qs.filter(secondary_topics__topic=self.filter_topic)
+        entry_qs = entry_qs.annotate(
             coalesced_published_date=Coalesce('date_published', 'first_published_at')
         ).order_by('-coalesced_published_date')
+        context['entries'] = entry_qs
+        context['topics'] = sorted(set([p.topic for p in BlogPageSecondaryTopic.objects.all()]),key=lambda x:x.title)
         return context
 
     @route(r'^all/$')
     def all_entries(self, request, *args, **kwargs):
-        return super().serve(request,*args,**kwargs)
+        return super().serve(request, *args, **kwargs)
 
+    @route(r'^([-\w]+)/all/$')
+    def filtered_entries(self, request, slug, *args, **kwargs):
+        self.filter_topic = get_object_or_404(SecondaryTopic,slug=slug)
+        return super().serve(request, *args, **kwargs)
+
+    @route(r'^([-\w]+)/$')
     @route(r'^$')
-    def redirect_first(self, request, *args, **kwargs):
+    def redirect_first(self, request, slug=None, *args, **kwargs):
         # IESG statements were moved under the IESG about/groups page. Queries to the
         # base /blog/ page that used a query string to filter for IESG statements can't
         # be redirected through ordinary redirection, so we're doing it here.
@@ -320,9 +357,19 @@ class BlogIndexPage(RoutablePageMixin, Page):
                 target_url = target_url + '?' + query_string
             return redirect(target_url)
         else:
+            if slug:
+                self.filter_topic = SecondaryTopic.objects.filter(slug=slug).first()
+                if not self.filter_topic:
+                    blog_page = get_object_or_404(BlogPage,slug=slug)
+                    blog_page.serve(request, *args, **kwargs)
+
             blogs = ordered_live_annotated_blogs()
-            first_blog_url = blogs.first().url
+
+            first_blog = blogs.first()
             query_string = "?"
+
+            if self.filter_topic:
+                blogs = blogs.filter(secondary_topics__topic=self.filter_topic)
 
             # This is duplicated in BlogPage
             for parameter, functions in parameter_functions_map.items():
@@ -336,9 +383,13 @@ class BlogIndexPage(RoutablePageMixin, Page):
                         pass
                         
             if blogs:
-                first_blog_url = blogs.first().url
+                first_blog = blogs.first()
 
-            return redirect(first_blog_url + query_string)
+            # If blogs is empty above, should we really be serving something unrelated to the filters?
+            first_blog.filter_topic = self.filter_topic
+
+            return first_blog.serve(request, *args, **kwargs)
+
 
     search_fields = []
 
