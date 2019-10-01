@@ -361,7 +361,7 @@ class BlogIndexPage(RoutablePageMixin, Page):
                 self.filter_topic = SecondaryTopic.objects.filter(slug=slug).first()
                 if not self.filter_topic:
                     blog_page = get_object_or_404(BlogPage,slug=slug)
-                    blog_page.serve(request, *args, **kwargs)
+                    return blog_page.serve(request, *args, **kwargs)
 
             blogs = ordered_live_annotated_blogs()
 
