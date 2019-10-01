@@ -15,7 +15,7 @@
         <h2 class="searched">You have filtered by {{ self.filter_topic.title }}</h2>
       {% endif %}
     </div>
-    <div class="container cf">
+    <div class="cf">
       <div class="three none float-right side-col">
         <ul>
           <li><a href="{% routablepageurl self 'all_entries' %}">All</a></li>
@@ -24,7 +24,7 @@
           {% endfor %}
         </ul>
       </div>
-      <div class="nine body body-panel bleed-left clearfix">
+      <div class="nine body body-panel clearfix">
         <table>
         {% for entry in entries %}
           <tr>
@@ -44,6 +44,7 @@
 <style>
 table tr td:first-child {
   padding-right: 10px;
+  width: 92px;
 }
 </style>
 {% endblock %}
