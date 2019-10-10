@@ -293,7 +293,7 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
         return BibliographyMixin.serve_preview(self, request, mode_name)
 
     class Meta:
-        verbose_name = "Blog, News, Statement Page"
+        verbose_name = "Blog Page"
 
 BlogPage.content_panels = Page.content_panels + [
     InlinePanel('authors', label="Authors"),
@@ -397,4 +397,4 @@ class BlogIndexPage(RoutablePageMixin, Page):
     subpage_types = ['blog.BlogPage']
 
     class Meta:
-        verbose_name = "Blog, News, Statement Index Page"
+        verbose_name = "Blog Index Page"
