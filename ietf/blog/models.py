@@ -36,10 +36,6 @@ def ordered_live_annotated_blogs(sibling=None):
     ).order_by('-d')
     return blogs
 
-#delete this as unused.
-def get_secondary_topic_by_id(id):
-    return Topic.objects.get(id=id)
-
 
 def filter_pages_by_date_from(pages, date_from):
     return pages.filter(d__gte=date_from)
@@ -272,7 +268,10 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
         return context
 
     def serve(self, request, *args, **kwargs):
-        # TODO: change this to just topic - see where we need to look for secondary_topic to keep old URLs working...
+        # This querystring parameter 'secondary_topic' is refering to BlogPageSecondaryTopic objects
+        # It is created in URLs by the method="GET" form in blog/temlates/blog/blog_page.html, which
+        # has its values populated by the secondary_topics entry in the context dict returned by
+        # get_context above.
         topic_id = request.GET.get('secondary_topic')
         if topic_id:
             filter_topic = get_object_or_404(Topic,id=topic_id)
