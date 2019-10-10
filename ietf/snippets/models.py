@@ -207,10 +207,9 @@ class MailingListSignup(models.Model, Indexed, RenderableSnippetMixin):
 
 
 @register_snippet
-class SecondaryTopic(models.Model, Indexed):
+class Topic(models.Model, Indexed):
     """
-    These snippets categorise blog posts. They are created automatically
-    whenever a new :model:`topics.SecondaryTopicPage` is saved.
+    These snippets categorise blog posts. 
     """
     title = models.CharField(
         max_length=255,

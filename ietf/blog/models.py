@@ -24,7 +24,7 @@ from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 from ..bibliography.models import BibliographyMixin
 from ..utils.models import FeedSettings, PromoteMixin
 from ..utils.blocks import StandardBlock
-from ..snippets.models import SecondaryTopic 
+from ..snippets.models import Topic 
 
 
 def ordered_live_annotated_blogs(sibling=None):
@@ -36,8 +36,9 @@ def ordered_live_annotated_blogs(sibling=None):
     ).order_by('-d')
     return blogs
 
+#delete this as unused.
 def get_secondary_topic_by_id(id):
-    return SecondaryTopic.objects.get(id=id)
+    return Topic.objects.get(id=id)
 
 
 def filter_pages_by_date_from(pages, date_from):
@@ -87,14 +88,14 @@ parameter_functions_map = {
 class BlogPageSecondaryTopic(models.Model):
     """
     A through model from :model:`blog.BlogPage`
-    to :model:`snippets.SecondaryTopic`
+    to :model:`snippets.Topic`
     """
     page = ParentalKey(
         'blog.BlogPage',
         related_name='secondary_topics'
     )
     topic = models.ForeignKey(
-        'snippets.SecondaryTopic',
+        'snippets.Topic',
         related_name='+'
     )
 
@@ -271,9 +272,10 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
         return context
 
     def serve(self, request, *args, **kwargs):
+        # TODO: change this to just topic - see where we need to look for secondary_topic to keep old URLs working...
         topic_id = request.GET.get('secondary_topic')
         if topic_id:
-            filter_topic = get_object_or_404(SecondaryTopic,id=topic_id)
+            filter_topic = get_object_or_404(Topic,id=topic_id)
             query_string_segments=[]
             for parameter, function in parameter_functions_map.items():
                 search_query = request.GET.get(parameter)
@@ -330,7 +332,7 @@ class BlogIndexPage(RoutablePageMixin, Page):
 
     @route(r'^([-\w]+)/all/$')
     def filtered_entries(self, request, slug, *args, **kwargs):
-        self.filter_topic = get_object_or_404(SecondaryTopic,slug=slug)
+        self.filter_topic = get_object_or_404(Topic,slug=slug)
         return super().serve(request, *args, **kwargs)
 
     @route(r'^([-\w]+)/$')
@@ -358,7 +360,7 @@ class BlogIndexPage(RoutablePageMixin, Page):
             return redirect(target_url)
         else:
             if slug:
-                self.filter_topic = SecondaryTopic.objects.filter(slug=slug).first()
+                self.filter_topic = Topic.objects.filter(slug=slug).first()
                 if not self.filter_topic:
                     blog_page = get_object_or_404(BlogPage,slug=slug)
                     return blog_page.serve(request, *args, **kwargs)

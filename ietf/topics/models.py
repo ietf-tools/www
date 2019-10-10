@@ -18,7 +18,7 @@ from ..utils.blocks import StandardBlock
 from ..datatracker.models import (
     WorkingGroup, RFC, InternetDraft
 )
-from ..snippets.models import SecondaryTopic
+from ..snippets.models import Topic
 
 
 class TopicIndexPage(Page, PromoteMixin):
@@ -240,7 +240,7 @@ class SecondaryTopicPage(Page, PromoteMixin):
         return self.get_siblings().live().public().specific()
 
     def get_blog_pages(self):
-        topic_snippet = SecondaryTopic.objects.filter(page=self).first()
+        topic_snippet = Topic.objects.filter(page=self).first()
         topic = BlogPageSecondaryTopic.objects.filter(topic=topic_snippet)
         if not topic:
             return []
@@ -248,7 +248,7 @@ class SecondaryTopicPage(Page, PromoteMixin):
 
     def save(self, *args, **kwargs):
         super(SecondaryTopicPage, self).save(*args, **kwargs)
-        SecondaryTopic.objects.update_or_create(
+        Topic.objects.update_or_create(
             page=self, defaults={'title': self.title}
         )
 

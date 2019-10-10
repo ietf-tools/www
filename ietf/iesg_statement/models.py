@@ -26,14 +26,14 @@ from ..bibliography.models import BibliographyMixin
 #from ..utils.models import FeedSettings, PromoteMixin
 from ..utils.models import PromoteMixin
 from ..utils.blocks import StandardBlock
-from ..snippets.models import SecondaryTopic
+from ..snippets.models import Topic
 
 def filter_pages_by_topic(pages, topic):
     return pages.filter(topics__topic=topic)
 
 
 def get_topic_by_id(id):
-    return SecondaryTopic.objects.get(id=id)
+    return Topic.objects.get(id=id)
 
 
 def filter_pages_by_date_from(pages, date_from):
@@ -88,7 +88,7 @@ class IESGStatementTopic(models.Model):
         related_name='topics'
     )
     topic = models.ForeignKey(
-        'snippets.SecondaryTopic',
+        'snippets.Topic',
         related_name='+',
     )
 
