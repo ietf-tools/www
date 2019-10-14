@@ -74,10 +74,10 @@
                             <ul class="horizontal-filters three-col no-margin cf">
                                 <li class="filter-select">
                                     <span>TOPICS</span>
-                                    <select name="secondary_topic">
+                                    <select name="topic">
                                         <option value="">All</option>
-                                        {% for secondary_topic in secondary_topics %}
-                                        <option value="{{ secondary_topic.0 }}" {% if filter_topic.pk == secondary_topic.0 %}selected="selected"{% endif %}>{{ secondary_topic.1 }}</option>
+                                        {% for topic in topics %}
+                                        <option value="{{ topic.0 }}" {% if filter_topic.pk == topic.0 %}selected="selected"{% endif %}>{{ topic.1 }}</option>
                                         {% endfor %}
                                     </select>
                                 </li>
@@ -103,10 +103,10 @@
                     <ul class="horizontal-filters two-col no-margin cf">
                         <li class="filter-select">
                             <span>TOPICS</span>
-                            <select name="secondary_topic">
+                            <select name="topic">
                                 <option value="">All</option>
-                                {% for secondary_topic in secondary_topics %}
-                                <option value="{{ secondary_topic.0 }}" {% if filter_topic.pk == secondary_topic.0 %}selected="selected"{% endif %}>{{ secondary_topic.1 }}</option>
+                                {% for topic in topics %}
+                                <option value="{{ topic.0 }}" {% if filter_topic.pk == topic.0 %}selected="selected"{% endif %}>{{ topic.1 }}</option>
                                 {% endfor %}
                             </select>
                         </li>

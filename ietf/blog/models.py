@@ -52,7 +52,11 @@ def parse_date_search_input(date):
 def build_filter_text(**kwargs):
     if any(kwargs):
         text_fragments = []
-        if kwargs.get('secondary_topic'):
+        if kwargs.get('topic'):
+            text_fragments.append(
+                '<span>{}</span>'.format(kwargs.get('topic'))
+                )
+        if kwargs.get('secondary_topic'): # for legacy URI support
             text_fragments.append(
                 '<span>{}</span>'.format(kwargs.get('secondary_topic'))
                 )
@@ -88,7 +92,7 @@ class BlogPageTopic(models.Model):
     """
     page = ParentalKey(
         'blog.BlogPage',
-        related_name='secondary_topics'
+        related_name='topics'
     )
     topic = models.ForeignKey(
         'snippets.Topic',
@@ -215,7 +219,7 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
             d=Coalesce('date_published', 'first_published_at')
         ).order_by('-d')
         if self.filter_topic:
-            qs = qs.filter(secondary_topics__topic=self.filter_topic)
+            qs = qs.filter(topics__topic=self.filter_topic)
         return qs
 
     def get_context(self, request, *args, **kwargs):
@@ -259,7 +263,7 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
             filter_text = filter_text,
             filter_topic = self.filter_topic,
             siblings=siblings,
-            secondary_topics=BlogPageTopic.objects.all().values_list(
+            topics=BlogPageTopic.objects.all().values_list(
                 'topic__pk', 'topic__title'
             ).distinct(),
             query_string=query_string,
@@ -268,7 +272,9 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
         return context
 
     def serve(self, request, *args, **kwargs):
-        topic_id = request.GET.get('secondary_topic')
+        topic_id = request.GET.get('topic')
+        if not topic_id:
+            topic_id = request.GET.get('secondary_topic') # For legacy URI support
         if topic_id:
             filter_topic = get_object_or_404(Topic,id=topic_id)
             query_string_segments=[]
@@ -297,7 +303,7 @@ BlogPage.content_panels = Page.content_panels + [
     FieldPanel('date_published'),
     FieldPanel('introduction'),
     StreamFieldPanel('body'),
-    InlinePanel('secondary_topics', label="Secondary Topics"),
+    InlinePanel('topics', label="Topics"),
 ]
 
 BlogPage.promote_panels = Page.promote_panels + PromoteMixin.panels
@@ -313,7 +319,7 @@ class BlogIndexPage(RoutablePageMixin, Page):
         context = super().get_context(request)
         entry_qs = BlogPage.objects.child_of(self).live()
         if self.filter_topic:
-            entry_qs = entry_qs.filter(secondary_topics__topic=self.filter_topic)
+            entry_qs = entry_qs.filter(topics__topic=self.filter_topic)
         entry_qs = entry_qs.annotate(
             coalesced_published_date=Coalesce('date_published', 'first_published_at')
         ).order_by('-coalesced_published_date')
@@ -366,7 +372,7 @@ class BlogIndexPage(RoutablePageMixin, Page):
             query_string = "?"
 
             if self.filter_topic:
-                blogs = blogs.filter(secondary_topics__topic=self.filter_topic)
+                blogs = blogs.filter(topics__topic=self.filter_topic)
 
             # This is duplicated in BlogPage
             for parameter, functions in parameter_functions_map.items():
