@@ -1,5 +1,5 @@
 from django.db import models
-from ietf.blog.models import BlogPageSecondaryTopic
+from ietf.blog.models import BlogPageTopic
 
 from modelcluster.fields import ParentalKey
 
@@ -241,7 +241,7 @@ class SecondaryTopicPage(Page, PromoteMixin):
 
     def get_blog_pages(self):
         topic_snippet = Topic.objects.filter(page=self).first()
-        topic = BlogPageSecondaryTopic.objects.filter(topic=topic_snippet)
+        topic = BlogPageTopic.objects.filter(topic=topic_snippet)
         if not topic:
             return []
         return [t.page for t in topic[0:3]]

@@ -81,7 +81,7 @@ parameter_functions_map = {
 }
 
 
-class BlogPageSecondaryTopic(models.Model):
+class BlogPageTopic(models.Model):
     """
     A through model from :model:`blog.BlogPage`
     to :model:`snippets.Topic`
@@ -259,7 +259,7 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
             filter_text = filter_text,
             filter_topic = self.filter_topic,
             siblings=siblings,
-            secondary_topics=BlogPageSecondaryTopic.objects.all().values_list(
+            secondary_topics=BlogPageTopic.objects.all().values_list(
                 'topic__pk', 'topic__title'
             ).distinct(),
             query_string=query_string,
@@ -268,10 +268,6 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
         return context
 
     def serve(self, request, *args, **kwargs):
-        # This querystring parameter 'secondary_topic' is refering to BlogPageSecondaryTopic objects
-        # It is created in URLs by the method="GET" form in blog/temlates/blog/blog_page.html, which
-        # has its values populated by the secondary_topics entry in the context dict returned by
-        # get_context above.
         topic_id = request.GET.get('secondary_topic')
         if topic_id:
             filter_topic = get_object_or_404(Topic,id=topic_id)
@@ -322,7 +318,7 @@ class BlogIndexPage(RoutablePageMixin, Page):
             coalesced_published_date=Coalesce('date_published', 'first_published_at')
         ).order_by('-coalesced_published_date')
         context['entries'] = entry_qs
-        context['topics'] = sorted(set([p.topic for p in BlogPageSecondaryTopic.objects.all()]),key=lambda x:x.title)
+        context['topics'] = sorted(set([p.topic for p in BlogPageTopic.objects.all()]),key=lambda x:x.title)
         return context
 
     @route(r'^all/$')
