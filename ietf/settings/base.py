@@ -76,6 +76,8 @@ INSTALLED_APPS = (
 
     'mod_wsgi.server',
 
+    'analytical',
+
 )
 
 MIDDLEWARE = [

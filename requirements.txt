@@ -11,3 +11,4 @@ future==0.15.2
 django-q==0.8.0
 django_compressor==2.2
 mod_wsgi>=4.6
+django_analytical>=2.5

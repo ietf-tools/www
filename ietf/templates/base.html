@@ -1,4 +1,4 @@
-{% load compress static wagtailuserbar wagtailcore_tags wagtailimages_tags ietf_tags %}
+{% load compress static wagtailuserbar wagtailcore_tags wagtailimages_tags ietf_tags analytical %}
 {% spaceless %}
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html lang="en" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -6,6 +6,7 @@
 <!--[if IE 8]>         <html lang="en" class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
     <head>
+        {% analytical_head_top %}
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <title>IETF {% block title %}{% if self.seo_title %} | {{ self.seo_title }}{% else %} | {{ self.title }}{% endif %}{% endblock %}{% block title_suffix %}{% endblock %}</title>
@@ -46,9 +47,11 @@
 
         <script src="{% static 'js/vendor/modernizr-2.6.2.min.js' %}"></script>
 
+        {% analytical_head_bottom %}
     </head>
 
     <body class="{% block body_class %}template-{{ self.get_verbose_name|slugify }}{% endblock %}">
+        {% analytical_body_top %}
 
         {% wagtailuserbar %}
 
@@ -81,6 +84,7 @@
         {% endcompress %}
 
         {% block extra_js %}{% endblock %}
+        {% analytical_body_bottom %}
     </body>
 </html>
 {% endspaceless %}
