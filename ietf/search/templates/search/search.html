@@ -3,6 +3,13 @@
 
 {% block title %}Search{% endblock %}
 
+{% block extra_css %}
+<style>
+.result_title {margin: 0.25rem 0 0.25rem; }
+.result_description { margin: 0.25rem 0 0.75rem; }
+</style>
+{% endblock %}
+
 {% block main_content %}
 
 <div class="subtle-white">
@@ -12,7 +19,8 @@
       <ul class="breadcrumb">{# no further crumbs are necessary since we are at the top level anyway #}
         <li><a href="/"><span class="icon ion-android-home"></span></a></li>
       </ul>
-      <h1>Search results for www.ietf.org</h1>
+      <h1 class="result_title">Search results for www.ietf.org</h1>
+      <h3 class="result_description">The search results below include information from the primary public-facing website of the IETF.</h3>
       <form class="big-search" action="{% url 'search' %}" method="get">
         <label for="big-search" style="display: none;">Search</label>
         <input id="big-search" aria-label="search" type="text" placeholder="Enter your query here" name="query" {% if search_query %} value="{{ search_query }}"{% endif %}>
@@ -27,7 +35,8 @@
     <div class="row">
       <div class="four none body-white float-right mobile-colour rule-mobile js-equal-height-body-right-col">
           <ul class="side-nav sticky">
-              <h4>Search IETF Email Archives</h4>
+              <h4 class="result_title">Search IETF Email Archives</h4>
+              <h5 class="result_description">Publicly-available messages from the IETF mailing list archives.</h5>
               <li class="section standard-form">
                   <form class="big-search" action="https://mailarchive.ietf.org/arch/search/" method="GET" target="_blank">
                       <label for="side-nav-search" style="display: none;">Search</label>
@@ -35,7 +44,8 @@
                       <button class="side-nav" type="submit">Go</button>
                   </form>
               </li>
-              <h4>Search IETF Datatracker</h4>
+              <h4 class="result_title">Search IETF Datatracker</h4>
+              <h5 class="result_description">IETF documents, working groups, and meetings.</h5>
               <li class="section standard-form">
                   <form class="big-search" action="https://datatracker.ietf.org/doc/search/" method="GET" target="_blank">
                     <label for="search-datatracker" style="display: none;">Search</label>
