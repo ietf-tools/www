@@ -149,7 +149,7 @@ class SecondaryMenu(BaseSetting, ClusterableModel):
     )
 
     panels = [
-        InlinePanel('news_and_blogs_menu_items', label="News and Blogs Menu"),
+#        InlinePanel('news_and_blogs_menu_items', label="News and Blogs Menu"),
         PageChooserPanel('contact_page'),
         PageChooserPanel('tools_page'),
         InlinePanel('tools_menu_items', label="Tools Menu"),
