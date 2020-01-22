@@ -92,8 +92,6 @@ class PrimaryTopicPage(Page, PromoteMixin):
         index.SearchField('in_depth'),
     ]
 
-# TODO look for uses of .related_topics
-
     @property
     def feed_text(self):
         return self.search_description or self.introduction

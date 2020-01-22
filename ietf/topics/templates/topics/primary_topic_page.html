@@ -58,11 +58,3 @@
 
 {% endblock main_content %}
 
-
-{% block content %}
-    {% for topic in self.related_topics %}
-        {% image topic.feed_image original %}
-        <h2><a href="{{ topic.url }}">{{ topic.title }}</a></h2>
-        <p>{{ topic.feed_text }}</p>
-    {% endfor %}
-{% endblock %}
