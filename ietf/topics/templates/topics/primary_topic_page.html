@@ -51,24 +51,6 @@
         <div class="container">
             {# side nav #}
             {% include 'includes/row_siblings_in_section.html' with page=self %}
-
-            <div class="nine">
-                <div class="body body-subtle">
-                    <ul class="sub-topic full-col">
-                        {% for through in self.secondary_topics.all %}
-                            {% with through.secondary_topic as secondary_topic %}
-                                <li>
-                                    <h2><a href="{% pageurl secondary_topic %}">{{ secondary_topic.title }}</a></h2>
-                                    <p>{{ secondary_topic.feed_text }}</p>
-                                    <ul class="data-tracker-links">
-                                        <li><a href="{{ secondary_topic.area.url }}">Current working groups</a></li>
-                                    </ul>
-                                </li>
-                            {% endwith %}
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
         </div>
     </div>
 
