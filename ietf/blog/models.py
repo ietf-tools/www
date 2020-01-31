@@ -183,7 +183,7 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
     @property
     def next(self):
         siblings = self.siblings.exclude(pk=self.pk)
-        if not siblings:
+        if not siblings or not self.date:
             return []
         try:
             return [
@@ -196,7 +196,7 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
     @property
     def previous(self):
         siblings = list(self.siblings.exclude(pk=self.pk))
-        if not siblings:
+        if not siblings or not self.date:
             return []
         try:
             return [
@@ -250,7 +250,10 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
             else:
                 filter_text = self.filter_topic.title
 
-        siblings = siblings.filter(d__lt=self.coalesced_published_date())[:5]
+        if self.coalesced_published_date():
+            siblings = siblings.filter(d__lt=self.coalesced_published_date() or datetime.now())[:5]
+        else:
+            siblings = siblings.none()
 
         if filter_text:
             if siblings:
