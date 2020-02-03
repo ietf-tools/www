@@ -215,13 +215,6 @@ class Topic(models.Model, Indexed):
         max_length=255,
         help_text="The name of this topic."
     )
-    page = models.ForeignKey(
-        'topics.SecondaryTopicPage',
-        null=True, blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        editable=False
-    )
     slug = models.CharField(max_length=511, unique=True)
 
 
