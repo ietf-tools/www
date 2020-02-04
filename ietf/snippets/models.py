@@ -20,6 +20,18 @@ class RenderableSnippetMixin():
             {'snippet': self}
         )
 
+@register_snippet
+class Person(models.Model, Indexed):
+    name = models.CharField(max_length=511)
+
+    search_fields = [ index.SearchField('name')]
+    panels = [ FieldPanel('name') ]
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ['name'] 
 
 @register_snippet
 class Role(models.Model, Indexed):
