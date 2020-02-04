@@ -118,6 +118,12 @@ class BlogPageAuthor(models.Model):
         on_delete=models.CASCADE,
         related_name='+',
     )
+    author_snippet = models.ForeignKey(
+        'snippets.Person',
+        on_delete=models.CASCADE,
+        related_name='+',
+        null=True, blank=True,
+    )
     role = models.ForeignKey(
         'snippets.Role',
         null=True, blank=True,
