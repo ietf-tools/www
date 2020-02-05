@@ -15,9 +15,6 @@ from wagtail.snippets.edit_handlers import (
 
 from ..utils.models import PromoteMixin, RelatedLink
 from ..utils.blocks import StandardBlock
-from ..datatracker.models import (
-    WorkingGroup, RFC, InternetDraft
-)
 from ..snippets.models import Topic
 
 

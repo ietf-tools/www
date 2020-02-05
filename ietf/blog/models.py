@@ -107,7 +107,7 @@ class BlogPageTopic(models.Model):
 class BlogPageAuthor(models.Model):
     """
     A through model from :model:`blog.BlogPage`
-    to :model:`datatracker.Person`
+    to :model:`snippets.Person`
     """
     page = ParentalKey(
         'blog.BlogPage',
