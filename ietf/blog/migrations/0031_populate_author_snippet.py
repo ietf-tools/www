@@ -9,6 +9,7 @@ def forward(apps, schema_editor):
     Person = apps.get_model('snippets','Person')
     for bpa in BlogPageAuthor.objects.all():
         bpa.author_snippet = Person.objects.get(name=bpa.author.name)
+        bpa.save()
 
 def reverse(apps, schema_editor):
     pass
@@ -21,4 +22,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        migrations.RunPython(forward, reverse)
     ]

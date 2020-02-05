@@ -114,11 +114,6 @@ class BlogPageAuthor(models.Model):
         related_name='authors'
     )
     author = models.ForeignKey(
-        'datatracker.Person',
-        on_delete=models.CASCADE,
-        related_name='+',
-    )
-    author_snippet = models.ForeignKey(
         'snippets.Person',
         on_delete=models.CASCADE,
         related_name='+',
