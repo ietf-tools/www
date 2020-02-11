@@ -33,8 +33,6 @@
                                         <li class="title">{{ a.author.name }}</li>
                                         {% if a.role %}
                                             <li>{{ a.role.name }}</li>
-                                        {% else %}
-                                            <li>{{ a.author.role }}</li>
                                         {% endif %}
                                     </ul>
                                 {% endfor %}
@@ -131,8 +129,6 @@
                         <li class="title">{{ a.author.name }}</li>
                         {% if a.role %}
                             <li>{{ a.role.name }}</li>
-                        {% else %}
-                            <li>{{ a.author.role.name }}</li>
                         {% endif %}
                     </ul>
                 {% endfor %}
@@ -165,8 +161,6 @@
                                         <li class="title">{{ a.author.name }}</li>
                                         {% if a.role %}
                                             <li>{{ a.role.name }}</li>
-                                        {% else %}
-                                            <li>{{ a.author.role }}</li>
                                         {% endif %}
                                     </ul>
                                 {% endfor %}
