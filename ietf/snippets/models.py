@@ -1,5 +1,6 @@
 from django.db import models
 from django.template.loader import get_template
+from django.conf import settings
 
 from wagtail.snippets.models import register_snippet
 from wagtail.admin.edit_handlers import FieldPanel
@@ -19,6 +20,105 @@ class RenderableSnippetMixin():
         return template.render(
             {'snippet': self}
         )
+
+@register_snippet
+class Charter(models.Model, index.Indexed):
+    name = models.CharField(max_length=511, unique=True)
+    title = models.TextField(blank=True)
+    abstract = models.TextField(blank=True)
+    working_group = models.ForeignKey(
+        'snippets.WorkingGroup',
+        blank=True, null=True,
+        related_name='+',
+        help_text="This charter's working group"
+    )
+
+    search_fields = [
+        index.SearchField('title', partial_match=True, boost=10),
+        index.SearchField('abstract'),
+    ]
+
+    def __str__(self):
+        return self.title
+
+    @property
+    def url(self):
+        if self.working_group:
+            return self.working_group.charter_url
+        else:
+            return ""
+
+    class Meta:
+        ordering = ['title']
+        verbose_name = "Charter"
+
+@register_snippet
+class WorkingGroup(models.Model, index.Indexed):
+
+    name = models.CharField(max_length=511)
+    acronym = models.CharField(max_length=511, blank=True)
+    description = models.CharField(max_length=4096, blank=True)
+    list_email = models.EmailField(blank=True)
+    list_subscribe = models.EmailField(blank=True)
+    # There is no field currently to capture area/parent
+
+    search_fields = [
+        index.SearchField('name', partial_match=True, boost=10),
+        index.SearchField('acronym'),
+        index.SearchField('description'),
+    ]
+
+    @property
+    def url(self):
+        return settings.DATATRACKER_URI + "/wg/" + self.acronym
+
+    @property
+    def charter_url(self):
+        return self.url + "/charter/"
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ['name']
+        verbose_name = "Working Group"
+
+@register_snippet
+class RFC(models.Model, index.Indexed):
+
+    name = models.CharField(max_length=511)
+    title = models.TextField(blank=True)
+    rfc = models.CharField(max_length=511, unique=True, help_text="The RFC's number (without any letters)")
+    abstract = models.TextField(blank=True)
+    # There is currently no field for authors
+    working_group = models.ForeignKey(
+        'snippets.WorkingGroup',
+        blank=True, null=True,
+        related_name='+',
+        help_text="The working group that produced this RFC"
+    )
+
+    search_fields = [
+        index.SearchField('title', partial_match=True, boost=10),
+        index.SearchField('rfc', boost=10),
+        index.SearchField('authors'),
+        index.SearchField('abstract'),
+    ]
+
+    def __str__(self):
+        return "RFC {}".format(self.rfc)
+
+    @property
+    def long_title(self):
+        return self.title
+
+    @property
+    def url(self):
+        return settings.DATATRACKER_URI + "/doc/rfc" + self.rfc
+
+    class Meta:
+        ordering = ['title']
+        verbose_name = "RFC"
 
 @register_snippet
 class Person(models.Model, Indexed):
