@@ -3,6 +3,7 @@ from functools import partial
 
 from django.db import models
 from django.db.models.functions import Coalesce
+from django.http import Http404
 from django.shortcuts import redirect, get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils import functional
@@ -279,6 +280,10 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
         if not topic_id:
             topic_id = request.GET.get('secondary_topic') # For legacy URI support
         if topic_id:
+            try:
+                topic_id = int(topic_id)
+            except ValueError:
+                raise Http404
             filter_topic = get_object_or_404(Topic,id=topic_id)
             query_string_segments=[]
             for parameter, function in parameter_functions_map.items():
