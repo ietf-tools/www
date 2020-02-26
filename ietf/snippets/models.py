@@ -123,6 +123,7 @@ class RFC(models.Model, index.Indexed):
 @register_snippet
 class Person(models.Model, Indexed):
     name = models.CharField(max_length=511)
+    link = models.URLField()
 
     search_fields = [ index.SearchField('name')]
     panels = [ FieldPanel('name') ]

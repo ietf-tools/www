@@ -29,6 +29,7 @@ def forward(apps, schema_editor):
     charters_to_migrate = set(dtCharter.objects.filter(pk__in=BibliographyItem.objects.filter(content_type__app_label='datatracker',content_type__model='charter').values_list('object_id',flat=True).distinct()))
 
     acronyms_to_migrate = set(MailingListSignup.objects.values_list('working_group__acronym',flat=True))
+    acronyms_to_migrate.update([HomePage.objects.last().highlighted_working_group.acronym])
     acronyms_to_migrate.update([get_working_group_acronym(rfc) for rfc in rfcs_to_migrate])
     acronyms_to_migrate.update([get_working_group_acronym(charter) for charter in charters_to_migrate])
     acronyms_to_migrate.discard(None)
