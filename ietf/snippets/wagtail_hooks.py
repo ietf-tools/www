@@ -5,8 +5,8 @@ from django.utils.html import format_html, format_html_join
 from wagtail.core import hooks
 from wagtail.admin.rich_text import HalloPlugin
 
-from ietf.datatracker.link_choosers import RFCLinkChooser
 from . import admin_urls
+from ietf.datatracker.link_choosers import GlossaryItemLinkChooser
 
 
 @hooks.register('register_admin_urls')
@@ -14,7 +14,6 @@ def register_admin_urls():
     return [
         url(r'^snippet-link/', include(admin_urls, app_name='snippetlink', namespace='snippet_link')),
     ]
-
 
 @hooks.register('insert_editor_js')
 def editor_js():
@@ -32,9 +31,8 @@ def editor_js():
             window.chooserUrls.snippetLinkChooser = '{0}';
         </script>
         """,
-        reverse('snippet_link:chooser', kwargs={'snippet_type': RFCLinkChooser.link_type})
+        reverse('snippet_link:chooser', kwargs={'snippet_type': GlossaryItemLinkChooser.link_type})
     )
-
 
 @hooks.register('register_rich_text_features')
 def register_embed_feature(features):
