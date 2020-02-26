@@ -62,7 +62,7 @@ class HomePage(Page):
 
     request_for_comments_section_body = models.CharField(max_length=500)
     highlighted_request_for_comment = models.ForeignKey(
-        'datatracker.RFC',
+        'snippets.RFC',
         null=True, blank=True,
         on_delete=models.SET_NULL,
         related_name='+'
@@ -70,11 +70,12 @@ class HomePage(Page):
 
     working_groups_section_body = models.CharField(max_length=500)
     highlighted_working_group = models.ForeignKey(
-        'datatracker.WorkingGroup',
+        'snippets.WorkingGroup',
         null=True, blank=True,
         on_delete=models.SET_NULL,
         related_name='+'
     )
+
     call_to_action = models.ForeignKey(
         'snippets.CallToAction',
         null=True, blank=True,

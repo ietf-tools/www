@@ -275,7 +275,7 @@ class MailingListSignup(models.Model, Indexed, RenderableSnippetMixin):
         "If the working group is set then this does not need to be set."
     )
     working_group = models.ForeignKey(
-        'datatracker.WorkingGroup',
+        'snippets.WorkingGroup',
         null=True, blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
