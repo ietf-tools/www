@@ -44,54 +44,6 @@ class StandardPageRelatedLink(Orderable, RelatedLink):
     page = ParentalKey('standard.StandardPage', related_name='related_links')
 
 
-class StandardPageArea(Orderable, models.Model):
-    page = ParentalKey('standard.StandardPage', related_name='areas')
-    area = models.ForeignKey('datatracker.Area', related_name='standard_pages')
-
-    panels = [
-        SnippetChooserPanel('area')
-    ]
-
-
-class StandardPageWorkingGroup(Orderable, models.Model):
-    page = ParentalKey('standard.StandardPage', related_name='working_groups')
-    working_group = models.ForeignKey('datatracker.WorkingGroup',
-                                      related_name='standard_pages')
-
-    panels = [
-        SnippetChooserPanel('working_group')
-    ]
-
-
-class StandardPageRFC(Orderable, models.Model):
-    page = ParentalKey('standard.StandardPage', related_name='rfcs')
-    rfc = models.ForeignKey('datatracker.RFC', related_name='standard_pages')
-
-    panels = [
-        SnippetChooserPanel('rfc')
-    ]
-
-
-class StandardPageInternetDraft(Orderable, models.Model):
-    page = ParentalKey('standard.StandardPage', related_name='internet_drafts')
-    internet_draft = models.ForeignKey('datatracker.InternetDraft',
-                                       related_name='standard_pages')
-
-    panels = [
-        SnippetChooserPanel('internet_draft')
-    ]
-
-
-class StandardPageCharter(Orderable, models.Model):
-    page = ParentalKey('standard.StandardPage', related_name='charters')
-    charter = models.ForeignKey('datatracker.Charter',
-                                related_name='standard_pages')
-
-    panels = [
-        SnippetChooserPanel('charter')
-    ]
-
-
 class StandardPage(Page, BibliographyMixin, PromoteMixin):
     introduction = models.CharField(
         blank=True,
@@ -156,11 +108,6 @@ StandardPage.content_panels = Page.content_panels + [
     SnippetChooserPanel('mailing_list_signup'),
     InlinePanel('related_links', label="Related Links"),
     InlinePanel('faq_items', label="FAQ Items"),
-    InlinePanel('areas', label="Areas"),
-    InlinePanel('working_groups', label="Working Groups"),
-    InlinePanel('rfcs', label="RFCs"),
-    InlinePanel('internet_drafts', label="Internet Drafts"),
-    InlinePanel('charters', label="Charters"),
 ]
 
 StandardPage.promote_panels = Page.promote_panels + PromoteMixin.panels + [
