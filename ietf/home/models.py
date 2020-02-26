@@ -20,11 +20,6 @@ from ..events.models import EventPage, EventListingPage
 from ietf.blog.models import BlogPage, BlogIndexPage
 
 
-class InternetDraftsSectionLinks(RelatedLink):
-    page = ParentalKey('home.HomePage',
-                       related_name='internet_drafts_section_links')
-
-
 class RequestForCommentsSectionLinks(RelatedLink):
     page = ParentalKey('home.HomePage',
                        related_name='request_for_comments_section_links')
@@ -47,14 +42,6 @@ class HomePage(Page):
     button_text = models.CharField(max_length=255, blank=True)
     button_link = models.ForeignKey(
         'wagtailcore.Page',
-        null=True, blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+'
-    )
-
-    internet_drafts_section_body = models.CharField(max_length=500)
-    highlighted_internet_draft = models.ForeignKey(
-        'datatracker.InternetDraft',
         null=True, blank=True,
         on_delete=models.SET_NULL,
         related_name='+'
@@ -85,7 +72,6 @@ class HomePage(Page):
 
     search_fields = Page.search_fields + [
         index.SearchField('heading'),
-        index.SearchField('internet_drafts_section_body'),
         index.SearchField('request_for_comments_section_body'),
         index.SearchField('working_groups_section_body'),
     ]
@@ -124,11 +110,6 @@ class HomePage(Page):
             ImageChooserPanel('main_image'),
             PageChooserPanel('button_link')
         ], "Header"),
-        MultiFieldPanel([
-            FieldPanel('internet_drafts_section_body'),
-            SnippetChooserPanel('highlighted_internet_draft'),
-            InlinePanel('internet_drafts_section_links', label="Link"),
-        ], "Internet Drafts Section"),
         MultiFieldPanel([
             FieldPanel('request_for_comments_section_body'),
             SnippetChooserPanel('highlighted_request_for_comment'),
