@@ -15,8 +15,8 @@ from .link_choosers import (
     GlossaryItemRichTextLinkHandler,
     RFCLinkChooser,
     RFCRichTextLinkHandler,
-#    CharterLinkChooser,
-#    CharterRichTextLinkHandler,
+    CharterLinkChooser,
+    CharterRichTextLinkHandler,
 )
 
 
@@ -66,9 +66,9 @@ def register_glosary_item_link_chooser():
 def register_rfc_link_chooser():
     return RFCLinkChooser()
 
-#@hooks.register('register_link_chooser')
-#def register_charter_link_chooser():
-#    return CharterLinkChooser()
+@hooks.register('register_link_chooser')
+def register_charter_link_chooser():
+    return CharterLinkChooser()
 
 
 @hooks.register('register_rich_text_features')
@@ -77,7 +77,7 @@ def register_link_choosers(features):
     features.register_converter_rule(
         'editorhtml', 'snippet', [
             editor_html.LinkTypeRule(RFCRichTextLinkHandler.link_type, RFCRichTextLinkHandler),
-#            editor_html.LinkTypeRule(CharterRichTextLinkHandler.link_type, CharterRichTextLinkHandler),
+            editor_html.LinkTypeRule(CharterRichTextLinkHandler.link_type, CharterRichTextLinkHandler),
             editor_html.LinkTypeRule(GlossaryItemRichTextLinkHandler.link_type, GlossaryItemRichTextLinkHandler),
             editor_html.LinkTypeRule(ExternalRichTextLinkHandler.link_type, ExternalRichTextLinkHandler),
             editor_html.LinkTypeRule('email', ExternalRichTextLinkHandler),
@@ -89,4 +89,4 @@ def register_link_choosers(features):
     # attributes also get added, which may or may not be a good thing.)
     features.register_link_type(GlossaryItemRichTextLinkHandler.link_type, GlossaryItemRichTextLinkHandler.expand_db_attributes)
     features.register_link_type(RFCRichTextLinkHandler.link_type, RFCRichTextLinkHandler.expand_db_attributes)
-#    features.register_link_type(CharterRichTextLinkHandler.link_type, CharterRichTextLinkHandler.expand_db_attributes)
+    features.register_link_type(CharterRichTextLinkHandler.link_type, CharterRichTextLinkHandler.expand_db_attributes)
