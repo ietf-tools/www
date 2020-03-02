@@ -204,3 +204,7 @@ WAGTAIL_USAGE_COUNT_ENABLED = True
 WAGTAILIMAGES_IMAGE_MODEL = 'images.IETFImage'
 WAGTAILDOCS_DOCUMENT_MODEL = 'documents.IetfDocument'
 
+# Application-wide settings
+DATATRACKER_URI = "https://datatracker.ietf.org"
+
+

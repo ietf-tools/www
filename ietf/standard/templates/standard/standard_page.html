@@ -50,31 +50,6 @@
                     {% bibliography self %}
                 </div>
 
-
-                {% if self.working_groups.exists %}
-                    <div class="body body-panel bleed-left clearfix">
-                        {% for working_group in self.working_groups.all %}
-                            {% include 'snippets/working_group.html' with working_group=working_group.working_group %}
-                        {% endfor %}
-                    </div>
-                {% endif %}
-
-                {% if self.rfcs.exists %}
-                    <div class="body body-panel bleed-left clearfix">
-                        {% for rfc in self.rfcs.all %}
-                            {% include 'snippets/rfc.html' with rfc=rfc.rfc %}
-                        {% endfor %}
-                    </div>
-                {% endif %}
-
-                {% if self.internet_drafts.exists %}
-                    <div class="body body-panel bleed-left clearfix">
-                        {% for internet_draft in self.internet_drafts.all %}
-                            {% include 'snippets/internet_draft.html' with draft=internet_draft.internet_draft %}
-                        {% endfor %}
-                    </div>
-                {% endif %}
-
                 {% if self.faq_items.all %}
                     <div class="body body-panel bleed-left clearfix">
                         <div class="faq">

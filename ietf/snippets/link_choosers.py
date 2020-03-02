@@ -1,7 +1,7 @@
 from django.utils.html import escape
+from django.core.exceptions import ObjectDoesNotExist
 
-from ietf.datatracker.models import RFC, InternetDraft, Charter
-from ietf.snippets.models import GlossaryItem
+from .models import GlossaryItem, RFC, Charter
 
 
 class LinkChooser(object):
@@ -27,8 +27,9 @@ class RichTextLinkHandler(object):
             app = cls.model._meta.app_label
             editor_attrs = 'data-linktype="{}" data-id="{}" data-app="{}"'.format(cls.link_type, page.id, app)
             return '<a {} href="{}">'.format(editor_attrs, escape(page.url))
-        except RFC.DoesNotExist:
+        except ObjectDoesNotExist:
             return '<a>'
+
 
 
 class ExternalRichTextLinkHandler(object):
@@ -47,42 +48,26 @@ class ExternalRichTextLinkHandler(object):
     def expand_db_attributes(cls, attrs, for_editor):
         return '<a href="{}">'.format(escape(attrs['href']))
 
+class GlossaryItemLinkChooser(LinkChooser):
+    link_type = 'glossaryitem'
+    model = GlossaryItem
+
+class GlossaryItemRichTextLinkHandler(RichTextLinkHandler):
+    link_type = 'glossaryitem'
+    model = GlossaryItem
 
 class RFCLinkChooser(LinkChooser):
     link_type = 'rfc'
     model = RFC
 
-
 class RFCRichTextLinkHandler(RichTextLinkHandler):
     link_type = 'rfc'
     model = RFC
-
-
-class InternetDraftLinkChooser(LinkChooser):
-    link_type = 'internetdraft'
-    model = InternetDraft
-
-
-class InternetDraftRichTextLinkHandler(RichTextLinkHandler):
-    link_type = 'internetdraft'
-    model = InternetDraft
-
 
 class CharterLinkChooser(LinkChooser):
     link_type = 'charter'
     model = Charter
 
-
 class CharterRichTextLinkHandler(RichTextLinkHandler):
     link_type = 'charter'
     model = Charter
-
-
-class GlossaryItemLinkChooser(LinkChooser):
-    link_type = 'glossaryitem'
-    model = GlossaryItem
-
-
-class GlossaryItemRichTextLinkHandler(RichTextLinkHandler):
-    link_type = 'glossaryitem'
-    model = GlossaryItem

@@ -108,16 +108,17 @@ class BlogPageTopic(models.Model):
 class BlogPageAuthor(models.Model):
     """
     A through model from :model:`blog.BlogPage`
-    to :model:`datatracker.Person`
+    to :model:`snippets.Person`
     """
     page = ParentalKey(
         'blog.BlogPage',
         related_name='authors'
     )
     author = models.ForeignKey(
-        'datatracker.Person',
+        'snippets.Person',
         on_delete=models.CASCADE,
         related_name='+',
+        null=True, blank=True,
     )
     role = models.ForeignKey(
         'snippets.Role',
