@@ -250,10 +250,7 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
             else:
                 filter_text = self.filter_topic.title
 
-        if self.coalesced_published_date():
-            siblings = siblings.filter(d__lt=datetime.now())[:5]
-        else:
-            siblings = siblings.none()
+        siblings = siblings.filter(d__lt=datetime.now())[:5]
 
         if filter_text:
             if siblings:
