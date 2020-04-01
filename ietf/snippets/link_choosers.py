@@ -45,7 +45,7 @@ class ExternalRichTextLinkHandler(object):
         return {}
 
     @classmethod
-    def expand_db_attributes(cls, attrs, for_editor):
+    def expand_db_attributes(cls, attrs, for_editor=None):
         return '<a href="{}">'.format(escape(attrs['href']))
 
 class GlossaryItemLinkChooser(LinkChooser):
