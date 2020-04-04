@@ -33,6 +33,9 @@ class BibliographyItem(models.Model):
         max_length=127,
         help_text='The "key" with which this item was created, eg. "rfc" in [[rfc:3514]].',
     )
+    # Be very wary. The help_text below implies that content_identifier might have an RFC number in it.
+    # It does not. Maybe in very early designs that was the plan, but the implementation puts primary
+    # keys of the table into this field.
     content_identifier = models.CharField(
         max_length=127,
         help_text='The "value" with which this item was created, eg. "3514" in [[rfc:3514]].',
