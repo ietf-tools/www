@@ -4,11 +4,7 @@ psycopg2>=2.7.5
 wagtail==2.3
 django-libsass==0.6
 libsass==0.8.3
-Pillow==5.3.0
-requests==2.20.0
-docutils==0.12
-future==0.15.2
-django-q==0.8.0
+future>=0.15.2
 django_compressor==2.2
 mod_wsgi>=4.6
 django_analytical>=2.5
