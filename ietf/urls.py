@@ -6,7 +6,6 @@ from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.documents import urls as wagtaildocs_urls
 from wagtail.core import urls as wagtail_urls
 
-from ietf.datatracker import urls as datatracker_urls
 from ietf.bibliography import urls as bibliography_urls
 from ietf.search.views import search
 from ietf.snippets import urls as snippet_urls
@@ -42,7 +41,6 @@ if settings.DEBUG:
 
 
 urlpatterns += [
-    url(r'^datatracker/', include(datatracker_urls)),
     url(r'^misc/', include(snippet_urls)),
     url(r'', include(wagtail_urls)),
 ]

@@ -39,7 +39,6 @@ INSTALLED_APPS = (
     'ietf.topics',
     'ietf.glossary',
     'ietf.utils',
-    'ietf.datatracker',
     'ietf.bibliography',
     'ietf.images',
     'ietf.documents',
