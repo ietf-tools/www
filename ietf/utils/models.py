@@ -21,13 +21,15 @@ class LinkFields(models.Model):
         'wagtailcore.Page',
         null=True,
         blank=True,
-        related_name='+'
+        related_name='+',
+        on_delete=models.CASCADE,
     )
     link_document = models.ForeignKey(
         'wagtaildocs.Document',
         null=True,
         blank=True,
-        related_name='+'
+        related_name='+',
+        on_delete=models.CASCADE,
     )
 
     @property

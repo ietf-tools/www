@@ -12,7 +12,7 @@ class IETFImage(AbstractImage):
 
 
 class IETFRendition(AbstractRendition):
-    image = models.ForeignKey(IETFImage, related_name='renditions')
+    image = models.ForeignKey(IETFImage, related_name='renditions', on_delete=models.CASCADE)
 
     class Meta:
         unique_together = (

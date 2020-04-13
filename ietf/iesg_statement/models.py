@@ -90,6 +90,7 @@ class IESGStatementTopic(models.Model):
     topic = models.ForeignKey(
         'snippets.Topic',
         related_name='+',
+        on_delete=models.CASCADE,
     )
 
     panels = [

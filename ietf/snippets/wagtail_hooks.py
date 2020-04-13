@@ -23,7 +23,7 @@ from .link_choosers import (
 @hooks.register('register_admin_urls')
 def register_admin_urls():
     return [
-        url(r'^snippet-link/', include(admin_urls, app_name='snippetlink', namespace='snippet_link')),
+        url(r'^snippet-link/', include(admin_urls, namespace='snippet_link')),
     ]
 
 @hooks.register('insert_editor_js')

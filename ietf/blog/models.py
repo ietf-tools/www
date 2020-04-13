@@ -97,7 +97,8 @@ class BlogPageTopic(models.Model):
     )
     topic = models.ForeignKey(
         'snippets.Topic',
-        related_name='+'
+        related_name='+',
+        on_delete=models.CASCADE,
     )
 
     panels = [

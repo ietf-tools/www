@@ -30,7 +30,8 @@ class Charter(models.Model, index.Indexed):
         'snippets.WorkingGroup',
         blank=True, null=True,
         related_name='+',
-        help_text="This charter's working group"
+        help_text="This charter's working group",
+        on_delete=models.CASCADE,
     )
 
     search_fields = [
@@ -95,7 +96,8 @@ class RFC(models.Model, index.Indexed):
         'snippets.WorkingGroup',
         blank=True, null=True,
         related_name='+',
-        help_text="The working group that produced this RFC"
+        help_text="The working group that produced this RFC",
+        on_delete=models.SET_NULL,
     )
 
     search_fields = [
@@ -171,7 +173,8 @@ class Group(models.Model, Indexed, RenderableSnippetMixin):
         'snippets.Role',
         blank=True, null=True,
         related_name='+',
-        help_text="This group's role within the IETF."
+        help_text="This group's role within the IETF.",
+        on_delete=models.SET_NULL,
     )
     summary = models.CharField(
         blank=True,
@@ -186,7 +189,8 @@ class Group(models.Model, Indexed, RenderableSnippetMixin):
         'images.IETFImage',
         blank=True, null=True,
         related_name='+',
-        help_text="An image to represent this group."
+        help_text="An image to represent this group.",
+        on_delete=models.SET_NULL,
     )
 
     search_fields = [
@@ -360,7 +364,8 @@ class Sponsor(models.Model, Indexed):
     logo = models.ForeignKey(
         'images.IETFImage',
         related_name='+',
-        help_text="The organisation's logo."
+        help_text="The organisation's logo.",
+        on_delete = models.CASCADE,
     )
     link = models.URLField(blank=True)
 

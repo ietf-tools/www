@@ -2,6 +2,7 @@ from django.conf.urls import url
 
 from .views import chosen, chooser
 
+app_name = 'snippetlink'
 
 urlpatterns = [
     url(r'^chooser/(?P<snippet_type>[\w-]+)/$', chooser, name='chooser'),

@@ -199,7 +199,8 @@ class EventListingPagePromotedEvent(models.Model):
     )
     promoted_event = models.ForeignKey(
         'events.EventPage',
-        related_name='+'
+        related_name='+',
+        on_delete=models.CASCADE,
     )
 
     panels = [

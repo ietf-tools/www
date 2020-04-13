@@ -28,6 +28,7 @@ class BibliographyItem(models.Model):
         Page,
         related_name='bibliography_items',
         help_text="The page that this item links to.",
+        on_delete=models.CASCADE,
     )
     content_key = models.CharField(
         max_length=127,
@@ -51,6 +52,7 @@ class BibliographyItem(models.Model):
     content_type = models.ForeignKey(
         ContentType,
         blank=True, null=True,
+        on_delete=models.CASCADE,
     )
     object_id = models.PositiveIntegerField(
         blank=True, null=True,
