@@ -33,6 +33,12 @@ EXPOSE 8001:8001
 RUN mkdir /code
 WORKDIR /code
 
+ENV VIRTUAL_ENV=/code/env
+
+RUN python -m venv $VIRTUAL_ENV
+
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+
 # Doing this step before copying the whole codebase improves docker's ability to reuse cached layers at build time
 COPY --chown=wwwrun:www ./requirements.txt /code/requirements.txt
 RUN pip install -r requirements.txt
