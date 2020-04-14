@@ -14,7 +14,7 @@ from ietf.blog.feeds import BlogFeed
 urlpatterns = [
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^bibliography/', include(bibliography_urls)),
-    url(r'^django-admin/', include(admin.site.urls)),
+    url(r'^django-admin/', admin.site.urls),
     url(r'^blog/feed/$', BlogFeed(), name='blog_feed'),
 
     url(r'^admin/', include(wagtailadmin_urls)),

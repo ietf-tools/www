@@ -1,4 +1,4 @@
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from wagtail.core import hooks
 from wagtail.admin.menu import MenuItem

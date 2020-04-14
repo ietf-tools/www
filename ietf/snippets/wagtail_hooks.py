@@ -1,6 +1,6 @@
 from django.conf.urls import include, url
 from django.contrib.staticfiles.templatetags.staticfiles import static
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils.html import format_html, format_html_join
 
 from wagtail.admin.menu import MenuItem

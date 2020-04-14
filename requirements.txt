@@ -1,4 +1,4 @@
-Django>=1.11.19,<1.12
+Django>=2.2,<3
 djangorestframework>=3.8
 psycopg2>=2.7.5
 wagtail==2.3
