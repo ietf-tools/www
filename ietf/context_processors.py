@@ -9,13 +9,14 @@ def home_page():
 
 
 def children(item):
-    return item.get_children().live().in_menu()
+    return item and item.get_children().live().in_menu()
 
 
 def menu():
     items = children(home_page())
-    for item in items:
-        item.subitems = children(item)
+    if items:
+        for item in items:
+            item.subitems = children(item)
     return items
 
 
