@@ -215,6 +215,7 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
 
     @functional.cached_property
     def siblings(self):
+        """Published siblings that match filter_topic, most recent first"""
         qs = self.__class__.objects.live().sibling_of(self).annotate(
             d=Coalesce('date_published', 'first_published_at')
         ).order_by('-d')
@@ -225,6 +226,7 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
     def get_context(self, request, *args, **kwargs):
         context = super(BlogPage, self).get_context(request, *args, **kwargs)
         siblings = self.siblings
+        max_siblings_to_show = 5
         query_string = "?"
         filter_text_builder = build_filter_text
         feed_settings = FeedSettings.for_site(request.site)
@@ -250,11 +252,6 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
             else:
                 filter_text = self.filter_topic.title
 
-        if self.coalesced_published_date():
-            siblings = siblings.filter(d__lt=self.coalesced_published_date() or datetime.now())[:5]
-        else:
-            siblings = siblings.none()
-
         if filter_text:
             if siblings:
                 filter_text = mark_safe("You have filtered by " + filter_text)
@@ -265,7 +262,7 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
             parent_url=self.get_parent().url,
             filter_text = filter_text,
             filter_topic = self.filter_topic,
-            siblings=siblings,
+            siblings=siblings[:max_siblings_to_show],
             topics=BlogPageTopic.objects.all().values_list(
                 'topic__pk', 'topic__title'
             ).distinct(),
