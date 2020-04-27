@@ -1,12 +1,11 @@
 from django.db import models
-from ietf.blog.models import BlogPageTopic
 
 from modelcluster.fields import ParentalKey
 
 from wagtail.core.models import Page, Orderable
 from wagtail.core.fields import StreamField
 from wagtail.admin.edit_handlers import (
-    FieldPanel, StreamFieldPanel, InlinePanel, PageChooserPanel
+    FieldPanel, StreamFieldPanel, InlinePanel
 )
 from wagtail.search import index
 from wagtail.snippets.edit_handlers import (
@@ -15,7 +14,6 @@ from wagtail.snippets.edit_handlers import (
 
 from ..utils.models import PromoteMixin, RelatedLink
 from ..utils.blocks import StandardBlock
-from ..snippets.models import Topic
 
 
 class TopicIndexPage(Page, PromoteMixin):
