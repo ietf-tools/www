@@ -1,8 +1,6 @@
 #!/bin/sh
 
-export DJANGO_SETTINGS_MODULE=ietf.settings.production
-
-sudo -E -u wwwrun ./manage.py migrate
-sudo -E -u wwwrun ./manage.py collectstatic --noinput
-sudo -E -u wwwrun ./manage.py compress
-sudo -E -u wwwrun ./manage.py update_index
+sudo --preserve-env=PATH,VIRTUAL_ENV,DJANGO_SETTINGS_MODULE -u wwwrun ./manage.py migrate
+sudo --preserve-env=PATH,VIRTUAL_ENV,DJANGO_SETTINGS_MODULE -u wwwrun ./manage.py collectstatic --noinput
+sudo --preserve-env=PATH,VIRTUAL_ENV,DJANGO_SETTINGS_MODULE -u wwwrun ./manage.py compress
+sudo --preserve-env=PATH,VIRTUAL_ENV,DJANGO_SETTINGS_MODULE -u wwwrun ./manage.py update_index
