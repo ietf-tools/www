@@ -187,13 +187,6 @@ WAGTAILSEARCH_BACKENDS = {
     },
 }
 
-# Using Hallo due to customisation for snippets button
-WAGTAILADMIN_RICH_TEXT_EDITORS = {
-    'default': {
-        'WIDGET': 'wagtail.admin.rich_text.HalloRichTextArea'
-    }
-}
-
 
 # Wagtail settings
 
