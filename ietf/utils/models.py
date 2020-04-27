@@ -10,7 +10,6 @@ from wagtail.admin.edit_handlers import (
 from wagtail.documents.edit_handlers import DocumentChooserPanel
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.core.models import Orderable
-from wagtail.snippets.edit_handlers import SnippetChooserPanel
 
 from wagtail.contrib.settings.models import BaseSetting, register_setting
 
