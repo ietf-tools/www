@@ -327,8 +327,8 @@ $prefixes: (-webkit, -moz, -ms, -o);
 }
 
 //animation ===================================================================================//
-@mixin keyframes($animation-name) {
 /*
+@mixin keyframes($animation-name) {
 	@-webkit-keyframes $animation-name {
 		@content;
 	}
@@ -344,8 +344,8 @@ $prefixes: (-webkit, -moz, -ms, -o);
 	@keyframes $animation-name {
 		@content;
 	}
-	*/
 }
+*/
 
 @mixin animation($str) {
 	-webkit-animation: #{$str};

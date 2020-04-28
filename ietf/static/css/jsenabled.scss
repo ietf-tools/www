@@ -60,7 +60,7 @@
     }
 
     &:before {
-        @extend %bleed-left;
+        @extend %bleed-left !optional;
         background: $light;
         margin-left: -999em;
         position: absolute;

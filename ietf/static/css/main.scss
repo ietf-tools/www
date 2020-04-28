@@ -1071,12 +1071,13 @@ dl {
 }
 
 @media #{$tabletxl} {
+/*
     @include keyframes(slide-down) {
         0% { transform: translate3d( 110%, 100%, 0 );}
         1% { transform: translate3d( 0%, 0, 0 ); }
         90% { transform: translate3d( 0%, 0, 0 ); }
     }
-
+*/
     .link-preview {
         display: block;
         width: 160px;
@@ -1088,7 +1089,9 @@ dl {
         padding: 10px;
         transform: translate3d( 110%, 0, 0 );
         @include transition( transform 0.25s ease 0s );
+/*
         @include animation('slide-down 5s 3');
+*/
         &:after {
             content: '';
             position: absolute;
@@ -1130,7 +1133,7 @@ dl {
 }
 
 .link-preview-show {
-    @extend #link-preview;
+    @extend #link-preview !optional;
     display: block;
     position: relative;
     margin: 0 auto;
