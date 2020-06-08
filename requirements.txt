@@ -1,7 +1,7 @@
 Django>=2.2,<3
 djangorestframework>=3.8
 psycopg2>=2.7.5
-wagtail>=2.8,<2.9
+wagtail>=2.9,<2.10
 django-libsass>=0.8
 libsass>=0.8.3
 future>=0.15.2

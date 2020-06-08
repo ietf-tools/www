@@ -1,5 +1,6 @@
 from django.contrib.syndication.views import Feed
 from django.db.models.functions import Coalesce
+from wagtail.core.models import Site
 from ..blog.models import BlogPage
 from ..utils.models import FeedSettings
 
@@ -8,7 +9,7 @@ class BlogFeed(Feed):
     link = "/blog/"
 
     def __call__(self, request, *args, **kwargs):
-        settings = FeedSettings.for_site(request.site)
+        settings = FeedSettings.for_site(Site.find_for_request(request))
         self.title = settings.blog_feed_title
         self.description = settings.blog_feed_description
         return super().__call__(request, *args, **kwargs)

@@ -174,7 +174,6 @@ class IESGStatementPage(Page, BibliographyMixin, PromoteMixin):
         siblings = self.siblings
         query_string = "?"
         filter_text_builder = build_filter_text
-        # TODO feed_settings = FeedSettings.for_site(request.site)
 
         for parameter, functions in parameter_functions_map.items():
             search_query = request.GET.get(parameter)

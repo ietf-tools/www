@@ -11,7 +11,7 @@ from django.utils.safestring import mark_safe
 
 from modelcluster.fields import ParentalKey
 
-from wagtail.core.models import Page
+from wagtail.core.models import Page, Site
 from wagtail.core.fields import StreamField
 from wagtail.snippets.edit_handlers import (
     SnippetChooserPanel
@@ -232,7 +232,7 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
         max_siblings_to_show = 5
         query_string = "?"
         filter_text_builder = build_filter_text
-        feed_settings = FeedSettings.for_site(request.site)
+        feed_settings = FeedSettings.for_site(Site.find_for_request(request))
 
         # This is mostly duplicted in BlogIndexPage
         for parameter, functions in parameter_functions_map.items():
