@@ -11,7 +11,7 @@ def search(request):
     page = request.GET.get('page', 1)
 
     # Search
-    if search_query:
+    if search_query and '\x00' not in search_query:
         search_results = Page.objects.live().search(search_query)
         query = Query.get(search_query)
 
