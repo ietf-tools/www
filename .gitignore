@@ -7,3 +7,6 @@
 /docs/_build/
 /ietf/static/node_modules
 /ietf/static/yarn-error.log
+node_modules
+.vscode
+*.log
