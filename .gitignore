@@ -10,3 +10,5 @@
 node_modules
 .vscode
 *.log
+ietf/templates/base.html
+ietf/static/dist
