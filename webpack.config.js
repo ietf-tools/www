@@ -76,12 +76,12 @@ module.exports = (env, options) => {
                         'sass-loader', // compiles Sass to CSS
                     ],
                 },
+                // {
+                //     test: /\.svg$/,
+                //     use: ['svgo-loader'],
+                // },
                 {
-                    test: /\.svg$/,
-                    use: ['svgo-loader'],
-                },
-                {
-                    test: /\.woff|woff2|otf|eot$/,
+                    test: /\.woff|woff2|otf|eot|ttf|svg$/,
                     loader: 'file-loader',
                 },
             ],

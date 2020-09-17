@@ -1,0 +1,18 @@
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+
+$body-color: #333741;
+$body-bg: #f3f5f6;
+$theme-colors: (
+    'primary': #1762bb,
+    'secondary': #49555c,
+);
+
+$dropdown-bg: $dark;
+$dropdown-link-color: $light;
+$dropdown-link-active-bg: $dark;
+$dropdown-link-hover-bg: $dark;
+
+$enable-rounded: false;
+
+@import '~bootstrap/scss/bootstrap';

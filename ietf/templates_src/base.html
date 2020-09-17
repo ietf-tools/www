@@ -34,18 +34,18 @@
 
         {% block extra_meta %}{% endblock extra_meta %}
 
-        {% compress css %}
+        {% comment %} {% compress css %}
             <link rel="stylesheet" type="text/x-scss"  href="{% static 'css/main.scss' %}" />
-        {% endcompress %}
+        {% endcompress %} {% endcomment %}
 
         {# these styles will only be loaded if JS is enabled -- smooth, eh? #}
-        <script>
+        {% comment %} <script>
             document.write('{% compress css %}<link rel="stylesheet" type="text/x-scss" href="{% static 'css/jsenabled.scss' %}">{% endcompress %}');
-        </script>
+        </script> {% endcomment %}
 
         {% block extra_css %}{% endblock %}
 
-        <script src="{% static 'js/vendor/modernizr-2.6.2.min.js' %}"></script>
+        {% comment %} <script src="{% static 'js/vendor/modernizr-2.6.2.min.js' %}"></script> {% endcomment %}
 
         {% analytical_head_bottom %}
     </head>

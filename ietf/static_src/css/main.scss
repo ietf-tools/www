@@ -1,0 +1,24 @@
+@import './fonts.scss';
+@import './theme.scss';
+// @import '~ionicons/scss/_ionicons-variables';
+// @import '~ionicons/scss/_ionicons-fonts';
+// @import '~ionicons/scss/_ionicons-icons';
+
+$ionicons-font-path: '~ionicons/fonts';
+@import '~ionicons/scss/ionicons';
+
+body {
+    font-family: 'montserrat', Helvetica, arial, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'aktiv-grotesk', 'HelveticaNeue-Light', helvetica arial,
+        sans-serif;
+    font-weight: 400;
+    font-variant-ligatures: no-common-ligatures;
+}

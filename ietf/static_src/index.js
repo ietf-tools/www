@@ -2,10 +2,8 @@
 import './js/public-path'; // MUST be first (yes, before absolute imports)
 import './css/main.scss';
 
-import './js/main';
-
 import $ from 'jquery';
-import Popper from '@popperjs/core';
+import Popper from 'popper.js';
 
 import 'bootstrap';
 
