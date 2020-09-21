@@ -4,15 +4,31 @@
 $body-color: #333741;
 $body-bg: #f3f5f6;
 $theme-colors: (
+    // 'primary': green,
     'primary': #1762bb,
-    'secondary': #49555c,
+    'secondary': #49555c
+);
+
+$enable-rounded: false;
+
+$grid-breakpoints: (
+    xs: 0,
+    sm: 576px,
+    md: 768px,
+    lg: 992px,
+    xl: 1380px,
+);
+
+$container-max-widths: (
+    sm: 540px,
+    md: 720px,
+    lg: 960px,
+    xl: 1300px,
 );
 
 $dropdown-bg: $dark;
 $dropdown-link-color: $light;
 $dropdown-link-active-bg: $dark;
 $dropdown-link-hover-bg: $dark;
-
-$enable-rounded: false;
 
 @import '~bootstrap/scss/bootstrap';

@@ -6,7 +6,7 @@
   "arrowParens": "always",
   "overrides": [
     {
-      "files": ["package.json", ".travis.yml", ".*"],
+      "files": [".travis.yml", ".*"],
       "options": { "tabWidth": 2 }
     }
   ]

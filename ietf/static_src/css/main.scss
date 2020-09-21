@@ -1,11 +1,8 @@
+@import './icons.scss';
+@import './bootstrap-theme.scss';
 @import './fonts.scss';
-@import './theme.scss';
-// @import '~ionicons/scss/_ionicons-variables';
-// @import '~ionicons/scss/_ionicons-fonts';
-// @import '~ionicons/scss/_ionicons-icons';
-
-$ionicons-font-path: '~ionicons/fonts';
-@import '~ionicons/scss/ionicons';
+@import './pages.scss';
+@import './components/index.scss';
 
 body {
     font-family: 'montserrat', Helvetica, arial, sans-serif;

@@ -1,5 +1,6 @@
-/* eslint springload/import/first: 0 */
 import './js/public-path'; // MUST be first (yes, before absolute imports)
+
+/** Import Sass entry point for Webpack to bundle styles */
 import './css/main.scss';
 
 import $ from 'jquery';

@@ -1,121 +1,133 @@
 {% load static wagtailcore_tags %}
 
-<header id="show-search">
-    <div class="nav-search-top">
-        <form action="{% url 'search' %}" method="get" name="search">
-            <label for="nav-search" style="display: none;">Search</label>
-            <input id="nav-search" aria-label="Search" name="query" type="text" placeholder="Search" required="">
-            <button class="" type="submit">Go</button>
-        </form>
+<header>
+    <div class="collapse" id="navbarSearch">
+        <div class="container">
+            <div class="row justify-content-center">
+                <form class="input-group mt-3 mb-3 col-md-8 col-lg-6" action="{% url 'search' %}" method="get" name="search">
+                    <input
+                    type="search"
+                    class="form-control"
+                    placeholder="Search"
+                    aria-label="Search"
+                    id="search"
+                    name="query" 
+                    type="text"
+                    required=""
+                    /><button type="submit" class="btn btn-primary">Go</button>
+                </form>
+            </div>
+        </div>
     </div>
-
-    <div class="container" id="menu-open">
-        <div class="cf">
-            <div class="icon-mobile hamburger feedback">
-                <a title="open menu" href="#menu-open" class="open-menu click">
-                    <span class="icon ion-android-menu"></span>
-                </a>
-                <a title="close menu" href="#menu-closed" class="close-menu click">
-                    <span class="icon ion-android-menu"></span>
-                </a>
-            </div>
-
+    <div class="navbar navbar-expand-lg navbar-dark bg-secondary text-light">
+        <div class="container">
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+            >
+                <span class="navbar-toggler-icon text-light"></span>
+            </button>
             <!-- Mobile search -->
-            <div class="icon-mobile feedback search-open">
-                <a href="#show-search" class="click show-search">
-                    <span class="icon ion-search"></span>
-                    <span>Search</span>
-                </a>
-                <a href="#" class="click hide-search">
-                    <span class="icon ion-search"></span>
-                    <span>Search</span>
-                </a>
-            </div>
-            <!-- Mobile search end -->
-        </div>
+            <button
+                class="btn btn-link nav-link text-light mr-auto d-lg-none"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarSearch"
+                aria-controls="navbarSearch"
+                aria-expanded="false"
+                aria-label="Toggle search bar"
+            >
+                <span class="icon ion-search"></span> Search
+            </button>
 
-        <div class="logo-holder">
-            <div class="logo">
-                <a href="{{ HOME.url }}"><img src="{% static 'img/ietf-logo.gif' %}" alt="IETF logo"></a>
-            </div>
-        </div>
-
-        <div class="nav-holder">
-            <!-- Hides sub nav on mobile / shows on desktop-->
-            <div class="mobile-tablet">
-                <ul class="nav-sub">
-                    <li>
-                        <a href="{{ BLOG_INDEX.url }}"> News &amp; blog</a>
-                    </li>
-                    <li>
-                        <a href="{{ settings.utils.SecondaryMenu.contact_page.url }}">Contact</a>
-                    </li>
-                    <li class="search search-open">
-                        <a href="#show-search" class="click show-search">
-                            <span class="icon ion-search"></span>
-                            <span>Search</span>
-                        </a>
-                        <a href="#" class="click hide-search">
-                            <span class="icon ion-search"></span>
-                            <span>Search</span>
-                        </a>
-                    </li>
-                    <li class="more">
-                        <a href="{% if settings.utils.SecondaryMenu.tools_page %}{% pageurl settings.utils.SecondaryMenu.tools_page %}{% endif %}">Tools</a>
-                        <ul>
-                            {% for item in settings.utils.SecondaryMenu.tools_menu_items.all %}
-                                <li><a href="{{ item.url}}">{{ item.title }}</a></li>
-                            {% endfor %}
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-
-            <nav>
-                <ul>
+            <h1 class="navbar-brand header__title"
+                ><a class="text-light" href="{{ HOME.url }}"
+                ><span class="sr-only">IETF</span
+                ><img class="header__logo" src="{% static 'img/ietf-logo.gif' %}" alt="IETF logo"></a
+            ></h1>
+            <div
+                class="collapse navbar-collapse flex-wrap-reverse"
+                id="navbarSupportedContent"
+            >
+                <ul
+                class="navbar-nav col-12 col-xl-8 justify-content-xl-center text-uppercase"
+                >
                     {% for item in MENU %}
-                        <li>
-                            <a {% if item.pk == self.pk %}class="active"{% endif %} href="{{ item.url }}">{{ item.title }}</a>
+                        <li class="nav-item dropdown {% if item.pk == self.pk %} active{% endif %}">
+                            <a href="{{ item.url }}" class="nav-link text-light d-lg-none">{{ item.title }}</a>
+                            <button class="btn btn-link nav-link text-light dropdown-toggle d-none d-lg-block"
+                            id="{{ item.pk }}Dropdown"
+                            role="button"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false">{{ item.title }}</button>
+
                             {% if item.subitems %}
-                                <ul>
+                                <ul
+                                    class="dropdown-menu text-capitalize"
+                                    aria-labelledby="{{ item.pk }}Dropdown"
+                                >
                                     {% for subitem in item.subitems %}
-                                        <li><a {% if subitem.pk == self.pk %}class="active"{% endif %} href="{{ subitem.url }}">{{ subitem.title }}</a></li>
+                                        <li class="dropdown-item {% if subitem.pk == self.pk %} active{% endif %}">
+                                            <a
+                                                class="text-light"
+                                                href="{{ subitem.url }}"
+                                                >{{ subitem.title }}</a
+                                        ></li>
                                     {% endfor %}
                                 </ul>
                             {% endif %}
                         </li>
-                    {% endfor %}
-                </ul>
-            </nav>
 
-            <!-- Hides sub nav on desktop / shows on mobile-->
-                <ul class="nav-sub mobile-show-tab">
-                    <li>
-                        <a href="{{ BLOG_INDEX.url }}"> News &amp; blogs</a>
+                    {% endfor %}
+
+                </ul>
+
+                <ul class="navbar-nav col-12 col-xl-4">
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="{{ BLOG_INDEX.url }}"> News &amp; blog</a>
                     </li>
-                    <li>
-                        <a href="{{ settings.utils.SecondaryMenu.contact_page.url }}">Contact</a>
+                    <li class="nav-item">
+                        <a
+                            href="{{ settings.utils.SecondaryMenu.contact_page.url }}"
+                            class="nav-link text-light">Contact</a>
                     </li>
-                    <li class="search search-open">
-                        <a href="#show-search" class="click show-search">
-                            <span class="icon ion-search"></span>
-                            <span>Search</span>
+                    <li class="nav-item d-none d-lg-inline-block">
+                        <a
+                        href="#search"
+                        class="btn btn-link nav-link text-light "
+                        role="button"
+                        data-toggle="collapse"
+                        data-target="#navbarSearch"
+                        aria-controls="navbarSearch"
+                        aria-expanded="false"
+                        aria-label="Toggle search bar"
+                        >
+                        <span class="icon ion-search"></span> Search
                         </a>
-                        <a href="#" class="click hide-search">
-                            <span class="icon ion-search"></span>
-                            <span>Search</span>
-                        </a>
                     </li>
-                    <li class="more">
-                        <a href="{% if settings.utils.SecondaryMenu.tools_page %}{% pageurl settings.utils.SecondaryMenu.tools_page %}{% endif %}">Tools</a>
-                        <ul>
+                    <li class="nav-item dropdown">
+                        <a href="{% if settings.utils.SecondaryMenu.tools_page %}{% pageurl settings.utils.SecondaryMenu.tools_page %}{% endif %}" class="nav-link text-light d-lg-none">Tools</a>
+                        <button class="btn btn-link nav-link text-light dropdown-toggle d-none d-lg-block" id="toolsDropdown"
+                        role="button"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false">Tools</button>
+                        <ul class="dropdown-menu bg-secondary">
                             {% for item in settings.utils.SecondaryMenu.tools_menu_items.all %}
-                                <li><a href="{{ item.url}}">{{ item.title }}</a></li>
+                                <li class="dropdown-item"
+                                    ><a class="text-light" href="{{ item.url}}">{{ item.title }}</a></li
+                                >
                             {% endfor %}
                         </ul>
                     </li>
                 </ul>
+            </div>
         </div>
     </div>
-
 </header>
