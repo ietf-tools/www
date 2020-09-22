@@ -16,11 +16,20 @@ services:
         depends_on:
             - database
 
+    frontend:
+        restart: on-failure
+        build:
+            context: .
+            dockerfile: docker/Dockerfile
+            target: frontend
+        volumes:
+            - ".:/app"
+
     database:
         restart: on-failure
         image: postgres:11-alpine
         volumes:
-            - "./docker/database:/docker-entrypoint-initdb.d/:ro"
+            - "./docker/database:/docker-entrypoint-initdb.d/"
         environment:
             POSTGRES_DB: "app"
             POSTGRES_USER: "postgres"
