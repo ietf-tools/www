@@ -1,0 +1,25 @@
+{% load wagtailimages_tags %}
+
+<div class="card mb-2">
+    <div class="row no-gutters">
+        <div class="col-md-4">
+            {% image event.main_image height-245 as event_image %}
+            <img class="home_event__image mw-100 h-100" src="{{ event_image.url }}" alt="{{ event.main_image.title }}">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h3 class="card-title"><a href="{{ event.url }}">{{ event.title }}&nbsp;<span class="icon ion-ios-arrow-forward"></span></a></h3>
+                <p class="card-text">{{ event.introduction }}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <small class="border-left border-secondary pl-2">
+                        <span>{{ event.date }}</span>
+                        <span>{{ event.listing_location }}</span>
+                        {% if event.host %}
+                            <span>{{ event.host.title }}</span>
+                        {% endif %}
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

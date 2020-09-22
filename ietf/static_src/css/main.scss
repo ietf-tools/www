@@ -1,8 +1,10 @@
 @import './icons.scss';
 @import './bootstrap-theme.scss';
 @import './fonts.scss';
-@import './pages.scss';
-@import './components/index.scss';
+
+@import './pages.scss'; // Styles for page template
+@import './components/index.scss'; // Styles for global templates/includes files
+@import './snippets/index.scss'; // Styles for snippet templates
 
 body {
     font-family: 'montserrat', Helvetica, arial, sans-serif;

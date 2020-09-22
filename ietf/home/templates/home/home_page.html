@@ -5,192 +5,233 @@
 
 {% block main_content %}
 
-    <div class="body-subtle">
-
-        {% image self.main_image max-4000x4000 as bg_image %}
-
-        <div class="header-image-full main-feature rule-desktop" style="background-image: url({% if bg_image.url %}{{ bg_image.url }}{% else %}{% static 'img/group-01.jpg' %}{% endif %});">
-            <div class="container">
-                <h1>{{ self.heading }}</h1>
-                <p class="intro">{{ self.introduction }}</p>
-              {% if self.button_link %}
-                <a href="{{ self.button_link.url }}" class="btn btn-outline-white btn-big">{{ self.button_text }}</a>
-              {% endif %}
-            </div>
+    <!--  Jumbotron -->
+    {% image self.main_image max-4000x4000 as bg_image %}
+    <section class="jumbotron text-white home_page__jumbotron"
+        style="background-image: url({% if bg_image.url %}{{ bg_image.url }}{% else %}{% static 'img/group-01.jpg' %}{% endif %});">
+        <div class="container position-relative">
+            <h2 class="jumbotron-heading">{{ self.heading }}</h2>
+            <p class="lead">{{ self.introduction }}</p>
+            {% if self.button_link %}
+                <p>
+                    <a href="{{ self.button_link.url }}"
+                        class="btn btn-outline-primary text-white my-2">{{ self.button_text }}</a>
+                </p>
+            {% endif %}
         </div>
+    </section>
 
-        <!-- Events -->
-        <div class="rule-blue body">
-            <div class="container">
-                <div class="two-col">
-                  <div>
-                    <h2 class="home-title">Upcoming events</h2>
-                    <ul class="event-list">
-                      {% with self.upcoming_events.0 as event %}
+    <!-- Events - What's new -->
+    <div class="container">
+        <div class="row">
+            <section class="col-md-6 mb-5">
+                <h2 class="mb-4">Upcoming events</h2>
+                <ul class="list-unstyled">
+                    {% with self.upcoming_events.0 as event %}
                         {% if event %}
-                          {% include "includes/event-w-image.html" %}
+                            {% include "includes/home_event.html" %}
                         {% endif %}
-                      {% endwith %}
-                      {% with self.upcoming_events.1 as event %}
+                    {% endwith %}
+                    {% with self.upcoming_events.1 as event %}
                         {% if event %}
-                          {% include "includes/event-w-image.html" %}
+                            {% include "includes/home_event.html" %}
                         {% endif %}
-                      {% endwith %}
-                    </ul>
-                    <a class="default" href="{{ self.event_index.url }}"><div class="btn btn-secondary-outline sml">All events</div></a>
-                  </div>
-                    <div>
-                        <h2 class="home-title">What's new?</h2>
-                        <ul class="teaser-blog">
-                          {% for blog in self.blogs %}
-                            <li>
-                                <h3><a href="{{ blog.url }}">{{ blog.title }}</a></h3>
-                                <p>{{ blog.feed_text }}</p>
-                                <small>
-                                    <span class="title">{{ blog.author.name }}</span>
-                                    <span>{{ blog.author.title }}</span>
-                                    <span>{{ blog.date|date:"DATE_FORMAT" }}</span>
-                                </small>
-                            </li>
-                          {% endfor %}
-                        </ul>
-                        <a class="default" href="{{ self.blog_index.url }}"><div class="btn btn-secondary-outline sml">All news</div></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Sign up -->
-        <div class="rule-blue body-no-space">
-            <div class="home-search container">
-                <div class="home-search__item home-search__item--search">
-                    <h2 class="home-title top">Search the IETF email archive</h2>
-                    <p class="home-search__text">Much of the daily work of the IETF is conducted on electronic mailing lists. A new mail archive tool realizing the requirements developed in <a href="https://datatracker.ietf.org/doc/rfc6778/">RFC 6778</a> is now in use:</p>
-                    <div class="standard-form">
-                        <form class="search-mail-list" action="https://mailarchive.ietf.org/arch/search/" method="GET" target="_blank">
-                            <label for="home-search" style="display: none;">Search</label>
-                            <input id="home-search" aria-label="search the email archive" type="text" placeholder="Search the email archive" name="q" required="">
-                            <button class="" type="submit">Go</button>
-                        </form>
-                    </div>
-                </div>
-
-                <div class="home-search__item home-search__item--data-tracker">
-                    <h2 class="home-title top">Search IETF Datatracker</h2>
-                    <p class="home-search__text">The IETF Datatracker contains data about IETF documents, working groups, meetings, agendas, minutes, presentations, and more:</p>
-                    <div class="standard-form">
-                        <form class="search-mail-list" action="https://datatracker.ietf.org/doc/search/" method="GET" target="_blank">
-                            <label for="search-datatracker" style="display: none;">Search</label>
-
-                            <input id="search-datatracker" aria-label="search datatracker" placeholder="Search datatracker" name="name" type="text">
-                            <button class="" type="submit">Go</button>
-                            <input type="hidden" name="rfcs" value="on">
-                            <input type="hidden" name="activedrafts" value="on">
-                            <input type="hidden" name="by" value="group">
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="rule-blue body">
-            <!-- Undertstanding process -->
-            <div class="container">
-                <h2 class="home-title">Understanding the Internet Engineering Task Force</h2>
-                <div class="eight">
-                  <div class="jsonly">
-                    <ul class="tab-process">
-                        <li class="first-tab-toggle active">
-                            Working Groups
-                        </li>
-                        <li class="second-tab-toggle">
-                            Request for Comments (RFC<span style="text-transform: lowercase">s</span>)
-                        </li>
-                    </ul>
-                  </div>
-                    <!-- content -->
-                    <!-- first tab content -->
-                    <div class="tab-process-content first-tab active">
-                      <h2 class="nojs">Working groups</h2>
-                      <p>{{ self.working_groups_section_body }}</p>
-                      <ul class="actions">
-                          {% for link in self.working_groups_section_links.all %}
-                            <li><a class="default" href="{{ link.link }}">{{ link.title }}</a></li>
-                          {% endfor %}
-                        </ul>
-                    </div>
-                    <!-- second tab content -->
-                    <div class="tab-process-content second-tab">
-                      <h2 class="nojs">Request for Comments (RFC<span style="text-transform: lowercase">s</span>)</h2>
-                      <p>{{ self.request_for_comments_section_body }}</p>
-                      <ul class="actions">
-                          {% for link in self.request_for_comments_section_links.all %}
-                            <li><a class="default" href="{{ link.link }}">{{ link.title }}</a></li>
-                          {% endfor %}
-                        </ul>
-                    </div>
-                </div>
-                <div class="four desktop">
-                    <!-- first tab content -->
-                    <div class="tab-process-content first-tab active">
-                        <ul class="group-list">
-                            <li>
-                              <h3>Featured Working Group</h3>
-                              {% include 'snippets/working_group.html' with working_group=self.highlighted_working_group %}
-                            </li>
-                        </ul>
-                    </div>
-                    <!-- Second tab content -->
-                    <div class="tab-process-content second-tab">
-                        <ul class="group-list">
-                            <li>
-                              <h3>Featured RFC</h3>
-                              {% include 'snippets/rfc.html' with rfc=self.highlighted_request_for_comment %}
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="body-subtle">
-            <!-- Topics of interest -->
-            <div class="container">
-                <h2 class="home-title top center">Topics of interest</h2>
-                <ul class="topics-teaser three-col no-margin-bottom">
-                  {% for topic in self.primary_topics %}
-                    <li>
-                        <a href="{{ topic.url }}">
-                        {% if topic.feed_image %}
-                          <div class="img-holder">
-                            {% image topic.feed_image max-300x300 as feed_image %}
-                            <img src="{{ feed_image.url }}" alt="{{ topic.feed_image.title }}">
-                          </div>
-                        {% endif %}
-                        <h2>{{ topic.title }}</h2>
-                        <p>{{ topic.introduction }}</p>
-                        </a>
-                    </li>
-                  {% endfor %}
+                    {% endwith %}
                 </ul>
-                <div class="center">
-                    <a href="{{ self.topic_index.url }}"><div class="btn btn-secondary-line">All topics</div></a>
-                </div>
+                <a class="btn btn-outline-primary" href="{{ self.event_index.url }}">All events</a>
+            </section>
+            <section class="col-md-6">
+                <h2 class="mb-4">What's new?</h2>
+                <ul class="list-unstyled">
+                    {% for blog in self.blogs %}
+                        <li class="card mb-2">
+                            <div class="card-body">
+                                <h3>
+                                    <a href="{{ blog.url }}">
+                                        {{ blog.title }}&nbsp;
+                                        <span class="icon ion-ios-arrow-forward"></span>
+                                    </a>
+                                </h3>
+                                <p class="card-text">{{ blog.feed_text }}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="border-left border-secondary pl-2">
+                                        <span>{{ blog.author.name }}</span>
+                                        <span>{{ blog.author.title }}</span>
+                                        <span>{{ blog.date|date:"DATE_FORMAT" }}</span>
+                                    </small>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <a class="btn btn-outline-primary" href="{{ self.blog_index.url }}">All news</a>
+            </section>
+        </div>
+    </div>
+    <hr class="border-primary mb-4" />
+
+    <!-- Search archives-->
+    <div class="container mb-4">
+        <div class="row">
+            <div class="col-lg-7">
+                <h2>Search the IETF email archive</h2>
+                <p>
+                    Much of the daily work of the IETF is conducted on electronic mailing
+                    lists. A new mail archive tool
+                    realizing the requirements developed in
+                    <a href="https://datatracker.ietf.org/doc/rfc6778/">RFC 6778</a>
+                    is now in use:
+                </p>
+                <form
+                    class="input-group mt-3 mb-3"
+                    action="https://mailarchive.ietf.org/arch/search/"
+                    method="GET"
+                    target="_blank"
+                >
+                    <input
+                        type="search"
+                        class="form-control"
+                        placeholder="Search the email archive"
+                        aria-label="Search the email archive"
+                        name="q"
+                        required
+                    />
+                    <button type="submit" class="btn btn-primary">Go</button>
+                </form>
+            </div>
+            <div class="col-lg-5">
+                <h2>Search IETF Datatracker</h2>
+                <p>
+                    The IETF Datatracker contains data about IETF documents, working groups, meetings, agendas, minutes,
+                    presentations, and more:
+                </p>
+                <form
+                    class="input-group mt-3 mb-3"
+                    action="https://datatracker.ietf.org/doc/search/"
+                    method="GET"
+                    target="_blank"
+                >
+                    <input
+                        type="search"
+                        class="form-control"
+                        placeholder="Search datatracker"
+                        aria-label="Search datatracker"
+                        name="name"
+                        required
+                    />
+                    <button type="submit" class="btn btn-primary">Go</button>
+                    <input type="hidden" name="rfcs" value="on" />
+                    <input type="hidden" name="activedrafts" value="on" />
+                    <input type="hidden" name="by" value="group" />
+                </form>
             </div>
         </div>
     </div>
+    <hr class="border-primary mb-4" />
 
-    {% if self.call_to_action.render %}
-    <div class="body-secondary">
-        <div class="container">
-            <div class="body-secondary">
-                <div class="general-CTA">
-                    {{ self.call_to_action.render }}
+    <!-- Understanding IETF -->
+    <section class="container">
+        <h2 class="mb-4">Understanding the Internet Engineering Task Force</h2>
+
+        <div class="row">
+            <div class="col-12 col-lg-7 col-xl-8 mb-4">
+                <h3 class="mb-3">Working Groups</h3>
+                <p>{{ self.working_groups_section_body }}</p>
+                <ul class="list-unstyled">
+                    {% for link in self.working_groups_section_links.all %}
+                        <li>
+                            <a class="btn btn-outline-primary" href="{{ link.link }}">{{ link.title }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-12 col-lg-5 col-xl-4 mb-5">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Featured Working Group</h4>
+
+                        {% with self.highlighted_working_group as working_group %}
+                        <h5 class="card-title text-primary"><a href="{{ working_group.url }}">{{ working_group.name }}</a></h5>
+                        <p class="card-text">{{ working_group.description|truncatechars:200 }}</p>
+                        <small>
+                            <span class="card-link bold">{{ working_group.acronym }}</span>
+
+                            {% if working_group.list_email %}
+                            <a href="mailto:{{ working_group.list_email }}" class="card-link">
+                                <span class="icon ion-ios-paperplane"></span>
+                                {{ working_group.list_email }}
+                            </a>
+                            {% endif %}
+                        </small>
+                        {% endwith %}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    {% endif %}
 
+        <div class="row">
+            <div class="col-12 col-lg-7 col-xl-8 mb-4">
+                <h3 class="mb-3">Request for Comments (RFC<span class="text-lowercase">s</span>)</h3>
+                <p>{{ self.request_for_comments_section_body }}</p>
+                <ul class="list-unstyled">
+                    {% for link in self.request_for_comments_section_links.all %}
+                        <li><a class="btn btn-outline-primary" href="{{ link.link }}">{{ link.title }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-12 col-lg-5 col-xl-4 mb-5">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Featured RFC</h4>
+                        {% with self.highlighted_request_for_comment as rfc %}
+                            <h5 class="card-title text-primary">
+                                <a href="{{ rfc.url }}">{{ rfc.title }}</a>
+                            </h5>
+                            <p class="card-text">{{ rfc.abstract|truncatechars:200 }}</p>
+                            <small><span class="card-link bold">RFC {{ rfc.rfc }}</span><span class="card-link">was: <a
+                                        href="{{ rfc.url }}">{{ rfc.name }}</a></span>
+                                {% if working_group.list_email %}
+                                    <a href="mailto:{{ rfc.working_group.list_email }}" class="card-link"><span
+                                            class="icon ion-ios-paperplane"></span> {{ rfc.working_group.list_email }}</a>
+                                {% endif %}
+                            </small>
+                        {% endwith %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <hr class="border-primary mb-4" />
+
+    <!-- Topics of interest -->
+    <section class="container text-center mb-5">
+        <h2 class="mb-4">Topics of interest</h2>
+        <ul class="list-unstyled row row-cols-1 row-cols-md-2 row-cols-lg-3">
+            {% for topic in self.primary_topics %}
+                <li class="col mb-4">
+                    <div class="card h-100">
+                        <div class="card-img-top">
+                            {% image topic.feed_image max-300x300 as feed_image %}
+                            <img class="embed-responsive-4by3" src="{{ feed_image.url }}" alt="{{ topic.feed_image.title }}">
+                        </div>
+                        <div class="card-body">
+                            <h3>
+                                <a href="{{ topic.url }}" class="stretched-link">{{ topic.title }}</a>
+                            </h3>
+                            <div class="card-body">
+                                <p class="card-text">{{ topic.introduction }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+
+        </ul>
+        <a href="{{ self.topic_index.url }}" class=" btn btn-primary">All topics</a>
+    </section>
+    <section class="bg-primary text-light">
+        <div class="container py-5 home_page__cta-container">
+            {{ self.call_to_action.render }}
+        </div>
+    </section>
 {% endblock main_content %}
