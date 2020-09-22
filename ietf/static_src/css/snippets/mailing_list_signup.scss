@@ -10,6 +10,7 @@
         color: rgba($white, 0.05);
         font-size: 30em;
         line-height: 0.5;
+        overflow: hidden;
     }
     // Sets children position so the absolutely position background icon stays in the background
     & > * {
