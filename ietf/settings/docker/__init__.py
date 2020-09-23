@@ -4,11 +4,12 @@ from typed_environment_configuration import (
     StringListVariable,
     FillVars,
 )
-import dj_database_url
-
 from ..base import *
 
 _ENVVARS = [
+    StringVariable(
+        "APPLICATION_VERSION"
+    ),  # The Application version used across project
     StringListVariable("ADDRESSES", default=""),  # list of allowed addresses
     StringVariable("APP_SECRET_KEY", prefix="APP_"),
     StringVariable("PROJECT"),  # Project namespace
@@ -29,5 +30,3 @@ _DJANGO_ENVVARS = [
 FillVars(_ENVVARS, vars())
 FillVars(_DJANGO_ENVVARS, vars(), "DJANGO_")
 ALLOWED_HOSTS = ADDRESSES
-
-DATABASES = {"default": dj_database_url.parse(DATABASE_URL, conn_max_age=600)}
