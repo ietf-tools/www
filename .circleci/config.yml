@@ -1,0 +1,71 @@
+version: 2.1
+
+orbs:
+  buildkit: springload/buildkit@0.0.7
+
+workflows:
+  build_test_and_push_image:
+    jobs:
+      - buildkit/builder:
+          cache_version: v4
+          builds:
+            - buildkit/build: # call the build command multiple times to build multiple images
+                target: app # build this stage
+                tag: app # no tag no docker image
+                path: docker
+          after-builds:
+            - add_ssh_keys
+            - run:
+                name: initialise submodules
+                command: |-
+                  ssh-add -L | tail -n1 > last.pub
+                  GIT_SSH_COMMAND="ssh -i last.pub" git submodule update --init
+              #            - run:
+              #                  name: run tests
+              #                  command: |-
+              #                      set -eu
+              #
+              #                      DATABASE_PASSWORD="$( head -c 24 /dev/urandom | xxd -p | tr -d '\n ')"
+              #                      docker run --name=database \
+              #                          -ePOSTGRES_DB=app_test \
+              #                          -ePOSTGRES_PASSWORD=$DATABASE_PASSWORD \
+              #                          -d postgres:11-alpine
+              #                      docker run \
+              #                          -i --name app-test --rm \
+              #                          --link=database --link=cache --link=search \
+              #                          -eDATABASE_URL="postgres://postgres:$DATABASE_PASSWORD@database/app_test" \
+              #                          -eENVIRONMENT=test \
+              #                          app-test
+            - run:
+                name: tag, push and deploy images
+                command: |-
+                    set -eu
+                    if [ "${CIRCLE_BRANCH}" == "deploy/preview" ] || [ "${CIRCLE_BRANCH}" == "deploy/production" ]; then
+                      ENVIRONMENT=`basename "${CIRCLE_BRANCH}"`
+                      PROJECT=ietf
+                      VERSION=$(git rev-parse --short HEAD)
+                      wget -O ecs-tool.tar.gz https://github.com/springload/ecs-tool/releases/download/1.5.1/ecs-tool_1.5.1_linux_amd64.tar.gz && tar -C /usr/bin -xvf ecs-tool.tar.gz ecs-tool
+                      apk add jq
+                      export AWS_REGION=us-west-2
+                      export AWS_DEFAULT_REGION=us-west-2
+                      export REPOSITORY=$(ecs-tool ecr-endpoint)
+                      eval $(ecs-tool ecr-login)
+                      pids=""
+                      for image in app; do
+                        for tag in ${ENVIRONMENT}-${VERSION} ${ENVIRONMENT}-latest; do
+                          docker tag ${image} ${REPOSITORY}/${PROJECT}-${image}:${tag}
+                          docker push ${REPOSITORY}/${PROJECT}-${image}:${tag} &
+                          pids="${pids} $!"
+                        done
+                      done
+                      for p in $pids; do
+                        wait $p
+                      done
+
+                      echo "updating the ssm parameter with ejson configuration"
+                      ecs-tool -p "" -e "${ENVIRONMENT}" ejson -f infra/ssm.ejson
+                      # running the pre-deployment commands
+                      ecs-tool -p "" -e "${ENVIRONMENT}" run --image_tag "${ENVIRONMENT}-${VERSION}" -- ./deploy.sh
+                      # deploy new services in parallel
+                      ecs-tool -p "" -e "${ENVIRONMENT}" deploy --image_tag "${ENVIRONMENT}-${VERSION}"
+                    fi
