@@ -163,6 +163,7 @@ CACHES = {
         "BACKEND": "django.core.cache.backends.db.DatabaseCache",
         "LOCATION": "cache_table",
     },
+    "dummy": {"BACKEND": "django.core.cache.backends.dummy.DummyCache"},
 }
 
 
