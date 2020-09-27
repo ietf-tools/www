@@ -1,8 +1,8 @@
-<footer class="bg-secondary text-light py-5">
+<footer class="bg-secondary text-light py-4">
     <div class="container">
         <ul class="nav row">
             {% for item in settings.utils.FooterLinks.footer_link_items.all %}
-                <li class="nav-item"><a class="text-light" href="{{ item.link }}">{{ item.title }}</a></li>
+                <li class="nav-item"><a class="nav-link text-light" href="{{ item.link }}">{{ item.title }}</a></li>
             {% endfor %}
         </ul>
     </div>
