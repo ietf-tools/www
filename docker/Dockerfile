@@ -1,5 +1,5 @@
 # Frontend assets
-FROM node:12-alpine as frontend
+FROM node:erbium-alpine as frontend
 
 ENV NODE_PATH=/node_modules
 ENV PATH="${PATH}:/node_modules/.bin"
