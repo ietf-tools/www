@@ -1,10 +1,12 @@
 #!/bin/sh
 
-set -e
-
 cd /docker-entrypoint-initdb.d
 
+set +e
 FILE=$(ls -1 ietfa.torchbox.* | head)
+
+set -e
+
 if [ -s "${FILE}" ]; then
 	echo "Found ${FILE}, converting..."
 	case $FILE in
@@ -18,10 +20,10 @@ if [ -s "${FILE}" ]; then
 		pg_restore -xO -f dump.sql "$FILE"
 		;;
 	esac
+	# schema public is already created
 	echo "Hotfixing the dump"
 	sed -i -e '/CREATE SCHEMA public/d' dump.sql
 else
-	echo "No dump, failing"
-	exit 1
+	echo "No dump, starting fresh."
 fi
 
