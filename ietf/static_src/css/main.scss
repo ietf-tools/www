@@ -5,6 +5,7 @@
 @import './pages.scss'; // Styles for page template
 @import './components/index.scss'; // Styles for global templates/includes files
 @import './snippets/index.scss'; // Styles for snippet templates
+@import './utilities.scss'; // Utility classes that don't exist in Bootstrap yet
 
 body {
     font-family: 'montserrat', Helvetica, arial, sans-serif;

@@ -210,9 +210,9 @@
             {% for topic in self.primary_topics %}
                 <li class="col mb-4">
                     <div class="card h-100">
-                        <div class="card-img-top">
-                            {% image topic.feed_image max-300x300 as feed_image %}
-                            <img class="embed-responsive-4by3" src="{{ feed_image.url }}" alt="{{ topic.feed_image.title }}">
+                        {% image topic.feed_image max-300x300 as feed_image %}
+                        <div class="embed-responsive embed-responsive-4by3" style="background-image: url(feed_image.url)">
+                            <img class="card-img-top embed-responsive-item u-obj-contain" src="{{ feed_image.url }}" alt="{{ topic.feed_image.title }}">
                         </div>
                         <div class="card-body">
                             <h3>
