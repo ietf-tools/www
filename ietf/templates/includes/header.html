@@ -25,7 +25,7 @@
             </div>
         </div>
     </div>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-secondary text-light" aria-label="Main navigation">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark text-light" aria-label="Main navigation">
         <div class="container">
             <button
                 class="navbar-toggler"
@@ -80,10 +80,10 @@
                                     {{ item.title }}
                                 </button>
 
-                                <ul class="dropdown-menu bg-secondary" aria-labelledby="{{ item.pk }}Dropdown">
+                                <ul class="dropdown-menu bg-dark" aria-labelledby="{{ item.pk }}Dropdown">
                                     {% for subitem in item.subitems %}
-                                        <li class="dropdown-item {% if subitem.pk == self.pk %} active{% endif %}">
-                                            <a class="text-light" href="{{ subitem.url }}">{{ subitem.title }}</a>
+                                        <li class="dropdown-item position-relative{% if subitem.pk == self.pk %} active{% endif %}">
+                                            <a class="text-light stretched-link" href="{{ subitem.url }}">{{ subitem.title }}</a>
                                         </li>
                                     {% endfor %}
                                 </ul>
@@ -134,10 +134,10 @@
                         >
                             Tools
                         </button>
-                        <ul class="dropdown-menu bg-secondary">
+                        <ul class="dropdown-menu bg-dark">
                             {% for item in settings.utils.SecondaryMenu.tools_menu_items.all %}
-                                <li class="dropdown-item">
-                                    <a class="text-light" href="{{ item.url}}">{{ item.title }}</a>
+                                <li class="dropdown-item position-relative">
+                                    <a class="text-light stretched-link" href="{{ item.url}}">{{ item.title }}</a>
                                 </li>
                             {% endfor %}
                         </ul>
