@@ -4,7 +4,7 @@
 {% block body_class %}template-{{ self.get_verbose_name|slugify }}{% endblock %}
 
 {% block main_content %}
-
+<main role="main">
     <!--  Jumbotron -->
     {% image self.main_image max-4000x4000 as bg_image %}
     <section class="jumbotron text-white home_page__jumbotron"
@@ -234,4 +234,5 @@
             {{ self.call_to_action.render }}
         </div>
     </section>
+</main>
 {% endblock main_content %}
