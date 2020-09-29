@@ -10,7 +10,7 @@ workflows:
           cache_version: v4
           builds:
             - buildkit/build: # call the build command multiple times to build multiple images
-                target: app # build this stage
+                target: aws-app # build this stage
                 tag: app # no tag no docker image
                 path: docker
           after-builds:

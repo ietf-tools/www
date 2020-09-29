@@ -2,7 +2,7 @@
 
 ## Quick start
 
-### Run in Docker
+### Run in Docker locally
 
 This project uses Docker to build and run the code, both frontend and backend.
 So the only requirement to run it locally is a recent version of Docker with docker-compose.
@@ -11,7 +11,7 @@ So the only requirement to run it locally is a recent version of Docker with doc
 
 1. (Optional) Obtain a recent database dump with name like `ietfa.torchbox.*.gz` and place in `docker/database/` directory. Otherwise, it will start with a fresh database.
 2. Obtain and unarchive media files into `media/` folder.
-3. Run `docker-compose up`. It will build and start the frontend builder (`yarn run start`) and the backend (`python manage.py runserver` analog), along with a Postgresql database.
+3. Run `docker-compose up`. It will build and start the frontend builder (`yarn run start`) and the backend (`python manage.py runserver` analog), along with a Postgresql database. The first run will take a while because the database dump needs to be restored.
 4. After the frontend compilation finishes, the website should become available at http://localhost:8081
 5. To destroy everything (i.e. start the database from scratch) run `docker-compose down`.
 
