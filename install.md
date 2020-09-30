@@ -1,3 +1,3 @@
-INSTALL
-=======
+INSTALL NOW
+===========
 
