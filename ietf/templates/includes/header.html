@@ -25,7 +25,10 @@
             </div>
         </div>
     </div>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark text-light" aria-label="Main navigation">
+    <nav
+        class="navbar navbar-expand-lg navbar-dark bg-dark text-light"
+        aria-label="Main navigation"
+    >
         <div class="container">
             <button
                 class="navbar-toggler"
@@ -52,14 +55,23 @@
                 Search
             </button>
 
-            <h1 class="navbar-brand header__title">
+            <div class="navbar-brand header__logo-container">
                 <a class="text-light" href="{{ HOME.url }}">
                     <span class="sr-only">IETF</span>
-                    <img class="header__logo" src="{% static 'img/ietf-logo.gif' %}" alt="IETF logo" />
+                    <img
+                        class="header__logo"
+                        src="{% static 'img/ietf-logo.gif' %}"
+                        alt="IETF logo"
+                    />
                 </a>
-            </h1>
-            <div class="collapse navbar-collapse flex-wrap-reverse" id="navbarSupportedContent">
-                <ul class="navbar-nav col-12 col-xl-auto justify-content-xl-center flex-grow">
+            </div>
+            <div
+                class="collapse navbar-collapse flex-wrap-reverse"
+                id="navbarSupportedContent"
+            >
+                <ul
+                    class="navbar-nav col-12 col-xl-auto justify-content-xl-center flex-grow"
+                >
                     {% for item in MENU %}
                         <li class="nav-item dropdown {% if item.pk == self.pk %} active{% endif %}">
                             <a
