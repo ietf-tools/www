@@ -7,315 +7,111 @@
 {% endblock extra_meta %}
 
 {% block main_content %}
-<div class="bg-white">
-<div class="container">
-    <div class="row flex-row-reverse no-gutters">
-        <aside class="col-12 col-lg-4">
-            {% include "includes/blog_sidebar.html" with siblings=siblings current=self %}
-        </aside>
-        <div class="col-12 col-lg-8">
-            <form method="GET" action="{{ parent_url }}" class="input-group">
-                <select aria-label="Topic" class="form-control bg-light" name="topic">
-                    <option value="">All</option>
-                    {% for topic in topics %}
-                        <option
-                            value="{{ topic.0 }}"
-                            {% if filter_topic.pk == topic.0 %}selected="selected"{% endif %}
-                        >
-                            {{ topic.1 }}
-                        </option>
-                    {% endfor %}
-                </select>
-                <input
-                    class="form-control"
-                    aria-label="Date from"
-                    placeholder="Date from"
-                    name="date_from"
-                    type="text"
-                    {% if request.GET.date_from %}value="{{ request.GET.date_from }}"{% endif %}
-                />
-                <input
-                    class="form-control"
-                    aria-label="Date to"
-                    placeholder="Date to"
-                    name="date_to"
-                    type="text"
-                    {% if request.GET.date_to %}value="{{ request.GET.date_to }}"{% endif %}
-                />
-                <div class="input-group-append">
-                    <button class="btn btn-outline-primary" type="submit">Filter</button>
-                </div>
-            </form>
-            <main role="main">
-                
-            </main>
-        </div>
-    </div>
-</div>
-</div>
-{# sidebar #}       
-{% comment %} <div class="container">
-    <div class="row">
-        <ul class="mobile-buttons">
-            {# checkbox hack #}
-            <label for="toggle-mobile-blog-listing" class="toggle-blog-list-heading">Blog listing</label>
-            <input type="checkbox" id="toggle-mobile-blog-listing" aria-label="Blog listing">
-            <label for="toggle-mobile-filters" class="toggle-listing-list-heading">Show filters</label>
-            <input type="checkbox" id="toggle-mobile-filters" aria-label="Show filters">
-            {# end hack #}
-            <li class="toggler mobile-blog-listing">
-                <ul class="list-content sticky-listing">
-                    {% for sibling in siblings %}
-                    <li>
-                        <a href="{{ sibling.url }}">
-                            <div class="text">
-                                {% if sibling.slug == self.slug %}<div class="active-triangle"></div>{% endif %}
-                                    <h3>{{ sibling.title }}</h3>
-                                <p>{{ sibling.feed_text }}</p>
-                                {% for a in sibling.authors.all %}
-                                    <ul class="meta">
-                                        <li class="title">{{ a.author.name }}</li>
-                                        {% if a.role %}
-                                            <li>{{ a.role.name }}</li>
-                                        {% endif %}
-                                    </ul>
-                                {% endfor %}
-                                <ul class="meta">
-                                    <li class="title">{{ sibling.author_group.name }}</li>
-                                    <li>{{ sibling.author_group.role.name }}</li>
-                                </ul>
-                                <ul class="meta">
-                                    <li>{{ sibling.date|date:"DATE_FORMAT" }}</li>
-                                </ul>
-                            </div>
-                        </a>
-                    </li>
-                    {% empty %}
-                        <li>
-                            <div class="text">
-                                <p>No results</p>
-                            </div>
-                        </li>
-                    {% endfor %}
-                    <li>
-                        <a href="{% routablepageurl self.get_parent.specific 'all_entries' %}">
-                            <div class="text">
-                                <p>Show all</p>
-                            </div>
-                        </a>
-                    </li>
-                    <div class="toggle-list-close">Close blog listing</div>
-                </ul>
-            </li>
-            <li class="toggler mobile-filters">
-                <ul class="list-content">
-                    <li class="hide-filters show">
-                        <form method="GET" action="{{ parent_url }}">
-                            <div class="left-side-bleed"></div>
-                            <div class="right-side-bleed"></div>
-                            <ul class="horizontal-filters three-col no-margin cf">
-                                <li class="filter-select">
-                                    <span>TOPICS</span>
-                                    <select name="topic">
-                                        <option value="">All</option>
-                                        {% for topic in topics %}
-                                        <option value="{{ topic.0 }}" {% if filter_topic.pk == topic.0 %}selected="selected"{% endif %}>{{ topic.1 }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </li>
-                                <li class="date-picker">
-                                    <input aria-label="date from" type="text" class="date-from" name="date_from" placeholder="Date from" {% if request.GET.date_from %}value="{{ request.GET.date_from }}"{% endif %}>
-                                    <input aria-label="date to" type="text" class="date-to" name="date_to" placeholder="Date to" {% if request.GET.date_to %}value="{{ request.GET.date_to }}"{% endif %}>
-                                </li>
-                            </ul>
-                                <div class="cf">
-                            <input class="search-button" type="submit" value="Filter"></input>
-                            </div>
-                        </form>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-        {# search #}
-        <div class="sticky-friend eight none body-white bottom-space" style="clear:both;">
-            <div class="hide-filters">
-                <form method="GET" action="{{ parent_url }}">
-                    <div class="left-side-bleed"></div>
-                    <div class="right-side-bleed"></div>
-                    <ul class="horizontal-filters two-col no-margin cf">
-                        <li class="filter-select">
-                            <span>TOPICS</span>
-                            <select name="topic">
-                                <option value="">All</option>
-                                {% for topic in topics %}
-                                <option value="{{ topic.0 }}" {% if filter_topic.pk == topic.0 %}selected="selected"{% endif %}>{{ topic.1 }}</option>
-                                {% endfor %}
-                            </select>
-                        </li>
-                        <li class="date-picker">
-                            <input aria-label="date from" type="text" class="date-from" name="date_from" placeholder="Date from" {% if request.GET.date_from %}value="{{ request.GET.date_from }}"{% endif %}>
-                            <input aria-label="date to" type="text" class="date-to" name="date_to" placeholder="Date to" {% if request.GET.date_to %}value="{{ request.GET.date_to }}"{% endif %}>
-                        </li>
-                    </ul>
-                    <div class="cf">
-                    <input class="search-button" type="submit" value="Filter"></input>
+<main role="main" class="bg-white">
+    <div class="container">
+        <div class="row flex-row-reverse no-gutters">
+            <aside class="col-12 col-lg-4">
+                {% include "includes/blog_sidebar.html" with siblings=siblings current=self %}
+            </aside>
+            <div class="col-12 col-lg-8">
+                <form method="GET" action="{{ parent_url }}" class="input-group mb-5">
+                    <select aria-label="Topic" class="form-control bg-light" name="topic">
+                        <option value="">All</option>
+                        {% for topic in topics %}
+                            <option
+                                value="{{ topic.0 }}"
+                                {% if filter_topic.pk == topic.0 %}selected="selected"{% endif %}
+                            >
+                                {{ topic.1 }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                    <input
+                        class="form-control"
+                        aria-label="Date from"
+                        placeholder="Date from"
+                        name="date_from"
+                        type="text"
+                        {% if request.GET.date_from %}value="{{ request.GET.date_from }}"{% endif %}
+                    />
+                    <input
+                        class="form-control"
+                        aria-label="Date to"
+                        placeholder="Date to"
+                        name="date_to"
+                        type="text"
+                        {% if request.GET.date_to %}value="{{ request.GET.date_to }}"{% endif %}
+                    />
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-primary" type="submit">Filter</button>
                     </div>
                 </form>
-            </div>
-            <div class="body container">
-                {% if filter_text %}
-                    <h2 class="searched">{{ filter_text }}</h2>
-                {% endif %}
-                {% include 'includes/breadcrumbs.html' %}
-                <h1>{{ self.title }}</h1>
-                {% for a in self.authors.all %}
-                    <ul class="meta">
-                        <li class="title">{{ a.author.name }}</li>
-                        {% if a.role %}
-                            <li>{{ a.role.name }}</li>
+                <div class="px-3 px-xl-5 mb-5">
+                    {% include 'includes/breadcrumbs.html' %}
+                    <h1>{{ self.title }}</h1>
+                    <ul class="list-unstyled" aria-label="Authors">
+                        {% for author in self.authors.all %}
+                            <li class="mb-3">
+                                <span class="d-inline-block">{{ author.author.name }}</span>
+                                {% if author.role %}
+                                    <span class="ml-3 d-inline-block">{{ author.role.name }}</span>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                        {% if self.author_group.name %}
+                            <li class="mb-3">
+                                <span class="d-inline-block">{{ self.author_group.name }}</span>
+                                {% if self.author_group.role %}
+                                    <span class="ml-3 d-inline-block">{{ self.author_group.role.name }}</span>
+                                {% endif %}
+                            </li>
                         {% endif %}
                     </ul>
-                {% endfor %}
-                <ul class="meta">
-                    <li class="title">{{ self.author_group.name }}</li>
-                    <li>{{ self.author_group.role.name }}</li>
-                </ul>
-                <ul class="meta">
-                    <li>{{ self.date|date:"DATE_FORMAT" }}</li>
-                </ul>
-                <p class="intro">{{ self.introduction }}</p>
+                    <p>{{ self.date|date:"DATE_FORMAT" }}</p>
+                    <p class="lead">{{ self.introduction }}</p>
 
-                {{ self.prepared_body|safe }}
+                    {{ self.prepared_body|safe }}
 
-                {% bibliography self %}
+                    {% bibliography self %}
 
-            </div>
-        </div>
-        <div class="blog-listing sticky-item">
-            <ul class="list-content sticky-listing">
-                {% for sibling in siblings %}
-                    <li {% if sibling.slug == self.slug %} class="active"{% endif %}>
-                        <a href="{{ sibling.url }}{{ query_string }}">
-                            {% if sibling.slug == self.slug %}<div class="active-triangle"></div>{% endif %}
-                            <div class="text">
-                                <h3>{{ sibling.title }}</h3>
-                                <p>{{ sibling.feed_text }}</p>
-                                {% for a in sibling.authors.all %}
-                                    <ul class="meta">
-                                        <li class="title">{{ a.author.name }}</li>
-                                        {% if a.role %}
-                                            <li>{{ a.role.name }}</li>
-                                        {% endif %}
-                                    </ul>
-                                {% endfor %}
-
-                                {% if sibling.author_group %}
-                                    <ul class="meta">
-                                        <li class="title">{{ sibling.author_group.name }}</li>
-                                        <li>{{ sibling.author_group.role.name }}</li>
-                                    </ul>
-                                {% endif %}
-
-                                <ul class="meta">
-                                    <li>{{ sibling.date|date:"DATE_FORMAT" }}</li>
-                                </ul>
-                            </div>
+                    {% include "includes/social_share.html" only %}
+                </div>
+                <div class="row no-gutters d-none d-md-flex">
+                    <div class="col-6 bg-primary p-4 pl-5 d-flex align-items-center">
+                        <a class=" text-light" href="{{ self.previous.url }}">
+                            <p class="sub">
+                                <div class="h6 text-uppercase">Previous</div>{{ self.previous.title }}
+                            </p>
                         </a>
-                    </li>
-                {% empty %}
-                    <li>
-                        <div class="text">
-                            <p>No results</p>
-                        </div>
-                    </li>
-                {% endfor %}
-                {% if filter_topic %}
-                     <li>
-                        <a href="{% routablepageurl self.get_parent.specific 'filtered_entries' filter_topic.slug %}">
-                            <div class="text">
-                                <p>Show all in {{ filter_topic.title }}</p>
-                            </div>
+                    </div>
+                    <div class="col-6 bg-secondary p-4 pr-5 d-flex align-items-center">
+                        <a class=" text-light" href="{{ self.next.url }}">
+                            <p class="sub">
+                                <div class="h6 text-uppercase">Next</div>{{ self.next.title }}
+                            </p>
                         </a>
-                    </li>
-                {% endif %}
-                <li>
-                    <a href="{% routablepageurl self.get_parent.specific 'all_entries' %}">
-                        <div class="text">
-                            <p>Show all</p>
-                        </div>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
-
-
-{# highlights mobile #}
-<div class="highlights push-up cf mobile-show-tablet">
-    <div class="container">
-        <div class="eight none">
-            <a class="blog-pagination" href="{{ self.previous.url }}">
-                <div class="highlight smaller">
-                    <div class="text">
-                        <p class="sub">
-                            <h3 class="small">Previous</h3>{{ self.previous.title }}
-                        </p>
                     </div>
                 </div>
-            </a>
-            <a class="blog-pagination" href="{{ self.next.url }}">
-                <div class="highlight smaller">
-                    <div class="text">
-                        <p class="sub">
-                           <h3 class="small">Next</h3>{{ self.next.title }}
-                        </p>
-                    </div>
-                </div>
-            </a>
-        </div>
-    </div>
-</div>
-{# highlights desktop #}
-<div class="highlights">
-    <div class="row container">
-        <div class="eight">
-            <div class="highlights tablet-desktop">
-                <a class="blog-pagination" href="{{ self.previous.url }}">
-                    <div class="highlight smaller">
-                        <div class="text">
-                            <p class="sub">
-                                <h3 class="small">Previous</h3>{{ self.previous.title }}
-                            </p>
-                        </div>
-                    </div>
-                </a>
-                <a class="blog-pagination" href="{{ self.next.url }}">
-                    <div class="highlight smaller">
-                        <div class="text">
-                            <p class="sub">
-                                <h3 class="small">Next</h3>{{ self.next.title }}
-                            </p>
-                        </div>
-                    </div>
-                </a>
             </div>
         </div>
     </div>
-</div>
+    <div class="row no-gutters d-md-none">
+        <div class="col-12 bg-primary p-4">
+            <a class=" text-light" href="{{ self.previous.url }}">
+                <p class="sub">
+                    <div class="h6 text-uppercase">Previous</div>{{ self.previous.title }}
+                </p>
+            </a>
+        </div>
+        <div class="col-12 bg-secondary p-4">
+            <a class=" text-light" href="{{ self.next.url }}">
+                <p class="sub">
+                    <div class="h6 text-uppercase">Next</div>{{ self.next.title }}
+                </p>
+            </a>
+        </div>
+    </div>
+</main>
+
 {% endblock %}
 
-{% block extra_js %}
-    <script type="text/javascript">
-     $(function() {
-         var container = $('.blog-listing'),
-             scrollTo = $('.active');
-
-         if (scrollTo) {
-            container.delay(500).animate({
-                scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop()
-            })
-         }
-     });
-    </script>
-{% endblock %}

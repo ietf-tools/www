@@ -29,6 +29,7 @@
     @include media-breakpoint-up(xl) {
         height: 100%;
         box-sizing: inherit;
+        border: none;
     }
 }
 

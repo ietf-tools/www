@@ -4,6 +4,7 @@
 // Variables used in reboot
 $body-color: #333741;
 $body-bg: #f3f5f6;
+$font-family-base: 'montserrat', Helvetica, arial, sans-serif;
 $link-color: #1762bb;
 
 $theme-colors: (
@@ -29,9 +30,15 @@ $container-max-widths: (
     xl: 1300px,
 );
 
+$headings-font-weight: 400;
+$headings-font-family: 'aktiv-grotesk', 'HelveticaNeue-Light', helvetica arial,
+    sans-serif;
+
 $dropdown-bg: $dark;
 $dropdown-link-color: $light;
 $dropdown-link-active-bg: $dark;
 $dropdown-link-hover-bg: $dark;
+
+$breadcrumb-divider: quote('>');
 
 @import '~bootstrap/scss/bootstrap';

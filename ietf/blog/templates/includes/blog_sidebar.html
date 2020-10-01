@@ -2,26 +2,37 @@
 
 <ul class="list-unstyled">
     {% for sibling in siblings %}
-        <li class="card border-top-0 {% if sibling.slug == current.slug %}bg-white{% else %}bg-light{% endif %}">
+        <li
+            class="card border-top-0 {% if sibling.slug == current.slug %}bg-white{% else %}bg-light{% endif %}"
+        >
             <div class="card-body">
-                <h2 class="h4"><a class="stretched-link" href="{{ sibling.url }}">{{ sibling.title }}</a></h2>
+                <h2 class="h4">
+                    <a class="stretched-link" href="{{ sibling.url }}"
+                        >{{ sibling.title }}</a
+                    >
+                </h2>
                 <p class="card-text">{{ sibling.feed_text }}</p>
                 <ul class="list-unstyled" aria-label="Authors">
                     {% for author in sibling.authors.all %}
                         <li class="mb-3">
-                            <span class="card-link d-inline-block">{{ author.author.name }}</span>
+                            <span class="d-inline-block">{{ author.author.name }}</span>
                             {% if author.role %}
-                                <span class="card-link d-inline-block">{{ author.role.name }}</span>
+                            <span class="ml-3 d-inline-block"
+                                >{{ author.role.name }}</span
+                            >
                             {% endif %}
                         </li>
-                    {% endfor %}
-                    {% if sibling.author_group.name %}
+                    {% endfor %} {% if sibling.author_group.name %}
                         <li class="mb-3">
-                            <span class="card-link d-inline-block">{{ sibling.author_group.name }}</span>
+                            <span class="d-inline-block"
+                                >{{ sibling.author_group.name }}</span
+                            >
                             {% if sibling.author_group.role %}
-                                <span class="card-link d-inline-block">{{ sibling.author_group.role.name }}</span>
-                            {% endif %}
-                        </li>
+                            <span class="ml-3 d-inline-block"
+                                >{{ sibling.author_group.role.name }}</span
+                            >
+                        {% endif %}
+                    </li>
                     {% endif %}
                 </ul>
                 {{ sibling.date|date:"DATE_FORMAT" }}
@@ -34,7 +45,10 @@
     {% endfor %}
     <li class="card border-top-0 bg-light">
         <div class="card-body">
-            <a class="stretched-link" href="{% routablepageurl current.get_parent.specific 'all_entries' %}">
+            <a
+                class="stretched-link"
+                href="{% routablepageurl current.get_parent.specific 'all_entries' %}"
+            >
                 Show all
             </a>
         </div>

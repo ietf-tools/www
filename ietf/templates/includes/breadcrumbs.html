@@ -1,12 +1,13 @@
 {% load wagtailcore_tags %}
 
 {% if self.get_ancestors|length > 1 %}
-    <ul class="breadcrumb">
-        <li><a title="home" href="/"><span class="icon ion-android-home"></span></a></li>
+<nav aria-label="breadcrumbs">
+    <ol class="breadcrumb bg-transparent">
+        <li class="breadcrumb-item h5"><a class="text-dark" title="home" href="/"><span class="sr-only"></span><span class="icon ion-android-home"></span></a></li>
         {% for page in self.get_ancestors %}
             {% if not page.slug == "root" and not page.url == '/' %}
-                <li><a href="{% pageurl page %}">{{ page.title }}</a></li>
+                <li class="breadcrumb-item h5{% if page.url == self.url %} active{% endif %}"><a class="text-dark" href="{% pageurl page %}">{{ page.title }}</a></li>
             {% endif %}
         {% endfor %}
-    </ul>
+    </ol>
 {% endif %}
