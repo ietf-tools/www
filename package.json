@@ -35,19 +35,27 @@
         "lint": "yarn run lint:versions && yarn run lint:js ./app",
         "build": "webpack --mode=development",
         "dist": "webpack --mode=production",
-        "start": "webpack --mode=development --watch"
+        "start": "webpack --mode=development --watch",
+        "test:accessibility": "ts-node ./accessibility-tests/index.ts",
+        "test": "yarn test:accessibility"
     },
     "dependencies": {
+        "@axe-core/puppeteer": "^4.0.0",
         "@babel/polyfill": "^7.10.4",
+        "@buzuli/json": "^2.1.0",
         "autoprefixer": "^9.8.4",
         "babel-loader": "^8.1.0",
         "bootstrap": "^4.5.2",
+        "color-json": "^2.0.1",
         "cssnano": "^4.1.10",
         "ionicons": "^2",
         "jquery": "^3.5.1",
         "node-sass": "^4.14.1",
         "normalize.css": "^8.0.1",
         "popper.js": "^1.16.1",
-        "postcss-normalize": "^9.0.0"
+        "postcss-normalize": "^9.0.0",
+        "puppeteer": "^5.3.1",
+        "ts-node": "^9.0.0",
+        "typescript": "^4.0.3"
     }
 }
