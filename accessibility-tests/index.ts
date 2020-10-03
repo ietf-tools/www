@@ -2,7 +2,7 @@ const { AxePuppeteer } = require('@axe-core/puppeteer');
 const puppeteer = require('puppeteer');
 const colorJson = require('color-json');
 
-const baseUrl = 'https://www.ietf.org'; // @TODO get this from environment variables
+const baseUrl = 'https://www.ietf.org/'; // @TODO get this from environment variables
 
 const testPaths = ['/'];
 
@@ -14,7 +14,9 @@ const testPaths = ['/'];
 
     for (let i = 0; i < testPaths.length; i++) {
         const testPath = testPaths[i];
-        const url = `${baseUrl}${testPath}`;
+        const url = new URL(testPath, baseUrl).toString();
+
+        console.log(url);
         await page.goto(url);
         const allResults = await new AxePuppeteer(page).analyze();
         const seriousViolations = allResults.violations.filter(
