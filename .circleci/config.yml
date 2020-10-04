@@ -10,6 +10,10 @@ workflows:
           cache_version: v4
           builds:
             - buildkit/build: # call the build command multiple times to build multiple images
+                target: frontend # build this stage
+                tag: frontend # no tag no docker image
+                path: docker
+            - buildkit/build: # call the build command multiple times to build multiple images
                 target: aws-app # build this stage
                 tag: app # no tag no docker image
                 path: docker
@@ -21,7 +25,7 @@ workflows:
                   ssh-add -L | tail -n1 > last.pub
                   GIT_SSH_COMMAND="ssh -i last.pub" git submodule update --init
               #            - run:
-              #                  name: run tests
+              #                  name: run backend tests
               #                  command: |-
               #                      set -eu
               #
@@ -68,4 +72,21 @@ workflows:
                       ecs-tool -p "" -e "${ENVIRONMENT}" run --image_tag "${ENVIRONMENT}-${VERSION}" -- ./deploy.sh
                       # deploy new services in parallel
                       ecs-tool -p "" -e "${ENVIRONMENT}" deploy --image_tag "${ENVIRONMENT}-${VERSION}"
+                    fi
+            - run:
+                name: test the website
+                command: |-
+                    set -e
+
+                    if [ "${CIRCLE_BRANCH}" == "deploy/preview" ] || [ "${CIRCLE_BRANCH}" == "deploy/production" ]; then
+                      ENVIRONMENT=`basename "${CIRCLE_BRANCH}"`
+                      # uncomment after going live
+                      #                    if [ "${ENVIRONMENT}" == "production" ]; then
+                      #                      endpoint=https://www.ietf.org
+                      #                    else
+                        endpoint=https://ietf-${ENVIRONMENT}.springload.nz
+                      #                    fi
+
+
+                      docker run --rm -e BASIC_AUTH=$BASIC_AUTH frontend yarn test $endpoint
                     fi

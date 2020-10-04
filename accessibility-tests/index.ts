@@ -2,13 +2,23 @@ const { AxePuppeteer } = require('@axe-core/puppeteer');
 const puppeteer = require('puppeteer');
 const colorJson = require('color-json');
 
-const baseUrl = 'https://www.ietf.org/'; // @TODO get this from environment variables
+const baseUrl = process.argv[2]; // use the first argument
 
 const testPaths = ['/'];
 
 (async () => {
-    const browser = await puppeteer.launch();
+    console.log(`Testing ${baseUrl}`);
+    const browser = await puppeteer.launch({
+        args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    });
     const page = await browser.newPage();
+    if (process.env.BASIC_AUTH) {
+        console.log('Basic auth set');
+        await page.setExtraHTTPHeaders({
+            // expects it to be already base64 encoded
+            Authorization: `Basic ${process.env.BASIC_AUTH}`,
+        });
+    }
     await page.setBypassCSP(true);
     let hasSeriousViolations = false;
 

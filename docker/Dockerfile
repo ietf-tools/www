@@ -4,6 +4,9 @@ FROM node:erbium-alpine as frontend
 ENV NODE_PATH=/node_modules
 ENV PATH="${PATH}:/node_modules/.bin"
 RUN mkdir ${NODE_PATH}
+# for accessibility tests
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+RUN apk add --no-cache chromium ca-certificates
 
 # Copy node reqs first to benefit from Docker caching
 COPY yarn.lock \
