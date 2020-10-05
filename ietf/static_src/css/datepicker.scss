@@ -1,0 +1,35 @@
+#ui-datepicker-div {
+    padding: 1em;
+    background-color: $white;
+    border: 1px solid $primary;
+    min-width: 17em;
+}
+
+.ui-datepicker-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.ui-datepicker-prev {
+    order: 1;
+}
+.ui-datepicker-title {
+    order: 2;
+    margin-left: 1em;
+}
+.ui-datepicker-next {
+    order: 3;
+    margin-left: 1em;
+}
+
+.ui-datepicker-prev,
+.ui-datepicker-next {
+    :hover {
+        cursor: pointer;
+    }
+}
+
+.ui-datepicker-calendar {
+    min-width: 100%;
+    text-align: center;
+}

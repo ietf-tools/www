@@ -1,0 +1,82 @@
+<form method="GET" action="{{ parent_url }}" class="form-row mx-0 mb-3">
+    <div class="col-12 col-md form-group p-0">
+        <label for="topic-input">Topic</label>
+        <select aria-label="Topic" class="form-control bg-light" name="topic" id="topic-input">
+            <option value="">All</option>
+            {% for topic in topics %}
+                <option
+                    value="{{ topic.0 }}"
+                    {% if filter_topic.pk == topic.0 %}selected="selected"{% endif %}
+                >
+                    {{ topic.1 }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="col-6 col-md p-0">
+        <label for="date_from-input">Date from</label>
+        <input
+            class="form-control"
+            placeholder="dd/mm/yyyy"
+            name="date_from"
+            id="date_from-input"
+            type="text"
+            {% if request.GET.date_from %}value="{{ request.GET.date_from }}"{% endif %}
+        />
+    </div>
+    <div class="col-6 col-md form-group p-0">
+        <label for="date_to-input">Date to</label>
+        <div class="input-group">
+            <input
+                class="form-control"
+                placeholder="dd/mm/yyyy"
+                name="date_to"
+                id="date_to-input"
+                type="text"
+                {% if request.GET.date_to %}value="{{ request.GET.date_to }}"{% endif %}
+            />
+            <div class="input-group-append d-none d-md-block">
+                <button class="btn btn-outline-primary" type="submit">Filter</button>
+            </div>
+        </div>
+    </div>
+    <button class="col-12 btn btn-outline-primary d-md-none" type="submit">Filter</button>
+</form>
+{% comment %} <form method="GET" action="{{ parent_url }}" class="input-group mb-5">
+    <select aria-label="Topic" class="form-control bg-light" name="topic">
+        <option value="">All</option>
+        {% for topic in topics %}
+            <option
+                value="{{ topic.0 }}"
+                {% if filter_topic.pk == topic.0 %}selected="selected"{% endif %}
+            >
+                {{ topic.1 }}
+            </option>
+        {% endfor %}
+    </select>
+    <input
+        class="form-control"
+        aria-label="Date from"
+        placeholder="Date from"
+        name="date_from"
+        type="text"
+        {% if request.GET.date_from %}value="{{ request.GET.date_from }}"{% endif %}
+    />
+    <input
+        class="form-control"
+        aria-label="Date to"
+        placeholder="Date to"
+        name="date_to"
+        type="text"
+        {% if request.GET.date_to %}value="{{ request.GET.date_to }}"{% endif %}
+    />
+    <div class="input-group-append">
+        <button class="btn btn-outline-primary" type="submit">Filter</button>
+    </div>
+</form> {% endcomment %}
+
+{% block extra_js %}
+    <script type="text/javascript">
+    </script>
+{% endblock %}

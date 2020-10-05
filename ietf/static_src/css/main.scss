@@ -2,12 +2,9 @@
 @import './bootstrap-theme.scss';
 @import './fonts.scss';
 
-@import './pages.scss'; // Styles for page template
-@import './components/index.scss'; // Styles for global templates/includes files
-@import './snippets/index.scss'; // Styles for snippet templates
+@import './pages.scss'; // Styles for page templates
+@import '../../templates/includes/styles/index.scss'; // Styles for global includes template files
+@import '../../snippets/templates/snippets/styles/index.scss'; // Styles for snippet templates
 @import './utilities.scss'; // Utility classes that don't exist in Bootstrap yet
 @import './streamfield.scss'; // Styles for streamfield blocks
-
-body {
-    -webkit-font-smoothing: antialiased;
-}
+@import './datepicker.scss'; // Styles for jquery-ui datepicker

@@ -7,66 +7,41 @@
 {% endblock extra_meta %}
 
 {% block main_content %}
-<main role="main" class="bg-white">
+<div class="bg-white">
     <div class="container">
-        <div class="row flex-row-reverse no-gutters">
-            <aside class="col-12 col-lg-4">
+        <div class="row flex-row-reverse align-items-stretch no-gutters">
+            <aside class="col-12 col-lg-4 d-flex flex-column bg-light">
+                <div class="d-none d-lg-block">
                 {% include "includes/blog_sidebar.html" with siblings=siblings current=self %}
-            </aside>
-            <div class="col-12 col-lg-8">
-                <form method="GET" action="{{ parent_url }}" class="input-group mb-5">
-                    <select aria-label="Topic" class="form-control bg-light" name="topic">
-                        <option value="">All</option>
-                        {% for topic in topics %}
-                            <option
-                                value="{{ topic.0 }}"
-                                {% if filter_topic.pk == topic.0 %}selected="selected"{% endif %}
-                            >
-                                {{ topic.1 }}
-                            </option>
-                        {% endfor %}
-                    </select>
-                    <input
-                        class="form-control"
-                        aria-label="Date from"
-                        placeholder="Date from"
-                        name="date_from"
-                        type="text"
-                        {% if request.GET.date_from %}value="{{ request.GET.date_from }}"{% endif %}
-                    />
-                    <input
-                        class="form-control"
-                        aria-label="Date to"
-                        placeholder="Date to"
-                        name="date_to"
-                        type="text"
-                        {% if request.GET.date_to %}value="{{ request.GET.date_to }}"{% endif %}
-                    />
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-primary" type="submit">Filter</button>
+                </div>
+                <div class="d-lg-none">
+                    <button
+                        class="btn btn-outline-primary d-lg-none w-100"
+                        type="button"
+                        data-toggle="collapse"
+                        data-target="#blog_sidebar"
+                        aria-expanded="false"
+                        aria-controls="collapseExample"
+                    >
+                        Blog listing
+                        <span class="icon ion-ios-arrow-down"></span>
+                    </button>
+                    <div id="blog_sidebar" class="collapse">
+                        {% include "includes/blog_sidebar.html" with siblings=siblings current=self %}
                     </div>
-                </form>
+                </div>
+
+            </aside>
+            <main role="main" class="col-12 col-lg-8  pt-4">
                 <div class="px-3 px-xl-5 mb-5">
                     {% include 'includes/breadcrumbs.html' %}
+
+                    {% include "includes/blog_filters.html" with topics=topics parent_url=parent_url %}
+                    {% if filter_text %}
+                        <p class="h6 ">{{ filter_text }}</p>
+                    {% endif %}
                     <h1>{{ self.title }}</h1>
-                    <ul class="list-unstyled" aria-label="Authors">
-                        {% for author in self.authors.all %}
-                            <li class="mb-3">
-                                <span class="d-inline-block">{{ author.author.name }}</span>
-                                {% if author.role %}
-                                    <span class="ml-3 d-inline-block">{{ author.role.name }}</span>
-                                {% endif %}
-                            </li>
-                        {% endfor %}
-                        {% if self.author_group.name %}
-                            <li class="mb-3">
-                                <span class="d-inline-block">{{ self.author_group.name }}</span>
-                                {% if self.author_group.role %}
-                                    <span class="ml-3 d-inline-block">{{ self.author_group.role.name }}</span>
-                                {% endif %}
-                            </li>
-                        {% endif %}
-                    </ul>
+                    {% include "includes/blog_authors.html" with post=self %}
                     <p>{{ self.date|date:"DATE_FORMAT" }}</p>
                     <p class="lead">{{ self.introduction }}</p>
 
@@ -76,42 +51,42 @@
 
                     {% include "includes/social_share.html" only %}
                 </div>
-                <div class="row no-gutters d-none d-md-flex">
+                <nav aria-label="blog" class="row no-gutters d-none d-lg-flex">
                     <div class="col-6 bg-primary p-4 pl-5 d-flex align-items-center">
-                        <a class=" text-light" href="{{ self.previous.url }}">
+                        <a class=" text-white" href="{{ self.previous.url }}">
                             <p class="sub">
                                 <div class="h6 text-uppercase">Previous</div>{{ self.previous.title }}
                             </p>
                         </a>
                     </div>
                     <div class="col-6 bg-secondary p-4 pr-5 d-flex align-items-center">
-                        <a class=" text-light" href="{{ self.next.url }}">
+                        <a class=" text-white" href="{{ self.next.url }}">
                             <p class="sub">
                                 <div class="h6 text-uppercase">Next</div>{{ self.next.title }}
                             </p>
                         </a>
                     </div>
-                </div>
-            </div>
+                </nav>
+            </main>
         </div>
     </div>
-    <div class="row no-gutters d-md-none">
+    <nav aria-label="blog" class="row no-gutters d-lg-none">
         <div class="col-12 bg-primary p-4">
-            <a class=" text-light" href="{{ self.previous.url }}">
+            <a class="text-white" href="{{ self.previous.url }}">
                 <p class="sub">
                     <div class="h6 text-uppercase">Previous</div>{{ self.previous.title }}
                 </p>
             </a>
         </div>
         <div class="col-12 bg-secondary p-4">
-            <a class=" text-light" href="{{ self.next.url }}">
+            <a class="text-white" href="{{ self.next.url }}">
                 <p class="sub">
                     <div class="h6 text-uppercase">Next</div>{{ self.next.title }}
                 </p>
             </a>
         </div>
-    </div>
-</main>
+    </nav>
+</div>
 
 {% endblock %}
 
