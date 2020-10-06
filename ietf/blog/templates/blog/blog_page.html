@@ -14,23 +14,20 @@
                 <div class="d-none d-lg-block">
                 {% include "includes/blog_sidebar.html" with siblings=siblings current=self %}
                 </div>
-                <div class="d-lg-none">
-                    <button
-                        class="btn btn-outline-primary d-lg-none w-100"
-                        type="button"
-                        data-toggle="collapse"
-                        data-target="#blog_sidebar"
-                        aria-expanded="false"
-                        aria-controls="collapseExample"
-                    >
-                        Blog listing
-                        <span class="icon ion-ios-arrow-down"></span>
-                    </button>
-                    <div id="blog_sidebar" class="collapse">
-                        {% include "includes/blog_sidebar.html" with siblings=siblings current=self %}
-                    </div>
+                <button
+                    class="btn btn-outline-primary d-lg-none w-100"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#blog_sidebar"
+                    aria-expanded="false"
+                    aria-controls="collapseExample"
+                >
+                    Blog listing
+                    <span class="icon ion-ios-arrow-down"></span>
+                </button>
+                <div id="blog_sidebar" class="collapse d-lg-none">
+                    {% include "includes/blog_sidebar.html" with siblings=siblings current=self %}
                 </div>
-
             </aside>
             <main role="main" class="col-12 col-lg-8  pt-4">
                 <div class="px-3 px-xl-5 mb-5">
