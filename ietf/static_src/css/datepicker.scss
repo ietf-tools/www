@@ -1,8 +1,41 @@
+.ui-datepicker-trigger {
+    @extend .btn;
+    @extend .btn-outline-dark;
+    position: relative;
+
+    &::after {
+        content: '\f2d1';
+        font-family: $ionicons-font-family;
+        position: absolute;
+        padding: $btn-padding-y 0 $btn-padding-y 0;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+}
+
 #ui-datepicker-div {
     padding: 1em;
     background-color: $white;
     border: 1px solid $primary;
     min-width: 17em;
+
+    .ui-state-active {
+        background-color: $primary;
+        color: $white;
+    }
+
+    td a {
+        display: block;
+    }
+    button {
+        @extend .btn;
+        @extend .btn-outline-primary;
+    }
+    .ui-state-highlight {
+        outline: 2px solid $primary;
+    }
 }
 
 .ui-datepicker-header {
@@ -24,12 +57,17 @@
 
 .ui-datepicker-prev,
 .ui-datepicker-next {
-    :hover {
-        cursor: pointer;
+    &:focus,
+    &:active {
+        text-decoration: underline;
     }
 }
 
 .ui-datepicker-calendar {
     min-width: 100%;
     text-align: center;
+}
+
+.ui-datepicker-buttonpane {
+    text-align: right;
 }

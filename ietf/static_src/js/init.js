@@ -7,5 +7,3 @@ import 'bootstrap';
 window.$ = $;
 window.jQuery = $;
 window.Popper = Popper;
-
-$.datepicker.setDefaults({ dateFormat: 'dd/mm/yy' });
