@@ -1,23 +1,19 @@
 {% if self.call_to_action or self.mailing_list_signup or self.related_links.exists %}
-    <div class="container highlights-wrap">
-        <div class="nine">
-            <div class="highlights flex">
-                {% if self.call_to_action %}
-                    <div class="highlight bleed-left">
-                        {{ self.call_to_action.render }}
-                    </div>
-                {% endif %}
-                {% if self.mailing_list_signup %}
-                    <div class="highlight">
-                        {{ self.mailing_list_signup.render }}
-                    </div>
-                {% endif %}
-                {% if self.related_links.exists %}
-                    <div class="highlight">
-                        {% include "includes/related_links.html" with related_links=self.related_links.all %}
-                    </div>
-                {% endif %}
+    <aside class="row no-gutters align-items-stretch">
+        {% if self.call_to_action %}
+            <div class="col-12 col-xl bg-primary">
+                {{ self.call_to_action.render }}
             </div>
-        </div>
-    </div>
+        {% endif %}
+        {% if self.mailing_list_signup %}
+            <div class="col-12 col-xl bg-primary">
+                {{ self.mailing_list_signup.render }}
+            </div>
+        {% endif %}
+        {% if self.related_links.exists %}
+            <div class="col-12 col-xl bg-secondary">
+                {% include "includes/related_links.html" with related_links=self.related_links.all %}
+            </div>
+        {% endif %}
+    </aside>
 {% endif %}

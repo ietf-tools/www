@@ -1,9 +1,9 @@
 {% if value.introduction %}
 <h1>{{ value.title }}</h1>
 {% else %}
-<h1 class="title--no-intro">{{ value.title }}</h1>
+<h1 class="mb-2">{{ value.title }}</h1>
 {% endif %}
 
 {% if value.introduction %}
-<p class="intro">{{ value.introduction }}</p>
+<p class="lead u-max-text-width">{{ value.introduction }}</p>
 {% endif %}

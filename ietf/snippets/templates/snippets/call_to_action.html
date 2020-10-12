@@ -1,5 +1,5 @@
-<div class="text">
-    <h2>{{ snippet.title }}</h2>
-    <p>{{ snippet.blurb }}</p>
-    <a href="{{ snippet.link }}" class="btn btn-primary">{{ snippet.button_text }}</a>
+<div class="p-5 text-white d-flex flex-column justify-content-center align-items-start h-100">
+    <h2 class="h4">{{ snippet.title }}</h2>
+    {% if snippet.blurb %}<p class="mb-0">{{ snippet.blurb }}</p>{% endif %}
+    <a href="{{ snippet.link }}" class="btn btn-light mt-3">{{ snippet.button_text }}</a>
 </div>

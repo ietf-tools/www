@@ -5,3 +5,8 @@
 .u-obj-contain {
     object-fit: contain;
 }
+
+// Use this to limit the width of text to improve readability
+.u-max-text-width {
+    max-width: 50rem;
+}

@@ -1,27 +1,23 @@
 {% if items %}
-    <div id="bibliography" class="gradient-sharp-subtle">
-        <div class="border-blue-white">
-            <div class="container">
-                <div class="nine body-subtle rule-blue-top">
-                    <div class="body">
-                        <h3>Bibliography</h2>
-                        <ul class="ref">
-                            {% for item in items %}
-                                <li class="bibliography-item">
-                                    <a name="bibliography{{ item.ordering }}"></a>
-                                    <a href="{{ item.uri }}" class="bibliography-link">
-                                        <div class="reference">[<span class="reference-ordering">{{ item.ordering }}</span>] <span class="reference-title">{{ item.title }}</span></div>
-                                    </a>
-                                    {% if item.long_title %}
-                                        <div class="reference-long-title">{{ item.long_title }}</div>
-                                    {% endif %}
-                                    <div class="reference-cont">{{ item.content }}</div>
-                                </li>
-                            {% endfor %}
-                        </ul>
+    <div id="bibliography" class="u-max-text-width">
+        <h2 class="h4">Bibliography</h2>
+        <ul class="list-unstyled">
+            {% for item in items %}
+                <li>
+                    <a name="bibliography{{ item.ordering }}"></a>
+                    <h3 class="h5">
+                        <a href="{{ item.uri }}">
+                                <span class="bibliography__order">[{{ item.ordering }}]</span>{{ item.title }}
+                        </a>
+                    </h3>
+                    <div class="pl-3">
+                    {% if item.long_title %}
+                        <h4 class="h6">{{ item.long_title }}</h3>
+                    {% endif %}
+                    <div class="small">{{ item.content }}</div>
                     </div>
-                </div>
-            </div>
-        </div>
+                </li>
+            {% endfor %}
+        </ul>
     </div>
 {% endif %}

@@ -58,7 +58,8 @@
         {% include "includes/header.html" %}
 
         {% block main_content %}
-            <div class="body-white rule">
+        <main role="main">
+            <div class="bg-white border-bottom">
                 <div class="container">
                     {% include 'includes/breadcrumbs.html' %}
                     {% block head_content %}{% endblock head_content %}
@@ -66,13 +67,13 @@
             </div>
 
             <div class="body-colour" role="main">
-                <div class="container less-padding">
+                <div class="container">
                     {% block content %}{% endblock %}
                 </div>
             </div>
 
             {% block raw_content %}{% endblock %}
-
+        </main>
         {% endblock %}
 
         {% include "includes/footer.html" %}
