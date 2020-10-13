@@ -95,7 +95,7 @@
                                 <ul class="dropdown-menu bg-dark" aria-labelledby="{{ item.pk }}Dropdown">
                                     {% for subitem in item.subitems %}
                                         <li class="dropdown-item position-relative{% if subitem.pk == self.pk %} active{% endif %}">
-                                            <a class="text-light stretched-link" href="{{ subitem.url }}">{{ subitem.title }}</a>
+                                            <a class="text-white stretched-link" href="{{ subitem.url }}">{{ subitem.title }}</a>
                                         </li>
                                     {% endfor %}
                                 </ul>
@@ -149,7 +149,7 @@
                         <ul class="dropdown-menu bg-dark">
                             {% for item in settings.utils.SecondaryMenu.tools_menu_items.all %}
                                 <li class="dropdown-item position-relative">
-                                    <a class="text-light stretched-link" href="{{ item.url}}">{{ item.title }}</a>
+                                    <a class="text-white stretched-link" href="{{ item.url}}">{{ item.title }}</a>
                                 </li>
                             {% endfor %}
                         </ul>
