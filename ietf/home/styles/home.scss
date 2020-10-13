@@ -36,5 +36,9 @@
 }
 
 .home_event__image {
-    object-fit: cover;
+    max-height: 6rem;
+
+    @include media-breakpoint-up(md) {
+        max-height: none;
+    }
 }

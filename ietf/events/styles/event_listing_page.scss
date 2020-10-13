@@ -1,0 +1,7 @@
+.event_listing_page__promoted-image {
+    max-height: 6rem;
+
+    @include media-breakpoint-up(md) {
+        max-height: none;
+    }
+}

@@ -3,22 +3,52 @@
 
 {% block head_content %}
     {% include 'includes/optional-introduction.html' with value=self %}
-    {% include 'includes/social_fields.html' %}
 {% endblock %}
 
 {% block content %}
-    <div class="body-colour">
+    <div class="bg-white">
         <div class="container">
-            <div class="body">
-                <ul class="event-list two-col ">
-                    {% for promoted_event in self.promoted_events.all %}
-                        <li>
-                            {% with promoted_event.promoted_event as event %}
-                                {% image event.main_image max-545x910 as event_image %}
-                                <img src="{{ event_image.url }}" alt="{{ event.main_image.title }}">
-                                <div class="text-holder">
-                                    <h3><a href="{{ event.url }}">{{ event.title }}</a></h3>
-                                    <p>{{ event.introduction|truncatewords:30 }} </p>
+            <ul class="row py-4 mb-0 list-unstyled">
+                {% for promoted_event in self.promoted_events.all %}
+                    <li class="card mb-2 border-0 col-12 col-lg-6 row flex-md-row no-gutters align-items-stretch">
+                        {% with promoted_event.promoted_event as event %}
+                            <div class="col-md-4 h-md-auto">
+                                {% image event.main_image height-245 as event_image %}
+                                <img class="event_listing_page__promoted-image w-100 h-100 u-obj-cover" src="{{ event_image.url }}" alt="{{ event.main_image.title }}">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h3 class="card-title h4"><a href="{{ event.url }}">{{ event.title }}&nbsp;<span class="icon ion-ios-arrow-forward"></span></a></h3>
+                                    <p class="card-text">{{  event.introduction|truncatewords:30 }}</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <small>
+                                            {% if event.date %}
+                                                <span>{{ event.date }}</span>
+                                            {% endif %}
+                                            <span>{{ event.listing_location }}</span>
+                                            {% if event.host %}
+                                                <span>{{ event.host.title }}</span>
+                                            {% endif %}
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endwith %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    {% if self.upcoming_events %}
+        <div class="border-primary border-top py-4 mt-0">
+            <div class="container">
+                    <h2 class="h4 mb-4">Upcoming events</h2>
+                    <ul class="row list-unstyled">
+                        {% for event in self.upcoming_events %}
+                            <li class="col-12 col-md-6 col-lg-4">
+                                <div class="bg-white p-4">
+                                    <h3 class="h5"><a href="{{ event.url }}">{{ event.title }}</a></h3>
                                     <small>
                                         {% if event.date %}
                                             <span>{{ event.date }}</span>
@@ -29,33 +59,7 @@
                                         {% endif %}
                                     </small>
                                 </div>
-                            {% endwith %}
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    {% if self.upcoming_events %}
-        <div class="rule-blue-top body-subtle">
-            <div class="container">
-                <div class="body no-overflow">
-                    <h2 class="section-title no-top">Upcoming events</h2>
-                    <ul class="event-list-sub three-col">
-                        {% for event in self.upcoming_events %}
-                        <li>
-                            <h4><a href="{{ event.url }}">{{ event.title }}</a></h4>
-                            <small>
-                                {% if event.date %}
-                                    <span>{{ event.date }}</span>
-                                {% endif %}
-                                    <span>{{ event.listing_location }}</span>
-                                {% if event.host %}
-                                    <span>{{ event.host.title }}</span>
-                                {% endif %}
-                            </small>
-                        </li>
+                            </li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -64,23 +68,24 @@
     {% endif %}
 
     {% if self.past_events %}
-        <div class="rule-blue-top body-subtle">
+        <div class="border-primary border-top py-4 mt-0">
             <div class="container">
-                <div class="body no-overflow">
-                    <h2 class="section-title no-top">Past events</h2>
-                    <ul class="event-list-sub three-col">
+                <h2 class="h4 mb-4">Past events</h2>
+                    <ul class="row list-unstyled">
                         {% for event in self.past_events|slice:":18" %}
-                            <li>
-                                <h4><a href="{{ event.url }}">{{ event.title }}</a></h4>
-                                <small>
-                                    {% if event.date %}
-                                        <span>{{ event.date }}</span>
-                                    {% endif %}
-                                    <span>{{ event.listing_location }}</span>
-                                    {% if event.host %}
-                                        <span>{{ event.host.title }}</span>
-                                    {% endif %}
-                                </small>
+                            <li class="col-12 col-md-6 col-lg-4 mb-4">
+                                <div class="bg-white p-4">
+                                    <h3 class="h5"><a href="{{ event.url }}">{{ event.title }}</a></h3>
+                                    <small>
+                                        {% if event.date %}
+                                            <span>{{ event.date }}</span>
+                                        {% endif %}
+                                            <span>{{ event.listing_location }}</span>
+                                        {% if event.host %}
+                                            <span>{{ event.host.title }}</span>
+                                        {% endif %}
+                                    </small>
+                                </div>
                             </li>
                         {% endfor %}
                     </ul>
