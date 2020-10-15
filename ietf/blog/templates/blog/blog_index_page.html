@@ -2,50 +2,46 @@
 {% load wagtailroutablepage_tags %}
 
 {% block main_content %}
-{# sidebar #}       
-{% include "includes/social-sharebar.html" %}
 
-
-<div class="page-wrap container">
-  <div class="row sticky-container">
-    <div class="rule-desktop">
+<main role="main">
+  <div class="bg-white border-bottom pb-3">
+    <div class="container">
       {% include 'includes/breadcrumbs.html' %}
-      <h1>{{self.title}}</h1>
-      {% if self.filter_topic %}
-        <h2 class="searched">You have filtered by {{ self.filter_topic.title }}</h2>
-      {% endif %}
-    </div>
-    <div class="cf">
-      <div class="three none float-right side-col">
-        <ul>
-          <li><a href="{% routablepageurl self 'all_entries' %}">All</a></li>
-          {% for topic in topics %}
-            <li><a href="{% routablepageurl self 'filtered_entries' topic.slug %}">{{ topic.title }}</a></li>
-          {% endfor %}
-        </ul>
-      </div>
-      <div class="nine body body-panel clearfix">
-        <table>
-        {% for entry in entries %}
-          <tr>
-            <td>{{entry.coalesced_published_date|date:"Y-m-d"}}</td>
-            <td><a href="{{entry.url}}">{{entry.title}}</a></td>
-          </tr>
-        {% endfor %}
-        </table>
+      <div class="u-max-text-width">
+        <h1>{{self.title}}</h1>
+        
+        {% if self.filter_topic %}
+          <p class="lead">You have filtered by {{ self.filter_topic.title }}</p>
+        {% endif %}
       </div>
     </div>
   </div>
-</div>
 
-{% endblock %}
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-lg-3 order-lg-last bg-white border-left border-right border-bottom pt-4 ">
+        <ul class="pl-4">
+          <li><a href="{% routablepageurl self 'all_entries' %}">All</a></li>
+          {% for topic in topics %}
+          <li><a href="{% routablepageurl self 'filtered_entries' topic.slug %}">{{ topic.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
 
-{% block extra_css %}
-<style>
-table tr td:first-child {
-  padding-right: 10px;
-  width: 92px;
-}
-</style>
+      <div class="col-12 col-lg py-4">
+        <table class="mb-4">
+          {% for entry in entries %}
+          <tr>
+            <td class="text-nowrap align-top pr-3 pb-2 pb-lg-0">{{entry.coalesced_published_date|date:"Y-m-d"}}</td>
+            <td class="align-top pb-2 pb-lg-0"><a href="{{entry.url}}">{{entry.title}}</a></td>
+          </tr>
+          {% endfor %}
+        </table>
+        {% include "includes/social_share.html" only %}
+      </div>
+    
+    </div>
+  </div>
+</main>
 {% endblock %}
 
