@@ -1,3 +1,7 @@
+// This applies automated accessibility testing via Axe.
+// See docs at
+// https://www.npmjs.com/package/@axe-core/puppeteer
+
 const { AxePuppeteer } = require('@axe-core/puppeteer');
 const puppeteer = require('puppeteer');
 const colorJson = require('color-json');
@@ -5,6 +9,11 @@ const colorJson = require('color-json');
 const baseUrl = process.argv[2]; // use the first argument
 
 const testPaths = ['/', '/blog/'];
+
+const violationImpactsThatFail = ['serious', 'critical'];
+
+// Add rules to disable here. Be careful to only disable errors that are false positives!
+const rulesToDisable: string[] = [];
 
 (async () => {
     console.log(`Testing ${baseUrl}`);
@@ -20,39 +29,48 @@ const testPaths = ['/', '/blog/'];
         });
     }
     await page.setBypassCSP(true);
-    let hasSeriousViolations = false;
+    let hasViolationsThatFail = false;
 
     try {
         for (let i = 0; i < testPaths.length; i++) {
             const testPath = testPaths[i];
             const url = new URL(testPath, baseUrl).toString();
-
+            console.log(`Testing URL: ${url}`);
             await page.goto(url), { waitUntil: 'networkidle0' };
-            const allResults = await new AxePuppeteer(page).analyze();
-            const seriousViolations = allResults.violations.filter(
-                (violation: any) => violation.impact === 'serious',
-            );
-            const otherViolations = allResults.violations.filter(
-                (violation: any) => violation.impact !== 'serious',
+            const allResults = await new AxePuppeteer(page)
+                .disableRules(rulesToDisable)
+                .analyze();
+            const failTestViolations = allResults.violations.filter(
+                (violation: any) =>
+                    violationImpactsThatFail.includes(violation.impact),
             );
 
-            if (seriousViolations.length > 0 || otherViolations.length > 0) {
+            const warningTestViolations = allResults.violations.filter(
+                (violation: any) =>
+                    violationImpactsThatFail.includes(violation.impact) ===
+                    false,
+            );
+
+            if (
+                failTestViolations.length > 0 ||
+                warningTestViolations.length > 0
+            ) {
                 console.log(`Testing ${url} found violations`);
             } else {
                 console.log(`No violations at ${url}`);
             }
 
-            if (seriousViolations.length > 0) {
-                console.error(colorJson(seriousViolations));
+            if (failTestViolations.length > 0) {
+                console.error(colorJson(failTestViolations));
             }
 
-            if (otherViolations.length > 0) {
+            if (warningTestViolations.length > 0) {
                 console.info('Other violations: ');
-                console.info(colorJson(otherViolations));
+                console.info(colorJson(warningTestViolations));
             }
 
-            if (seriousViolations.length > 0) {
-                hasSeriousViolations = true;
+            if (failTestViolations.length > 0) {
+                hasViolationsThatFail = true;
             }
 
             console.log('\n');
@@ -62,8 +80,8 @@ const testPaths = ['/', '/blog/'];
         await browser.close();
     } catch (err) {
         console.error(err);
-        hasSeriousViolations = true;
+        hasViolationsThatFail = true;
     }
 
-    process.exit(hasSeriousViolations ? 1 : 0);
+    process.exit(hasViolationsThatFail ? 1 : 0);
 })();
