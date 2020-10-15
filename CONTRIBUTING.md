@@ -55,7 +55,7 @@ This command requires a running website which may be your local development site
 yarn test:accessibility http://localhost:9000
 ```
 
-Replace "http://localhost:9000" with the URL of your running website.
+Replace "`http://localhost:9000`" with the URL of your running website.
 
 ## Deploying
 
