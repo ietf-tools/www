@@ -4,7 +4,7 @@ const colorJson = require('color-json');
 
 const baseUrl = process.argv[2]; // use the first argument
 
-const testPaths = ['/'];
+const testPaths = ['/', '/blog/'];
 
 (async () => {
     console.log(`Testing ${baseUrl}`);
@@ -22,44 +22,48 @@ const testPaths = ['/'];
     await page.setBypassCSP(true);
     let hasSeriousViolations = false;
 
-    for (let i = 0; i < testPaths.length; i++) {
-        const testPath = testPaths[i];
-        const url = new URL(testPath, baseUrl).toString();
+    try {
+        for (let i = 0; i < testPaths.length; i++) {
+            const testPath = testPaths[i];
+            const url = new URL(testPath, baseUrl).toString();
 
-        console.log(url);
-        await page.goto(url);
-        const allResults = await new AxePuppeteer(page).analyze();
-        const seriousViolations = allResults.violations.filter(
-            (violation: any) => violation.impact === 'serious',
-        );
-        const otherViolations = allResults.violations.filter(
-            (violation: any) => violation.impact !== 'serious',
-        );
+            await page.goto(url), { waitUntil: 'networkidle0' };
+            const allResults = await new AxePuppeteer(page).analyze();
+            const seriousViolations = allResults.violations.filter(
+                (violation: any) => violation.impact === 'serious',
+            );
+            const otherViolations = allResults.violations.filter(
+                (violation: any) => violation.impact !== 'serious',
+            );
 
-        if (seriousViolations.length > 0 || otherViolations.length > 0) {
-            console.log(`Testing ${url} found violations`);
-        } else {
-            console.log(`No violations at ${url}`);
+            if (seriousViolations.length > 0 || otherViolations.length > 0) {
+                console.log(`Testing ${url} found violations`);
+            } else {
+                console.log(`No violations at ${url}`);
+            }
+
+            if (seriousViolations.length > 0) {
+                console.error(colorJson(seriousViolations));
+            }
+
+            if (otherViolations.length > 0) {
+                console.info('Other violations: ');
+                console.info(colorJson(otherViolations));
+            }
+
+            if (seriousViolations.length > 0) {
+                hasSeriousViolations = true;
+            }
+
+            console.log('\n');
         }
 
-        if (seriousViolations.length > 0) {
-            console.error(colorJson(seriousViolations));
-        }
-
-        if (otherViolations.length > 0) {
-            console.info('Other violations: ');
-            console.info(colorJson(otherViolations));
-        }
-
-        if (seriousViolations.length > 0) {
-            hasSeriousViolations = true;
-        }
-
-        console.log('\n');
+        await page.close();
+        await browser.close();
+    } catch (err) {
+        console.error(err);
+        hasSeriousViolations = true;
     }
-
-    await page.close();
-    await browser.close();
 
     process.exit(hasSeriousViolations ? 1 : 0);
 })();
