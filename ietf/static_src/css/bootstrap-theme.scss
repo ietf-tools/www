@@ -40,5 +40,6 @@ $dropdown-link-active-bg: $dark;
 $dropdown-link-hover-bg: $dark;
 
 $breadcrumb-divider: quote('>');
+$breadcrumb-divider-color: inherit;
 
 @import '~bootstrap/scss/bootstrap';

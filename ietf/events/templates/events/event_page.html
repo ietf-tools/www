@@ -7,65 +7,49 @@
     <div class="no-overflow-x">
 
         {% image self.main_image max-4000x4000 as bg_image %}
-        <div class="header-image-full rule-desktop" style="background-image: url({{ bg_image.url }});">
-            <div class="container">
-                {% include 'includes/breadcrumbs.html' %}
+        <div class="event_page__jumbotron rule-desktop" style="background-image: url({{ bg_image.url }});">
+            <div class="container position-relative text-light pt-3 pb-4">
+                {% include 'includes/breadcrumbs.html' with dark_bg=True %}
 
                 <h1>{{ self.title }}</h1>
 
                 {% if self.start_date %}
-                    <h2>{{ self.start_date }}{% if self.end_date %} - {{ self.end_date }}{% endif %}</h2>
+                    <p class="h4 font-italic">{{ self.start_date }}{% if self.end_date %} - {{ self.end_date }}{% endif %}</p>
                 {% endif %}
 
-                <p class="intro">{{ self.introduction }}</p>
-                {% include 'includes/social_fields.html' %}
+                <p class="lead font-weight-normal u-max-text-width">{{ self.introduction }}</p>
             </div>
         </div>
 
-        <div class="container cf">
-
-            {# main region #}
-            <div class="nine">
-
-                <div class="body body-panel body-panel-rule bleed-left clearfix">
-                    {{ self.body }}
-                </div>
+        {# main region #}
+        <div class="container">
+            <div class="row flex-lg-row-reverse no-gutters align-items-stretch justify-content-between">
+                {% include "includes/row_siblings_in_section.html" with page=self class="d-none d-lg-block" %}
+                <div class="col-12 col-lg-8 col-xl-9">
+                {% if self.body %}
+                    <div class="border-bottom border-primary py-4 px-3">
+                        <div class="lead u-max-text-width">
+                            {{ self.body }}
+                        </div>
+                    </div>
+                {% endif %}
 
                 {% if self.key_details %}
-                    <div class="body body-panel body-panel-rule bleed-left clearfix">
-                        <h2 class="section-title">Key details</h2>
-                        <div class="faq events two-col">
-                            {#  div is for two col  #}
-                            <div>
-                                {# To compensate for the 20px padding / text still lines up  #}
-                                <ul class="shift-left feedback">
-                                    {% for link_group in self.key_details %}
-                                        {% if forloop.counter0|divisibleby:2 %}
-                                            <li class="question left click ">
-                                                <h4>{{ link_group.value.title }}</h4><span class="icon ion-ios-arrow-down"> </span>
-                                            </li>
-                                            <li class="answer"{% if self.key_details_expanded %} style="height: auto;"{% endif %}>
-                                                {% for link in link_group.value.link_group %}
-                                                    <span>{{ link }}</span>
-                                                {% endfor %}
-                                            </li>
-                                        {% endif %}
-                                    {% endfor %}
-                                </ul>
+                    <div class="border-bottom border-primary p-3">
+                        <h2 class="h4">Key details</h2>
+                        <div class="row">
+                            <div class="col-12 col-lg-6">
+                                {% for link_group in self.key_details %}
+                                    {% if forloop.counter0|divisibleby:2 %}
+                                        {% include "includes/key_detail_section.html" with link_group=link_group %}
+                                    {% endif %}
+                                {% endfor %}
                             </div>
 
-                            <div>
-                                <ul class="shift-left feedback">
+                            <div class="col-12 col-lg-6">
                                     {% for link_group in self.key_details %}
                                         {% if not forloop.counter0|divisibleby:2 %}
-                                            <li class="question click-left">
-                                                <h4>{{ link_group.value.title }}</h4><span class="icon ion-ios-arrow-down"></span>
-                                            </li>
-                                            <li class="answer"{% if self.key_details_expanded %} style="height: auto;"{% endif %}>
-                                                {% for link in link_group.value.link_group %}
-                                                    <span>{{ link }}</span>
-                                                {% endfor %}
-                                            </li>
+                                            {% include "includes/key_detail_section.html" with link_group=link_group %}
                                         {% endif %}
                                     {% endfor %}
                                 </ul>
@@ -76,44 +60,44 @@
 
 
                 {% if self.venue %}
-                    <div class="body body-panel body-panel-rule bleed-left clearfix">
+                    <div class="border-bottom border-primary p-3">
                         {% if self.venue_section_title %}
-                            <h2 class="section-title">{{ self.venue_section_title }}</h2>
+                            <h2  class="h4">{{ self.venue_section_title }}</h2>
                         {% endif %}
-                        <dl class="two-col">
+                        <dl class="row">
                             {% if self.venue %}
-                                <div>
-                                    <dt>Venue</dt>
+                                <div class="col-12 col-lg-6">
+                                    <dt class="h5 font-weight-bolder">Venue</dt>
                                     <dd>{{ self.venue }}</dd>
                                 </div>
                             {% endif %}
                             {% if self.room_rates %}
-                                <div>
-                                    <dt>Room rates</dt>
+                                <div class="col-12 col-lg-6">
+                                    <dt class="h5 font-weight-bolder">Room rates</dt>
                                     <dd>{{ self.room_rates }}</dd>
                                 </div>
                             {% endif %}
                             {% if self.extras %}
-                                <div>
-                                    <dt>Extras</dt>
+                                <div class="col-12 col-lg-6">
+                                    <dt class="h5 font-weight-bolder">Extras</dt>
                                     <dd>{{ self.extras }}</dd>
                                 </div>
                             {% endif %}
                             {% if self.reservations_open %}
-                                <div>
-                                    <dt>Reservations open</dt>
+                                <div class="col-12 col-lg-6">
+                                    <dt class="h5 font-weight-bolder">Reservations open</dt>
                                     <dd>{{ self.reservations_open }}</dd>
                                 </div>
                             {% endif %}
                             {% if self.reservation_name %}
-                                <div>
-                                    <dt>Reservation name</dt>
+                                <div class="col-12 col-lg-6">
+                                    <dt class="h5 font-weight-bolder">Reservation name</dt>
                                     <dd>{{ self.reservation_name }}</dd>
                                 </div>
                             {% endif %}
                             {% if self.contact_details %}
-                                <div>
-                                    <dt>Contact details</dt>
+                                <div class="col-12 col-lg-6">
+                                    <dt class="h5 font-weight-bolder">Contact details</dt>
                                     <dd>{{ self.contact_details }}</dd>
                                 </div>
                             {% endif %}
@@ -122,29 +106,33 @@
                 {% endif %}
 
                 {% if self.hosts.exists or self.sponsors %}
-                    <h2 class="section-title">Sponsors</h2>
-                    <div class="sponsors">
+                    <div class="bg-white py-3">
+                    <h2 class="h4 pl-3">Sponsors</h2>
                         {% if self.hosts.exists %}
-                            <ul class="multiple-logo cf">
-                                <li><h3>Host{{ self.hosts.all|pluralize }}</h3></li>
-                                {% for h in self.hosts.all %}
-                                    {% with h.host as host %}
-                                        <li>
-                                            {% if host.link %}<a href="{{ host.link }}">{% endif %}
-                                                {% image host.logo max-200x149 as host_image %}
-                                                <img src="{{ host_image.url }}" width="{{ host_image.width }}"
-                                                    height="{{ host_image.height }}"  alt="{{ host.title }}">
-                                            {% if host.link %}</a>{% endif %}
-                                        </li>
-                                    {% endwith %}
-                                {% endfor %}
-                            </ul>
+                            <div class="pl-3 py-3">
+                                <h3 class="h5 mb-3">Host{{ self.hosts.all|pluralize }}</h3>
+
+                                <ul class="list-unstyled">
+                                    {% for h in self.hosts.all %}
+                                        {% with h.host as host %}
+                                            <li class="d-inline-block mr-3">
+                                                {% if host.link %}<a href="{{ host.link }}">{% endif %}
+                                                    {% image host.logo max-200x149 as host_image %}
+                                                    <img src="{{ host_image.url }}" width="{{ host_image.width }}"
+                                                        height="{{ host_image.height }}"  alt="{{ host.title }}">
+                                                {% if host.link %}</a>{% endif %}
+                                            </li>
+                                        {% endwith %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
                         {% endif %}
                         {% for sponsor_category in self.sponsors %}
-                            <ul class="multiple-logo cf">
-                                <li><h3>{{ sponsor_category.value.category_title }}</h3></li>
-                                {% for sponsor in sponsor_category.value.sponsor_group %}
-                                        <li>
+                            <div class="border-top pl-3 py-3">
+                                <h3 class="h5 mb-3">{{ sponsor_category.value.category_title }}</h3>
+                                <ul class="list-unstyled">
+                                    {% for sponsor in sponsor_category.value.sponsor_group %}
+                                        <li class="d-inline-block mr-3">
                                             {% if sponsor.value.link %}<a href="{{ sponsor.value.link }}">{% endif %}
 
                                             {% image sponsor.value.logo max-120x74 as sponsor_image %}
@@ -153,37 +141,15 @@
                                             {% if sponsor.value.link %}</a>{% endif %}
 
                                         </li>
-                                {% endfor %}
-                            </ul>
+                                    {% endfor %}
+                                </ul>
+                            </div>
                         {% endfor %}
                     </div>
                 {% endif %}
-
+                </div>
             </div>
             {# end main region #}
-
-            {# sidebar region #}
-            <div class="three none">
-                <ul class="side-nav sticky">
-                    <li class="section">
-                        <a href="{{ self.get_parent.url }}">{{ self.get_parent.title }}</a>
-                    </li>
-                    {% for sibling in self.siblings %}
-                      {% if sibling.show_in_menus %}
-                        {% if sibling.url == self.url %}
-                            <li class="active">
-                                <a href="{{ sibling.url }}">{{ sibling.title }}</a>
-                            </li>
-                        {% else %}
-                            <li>
-                                <a href="{{ sibling.url }}">{{ sibling.title }}</a>
-                            </li>
-                        {% endif %}
-                      {% endif %}
-                    {% endfor %}
-                </ul>
-            </div>
-            {# end sidebar region #}
         </div>
     </div>
 
