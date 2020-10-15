@@ -5,7 +5,7 @@
             data-toggle="collapse"
             href="#{{ link_group.value.title|slugify }}"
             role="button"
-            aria-expanded="{% if self.key_details_expanded %}true{% else %}false{% endif %}"
+            aria-expanded="{% if expanded %}true{% else %}false{% endif %}"
             aria-controls="{{ link_group.value.title|slugify }}"
         >
             <span>{{ link_group.value.title }} </span>
@@ -13,7 +13,7 @@
         </a>
     </h3>
 
-    <div class="collapse{% if self.key_details_expanded %} show{% endif %}" id="{{ link_group.value.title|slugify }}">
+    <div class="collapse{% if expanded %} show{% endif %}" id="{{ link_group.value.title|slugify }}">
         {% for link in link_group.value.link_group %}
         <span class="d-inline-block mb-2 {% if not forloop.last %}pr-2 mr-2 border-right{% endif %}">{{ link }}</span>
         {% endfor %}

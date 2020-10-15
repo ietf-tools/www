@@ -41,7 +41,7 @@
                             <div class="col-12 col-lg-6">
                                 {% for link_group in self.key_details %}
                                     {% if forloop.counter0|divisibleby:2 %}
-                                        {% include "includes/key_detail_section.html" with link_group=link_group %}
+                                        {% include "includes/key_detail_section.html" with link_group=link_group expanded=self.key_details_expanded %}
                                     {% endif %}
                                 {% endfor %}
                             </div>
@@ -49,7 +49,7 @@
                             <div class="col-12 col-lg-6">
                                     {% for link_group in self.key_details %}
                                         {% if not forloop.counter0|divisibleby:2 %}
-                                            {% include "includes/key_detail_section.html" with link_group=link_group %}
+                                            {% include "includes/key_detail_section.html" with link_group=link_group expanded=self.key_details_expanded %}
                                         {% endif %}
                                     {% endfor %}
                                 </ul>
