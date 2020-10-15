@@ -7,3 +7,5 @@ import 'bootstrap';
 window.$ = $;
 window.jQuery = $;
 window.Popper = Popper;
+
+document.documentElement.classList.remove('no-js');
