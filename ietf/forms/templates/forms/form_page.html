@@ -2,40 +2,87 @@
 {% load wagtailcore_tags form_tags %}
 
 {% block content %}
-    <div class="body container">
-        <h1>{{ self.title }}</h1>
-        {{ self.intro|richtext }}
-        <form action="{% pageurl self %}" method="POST" class="standard-form">
-            <div>
+<div class="bg-white">
+    <div class="container pb-3">
+        <div class="u-max-text-width">
+            <h1 class="h2">{{ self.title }}</h1>
+            {{ self.intro|richtext }}
+        </div>
+        <form action="{% pageurl self %}" method="POST" class="row">
+            <div class="col-12 col-lg-8 col-xl-6">
                 {% csrf_token %}
 
                 {% if form.errors %}
-                    <p class="error">There were some errors with your form. Please amend the fields highlighted below.</p>
+                    <p class="text-danger">There were some errors with your form. Please amend the fields highlighted below.</p>
                 {% endif %}
 
-                <ul class="fields">
                     {% for field in form %}
-                        <li class="{{ field|fieldtype }} {{ field|widgettype }} {% if field.field.required %}required{% endif %} {% if field.errors %}errors{% endif %}">
+                        <div class="form-group">
                             {% if field.errors %}
-                                {{ field.errors }}
+                                <p class="text-danger">{{ field.errors }}</p>
                             {% endif %}
 
                             {% if field|widgettype == 'checkbox_input' %}
-                                <label for="{{ field.id_for_label }}"> {{ field }} {{ field.label }} {% if field.field.required %}<span class="required">*</span>{% endif %}</label>
-                                <div class="form-help">{% if field.help_text %}{{ field.help_text }}{% endif %}</div>
+                                <div class="form-check">
+                                    {% if field.help_text %}
+                                        {% with "class:form-check-input,aria-labelled-by:"|add:field.id_for_label|add:"_help" as attr %}
+                                            {{ field|add_attr:attr }}
+                                        {% endwith %}
+                                    {% else %}
+                                        {{ field|add_attr:'class:form-check-input' }}
+                                    {% endif %}
+                                    <label class="form-check-label" for="{{ field.id_for_label }}">
+                                        {{ field.label }}
+                                        {% if field.field.required %}
+                                            <span> *</span>
+                                        {% endif %}
+                                    </label>
+                                    {% if field.help_text %}
+                                        <small id="{{ field.id_for_label }}_help" class="form-text text-muted">
+                                            {{ field.help_text }}
+                                        </small>
+                                    {% endif %}
+                                </div>
+
+                            {% elif field|widgettype == 'checkbox_select_multiple' or field|widgettype == 'radio_select' %}
+                                <label for="{{ field.id_for_label }}">
+                                    {{ field.label }}
+                                    {% if field.field.required %}
+                                        <span> *</span>
+                                    {% endif %}
+                                </label>
+                                {% if field.help_text %}
+                                    <small id="{{ field.id_for_label }}_help" class="form-text text-muted">
+                                        {{ field.help_text }}
+                                    </small>
+                                {% endif %}
+                                {{ field|add_attr:"list-unstyled" }}
 
                             {% else %}
-                                <label for="{{ field.id_for_label }}">{{ field.label }} {% if field.field.required %}<span class="required">*</span>{% endif %}</label>
-                                <div class="form-help">{% if field.help_text %}{{ field.help_text }}{% endif %}</div>
-                                {{ field }}
+                                <label for="{{ field.id_for_label }}">
+                                    {{ field.label }} {% if field.field.required %}
+                                    <span class="required">*</span>
+                                    {% endif %}
+                                </label>
+
+                                {% if field.help_text %}
+                                    {% with "class:form-control border-primary,aria-labelled-by:"|add:field.id_for_label|add:"_help" as attr %}
+                                        {{ field|add_attr:attr }}
+                                    {% endwith %}
+                                {% else %}
+                                    {{ field|add_attr:"class:form-control border-primary" }}
+                                {% endif %}
+                                {% if field.help_text %}
+                                    <small id="{{ field.id_for_label }}_help" class="form-text text-muted">
+                                        {{ field.help_text }}
+                                    </small>
+                                {% endif %}
                             {% endif %}
-                        </li>
+                        </div>
                     {% endfor %}
-                    <li class="submit">
-                        <input type="submit" class="button button-inverse" value="{% if self.action_text %}{{ self.action_text|safe }}{% else %}Submit{%endif%}" />
-                    </li>
-                </ul>
+                    <input type="submit" class="btn btn-primary" value="{% if self.action_text %}{{ self.action_text|safe }}{% else %}Submit{%endif%}" />
             </div>
         </form>
     </div>
+</div>
 {% endblock %}
