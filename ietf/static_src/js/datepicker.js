@@ -68,7 +68,6 @@ function dayTripper() {
             today.focus();
             //  !!change
             const inputId = $(_this).prev('input').attr('id');
-            console.log('inputId: ', inputId);
             datePickHandler(inputId);
             // datePickHandler();
             $(document).on(
