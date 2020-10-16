@@ -1,231 +1,79 @@
 {% extends "base.html" %}
-{% load bibliography %}
 {% load wagtailroutablepage_tags %}
-
-
-{% comment %}
-{% block extra_meta %}
-    <link rel="alternate" type="application/atom+xml" title="{{ blog_feed_title }}" href="{% url 'blog_feed' %}">
-{% endblock extra_meta %}
-{% endcomment %}
+{% load bibliography %}
 
 {% block main_content %}
-{# sidebar #}       
-{% include "includes/social-sharebar.html" %}
-
-<div class="page-wrap container">
-    <div class="row sticky-container">
-        <ul class="mobile-buttons">
-            {# checkbox hack #}
-            <label for="toggle-mobile-blog-listing" class="toggle-blog-list-heading">Statment listing</label>
-            <input type="checkbox" id="toggle-mobile-blog-listing" aria-label="Statement listing">
-            <label for="toggle-mobile-filters" class="toggle-listing-list-heading">Show filters</label>
-            <input type="checkbox" id="toggle-mobile-filters" aria-label="Show filters">
-            {# end hack #}
-            <li class="toggler mobile-blog-listing">
-                <ul class="list-content sticky-listing">
-                    {% for sibling in siblings %}
-                    <li>
-                        <a href="{{ sibling.url }}">
-                            <div class="text">
-                                {% if sibling.slug == self.slug %}<div class="active-triangle"></div>{% endif %}
-                                    <h3>{{ sibling.title }}</h3>
-                                <p>{{ sibling.feed_text }}</p>
-                                <ul class="meta">
-                                    <li>{{ sibling.date|date:"DATE_FORMAT" }}</li>
-                                </ul>
-                            </div>
-                        </a>
-                    </li>
-                    {% empty %}
-                        <li>
-                            <div class="text">
-                                <p>No results</p>
-                            </div>
-                        </li>
-                    {% endfor %}
-                    <li>
-                        <a href="{% routablepageurl self.get_parent.specific 'all_entries' %}">
-                            <div class="text">
-                                <p>Show all</p>
-                            </div>
-                        </a>
-                    </li>                    
-                    <div class="toggle-list-close">Close IESG statement listing</div>
-                </ul>
-            </li>
-            <li class="toggler mobile-filters">
-                <ul class="list-content">
-                    <li class="hide-filters show">
-                        <form method="GET" action="{{ parent_url }}">
-                            <div class="left-side-bleed"></div>
-                            <div class="right-side-bleed"></div>
-                            <ul class="horizontal-filters three-col no-margin cf">
-                                <li class="filter-select">
-                                    <span>TOPICS</span>
-                                    <select name="topic">
-                                        <option value="">All</option>
-                                        {% for topic in topics %}
-                                        <option value="{{ topic.0 }}" {% if request.GET.topic == topic.0|slugify %}selected="selected"{% endif %}>{{ topic.1 }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </li>
-                                <li class="date-picker">
-                                    <input aria-label="date from" type="text" class="date-from" name="date_from" placeholder="Date from" {% if request.GET.date_from %}value="{{ request.GET.date_from }}"{% endif %}>
-                                    <input aria-label="date to" type="text" class="date-to" name="date_to" placeholder="Date to" {% if request.GET.date_to %}value="{{ request.GET.date_to }}"{% endif %}>
-                                </li>
-                            </ul>
-                                <div class="cf">
-                            <input class="search-button" type="submit" value="Filter"></input>
-                            </div>
-                        </form>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-        {# search #}
-        <div class="sticky-friend eight none body-white bottom-space" style="clear:both;">
-            <div class="hide-filters">
-                <form method="GET" action="{{ parent_url }}">
-                    <div class="left-side-bleed"></div>
-                    <div class="right-side-bleed"></div>
-                    <ul class="horizontal-filters two-col no-margin cf">
-                        <li class="filter-select">
-                            <span>TOPICS</span>
-                            <select name="topic">
-                                <option value="">All</option>
-                                {% for topic in topics %}
-                                <option value="{{ topic.0 }}" {% if request.GET.topic == topic.0|slugify %}selected="selected"{% endif %}>{{ topic.1 }}</option>
-                                {% endfor %}
-                            </select>
-                        </li>
-                        <li class="date-picker">
-                            <input aria-label="date from" type="text" class="date-from" name="date_from" placeholder="Date from" {% if request.GET.date_from %}value="{{ request.GET.date_from }}"{% endif %}>
-                            <input aria-label="date to" type="text" class="date-to" name="date_to" placeholder="Date to" {% if request.GET.date_to %}value="{{ request.GET.date_to }}"{% endif %}>
-                        </li>
-                    </ul>
-                    <div class="cf">
-                    <input class="search-button" type="submit" value="Filter"></input>
-                    </div>
-                </form>
-            </div>
-            <div class="body container">
-                {% if filter_text %}
-                    <h2 class="searched">{{ filter_text }}</h2>
-                {% endif %}
-                {% include 'includes/breadcrumbs.html' %}
-                <h1>{{ self.title }}</h1>
-                <ul class="meta">
-                    <li>{{ self.date|date:"DATE_FORMAT" }}</li>
-                </ul>
-                <p class="intro">{{ self.introduction }}</p>
-
-                {{ self.prepared_body|safe }}
-
-                {% bibliography self %}
-
-            </div>
-        </div>
-        <div class="blog-listing sticky-item">
-            <ul class="list-content sticky-listing">
-                {% for sibling in siblings %}
-                    <li {% if sibling.slug == self.slug %} class="active"{% endif %}>
-                        <a href="{{ sibling.url }}{{ query_string }}">
-                            {% if sibling.slug == self.slug %}<div class="active-triangle"></div>{% endif %}
-                            <div class="text">
-                                <h3>{{ sibling.title }}</h3>
-                                <p>{{ sibling.feed_text }}</p>
-                                <ul class="meta">
-                                    <li>{{ sibling.date|date:"DATE_FORMAT" }}</li>
-                                </ul>
-                            </div>
-                        </a>
-                    </li>
-                {% empty %}
-                    <li>
-                        <div class="text">
-                            <p>No results</p>
-                        </div>
-                    </li>
-                {% endfor %}
-                <li>
-                    <a href="{% routablepageurl self.get_parent.specific 'all_entries' %}">
-                        <div class="text">
-                            <p>Show all</p>
-                        </div>
-                    </a>
-                </li>                
-            </ul>
-        </div>
-    </div>
-</div>
-
-
-{# highlights mobile #}
-<div class="highlights push-up cf mobile-show-tablet">
+<div class="bg-white">
     <div class="container">
-        <div class="eight none">
-            <a class="blog-pagination" href="{{ self.previous.url }}">
-                <div class="highlight smaller">
-                    <div class="text">
-                        <p class="sub">
-                            <h3 class="small">Previous</h3>{{ self.previous.title }}
-                        </p>
-                    </div>
+        <div class="row flex-row-reverse align-items-stretch no-gutters">
+            <aside class="col-12 col-lg-4 d-flex flex-column bg-light">
+                <div class="d-none d-lg-block">
+                    {% include "includes/blog_sidebar.html" with siblings=siblings current=self %}
                 </div>
-            </a>
-            <a class="blog-pagination" href="{{ self.next.url }}">
-                <div class="highlight smaller">
-                    <div class="text">
-                        <p class="sub">
-                           <h3 class="small">Next</h3>{{ self.next.title }}
-                        </p>
-                    </div>
+                <button class="btn btn-outline-primary d-lg-none w-100" type="button" data-toggle="collapse"
+                    data-target="#blog_sidebar" aria-expanded="false" aria-controls="collapseExample">
+                    Statement listing
+                    <span class="icon ion-ios-arrow-down"></span>
+                </button>
+                <div id="blog_sidebar" class="collapse d-lg-none">
+                    {% include "includes/blog_sidebar.html" with siblings=siblings current=self %}
                 </div>
-            </a>
+            </aside>
+            <main role="main" class="col-12 col-lg-8">
+                <div class="px-3 px-xl-5 mb-5">
+                    {% include 'includes/breadcrumbs.html' %}
+                    
+                    {% include "includes/blog_filters.html" with topics=topics parent_url=parent_url %}
+                    {% if filter_text %}
+                        <p class="h6">{{ filter_text }}</p>
+                    {% endif %}
+                    <h1>{{ self.title }}</h1>
+                    <p>{{ self.date|date:"DATE_FORMAT" }}</p>
+                    
+                    <p class="lead">{{ self.introduction }}</p>
+                    
+                    {{ self.prepared_body|safe }}
+                    
+                    {% bibliography self %}
+                    
+                    {% include "includes/social_share.html" only %}
+                    
+                </div>
+                <nav aria-label="blog" class="row no-gutters d-none d-lg-flex">
+                    <div class="col-6 bg-primary p-4 pl-5 d-flex align-items-center">
+                        <a class="text-white" href="{{ self.previous.url }}">
+                            <p class="sub">
+                                <div class="h6 text-uppercase">Previous</div>{{ self.previous.title }}
+                            </p>
+                        </a>
+                    </div>
+                    <div class="col-6 bg-secondary p-4 pr-5 d-flex align-items-center">
+                        <a class="text-white" href="{{ self.next.url }}">
+                            <p class="sub">
+                                <div class="h6 text-uppercase">Next</div>{{ self.next.title }}
+                            </p>
+                        </a>
+                    </div>
+                </nav>
+            </main>
         </div>
     </div>
-</div>
-{# highlights desktop #}
-<div class="highlights">
-    <div class="row container">
-        <div class="eight">
-            <div class="highlights tablet-desktop">
-                <a class="blog-pagination" href="{{ self.previous.url }}">
-                    <div class="highlight smaller">
-                        <div class="text">
-                            <p class="sub">
-                                <h3 class="small">Previous</h3>{{ self.previous.title }}
-                            </p>
-                        </div>
-                    </div>
-                </a>
-                <a class="blog-pagination" href="{{ self.next.url }}">
-                    <div class="highlight smaller">
-                        <div class="text">
-                            <p class="sub">
-                                <h3 class="small">Next</h3>{{ self.next.title }}
-                            </p>
-                        </div>
-                    </div>
-                </a>
-            </div>
+    <nav aria-label="blog" class="row no-gutters d-lg-none">
+        <div class="col-12 bg-primary p-4">
+            <a class="text-white" href="{{ self.previous.url }}">
+                <p>
+                    <div class="h6 text-uppercase">Previous</div>{{ self.previous.title }}
+                </p>
+            </a>
         </div>
-    </div>
+        <div class="col-12 bg-secondary p-4">
+            <a class="text-white" href="{{ self.next.url }}">
+                <p>
+                    <div class="h6 text-uppercase">Next</div>{{ self.next.title }}
+                </p>
+            </a>
+        </div>
+    </nav>
 </div>
-{% endblock %}
 
-{% block extra_js %}
-    <script type="text/javascript">
-     $(function() {
-         var container = $('.blog-listing'),
-             scrollTo = $('.active');
-
-         if (scrollTo) {
-            container.delay(500).animate({
-                scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop()
-            })
-         }
-     });
-    </script>
 {% endblock %}
