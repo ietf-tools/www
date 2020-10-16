@@ -7,7 +7,7 @@
     <div class="no-overflow-x">
 
         {% image self.main_image max-4000x4000 as bg_image %}
-        <div class="event_page__jumbotron rule-desktop" style="background-image: url({{ bg_image.url }});">
+        <div class="event_page__jumbotron" style="background-image: url({{ bg_image.url }});">
             <div class="container position-relative text-light pt-3 pb-4">
                 {% include 'includes/breadcrumbs.html' with dark_bg=True %}
 
@@ -62,7 +62,7 @@
                 {% if self.venue %}
                     <div class="border-bottom border-primary p-3">
                         {% if self.venue_section_title %}
-                            <h2  class="h4">{{ self.venue_section_title }}</h2>
+                            <h2 class="h4">{{ self.venue_section_title }}</h2>
                         {% endif %}
                         <dl class="row">
                             {% if self.venue %}
