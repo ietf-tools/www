@@ -20,7 +20,7 @@ $.datepicker.setDefaults({
     ],
     showButtonPanel: true,
     closeText: 'Close',
-    onClose: removeAria,
+    onClose: cleanUp,
 });
 
 // Add aria-describedby to the button referring to the label
@@ -68,14 +68,16 @@ function dayTripper() {
             today.focus();
             //  !!change
             const inputId = $(_this).prev('input').attr('id');
-            datePickHandler(inputId);
+            if (inputId) {
+                datePickHandler(inputId);
+                $('#ui-datepicker-div').data('current-input', inputId);
+            }
             // datePickHandler();
             $(document).on(
                 'click',
                 '#ui-datepicker-div .ui-datepicker-close',
                 function () {
-                    closeCalendar(inputId); // !!change
-                    // closeCalendar();
+                    closeCalendar();
                 },
             );
         }, 0);
@@ -87,7 +89,9 @@ function datePickHandler(inputId) {
     // function datePickHandler() {
     var activeDate;
     var container = document.getElementById('ui-datepicker-div');
+    // !!change
     var input = document.getElementById(inputId);
+    // var input = document.getElementById('datepicker');
 
     if (!container || !input) {
         return;
@@ -134,8 +138,7 @@ function datePickHandler(inputId) {
 
         if (27 === which) {
             keyVent.stopPropagation();
-            return closeCalendar(inputId); // !!change
-            // return closeCalendar();
+            return closeCalendar();
         } else if (which === 9 && keyVent.shiftKey) {
             // SHIFT + TAB
             keyVent.preventDefault();
@@ -215,8 +218,7 @@ function datePickHandler(inputId) {
             // ENTER
             if ($(target).hasClass('ui-state-default')) {
                 setTimeout(function () {
-                    closeCalendar(inputId); // !!change
-                    // closeCalendar();
+                    closeCalendar();
                 }, 100);
             } else if ($(target).hasClass('ui-datepicker-prev')) {
                 handlePrevClicks();
@@ -260,20 +262,26 @@ function datePickHandler(inputId) {
     });
 }
 
-function closeCalendar(inputId) {
+function closeCalendar() {
     var container = $('#ui-datepicker-div');
     $(container).off('keydown');
-    var input = $(`#${inputId}`)[0]; // !!change
+    // !!change
+    var inputId = container.data('current-input');
+    var input = $(`#${inputId}`)[0];
     // var input = $('#datepicker')[0];
     $(input).datepicker('hide');
 
     input.focus();
 }
 
-function removeAria() {
+// !!change
+function cleanUp() {
+    // function removeAria() {
     // make the rest of the page accessible again:
     // !! change
     $('.datepicker-hide').removeAttr('aria-hidden');
+    // There is no current input anymore, remove remove the reference to it
+    $('#ui-datepicker-div').data('currentInput', null);
     // $("#dp-container").removeAttr('aria-hidden');
     // $("#skipnav").removeAttr('aria-hidden');
 }
