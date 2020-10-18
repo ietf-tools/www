@@ -18,30 +18,36 @@
 $table-padding: 20px;
 $border-colour: #e1e4e5;
 
+.block-table__container {
+    overflow: scroll;
+    @include media-breakpoint-up(sm) {
+        overflow: auto;
+    }
+}
+
 .block-table {
     margin: 30px 0;
-    overflow: scroll;
-    border: 1px solid $border-colour;
+    // border: 1px solid $border-colour;
 
     @include media-breakpoint-up(sm) {
         margin: 50px 0;
         border: 0;
-        overflow: auto;
         width: calc(100% - 50px);
     }
-
+}
+.block-table,
+.block-table__container {
     > table {
         width: 100%;
         display: table;
-        overflow: scroll;
 
         @include media-breakpoint-up(sm) {
             width: calc(100% - 50px);
-            overflow: auto;
         }
 
         > tbody {
             width: 100%;
+            background-color: $white;
         }
 
         > caption {
