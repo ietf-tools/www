@@ -5,42 +5,41 @@
 {% block main_content %}
 <main role="main">
 
-  <div class="bg-white border-bottom pb-3">
+  <div class="bg-white border-bottom border-primary pb-3">
     <div class="container">
       <div class="u-max-text-width">
-
         {% include 'includes/breadcrumbs.html' %}
         <h1>{{ self.title }}</h1>
         <p class="lead">{{ self.introduction }}</p>
-        
-        {% include 'includes/social_fields.html' %}{# TODO??? keep?/change?move? #}
       </div>
     </div>
   </div>
   
-  <div class="container">
-    <ul class="topic-list list-unstyled mt-5">
-      {% for primary_topic in self.primary_topics %}
-      <li class="border-bottom pb-5 mb-5 border-primary">
-        <div class="row d-flex flex-column flex-md-row align-items-md-center w-100">
-          {% if primary_topic.feed_image %}
-          {# aria-hidden because a) probably not useful to screen readers and b) stop them having two focusable links to deal with #}
+  <ul class="list-unstyled pt-5 bg-white mb-0">
+    {% for primary_topic in self.primary_topics %}
+    <li class="pb-5 {% if not forloop.last %}mb-5 border-primary border-bottom{% endif %}">
+      <div class="topic-list__item">
+        <div class="container">
+          <div class="row d-flex flex-column flex-md-row align-items-md-center w-100">
+            {% if primary_topic.feed_image %}
+            {# aria-hidden because a) probably not useful to screen readers and b) stop them having two focusable links to deal with #}
             <div class="col-12 col-md-4 order-first order-md-last mb-4 mb-md-0" aria-hidden="true">
               <a href="{% pageurl primary_topic %}" tabindex="-1">
                 {% image primary_topic.feed_image original as feed_image %}
-                <img src="{{ feed_image.url }}" alt="{{ primary_topic.feed_image.title }}" class="circle-img border border-primary">
+                <img src="{{ feed_image.url }}" alt="{{ primary_topic.feed_image.title }}" class="thumb-img border border-primary">
               </a>
             </div>
-          {% endif %}
-          <div class="col-12 col-md-8">
-            <h2 class="h3"><a href="{% pageurl primary_topic %}">{{ primary_topic.title }}<span class="icon ion-ios-arrow-forward ml-3"></span></a></h2>
-            <p class="mb-0 lead">{{ primary_topic.feed_text }}</p>
+            {% endif %}
+            <div class="col-12 col-md-8">
+              <h2 class="h3"><a href="{% pageurl primary_topic %}">{{ primary_topic.title }}<span class="icon ion-ios-arrow-forward ml-3"></span></a></h2>
+              <p class="mb-0 lead">{{ primary_topic.feed_text }}</p>
+            </div>
           </div>
         </div>
-      </li>
-      {% endfor %}
-    </ul>
-  </div>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
   
 </main>
 
