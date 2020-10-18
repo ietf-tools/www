@@ -5,6 +5,7 @@
 @import './pages.scss'; // Styles for page templates
 @import '../../templates/includes/styles/index.scss'; // Styles for global includes template files
 @import '../../snippets/templates/snippets/styles/index.scss'; // Styles for snippet templates
+@import './images.scss'; // Styles for images that can't be managed with bootstrap classes alone
 @import './utilities.scss'; // Utility classes that don't exist in Bootstrap yet
 @import './streamfield.scss'; // Styles for streamfield blocks
 @import './datepicker.scss'; // Styles for jquery-ui datepicker
