@@ -3,115 +3,129 @@
 
 {% block title %}Search{% endblock %}
 
-{% block extra_css %}
-<style>
-.result_title {margin: 0.25rem 0 0.25rem; }
-.result_description { margin: 0.25rem 0 0.75rem; }
-</style>
-{% endblock %}
-
 {% block main_content %}
 
-<div class="subtle-white">
+<main role="main">
+  <div class="bg-white border-bottom">
+    <div class="container pb-3">
+      
+      <nav aria-label="breadcrumbs">
+        <ol class="breadcrumb bg-transparent pt-4 mb-0">
+          <li class="breadcrumb-item h5">
+            <a class="text-dark" title="home" href="/">
+              <span class="icon ion-android-home" aria-hidden="true"></span>
+            </a>
+          </li>
+        </ol>
+      </nav>
+      
+      <h1>Search results for www.ietf.org</h1>
+      <p class="lead">The search results below include information from the primary public-facing website of the IETF.</p>
+      
+      <div class="row mb-4">
+        <div class="col-md-8 col-lg-6">
+          <form class="input-group" action="{% url 'search' %}" method="get" name="site-search">
+            <input id="site-search" aria-label="site-search" class="form-control" type="text"
+              placeholder="Enter your query here" name="query" {% if search_query %} value="{{ search_query }}" {% endif %} />
+            <button class="btn btn-primary" type="submit">Go</button>
+          </form>
+        </div>
+      </div>
 
-  <div class="body-white rule-desktop">
-    <div class="container">
-      <ul class="breadcrumb">{# no further crumbs are necessary since we are at the top level anyway #}
-        <li><a href="/"><span class="icon ion-android-home"></span></a></li>
-      </ul>
-      <h1 class="result_title">Search results for www.ietf.org</h1>
-      <h3 class="result_description">The search results below include information from the primary public-facing website of the IETF.</h3>
-      <form class="big-search" action="{% url 'search' %}" method="get">
-        <label for="big-search" style="display: none;">Search</label>
-        <input id="big-search" aria-label="search" type="text" placeholder="Enter your query here" name="query" {% if search_query %} value="{{ search_query }}"{% endif %}>
-        <button class="" type="submit">Go</button>
-      </form>
     </div>
   </div>
-
-
-  <!-- side nav -->
   <div class="container">
-    <div class="row">
-      <div class="four none body-white float-right mobile-colour rule-mobile js-equal-height-body-right-col">
-          <ul class="side-nav sticky">
-              <h4 class="result_title">Search IETF Email Archives</h4>
-              <h5 class="result_description">Publicly-available messages from the IETF mailing list archives.</h5>
-              <li class="section standard-form">
-                  <form class="big-search" action="https://mailarchive.ietf.org/arch/search/" method="GET" target="_blank">
-                      <label for="side-nav-search" style="display: none;">Search</label>
-                      <input id="side-nav-search" aria-label="search the email archive" placeholder="Search the email archive" name="q" type="text">
-                      <button class="side-nav" type="submit">Go</button>
-                  </form>
-              </li>
-              <h4 class="result_title">Search IETF Datatracker</h4>
-              <h5 class="result_description">IETF documents, working groups, and meetings.</h5>
-              <li class="section standard-form">
-                  <form class="big-search" action="https://datatracker.ietf.org/doc/search/" method="GET" target="_blank">
-                    <label for="search-datatracker" style="display: none;">Search</label>
+    <div class="row no-gutters align-items-stretch justify-content-between">
+      <div class="col-12 col-lg-8 pt-3 pt-lg-5">
+        <div class="u-max-text-width pr-3 pb-4">
 
-                      <input id="search-datatracker" aria-label="search datatracker" placeholder="Search datatracker" name="name" type="text">
-                      <button class="side-nav" type="submit">Go</button>
-                      <input type="hidden" name="rfcs" value="on">
-                      <input type="hidden" name="activedrafts" value="on">
-                      <input type="hidden" name="by" value="group">
-                  </form>
-              </li>
+          {% if search_picks %}
+          <h2 class="sr-only">Search results{% if search_query %} for "{{ search_query }}"{% endif %}</h2>
+          <ul class="list-unstyled">
+            {% for result in search_picks %}
+            <li class="mb-4">
+              <h3 class="h5">
+                <a href="{% pageurl result.page %}">
+                  {{ result.page }}
+                </a>
+              </h3>
+              {% if result.description %}
+                <p>{{ result.description|safe }}</p>
+              {% endif %}
+              {% if result.page.search_description %}
+                <p>{{ result.page.search_description|safe }}</p>
+              {% endif %}
+            </li>
+            {% endfor %}
           </ul>
+          {% endif %}
+          
+          {% if search_results %}
+          <h2 class="sr-only">Search results{% if search_query %} for "{{ search_query }}"{% endif %}</h2>
+          <ul class="list-unstyled">
+            {% for result in search_results %}
+              <li class="mb-4">
+                <h3 class="h5">
+                  <a href="{% pageurl result %}">
+                    {{ result }}
+                  </a>
+                </h3>
+                {% if result.search_description %}
+                 <p>{{ result.search_description|safe }}</p>
+              {% endif %}
+            </li>
+            {% endfor %}
+          </ul>
+          
+          {% if search_results.has_previous %}
+            <a href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.previous_page_number }}"
+              class="btn btn-primary mb-4">Previous</a>
+          {% endif %}
+          
+          {% if search_results.has_next %}
+            <a href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.next_page_number }}"
+              class="btn btn-primary mb-4">Next</a>
+          {% endif %}
+
+          {% elif search_query %}
+            {% if not search_picks %}
+              <p>No results found</p>
+            {% endif %}
+          {% endif %}
+
+        </div>
       </div>
 
+      <div class="bg-white col-12 col-lg-4 p-3 p-sm-4 py-lg-5 px-xl-5">
+        <h2 class="h4">Search IETF Email Archives</h4>
+        <p>Publicly-available messages from the IETF mailing list archives.</p>
 
-      <div class="eight body-colour body-visable cf">
+        <form class="input-group" action="https://mailarchive.ietf.org/arch/search/" method="GET" target="_blank">
+          <input id="side-nav-search" aria-label="Search IETF Email Archives" class="form-control" type="text" placeholder="Search the email archive"
+            name="q" />
+          <button class="btn btn-primary" type="submit">Go</button>
+        </form>
 
-        {% if search_picks %}
-          <ul class="results-list">
-            {% for result in search_picks %}
-              <a href="{% pageurl result.page %}">
-                <li>
-                  <h3>{{ result.page }}</h3>
-                  {% if result.description %}
-                    <p>{{ result.description|safe }}</p>
-                  {% endif %}
-                  {% if result.page.search_description %}
-                    <p>{{ result.page.search_description|safe }}</p>
-                  {% endif %}
-                </li>
-              </a>
-            {% endfor %}
-          </ul>
-        {% endif %}
+        <h2 class="h4 mt-4">Search IETF Datatracker</h2>
+        <p>IETF documents, working groups, and meetings.</p>
 
-        {% if search_results %}
-          <ul class="results-list">
-            {% for result in search_results %}
-              <a href="{% pageurl result %}">
-                <li>
-                  <h3>{{ result }}</h3>
-                  {% if result.search_description %}
-                    <p>{{ result.search_description|safe }}</p>
-                  {% endif %}
-                </li>
-              </a>
-            {% endfor %}
-          </ul>
-
-          {% if search_results.has_previous %}
-            <a href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.previous_page_number }}" class="btn btn-secondary">Previous</a>
-          {% endif %}
-
-          {% if search_results.has_next %}
-            <a href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.next_page_number }}" class="btn btn-secondary">Next</a>
-          {% endif %}
-        {% elif search_query %}
-          {% if not search_picks %}
-            No results found
-          {% endif %}
-        {% endif %}
-
+        <form class="input-group" action="https://datatracker.ietf.org/doc/search/" method="GET" target="_blank">
+          <input id="search-datatracker" aria-label="Search Datatracker" class="form-control" type="text"
+            placeholder="Search Datatracker" name="name" />
+          <button class="btn btn-primary" type="submit">Go</button>
+          <input type="hidden" name="rfcs" value="on">
+          <input type="hidden" name="activedrafts" value="on">
+          <input type="hidden" name="by" value="group">
+        </form>
+      
       </div>
     </div>
+
   </div>
+</main>
 
-</div>
+{% endblock %}
 
-{% endblock main_content %}
+
+
+
