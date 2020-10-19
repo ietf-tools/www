@@ -23,7 +23,7 @@
             </div>
         </div>
         <div class="container">
-            <div class="row flex-lg-row-reverse no-gutters align-items-stretch justify-content-between">
+            <div class="row no-gutters align-items-stretch justify-content-between">
                 <div class="col-12 col-lg-8 col-xl-9 pt-3 pt-lg-5">
                     {% if self.key_info or self.in_depth %}
                     <div class="no-js-hide u-max-text-width pr-3">
@@ -66,12 +66,16 @@
                         {% if self.in_depth %}{{ self.in_depth|safe }}{% endif %}
                     </noscript>
 
-                    {% include "includes/highlight.html" %}
+                    <div class="d-none d-lg-block">
+                        {% include "includes/highlight.html" %}
+                    </div>
                 </div>
-                {% include "includes/row_siblings_in_section.html" with page=self class="order-first order-last-lg" %}
+                {% include "includes/row_siblings_in_section.html" with page=self %}
             </div>
             
-            
+        </div>
+        <div class="d-lg-none">
+            {% include "includes/highlight.html" %}
         </div>
     </main>
 

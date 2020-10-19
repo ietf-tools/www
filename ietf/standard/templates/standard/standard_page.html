@@ -15,11 +15,10 @@
         </div>
 
         <div class="container">
-            <div class="row flex-lg-row-reverse no-gutters align-items-stretch justify-content-between">
-                {% include "includes/row_siblings_in_section.html" with page=self %}
-
+            <div class="row no-gutters align-items-stretch justify-content-between">
+                
                 {# main content row #}
-                <div class="col-12 col-lg-8 col-xl-9 pt-3">
+                <div class="col-12 col-lg-8 col-xl-9 pt-3 pt-lg-5 pr-3">
                 {% has_tabs self.prepared_key_info self.prepared_in_depth as show_tabs %}
                 {% if show_tabs %}
                 {% comment %} 
@@ -80,6 +79,8 @@
 
                 </div>
                 {# end main content row #}
+
+                {% include "includes/row_siblings_in_section.html" with page=self %}
             </div>
 
         </div>

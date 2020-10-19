@@ -23,8 +23,8 @@
 
         {# main region #}
         <div class="container">
-            <div class="row flex-lg-row-reverse no-gutters align-items-stretch justify-content-between">
-                {% include "includes/row_siblings_in_section.html" with page=self class="d-none d-lg-block" %}
+            <div class="row no-gutters align-items-stretch justify-content-between">
+                
                 <div class="col-12 col-lg-8 col-xl-9">
                 {% if self.body %}
                     <div class="border-bottom border-primary py-4 px-3">
@@ -148,6 +148,8 @@
                     </div>
                 {% endif %}
                 </div>
+
+                {% include "includes/row_siblings_in_section.html" with page=self %}
             </div>
             {# end main region #}
         </div>
