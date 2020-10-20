@@ -4,7 +4,7 @@
         <ul class="list-unstyled">
             {% for item in items %}
                 <li>
-                    <a name="bibliography{{ item.ordering }}"></a>
+                    <a id="bibliography{{ item.ordering }}"></a>
                     <h3 class="h5">
                         <a href="{{ item.uri }}">
                                 <span class="bibliography__order">[{{ item.ordering }}]</span>{{ item.title }}
@@ -12,7 +12,7 @@
                     </h3>
                     <div class="pl-3">
                     {% if item.long_title %}
-                        <h4 class="h6">{{ item.long_title }}</h3>
+                        <h4 class="h6">{{ item.long_title }}</h4>
                     {% endif %}
                     <div class="small">{{ item.content }}</div>
                     </div>

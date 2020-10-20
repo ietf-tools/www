@@ -29,13 +29,13 @@
                     {% include "includes/blog_sidebar.html" with siblings=siblings current=self %}
                 </div>
             </aside>
-            <main role="main" class="col-12 col-lg-8">
+            <main class="col-12 col-lg-8">
                 <div class="px-3 px-xl-5 mb-5">
                     {% include 'includes/breadcrumbs.html' %}
 
                     {% include "includes/blog_filters.html" with topics=topics parent_url=parent_url %}
                     {% if filter_text %}
-                        <p class="h6 ">{{ filter_text }}</p>
+                        <p class="h6">{{ filter_text }}</p>
                     {% endif %}
                     <h1>{{ self.title }}</h1>
                     {% include "includes/blog_authors.html" with post=self %}
