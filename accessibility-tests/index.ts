@@ -69,11 +69,11 @@ const rulesToDisable: string[] = [
                 .disableRules(rulesToDisable)
                 .analyze();
 
-            const filteredViolations = allResults.violations.filter(result => {
+            const filteredViolations = allResults.violations.filter((result: any) => {
                 // Anything in an 'embed' block, e.g. youtume iframes.
                 // This is an issue on youtube's domain.
-                if (result.id === 'region' && result.nodes.some(node => {
-                    return node.target.some(target => {
+                if (result.id === 'region' && result.nodes.some((node: any) => {
+                    return node.target.some((target: any) => {
                         return target.includes('.block-embed')
                     })
                 })) {
