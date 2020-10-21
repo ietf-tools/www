@@ -29,6 +29,11 @@ const testPaths = [
     '/calintest-homepage-1/calintest-event-listing-page-1/',
     '/calintest-homepage-1/titletitletitletitletitletitletitletitletitletitle/',
     '/calintest-homepage-1/calintest-homepage/',
+    '/calintest-homepage-1/calintest-iesg-statements-index-page/calintest-iesg-statement-page-1/',
+    '/calintest-homepage-1/calintest-iesg-statements-index-page/calintest-iesg-statement-page-empty/',
+    '/calintest-homepage-1/titletitletitletitletitletitletitletitletitletitle/calintest-blog-page-title1/',
+    '/calintest-homepage-1/titletitletitletitletitletitletitletitletitletitle/calintest-blog-page-title2/',
+    '/calintest-homepage-1/titletitletitletitletitletitletitletitletitletitle/blog-page-empty/',
 ];
 
 const violationImpactsThatFail = ['serious', 'critical'];
