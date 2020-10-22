@@ -4,7 +4,7 @@
 {% block main_content %}
 
 
-    <div class="no-overflow-x">
+    <main class="no-overflow-x">
 
         {% image self.main_image max-4000x4000 as bg_image %}
         <div class="event_page__jumbotron" style="background-image: url({{ bg_image.url }});">
@@ -21,7 +21,6 @@
             </div>
         </div>
 
-        {# main region #}
         <div class="container">
             <div class="row no-gutters align-items-stretch justify-content-between">
                 
@@ -151,8 +150,8 @@
 
                 {% include "includes/row_siblings_in_section.html" with page=self %}
             </div>
-            {# end main region #}
+          
         </div>
-    </div>
+    </main>
 
 {% endblock %}

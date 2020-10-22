@@ -74,7 +74,7 @@ const rulesToDisable: string[] = [
                 // This is an issue on youtube's domain.
                 if (result.id === 'region' && result.nodes.some((node: any) => {
                     return node.target.some((target: any) => {
-                        return target.includes('.block-embed')
+                        return target.includes('.block-embed') || target.includes('#player')
                     })
                 })) {
                     return false;
