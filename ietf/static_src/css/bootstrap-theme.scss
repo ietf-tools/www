@@ -1,15 +1,18 @@
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
 
+$brand-blue-primary: #1762bb;
+$brand-blue-secondary: #1a7dae;
+
 // Variables used in reboot
 $body-color: #333741;
 $body-bg: #f3f5f6;
 $font-family-base: 'montserrat', Helvetica, arial, sans-serif;
-$link-color: #1762bb;
+$link-color: $brand-blue-primary;
 
 $theme-colors: (
-    'primary': #1762bb,
-    'secondary': #1a7dae,
+    'primary': $brand-blue-primary,
+    'secondary': $brand-blue-secondary,
     'dark': #49555c,
 );
 
@@ -31,13 +34,17 @@ $container-max-widths: (
 );
 
 $headings-font-weight: 400;
-$headings-font-family: 'aktiv-grotesk', 'HelveticaNeue-Light', helvetica arial,
+$headings-font-family: 'aktiv-grotesk', 'HelveticaNeue-Light', helvetica, arial,
     sans-serif;
 
 $dropdown-bg: $dark;
 $dropdown-link-color: $light;
 $dropdown-link-active-bg: $dark;
 $dropdown-link-hover-bg: $dark;
+
+$pagination-color: $brand-blue-primary;
+$pagination-active-bg: $brand-blue-primary;
+$pagination-active-border-color: $brand-blue-primary;
 
 $breadcrumb-divider: quote('>');
 $breadcrumb-divider-color: inherit;
