@@ -59,26 +59,28 @@ Replace "`http://localhost:9000`" with the URL of your running website.
 
 ## Deploying
 
-Deploys to production are intentionally unavailable as an automated workflow from Git.
+This project uses deploy branches.
 
-Deploys to staging environments are automated via CircleCI. Use your GitHub credentials to sign in to watch deploys and look for failing tests.
+Deploys to production are intentionally unavailable via deploy branches.
+
+Deploys to preview environments are automated via CircleCI. Use your GitHub credentials to sign in to watch deploys and look for failing tests.
 
 CircleCI is configured to run new site builds, to run tests, and (if the tests pass) to deploy.
 
-Deploys to staging may be done by merging to `deploy/staging`.
+Deploys to preview may be done by merging to `deploy/preview`.
 
 Eg,
 
 ```bash
-git push origin main:deploy/staging
+git push origin main:deploy/preview
 ```
 
-This would push `main` to `deploy/staging` and trigger a build on CircleCI.
+This would push `main` to `deploy/preview` and trigger a build on CircleCI.
 
 ```bash
-git push origin feature/my-feature:deploy/staging
+git push origin feature/my-feature:deploy/preview
 ```
 
-This would deploy your feature branch `feature/my-feature` to `deploy/staging`.
+This would deploy your feature branch `feature/my-feature` to `deploy/preview`.
 
-The staging environment's domain is private, and is password protected. Ask around for the details.
+The preview environment's domain is private, and is password protected. Ask around for the details.
