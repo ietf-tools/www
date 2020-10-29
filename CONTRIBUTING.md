@@ -37,7 +37,7 @@ This will use NVM to install the correct version of Node for this project, and s
 yarn
 ```
 
-Running `yarn` withou``t any arguments is an alias for `yarn install`. This will install the packages from `package.json`.
+Running `yarn` without any arguments is an alias for `yarn install`. This will install the packages from `package.json`.
 
 ```bash
 yarn build
