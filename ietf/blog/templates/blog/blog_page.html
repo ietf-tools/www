@@ -8,65 +8,67 @@
 
 {% block main_content %}
 <div class="bg-white">
-    <div class="container">
-        <div class="row flex-row-reverse align-items-stretch no-gutters">
-            <aside class="col-12 col-lg-4 d-flex flex-column bg-light">
-                <div class="d-none d-lg-block">
-                {% include "includes/blog_sidebar.html" with siblings=siblings current=self %}
-                </div>
-                <button
-                    class="btn btn-outline-primary d-lg-none w-100"
-                    type="button"
-                    data-toggle="collapse"
-                    data-target="#blog_sidebar"
-                    aria-expanded="false"
-                    aria-controls="collapseExample"
-                >
-                    Blog listing
-                    <span class="icon ion-ios-arrow-down"></span>
-                </button>
-                <div id="blog_sidebar" class="collapse d-lg-none">
+    <main id="content">
+        <div class="container">
+            <div class="row flex-row-reverse align-items-stretch no-gutters">
+                <aside class="col-12 col-lg-4 d-flex flex-column bg-light">
+                    <div class="d-none d-lg-block">
                     {% include "includes/blog_sidebar.html" with siblings=siblings current=self %}
-                </div>
-            </aside>
-            <main class="col-12 col-lg-8">
-                <div class="px-3 px-xl-5 mb-5">
-                    {% include 'includes/breadcrumbs.html' %}
-
-                    {% include "includes/blog_filters.html" with topics=topics parent_url=parent_url %}
-                    {% if filter_text %}
-                        <p class="h6">{{ filter_text }}</p>
-                    {% endif %}
-                    <h1>{{ self.title }}</h1>
-                    {% include "includes/blog_authors.html" with post=self %}
-                    <p>{{ self.date|date:"DATE_FORMAT" }}</p>
-                    <p class="lead">{{ self.introduction }}</p>
-
-                    {{ self.prepared_body|safe }}
-
-                    {% bibliography self %}
-
-                    {% include "includes/social_share.html" only %}
-                </div>
-                <nav aria-label="blog" class="row no-gutters d-none d-lg-flex">
-                    <div class="col-6 bg-primary p-4 pl-5 d-flex align-items-center">
-                        <a class="text-white" href="{{ self.previous.url }}">
-                            <p class="sub">
-                                <div class="h6 text-uppercase">Previous</div>{{ self.previous.title }}
-                            </p>
-                        </a>
                     </div>
-                    <div class="col-6 bg-secondary p-4 pr-5 d-flex align-items-center">
-                        <a class="text-white" href="{{ self.next.url }}">
-                            <p class="sub">
-                                <div class="h6 text-uppercase">Next</div>{{ self.next.title }}
-                            </p>
-                        </a>
+                    <button
+                        class="btn btn-outline-primary d-lg-none w-100"
+                        type="button"
+                        data-toggle="collapse"
+                        data-target="#blog_sidebar"
+                        aria-expanded="false"
+                        aria-controls="collapseExample"
+                    >
+                        Blog listing
+                        <span class="icon ion-ios-arrow-down"></span>
+                    </button>
+                    <div id="blog_sidebar" class="collapse d-lg-none">
+                        {% include "includes/blog_sidebar.html" with siblings=siblings current=self %}
                     </div>
-                </nav>
-            </main>
+                </aside>
+                <div class="col-12 col-lg-8">
+                    <div class="px-3 px-xl-5 mb-5">
+                        {% include 'includes/breadcrumbs.html' %}
+
+                        {% include "includes/blog_filters.html" with topics=topics parent_url=parent_url %}
+                        {% if filter_text %}
+                            <p class="h6">{{ filter_text }}</p>
+                        {% endif %}
+                        <h1>{{ self.title }}</h1>
+                        {% include "includes/blog_authors.html" with post=self %}
+                        <p>{{ self.date|date:"DATE_FORMAT" }}</p>
+                        <p class="lead">{{ self.introduction }}</p>
+
+                        {{ self.prepared_body|safe }}
+
+                        {% bibliography self %}
+
+                        {% include "includes/social_share.html" only %}
+                    </div>
+                    <nav aria-label="blog" class="row no-gutters d-none d-lg-flex">
+                        <div class="col-6 bg-primary p-4 pl-5 d-flex align-items-center">
+                            <a class="text-white" href="{{ self.previous.url }}">
+                                <p class="sub">
+                                    <div class="h6 text-uppercase">Previous</div>{{ self.previous.title }}
+                                </p>
+                            </a>
+                        </div>
+                        <div class="col-6 bg-secondary p-4 pr-5 d-flex align-items-center">
+                            <a class="text-white" href="{{ self.next.url }}">
+                                <p class="sub">
+                                    <div class="h6 text-uppercase">Next</div>{{ self.next.title }}
+                                </p>
+                            </a>
+                        </div>
+                    </nav>
+                </div>
+            </div>
         </div>
-    </div>
+    </main>
     <nav aria-label="blog" class="row no-gutters d-lg-none">
         <div class="col-12 bg-primary p-4">
             <a class="text-white" href="{{ self.previous.url }}">

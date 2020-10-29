@@ -4,7 +4,7 @@
 {% block body_class %}template-{{ self.get_verbose_name|slugify }}{% endblock %}
 
 {% block main_content %}
-<main>
+<main id="content">
     <h1 class="sr-only">Welcome to the <abbr title="Internet Engineering Task Force">IETF</abbr></h1>
     <!--  Jumbotron -->
     {% image self.main_image max-4000x4000 as bg_image %}

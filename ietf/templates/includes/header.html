@@ -1,6 +1,7 @@
 {% load static wagtailcore_tags %}
 
 <header>
+    <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
     <div class="collapse" id="navbarSearch">
         <div class="container">
             <div class="row justify-content-center">
@@ -10,6 +11,7 @@
                     method="get"
                     name="search"
                 >
+                    <label for="search" class="sr-only">Search</label>
                     <input
                         type="search"
                         class="form-control"

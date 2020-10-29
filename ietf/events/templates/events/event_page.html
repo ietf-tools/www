@@ -2,10 +2,7 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 
 {% block main_content %}
-
-
-    <main class="no-overflow-x">
-
+    <main class="no-overflow-x" id="content">
         {% image self.main_image max-4000x4000 as bg_image %}
         <div class="event_page__jumbotron" style="background-image: url({{ bg_image.url }});">
             <div class="container position-relative text-light pt-3 pb-4">

@@ -4,7 +4,7 @@
 
 {% block main_content %}
 <div class="bg-white">
-    <div class="container">
+    <main class="container" id="content">
         <div class="row flex-row-reverse align-items-stretch no-gutters">
             <aside class="col-12 col-lg-4 d-flex flex-column bg-light">
                 <div class="d-none d-lg-block">
@@ -19,7 +19,7 @@
                     {% include "includes/blog_sidebar.html" with siblings=siblings current=self %}
                 </div>
             </aside>
-            <main class="col-12 col-lg-8">
+            <div class="col-12 col-lg-8">
                 <div class="px-3 px-xl-5 mb-5">
                     {% include 'includes/breadcrumbs.html' %}
                     
@@ -55,9 +55,9 @@
                         </a>
                     </div>
                 </nav>
-            </main>
+            </div>
         </div>
-    </div>
+    </main>
     <nav aria-label="blog" class="row no-gutters d-lg-none">
         <div class="col-12 bg-primary p-4">
             <a class="text-white" href="{{ self.previous.url }}">
