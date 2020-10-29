@@ -89,15 +89,16 @@
                     method="GET"
                     target="_blank"
                 >
+                    <label for="search-email-box" class="sr-only">Search email archive</label>
                     <input
+                        id="search-email-box"
                         type="search"
                         class="form-control"
                         placeholder="Search the email archive"
-                        aria-label="Search the email archive"
                         name="q"
                         required
                     />
-                    <button type="submit" class="btn btn-primary">Go</button>
+                    <button type="submit" class="btn btn-primary" aria-label="Submit email archive search">Go</button>
                 </form>
             </div>
             <div class="col-lg-5">
@@ -112,15 +113,16 @@
                     method="GET"
                     target="_blank"
                 >
+                    <label for="search-datatracker-box" class="sr-only">Search IETF Datatracker</label>
                     <input
+                        id="search-datatracker-box"
                         type="search"
                         class="form-control"
                         placeholder="Search datatracker"
-                        aria-label="Search datatracker"
                         name="name"
                         required
                     />
-                    <button type="submit" class="btn btn-primary">Go</button>
+                    <button type="submit" class="btn btn-primary" aria-label="Submit IETF datatracker search">Go</button>
                     <input type="hidden" name="rfcs" value="on" />
                     <input type="hidden" name="activedrafts" value="on" />
                     <input type="hidden" name="by" value="group" />

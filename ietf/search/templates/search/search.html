@@ -25,9 +25,9 @@
       <div class="row mb-4">
         <div class="col-md-8 col-lg-6">
           <form class="input-group" action="{% url 'search' %}" method="get" name="site-search">
-            <input id="site-search" aria-label="site-search" class="form-control" type="text"
-              placeholder="Enter your query here" name="query" {% if search_query %} value="{{ search_query }}" {% endif %} />
-            <button class="btn btn-primary" type="submit">Go</button>
+            <label for="site-search" class="sr-only">Search site</label>
+            <input id="site-search" class="form-control" type="text" placeholder="Enter your query here" name="query" {% if search_query %} value="{{ search_query }}" {% endif %} />
+            <button class="btn btn-primary" type="submit" aria-label="Submit site search">Go</button>
           </form>
         </div>
       </div>
@@ -101,18 +101,18 @@
         <p>Publicly-available messages from the IETF mailing list archives.</p>
 
         <form class="input-group" action="https://mailarchive.ietf.org/arch/search/" method="GET" target="_blank">
-          <input id="side-nav-search" aria-label="Search IETF Email Archives" class="form-control" type="text" placeholder="Search the email archive"
-            name="q" />
-          <button class="btn btn-primary" type="submit">Go</button>
+          <label for="side-nav-search" class="sr-only">Search IETF Email Archives</label>
+          <input id="side-nav-search" class="form-control" type="text" placeholder="Search the email archive" name="q" />
+          <button class="btn btn-primary" type="submit" aria-label="Submit mailing list search">Go</button>
         </form>
 
         <h2 class="h4 mt-4">Search IETF Datatracker</h2>
         <p>IETF documents, working groups, and meetings.</p>
 
         <form class="input-group" action="https://datatracker.ietf.org/doc/search/" method="GET" target="_blank">
-          <input id="search-datatracker" aria-label="Search Datatracker" class="form-control" type="text"
-            placeholder="Search Datatracker" name="name" />
-          <button class="btn btn-primary" type="submit">Go</button>
+          <label for="search-datatracker" class="sr-only">Search Datatracker</label>
+          <input id="search-datatracker" class="form-control" type="text" placeholder="Search Datatracker" name="name" />
+          <button class="btn btn-primary" type="submit" aria-label="Submit Datatracker search">Go</button>
           <input type="hidden" name="rfcs" value="on">
           <input type="hidden" name="activedrafts" value="on">
           <input type="hidden" name="by" value="group">

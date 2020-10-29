@@ -30,8 +30,9 @@
                 <div class="row mb-4 mt-4">
                     <div class="col-md-8 col-lg-6">
                         <form class="input-group" action="{% url 'search' %}" method="GET" name="search">
-                            <input aria-label="Search" class="form-control" type="text" placeholder="Search" name="query" />
-                            <button class="btn btn-primary" type="submit">Go</button>
+                            <label for="search-box2" class="sr-only">Search website</label>
+                            <input id="search-box2" class="form-control" type="text" placeholder="Search" name="query" />
+                            <button class="btn btn-primary" type="submit" aria-label="Submit website search">Go</button>
                         </form>
                     </div>
                 </div>

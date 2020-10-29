@@ -13,15 +13,14 @@
                 >
                     <label for="search" class="sr-only">Search</label>
                     <input
+                        id="search"
                         type="search"
                         class="form-control"
-                        placeholder="Search"
-                        aria-label="Search"
-                        id="search"
+                        placeholder="Search"                        
                         name="query"
                         required
                     />
-                    <button type="submit" class="btn btn-primary">Go</button>
+                    <button type="submit" class="btn btn-primary" aria-label="Submit website search">Go</button>
                 </form>
             </div>
         </div>
@@ -41,6 +40,7 @@
                 aria-label="Toggle navigation"
             >
                 <span class="navbar-toggler-icon text-light"></span>
+                <span class="sr-only">Supported content</span>
             </button>
             <!-- Mobile search -->
             <button
@@ -116,7 +116,7 @@
                     </li>
                     <li class="nav-item d-none d-lg-inline-block">
                         <a
-                            href="#search"
+                            href="/search"
                             class="btn btn-dark text-white nav-link"
                             role="button"
                             data-toggle="collapse"
