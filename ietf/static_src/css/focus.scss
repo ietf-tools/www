@@ -1,4 +1,9 @@
 *:focus {
-    outline: 3px solid #b53cde;
+    outline: 3px solid #b53cde !important;
     outline-offset: 3px;
+}
+
+[data-whatintent='mouse'] *:focus {
+    outline: none;
+    outline-offset: auto;
 }
