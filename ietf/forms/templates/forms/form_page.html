@@ -31,35 +31,35 @@
                                     {% else %}
                                         {{ field|add_attr:'class:form-check-input' }}
                                     {% endif %}
-                                    <label class="form-check-label" for="{{ field.id_for_label }}">
+                                    <label class="form-check-label" for="{% if field.id_for_label %}{{ field.id_for_label }}{% else %}{{ field.auto_id }}{% endif %}">
                                         {{ field.label }}
                                         {% if field.field.required %}
                                             <span> *</span>
                                         {% endif %}
                                     </label>
                                     {% if field.help_text %}
-                                        <small id="{{ field.id_for_label }}_help" class="text-muted">
+                                        <small id="{% if field.id_for_label %}{{ field.id_for_label }}{% else %}{{ field.auto_id }}{% endif %}_help" class="text-muted">
                                             {{ field.help_text }}
                                         </small>
                                     {% endif %}
                                 </div>
 
                             {% elif field|widgettype == 'checkbox_select_multiple' or field|widgettype == 'radio_select' %}
-                                <label for="{{ field.id_for_label }}">
+                                <label for="{% if field.id_for_label %}{{ field.id_for_label }}{% else %}{{ field.auto_id }}{% endif %}">
                                     {{ field.label }}
                                     {% if field.field.required %}
                                         <span> *</span>
                                     {% endif %}
                                 </label>
                                 {% if field.help_text %}
-                                    <small id="{{ field.id_for_label }}_help" class="text-muted">
+                                    <small id="{% if field.id_for_label %}{{ field.id_for_label }}{% else %}{{ field.auto_id }}{% endif %}_help" class="text-muted">
                                         {{ field.help_text }}
                                     </small>
                                 {% endif %}
                                 {{ field|add_attr:"list-unstyled" }}
 
                             {% else %}
-                                <label for="{{ field.id_for_label }}">
+                                <label for="{% if field.id_for_label %}{{ field.id_for_label }}{% else %}{{ field.auto_id }}{% endif %}">
                                     {{ field.label }} {% if field.field.required %}
                                     <span class="required">*</span>
                                     {% endif %}
@@ -73,7 +73,7 @@
                                     {{ field|add_attr:"class:form-control border-primary" }}
                                 {% endif %}
                                 {% if field.help_text %}
-                                    <small id="{{ field.id_for_label }}_help" class="text-muted">
+                                    <small id="{% if field.id_for_label %}{{ field.id_for_label }}{% else %}{{ field.auto_id }}{% endif %}_help" class="text-muted">
                                         {{ field.help_text }}
                                     </small>
                                 {% endif %}
