@@ -7,7 +7,7 @@ from wagtail.core.models import Page, Site
 
 class FormPageTests(TestCase):
 
-    def test_standard_page(self):
+    def test_form_page(self):
 
         root = Page.get_first_root_node()
 

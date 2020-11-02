@@ -5,9 +5,9 @@ from ..home.models import HomePage
 
 from wagtail.core.models import Page, Site
 
-class FormPageTests(TestCase):
+class GlossaryPageTests(TestCase):
 
-    def test_standard_page(self):
+    def test_glossary_page(self):
 
         root = Page.get_first_root_node()
 
