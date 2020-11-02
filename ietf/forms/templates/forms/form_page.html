@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load wagtailcore_tags form_tags %}
+{% load wagtailcore_tags %}
 
 {% block content %}
 <div class="bg-white">
@@ -21,49 +21,13 @@
                             {% if field.errors %}
                                 <p class="text-danger">{{ field.errors }}</p>
                             {% endif %}
+                            
 
-                            {% if field|widgettype == 'checkbox_input' %}
-                                <div class="form-check">
-                                    {% if field.help_text %}
-                                        {% with "class:form-check-input,aria-labelledby:"|add:field.id_for_label|add:"_help" as attr %}
-                                            {{ field|add_attr:attr }}
-                                        {% endwith %}
-                                    {% else %}
-                                        {{ field|add_attr:'class:form-check-input' }}
-                                    {% endif %}
-                                    <label class="form-check-label" for="{% if field.id_for_label %}{{ field.id_for_label }}{% else %}{{ field.auto_id }}{% endif %}">
-                                        {{ field.label }}
-                                        {% if field.field.required %}
-                                            <span> *</span>
-                                        {% endif %}
-                                    </label>
-                                    {% if field.help_text %}
-                                        <small id="{% if field.id_for_label %}{{ field.id_for_label }}{% else %}{{ field.auto_id }}{% endif %}_help" class="text-muted">
-                                            {{ field.help_text }}
-                                        </small>
-                                    {% endif %}
-                                    {{ field|add_attr:"class:list-unstyled" }}
-                                </fieldset>
-
+                            {% if field.id_for_label %}
+                                {% include "includes/form_field.html" with field=field field_id=field.id_for_label %}
                             {% else %}
-                                <label for="{% if field.id_for_label %}{{ field.id_for_label }}{% else %}{{ field.auto_id }}{% endif %}">
-                                    {{ field.label }} {% if field.field.required %}
-                                    <span class="required">*</span>
-                                    {% endif %}
-                                </label>
 
-                                {% if field.help_text %}
-                                    {% with "class:form-control border-primary,aria-labelledby:"|add:field.id_for_label|add:"_help" as attr %}
-                                        {{ field|add_attr:attr }}
-                                    {% endwith %}
-                                {% else %}
-                                    {{ field|add_attr:"class:form-control border-primary" }}
-                                {% endif %}
-                                {% if field.help_text %}
-                                    <small id="{% if field.id_for_label %}{{ field.id_for_label }}{% else %}{{ field.auto_id }}{% endif %}_help" class="text-muted">
-                                        {{ field.help_text }}
-                                    </small>
-                                {% endif %}
+                                {% include "includes/form_field.html" with field=field field_id=field.auto_id %}
                             {% endif %}
                         </div>
                     {% endfor %}
