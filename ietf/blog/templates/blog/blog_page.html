@@ -8,15 +8,15 @@
 
 {% block main_content %}
 <div class="bg-white">
-    <main id="content">
+    <div id="content">
         <div class="container">
-            <div class="row flex-row-reverse align-items-stretch no-gutters">
-                <aside class="col-12 col-lg-4 d-flex flex-column bg-light">
+            <div class="row align-items-stretch no-gutters">
+                <aside class="col-12 col-lg-4 d-flex flex-column bg-light d-lg-none">
                     <div class="d-none d-lg-block">
                     {% include "includes/blog_sidebar.html" with siblings=siblings current=self %}
                     </div>
                     <button
-                        class="btn btn-outline-primary d-lg-none w-100"
+                        class="btn btn-outline-primary w-100"
                         type="button"
                         data-toggle="collapse"
                         data-target="#blog_sidebar"
@@ -26,11 +26,11 @@
                         Blog listing
                         <span class="icon ion-ios-arrow-down"></span>
                     </button>
-                    <div id="blog_sidebar" class="collapse d-lg-none">
+                    <div id="blog_sidebar" class="collapse ">
                         {% include "includes/blog_sidebar.html" with siblings=siblings current=self %}
                     </div>
                 </aside>
-                <div class="col-12 col-lg-8">
+                <main class="col-12 col-lg-8">
                     <div class="px-3 px-xl-5 mb-5">
                         {% include 'includes/breadcrumbs.html' %}
 
@@ -65,10 +65,13 @@
                             </a>
                         </div>
                     </nav>
-                </div>
+                </main>
+                <aside class="col-12 col-lg-4 d-flex flex-column bg-light d-none d-lg-block">
+                    {% include "includes/blog_sidebar.html" with siblings=siblings current=self %}
+                </aside>
             </div>
         </div>
-    </main>
+    </div>
     <nav aria-label="blog" class="row no-gutters d-lg-none">
         <div class="col-12 bg-primary p-4">
             <a class="text-white" href="{{ self.previous.url }}">
