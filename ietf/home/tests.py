@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from .models import HomePage
+from .models import HomePage, RequestForCommentsSectionLinks, WorkingGroupsSectionLinks
 from ..blog.models import BlogPage, BlogIndexPage
 from ..snippets.models import RFC, WorkingGroup
 
@@ -48,23 +48,8 @@ class HomeTests(TestCase):
         )
         blogindex.add_child(instance = blog)
 
-        rfc = RFC.objects.create(
-            name = 'rfc-name',
-            title = 'rfc title',
-            rfc = '6666',
-        )
-
-        wg = WorkingGroup.objects.create(
-            name = 'wg name',
-            acronym = 'wgacronym',
-            description = 'wg description',
-        )
-
-
         home.button_text = 'blog button text'
         home.button_link = blog
-        home.highlighted_request_for_comment = rfc
-        home.highlighted_working_group = wg
         home.save()
 
         r = self.client.get(path=home.url or '/')
@@ -72,12 +57,8 @@ class HomeTests(TestCase):
         self.assertIn(home.title.encode(), r.content)
         self.assertIn(home.heading.encode(), r.content)
         self.assertIn(home.introduction.encode(), r.content)
-        self.assertIn(home.request_for_comments_section_body.encode(), r.content)
-        self.assertIn(home.working_groups_section_body.encode(), r.content)
         self.assertIn(home.button_text.encode(), r.content)
         self.assertIn(('href="%s"' % blog.url).encode(), r.content)
-        self.assertIn(('href="https://datatracker.ietf.org/doc/rfc%s"' % rfc.rfc).encode(), r.content)
-        self.assertIn(('href="https://datatracker.ietf.org/wg/%s"' % wg.acronym).encode(), r.content)
 
 
         # other_page = BlogPage.objects.create(
