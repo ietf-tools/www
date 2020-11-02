@@ -11,12 +11,12 @@
                     method="get"
                     name="search"
                 >
-                    <label for="search" class="sr-only">Search</label>
                     <input
                         id="search"
                         type="search"
                         class="form-control"
-                        placeholder="Search"                        
+                        placeholder="Search"
+                        aria-label="Search"
                         name="query"
                         required
                     />
@@ -58,7 +58,6 @@
 
             <div class="navbar-brand header__logo-container">
                 <a class="text-light" href="{{ HOME.url }}">
-                    <span class="sr-only">IETF</span>
                     <img
                         class="header__logo"
                         src="{% static 'img/ietf-logo.svg' %}"
@@ -88,8 +87,8 @@
                                     data-toggle="dropdown"
                                     aria-haspopup="true"
                                     aria-expanded="false"
+                                    aria-label="Toggle dropdown for {{ item.title }}"
                                 >
-                                    <span class="sr-only">Toggle dropdown for {{ item.title }}</span>
                                 </button>
 
                                 <ul class="dropdown-menu bg-dark" aria-labelledby="{{ item.pk }}Dropdown">
@@ -142,9 +141,8 @@
                             data-toggle="dropdown"
                             aria-haspopup="true"
                             aria-expanded="false"
-                        >
-                            <span class="sr-only">Toggle dropdown for tools</span>
-                        </button>
+                            aria-label="Toggle dropdown for tools"
+                        ></button>
                         <ul class="dropdown-menu bg-dark">
                             {% for item in settings.utils.SecondaryMenu.tools_menu_items.all %}
                                 <li class="dropdown-item position-relative">
