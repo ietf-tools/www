@@ -6,7 +6,7 @@
 <div class="bg-white">
     <div class="container" id="content">
         <div class="row align-items-stretch no-gutters">
-            <aside class="col-12 col-lg-4 d-flex flex-column bg-light d-lg-none">
+            <aside class="col-12 col-lg-4 d-flex flex-column bg-light d-lg-none" aria-label="Statement listing">
                 <button class="btn btn-outline-primary w-100" type="button" data-toggle="collapse"
                     data-target="#blog_sidebar" aria-expanded="false" aria-controls="collapseExample">
                     Statement listing
@@ -17,7 +17,7 @@
                 </div>
             </aside>
             <main class="col-12 col-lg-8">
-                <div class="px-3 px-xl-5 mb-5 flex-grow">
+                <div class="px-3 px-xl-5 mb-5">
                     {% include 'includes/breadcrumbs.html' %}
                     
                     {% include "includes/blog_filters.html" with topics=topics parent_url=parent_url %}
