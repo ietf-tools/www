@@ -6,9 +6,7 @@ This website uses the Wagtail CMS.
 
 ### Installing
 
-Documentation for running the backend environment is being written.
-
-You may wish to ask for a database dump before testing.
+See the [installation instructions](install.md#install)
 
 ### Testing
 
@@ -22,7 +20,9 @@ Please adhere to standard Bootstrap practices where possible rather than adding 
 
 ### Installing
 
-First, clone this repo.
+See the [installation instructions](install.md#install) to get the website running on your local machine.
+
+If you need to inspect the generated files outside of Docker, you can run these commands:
 
 Install [NVM](https://github.com/nvm-sh/nvm) and [Yarn](https://yarnpkg.com/) and then run these commands from the repo directory,
 
@@ -52,10 +52,10 @@ This will run Webpack and compile the source files at `ietf/static_src`. The `ya
 This command requires a running website which may be your local development site.
 
 ```bash
-yarn test:accessibility http://localhost:9000
+yarn test:accessibility http://localhost:8001
 ```
 
-Replace "`http://localhost:9000`" with the URL of your running website.
+Replace "`http://localhost:8001`" with the URL of your running website.
 
 ## Deploying
 
