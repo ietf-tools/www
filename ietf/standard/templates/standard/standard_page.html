@@ -30,7 +30,7 @@
                     - the <li> elements have a listitem role by default which doesn't belong in a tablist but an element with role list or group
                         -> we remove the default role by adding `role="presentation"` which actually sets the role for this element to `none`
                  {% endcomment %}
-                    <ul class="nav nav-tabs text-uppercase text-center" id="tabs" role="tablist" aria-owns="key-info-tab in-depth-tab">
+                    <ul class="nav nav-tabs text-uppercase text-center no-js-hide" id="tabs" role="tablist" aria-owns="key-info-tab in-depth-tab">
                         <li class="nav-item flex-grow-1" role="presentation">
                             <a class="nav-link active" id="key-info-tab" data-toggle="tab" href="#key-info" role="tab" aria-controls="key-info" aria-selected="true">Key Info</a>
                         </li>
@@ -42,7 +42,7 @@
 
                     {# content #}
                     <div class="mb-3" >
-                        <div class="{% if show_tabs %}mb-3 tab-content bg-white border border-top-0{% endif %}">
+                        <div class="{% if show_tabs %}mb-3 tab-content bg-white border border-top-0{% endif %} no-js-hide">
                             {% if self.prepared_key_info %}
                                 <div id="key-info" class="u-max-text-width{% if show_tabs %} tab-pane fade show active p-3" tabindex="0" role="tabpanel" aria-labelledby="key-info-tab{% endif %}">
                                     {{ self.prepared_key_info|safe }}
@@ -53,6 +53,16 @@
                                 <div id="in-depth"  class="u-max-text-width{% if show_tabs %} tab-pane fade p-3" role="tabpanel" aria-labelledby="in-depth-tab{% endif %}">
                                     {{ self.prepared_in_depth|safe }}
                                 </div>
+                            {% endif %}
+                        </div>
+                        <div class="d-none no-js-show u-max-text-width">
+                            {% if self.prepared_key_info %}
+                                {% if show_tabs %}<h2>Key Info</h2>{% endif %}
+                                {{ self.prepared_key_info|safe }}
+                            {% endif %}
+                            {% if self.prepared_in_depth %}
+                                {% if show_tabs %}<h2>In Depth</h2>{% endif %}
+                                {{ self.prepared_in_depth|safe }}
                             {% endif %}
                         </div>
 
