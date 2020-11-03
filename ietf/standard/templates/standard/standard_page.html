@@ -62,16 +62,15 @@
                     {% if self.faq_items.all %}
                         <div class="u-max-text-width">
                             <h2>Frequently asked questions</h2>
-                                <!-- To compensate for the 20px padding / text still lines up -->
-                                <ul class="list-unstyled">
-                                    {% for item in self.faq_items.all %}
-                                        <li>
-                                            <h3>{{ item.question }}</h3>
-                                            <p>{{ item.answer }}</p>
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
+                            <!-- To compensate for the 20px padding / text still lines up -->
+                            <ul class="list-unstyled">
+                                {% for item in self.faq_items.all %}
+                                    <li>
+                                        <h3>{{ item.question }}</h3>
+                                        <p>{{ item.answer }}</p>
+                                    </li>
+                                {% endfor %}
+                            </ul>
                         </div>
                     {% endif %}
 
