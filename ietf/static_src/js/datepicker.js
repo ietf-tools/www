@@ -69,8 +69,8 @@ function dayTripper() {
             //  !!change
             const inputId = $(_this).prev('input').attr('id');
             if (inputId) {
+                $('#ui-datepicker-div').attr('data-current-input', inputId);
                 datePickHandler(inputId);
-                $('#ui-datepicker-div').data('current-input', inputId);
             }
             // datePickHandler();
             $(document).on(
@@ -266,7 +266,7 @@ function closeCalendar() {
     var container = $('#ui-datepicker-div');
     $(container).off('keydown');
     // !!change
-    var inputId = container.data('current-input');
+    var inputId = container.attr('data-current-input');
     var input = $(`#${inputId}`)[0];
     // var input = $('#datepicker')[0];
     $(input).datepicker('hide');
@@ -280,8 +280,6 @@ function cleanUp() {
     // make the rest of the page accessible again:
     // !! change
     $('.datepicker-hide').removeAttr('aria-hidden');
-    // There is no current input anymore, remove remove the reference to it
-    $('#ui-datepicker-div').data('currentInput', null);
     // $("#dp-container").removeAttr('aria-hidden');
     // $("#skipnav").removeAttr('aria-hidden');
 }
