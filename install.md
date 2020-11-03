@@ -21,6 +21,8 @@ The backend configuration resides in `ietf/settings/docker`, inheriting some set
 
 ### On the frontend (separate from Docker if needed)
 
+Note: Running these steps before the Docker instructions above may prevent the frontend docker instance to run properly.
+
 This project uses [nvm](https://github.com/creationix/nvm) and [Yarn](https://yarnpkg.com/lang/en/)
 
 First, install dependencies:
