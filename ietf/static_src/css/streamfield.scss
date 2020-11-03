@@ -9,9 +9,25 @@
     margin-bottom: 1.5em;
 }
 
-.rich-text {
-    ul {
-        max-width: 100%;
+.block-paragraph {
+    .rich-text {
+        ul {
+            max-width: 100%;
+        }
+
+        .richtext-image {
+            &.left {
+                float: left;
+            }
+            &.right {
+                float: right;
+            }
+        }
+    }
+
+    // Prevent floating images breaking page layout
+    & + * {
+        clear: both;
     }
 }
 
