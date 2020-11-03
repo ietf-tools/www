@@ -2,6 +2,8 @@
 
 ## Quick start
 
+First, clone this repository.
+
 ### Run in Docker locally
 
 This project uses Docker to build and run the code, both frontend and backend.
@@ -23,7 +25,7 @@ The backend configuration resides in `ietf/settings/docker`, inheriting some set
 
 Note: Running these steps before the Docker instructions above may prevent the frontend docker instance to run properly.
 
-This project uses [nvm](https://github.com/creationix/nvm) and [Yarn](https://yarnpkg.com/lang/en/)
+Install [NVM](https://github.com/nvm-sh/nvm) and [Yarn](https://yarnpkg.com/) and then run these commands from the repo directory,
 
 First, install dependencies:
 
