@@ -8,7 +8,7 @@ $.datepicker.setDefaults({
     dateFormat: 'dd/mm/yy',
     showOn: 'button',
     buttonImageOnly: false,
-    buttonText: '<span class="sr-only">Calendar View</span>',
+    buttonText: '',
     dayNamesShort: [
         'Sunday',
         'Monday',
@@ -27,6 +27,7 @@ $.datepicker.setDefaults({
 $(function () {
     // !!change
     $('.ui-datepicker-trigger').each(function () {
+        $(this).attr('aria-label', 'Calendar view');
         const label = $(`label[for='${$(this).prev('input').attr('id')}']`)[0];
         const labelId = $(label).attr('id');
         if (labelId) {
