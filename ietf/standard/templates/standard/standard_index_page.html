@@ -39,16 +39,18 @@
           {% endif %}
         </div>
         {% if show_tabs %}
-            <div class="d-none no-js-show u-max-text-width">
-                {% if self.key_info %}
-                    <h2>Key Info</h2>
-                    {{ self.key_info|safe }}
-                {% endif %}
-                {% if self.in_depth %}
-                    <h2>In Depth</h2>
-                    {{ self.in_depth|safe }}
-                {% endif %}
-            </div>
+            <noscript>
+                <div class="u-max-text-width">
+                    {% if self.key_info %}
+                        <h2>Key Info</h2>
+                        {{ self.key_info|safe }}
+                    {% endif %}
+                    {% if self.in_depth %}
+                        <h2>In Depth</h2>
+                        {{ self.in_depth|safe }}
+                    {% endif %}
+                </div>
+            <noscript>
         {% endif %}
       </div>
     </div>
