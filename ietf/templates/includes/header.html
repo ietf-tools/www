@@ -104,7 +104,7 @@
                             aria-expanded="false"
                             aria-label="Toggle dropdown for tools"
                         ></button>
-                        <ul class="dropdown-menu bg-dark">
+                        <ul class="dropdown-menu dropdown-menu-right bg-dark">
                             {% for item in settings.utils.SecondaryMenu.tools_menu_items.all %}
                                 <li class="dropdown-item position-relative">
                                     <a class="text-white stretched-link" href="{{ item.url}}">{{ item.title }}</a>
