@@ -16,9 +16,9 @@
                                 {% image event.main_image height-245 as event_image %}
                                 <img class="event_listing_page__promoted-image w-100 h-100 u-obj-cover" src="{{ event_image.url }}" alt="{{ event.main_image.title }}">
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-8 position-static">
                                 <div class="card-body">
-                                    <h2 class="card-title h4"><a href="{{ event.url }}">{{ event.title }}&nbsp;<span class="icon ion-ios-arrow-forward"></span></a></h2>
+                                    <h2 class="card-title h4"><a class="stretched-link" href="{{ event.url }}">{{ event.title }}&nbsp;<span class="icon ion-ios-arrow-forward"></span></a></h2>
                                     <p class="card-text">{{  event.introduction|truncatewords:30 }}</p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <small>
@@ -47,8 +47,8 @@
                     <ul class="row list-unstyled">
                         {% for event in self.upcoming_events %}
                             <li class="col-12 col-md-6 col-lg-4">
-                                <div class="bg-white p-4">
-                                    <h3 class="h5"><a href="{{ event.url }}">{{ event.title }}</a></h3>
+                                <div class="bg-white p-4 position-relative">
+                                    <h3 class="h5"><a class="stretched-link" href="{{ event.url }}">{{ event.title }}</a></h3>
                                     <small>
                                         {% if event.date %}
                                             <span>{{ event.date }}</span>
@@ -74,8 +74,8 @@
                     <ul class="row list-unstyled">
                         {% for event in self.past_events|slice:":18" %}
                             <li class="col-12 col-md-6 col-lg-4 mb-4">
-                                <div class="bg-white p-4">
-                                    <h3 class="h5"><a href="{{ event.url }}">{{ event.title }}</a></h3>
+                                <div class="bg-white p-4 position-relative">
+                                    <h3 class="h5"><a class="stretched-link" href="{{ event.url }}">{{ event.title }}</a></h3>
                                     <small>
                                         {% if event.date %}
                                             <span>{{ event.date }}</span>
