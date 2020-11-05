@@ -1,17 +1,16 @@
 <div class="my-3">
-    <h3 class="h5">
-        <a
-            class="d-block"
+    <button
+            class="d-block btn btn-link p-0 w-100 border-0 text-left"
             data-toggle="collapse"
-            href="#{{ link_group.value.title|slugify }}"
-            role="button"
+            data-target="#{{ link_group.value.title|slugify }}"
             aria-expanded="{% if expanded %}true{% else %}false{% endif %}"
             aria-controls="{{ link_group.value.title|slugify }}"
+            aria-label="{{ link_group.value.title }} - Click to toggle"
         >
-            <span>{{ link_group.value.title }} </span>
-            <span class="icon ion-ios-arrow-down"></span>
-        </a>
-    </h3>
+        <h3 class="h5">
+            {{ link_group.value.title }}&nbsp;<span class="icon ion-ios-arrow-down"></span>
+        </h3>
+    </button>
 
     <div class="collapse{% if expanded %} show{% endif %}" id="{{ link_group.value.title|slugify }}">
         {% for link in link_group.value.link_group %}
