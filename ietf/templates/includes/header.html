@@ -2,29 +2,6 @@
 
 <header>
     <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
-    <div class="collapse" id="navbarSearch">
-        <div class="container">
-            <div class="row justify-content-center">
-                <form
-                    class="input-group mt-3 mb-3 col-md-8 col-lg-6"
-                    action="{% url 'search' %}"
-                    method="get"
-                    name="search"
-                >
-                    <input
-                        id="search"
-                        type="search"
-                        class="form-control"
-                        placeholder="Search"
-                        aria-label="Search"
-                        name="query"
-                        required
-                    />
-                    <button type="submit" class="btn btn-primary" aria-label="Submit website search">Go</button>
-                </form>
-            </div>
-        </div>
-    </div>
     <nav
         class="navbar navbar-expand-lg navbar-dark bg-dark text-light"
         aria-label="Main"
@@ -87,9 +64,9 @@
                                     aria-haspopup="true"
                                     aria-expanded="false"
                                     aria-label="Toggle dropdown for {{ item.title }}"
+                                    title="Toggle dropdown for {{ item.title }}"
                                 >
                                 </button>
-
                                 <ul class="dropdown-menu bg-dark" aria-labelledby="{{ item.pk }}Dropdown">
                                     {% for subitem in item.subitems %}
                                         <li class="dropdown-item position-relative{% if subitem.pk == self.pk %} active{% endif %}">
@@ -112,6 +89,30 @@
                             Contact
                         </a>
                     </li>
+                    <li class="nav-item btn-group">
+                        <a
+                            href="{% if settings.utils.SecondaryMenu.tools_page %}{% pageurl settings.utils.SecondaryMenu.tools_page %}{% endif %}"
+                            class="nav-link btn btn-dark text-white  pr-1"
+                        >
+                            Tools
+                        </a>
+                        <button
+                            class="nav-link btn btn-dark text-white dropdown-toggle dropdown-toggle-split d-none d-lg-block pl-1 no-js-hide"
+                            id="toolsDropdown"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                            aria-label="Toggle dropdown for tools"
+                            title="Toggle dropdown for tools"
+                        ></button>
+                        <ul class="dropdown-menu dropdown-menu-right bg-dark">
+                            {% for item in settings.utils.SecondaryMenu.tools_menu_items.all %}
+                                <li class="dropdown-item position-relative">
+                                    <a class="text-white stretched-link" href="{{ item.url}}">{{ item.title }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
                     <li class="nav-item d-none d-lg-inline-block">
                         <a
                             href="/search"
@@ -127,31 +128,31 @@
                             Search
                         </a>
                     </li>
-                    <li class="nav-item btn-group">
-                        <a
-                            href="{% if settings.utils.SecondaryMenu.tools_page %}{% pageurl settings.utils.SecondaryMenu.tools_page %}{% endif %}"
-                            class="nav-link btn btn-dark text-white  pr-1"
-                        >
-                            Tools
-                        </a>
-                        <button
-                            class="nav-link btn btn-dark text-white dropdown-toggle dropdown-toggle-split d-none d-lg-block pl-1 no-js-hide"
-                            id="toolsDropdown"
-                            data-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="false"
-                            aria-label="Toggle dropdown for tools"
-                        ></button>
-                        <ul class="dropdown-menu bg-dark">
-                            {% for item in settings.utils.SecondaryMenu.tools_menu_items.all %}
-                                <li class="dropdown-item position-relative">
-                                    <a class="text-white stretched-link" href="{{ item.url}}">{{ item.title }}</a>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </li>
                 </ul>
             </div>
         </div>
     </nav>
+    <div class="collapse" id="navbarSearch">
+        <div class="container">
+            <div class="row justify-content-center">
+                <form
+                    class="input-group mt-3 mb-3 col-md-8 col-lg-6"
+                    action="{% url 'search' %}"
+                    method="get"
+                    name="search"
+                >
+                    <input
+                        id="search"
+                        type="search"
+                        class="form-control"
+                        placeholder="Search"
+                        aria-label="Search"
+                        name="query"
+                        required
+                    />
+                    <button type="submit" class="btn btn-primary" aria-label="Submit website search">Go</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </header>
