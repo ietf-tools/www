@@ -42,6 +42,10 @@
         {{ field|add_attr:"class:list-unstyled mb-0" }}
     </fieldset>
 
+{# Hidden field #}
+{% elif field|widgettype == 'hidden_input' %}
+{{ field }}
+
 {# other (text input, select, etc...) #}
 {% else %}
     <label for="{{ field_id }}">
