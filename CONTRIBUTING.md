@@ -45,6 +45,8 @@ yarn build
 
 This will run Webpack and compile the source files at `ietf/static_src`. The `yarn build` command runs a development build without minification and optimisation (useful for debugging), whereas `yarn dist` will run a production build (with minification).
 
+Note that `ietf/static_src` will compile HTML templates into `ietf/static`, and this includes Wagtail templates such as `base.html`. Webpack will add CSS and JS tags.
+
 ### Testing
 
 #### Accessibility tests
