@@ -33,19 +33,10 @@
         <meta property="og:site_name" content="{{ settings.utils.SocialMediaSettings.site_name }}" />
 
         {% block extra_meta %}{% endblock extra_meta %}
-
-        {% comment %} {% compress css %}
-            <link rel="stylesheet" type="text/x-scss"  href="{% static 'css/main.scss' %}" />
-        {% endcompress %} {% endcomment %}
-
+       
         {# these styles will only be loaded if JS is enabled -- smooth, eh? #}
-        {% comment %} <script>
-            document.write('{% compress css %}<link rel="stylesheet" type="text/x-scss" href="{% static 'css/jsenabled.scss' %}">{% endcompress %}');
-        </script> {% endcomment %}
-
+       
         {% block extra_css %}{% endblock %}
-
-        {% comment %} <script src="{% static 'js/vendor/modernizr-2.6.2.min.js' %}"></script> {% endcomment %}
 
         {% analytical_head_bottom %}
     </head>
