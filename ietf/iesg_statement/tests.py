@@ -44,10 +44,10 @@ class IESGStatementPageTests(TestCase):
         )
         iesg_statement_index.add_child(instance = iesg_statement_page)
 
-        rindex = self.client.get(path=iesg_statement_index.url or '/iesg_statement_index')
+        rindex = self.client.get(path=iesg_statement_index.url)
         self.assertEqual(rindex.status_code, 200)
 
-        # r = self.client.get(path=iesg_statement_page.url or '/iesg_statement_index/iesgstatement')
+        # r = self.client.get(path=iesg_statement_page.url)
         # self.assertEqual(r.status_code, 200)
 
         # self.assertIn(iesg_statement_page.title.encode(), r.content)

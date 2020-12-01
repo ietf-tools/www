@@ -38,7 +38,7 @@ class FormPageTests(TestCase):
         )
         home.add_child(instance = form)
 
-        r = self.client.get(path=form.url or '/form')
+        r = self.client.get(path=form.url)
         self.assertEqual(r.status_code, 200)
 
         self.assertIn(form.title.encode(), r.content)

@@ -52,7 +52,7 @@ class HomeTests(TestCase):
         home.button_link = blog
         home.save()
 
-        r = self.client.get(path=home.url or '/')
+        r = self.client.get(path=home.url)
         self.assertEqual(r.status_code, 200)
         self.assertIn(home.title.encode(), r.content)
         self.assertIn(home.heading.encode(), r.content)

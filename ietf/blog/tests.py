@@ -69,10 +69,10 @@ class BlogTests(TestCase):
         )
         blogindex.add_child(instance = blog)
 
-        r = self.client.get(path=blogindex.url or '/blog/all')
+        r = self.client.get(path=blogindex.url)
         self.assertEqual(r.status_code, 200)
 
-        r = self.client.get(path=blog.url or '/blog')
+        r = self.client.get(path=blog.url)
         self.assertEqual(r.status_code, 200)
 
         self.assertIn(blog.title.encode(), r.content)

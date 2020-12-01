@@ -38,7 +38,7 @@ class GlossaryPageTests(TestCase):
         )
         home.add_child(instance = glossary)
 
-        r = self.client.get(path=glossary.url or '/glossary')
+        r = self.client.get(path=glossary.url)
         self.assertEqual(r.status_code, 200)
 
         self.assertIn(glossary.title.encode(), r.content)

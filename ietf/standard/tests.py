@@ -45,10 +45,10 @@ class StandardPageTests(TestCase):
         )
         standardindex.add_child(instance = standardpage)
 
-        rindex = self.client.get(path=standardindex.url or '/standardindex')
+        rindex = self.client.get(path=standardindex.url)
         self.assertEqual(rindex.status_code, 200)
 
-        r = self.client.get(path=standardpage.url or '/standardindex/standard')
+        r = self.client.get(path=standardpage.url)
         self.assertEqual(r.status_code, 200)
 
         self.assertIn(standardpage.title.encode(), r.content)

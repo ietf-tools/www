@@ -45,10 +45,10 @@ class EventPageTests(TestCase):
         )
         eventlisting.add_child(instance = eventpage)
 
-        rindex = self.client.get(path=eventlisting.url or '/eventlisting')
+        rindex = self.client.get(path=eventlisting.url)
         self.assertEqual(rindex.status_code, 200)
 
-        r = self.client.get(path=eventpage.url or '/eventlisting/event')
+        r = self.client.get(path=eventpage.url)
         self.assertEqual(r.status_code, 200)
 
         self.assertIn(eventpage.title.encode(), r.content)

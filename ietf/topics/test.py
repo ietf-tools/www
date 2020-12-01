@@ -45,10 +45,10 @@ class StandardPageTests(TestCase):
         )
         topicindex.add_child(instance = topicpage)
 
-        rindex = self.client.get(path=topicindex.url or '/topicindex')
+        rindex = self.client.get(path=topicindex.url)
         self.assertEqual(rindex.status_code, 200)
 
-        r = self.client.get(path=topicpage.url or '/topicindex/topic')
+        r = self.client.get(path=topicpage.url)
         self.assertEqual(r.status_code, 200)
 
         self.assertIn(topicpage.title.encode(), r.content)
