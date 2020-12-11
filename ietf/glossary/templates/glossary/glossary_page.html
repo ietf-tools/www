@@ -19,7 +19,7 @@
                             <div class="col-md-8 col-lg-6">
                                 <form class="input-group" action="{{ self.url }}" method="get" name="glossary-search">
                                     <input id="glossary-search" class="form-control" type="text"
-                                        placeholder="Enter your query here" aria-label="Glossary search" name="query" {% if search_query %}
+                                        placeholder="Find a glossary entry" aria-label="Glossary search" name="query" {% if search_query %}
                                         value="{{ search_query }}" {% endif %} />
                                     <button class="btn btn-primary" type="submit" aria-label="Submit glossary search">Go</button>
                                 </form>
