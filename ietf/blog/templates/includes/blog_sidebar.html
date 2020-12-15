@@ -1,5 +1,9 @@
 {% load wagtailroutablepage_tags %}
-
+{% if filter_text %}
+<div class="card border-top-0 bg-light">
+    <div class="card-body"><p class="h6 mb-0">{{ filter_text }}</p></div>
+</div>
+{% endif %}
 <ul class="list-unstyled mb-0">
     {% for sibling in siblings %}
         <li class="card border-top-0 {% if sibling.slug == current.slug %}bg-white{% else %}bg-light{% endif %}">
