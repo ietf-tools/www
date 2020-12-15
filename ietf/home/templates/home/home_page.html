@@ -11,7 +11,7 @@
     <section class="jumbotron text-white home_page__jumbotron"
         style="background-image: url({% if bg_image.url %}{{ bg_image.url }}{% else %}{% static 'img/group-01.jpg' %}{% endif %});">
         <div class="container position-relative">
-            <h2 class="jumbotron-heading">{{ self.heading }}</h2>
+            <h2 class="h1">{{ self.heading }}</h2>
             <p class="lead">{{ self.introduction }}</p>
             {% if self.button_link %}
                 <p>
@@ -47,7 +47,7 @@
                     {% for blog in self.blogs %}
                         <li class="card mb-2">
                             <div class="card-body">
-                                <h3>
+                                <h3 class="h4">
                                     <a class="stretched-link" href="{{ blog.url }}">
                                         {{ blog.title }}&nbsp;
                                         <span class="icon ion-ios-arrow-forward"></span>
