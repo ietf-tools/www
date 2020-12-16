@@ -39,3 +39,15 @@
     max-width: 100%;
     max-height: 100%;
 }
+
+// Dropdowns displaying on hover
+@include media-breakpoint-up(lg) {
+    .header .navbar-nav .nav-item:hover .btn-dark {
+        border: 1px solid $dark;
+        background-color: darken($dark, 7.5%);
+    }
+
+    .header .navbar-nav .nav-item:hover .dropdown-menu {
+        display: block;
+    }
+}

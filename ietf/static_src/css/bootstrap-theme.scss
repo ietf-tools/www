@@ -11,10 +11,12 @@ $font-family-base: 'montserrat', Helvetica, arial, sans-serif;
 $link-color: $brand-blue-primary;
 $jumbotron-bg: #000;
 
+$dark: #49555c;
+
 $theme-colors: (
     'primary': $brand-blue-primary,
     'secondary': $brand-blue-secondary,
-    'dark': #49555c,
+    'dark': $dark,
 );
 
 $enable-rounded: false;
