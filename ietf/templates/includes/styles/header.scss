@@ -40,6 +40,12 @@
     max-height: 100%;
 }
 
+.nav-link,
+.nav-link:hover,
+.dropdown-toggle-split {
+    border: none;
+}
+
 // Dropdowns displaying on hover
 @include media-breakpoint-up(lg) {
     .header .navbar-nav .nav-item:hover .btn-dark {
