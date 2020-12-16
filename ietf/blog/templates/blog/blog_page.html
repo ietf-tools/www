@@ -15,18 +15,6 @@
                     <div class="d-none d-lg-block">
                         {% include "includes/blog_sidebar.html" with siblings=siblings current=self %}
                     </div>
-                    <button
-                        class="btn btn-outline-primary w-100 d-lg-none collapsed"
-                        type="button"
-                        data-toggle="collapse"
-                        data-target="#blog_sidebar"
-                        aria-expanded="false"
-                        aria-controls="collapseExample"
-                    >
-                        Blog listing
-                        <span class="icon ion-ios-arrow-down"></span>
-                    </button>
-                 
                 </aside>
                 <main class="col-12 col-lg-8">
                     <div class="px-3 px-xl-5 mb-5">
@@ -34,7 +22,7 @@
                         {% include 'includes/breadcrumbs.html' %}
 
                         <button
-                            class="btn btn-outline-primary w-100 mb-4 d-xl-none collapsed"
+                            class="btn btn-outline-primary w-100 mb-4 d-lg-none collapsed"
                             type="button"
                             data-toggle="collapse"
                             data-target="#blog_sidebar"
