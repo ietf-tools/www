@@ -13,11 +13,7 @@
             <div class="row align-items-stretch no-gutters">
                 <aside class="col-12 col-lg-4 d-flex flex-column bg-light d-lg-none" aria-label="Blog listing">
                     <div class="d-none d-lg-block">
-                        {% include "includes/blog_sidebar.html" with siblings=siblings current=self %}
-                    </div>
-                    <div class="d-none d-sm-block">
-                        {# Breadcrumbs for small responsive. See Springload Jira IETF-125 #}
-                        {% include 'includes/breadcrumbs.html' %}
+                    {% include "includes/blog_sidebar.html" with siblings=siblings current=self %}
                     </div>
                     <button
                         class="btn btn-outline-primary w-100"
@@ -36,10 +32,7 @@
                 </aside>
                 <main class="col-12 col-lg-8">
                     <div class="px-3 px-xl-5 mb-5">
-                        <div class="d-none d-md-block d-lg-block d-xl-block">
-                            {# Breadcrumbs for medium up responsive. See Springload Jira IETF-125 #}
-                            {% include 'includes/breadcrumbs.html' %}
-                        </div>
+                        {% include 'includes/breadcrumbs.html' %}
 
                         {% include "includes/blog_filters.html" with topics=topics parent_url=parent_url %}
                         {% if filter_text %}
