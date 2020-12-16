@@ -52,4 +52,7 @@ $pagination-active-border-color: $brand-blue-primary;
 $breadcrumb-divider: quote('>');
 $breadcrumb-divider-color: inherit;
 
+$nav-tabs-border-width: 0px;
+$dropdown-spacer: 0px;
+
 @import '~bootstrap/scss/bootstrap';
