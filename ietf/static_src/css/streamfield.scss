@@ -34,13 +34,6 @@
 $table-padding: 20px;
 $border-colour: #e1e4e5;
 
-.block-table__container {
-    overflow: scroll;
-    @include media-breakpoint-up(sm) {
-        overflow: auto;
-    }
-}
-
 .block-table {
     margin: 30px 0;
     // border: 1px solid $border-colour;
