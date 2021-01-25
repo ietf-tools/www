@@ -1,0 +1,10 @@
+.bibliography-reference::after {
+    content: '[' attr(data-ordering) ']';
+    vertical-align: super;
+    font-size: 60%;
+}
+
+.bibliography__order {
+    vertical-align: super;
+    font-size: 60%;
+}

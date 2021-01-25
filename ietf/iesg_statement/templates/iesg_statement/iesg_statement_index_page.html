@@ -2,32 +2,27 @@
 
 
 {% block main_content %}
-{# sidebar #}       
-{% include "includes/social-sharebar.html" %}
 
-<div class="page-wrap container">
-    <div class="row sticky-container">
-        {% include 'includes/breadcrumbs.html' %}
+<main id="content">
+  <div class="bg-white border-bottom pb-3">
+    <div class="container">
+      {% include 'includes/breadcrumbs.html' %}
+      <div class="u-max-text-width">
         <h1>{{self.title}}</h1>
-        <table>
-        {% for statement in statements %}
-          <tr>
-            <td>{{statement.date_published|date:"Y-m-d"}}</td>
-            <td><a href="{{statement.url}}">{{statement.title}}</a></td>
-          </tr>
-        {% endfor %}
-        </table>
-
+      </div>
     </div>
-</div>
+  </div>
+  
+  <div class="container pt-4">
+    <table class="mb-4">
+      {% for statement in statements %}
+      <tr>
+        <td class="text-nowrap align-top pr-3 pb-2 pb-lg-0">{{statement.date_published|date:"Y-m-d"}}</td>
+        <td class="align-top pb-2 pb-lg-0"><a href="{{statement.url}}">{{statement.title}}</a></td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</main>
 
 {% endblock %}
-
-{% block extra_css %}
-<style>
-table tr td:first-child {
-  padding-right: 10px;
-}
-</style>
-{% endblock %}
-

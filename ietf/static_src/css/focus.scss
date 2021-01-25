@@ -1,0 +1,8 @@
+*:focus {
+    outline: 3px solid #b53cde !important;
+    outline-offset: 3px;
+
+    .using-mouse & {
+        outline: none !important;
+    }
+}

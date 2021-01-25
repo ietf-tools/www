@@ -1,0 +1,5 @@
+*.sql
+media*.tgz
+.git
+media/
+docker/database

@@ -12,4 +12,4 @@ class StandardBlock(StreamBlock):
     image = ImageChooserBlock(icon="image", template='includes/imageblock.html')
     embed = EmbedBlock(icon="code")
     raw_html = RawHTMLBlock(icon="placeholder")
-    table = TableBlock(table_options={'renderer': 'html'})
+    table = TableBlock(table_options={'renderer': 'html'}, template="includes/tableblock.html")

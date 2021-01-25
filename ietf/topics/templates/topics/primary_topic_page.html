@@ -1,60 +1,98 @@
 {% extends "base.html" %}
 {% load wagtailimages_tags wagtailcore_tags %}
+{% load has_tabs %}
 
 {% block main_content %}
-    <div class="gradient-sharp-subtle">
-        <div class="body-white rule-blue">
-            <div class="container rel">
+
+    <main id="content">
+        <div class="bg-white border-bottom">
+            <div class="container">
+
                 {% include 'includes/breadcrumbs.html' %}
-
-                {% if self.feed_image %}
-                    <div class="topic-header-image">
+                <div class="row mb-4">
+                    <div class="col-12 col-lg-8 col-xl-9 order-3 order-lg-2">
+                        {% include 'includes/optional-introduction.html' with value=self %}
+                    </div>
+                    {% if self.feed_image %}
+                    <div class="col-12 col-lg-4 col-xl-3 order-2 order-lg-3 text-lg-right mb-3 mb-lg-0">
                         {% image self.feed_image original as feed_image %}
-                        <img src="{{ feed_image.url }}" alt="{{ self.feed_image.title }}">
+                        <img src="{{ feed_image.url }}" alt="{{ self.feed_image.title }}" class="thumb-img border border-primary">
                     </div>
-                {% endif %}
-
-                <div class="topic-header-text">
-                    {% include 'includes/optional-introduction.html' with value=self %}
-                    {% include 'includes/social_fields.html' %}
-                    <div class="more-wrapper" style="display: none">
-                        {% if self.key_info and self.in_depth %}
-                            <div class="read-more">
-                                <a class="see">Key info</a>
-                                <a class="hide">Close key info</a>
-                            </div>
-                            <div class="read-more-two">
-                                <a class="see">In depth</a>
-                                <a class="hide">Close in depth</a>
-                            </div>
-                        {% endif %}
-                    </div>
+                    {% endif %}
                 </div>
             </div>
-
-            <div class="container">
-                {% if self.key_info %}
-                    <div id="key-info" class="read-more-content active">
-                        <div class="body">{{ self.key_info }}</div>
-                    </div>
-                {% endif %}
-
-                {% if self.in_depth %}
-                    <div id="in-depth" class="read-more-content-two {% if not self.key_info %}active{% endif %}">
-                        <div class="body">{{ self.in_depth }}</div>
-                    </div>
-                {% endif %}
-
-            </div>
         </div>
-
         <div class="container">
-            {# side nav #}
-            {% include 'includes/row_siblings_in_section.html' with page=self %}
-        </div>
-    </div>
+            <div class="row no-gutters align-items-stretch justify-content-between">
+                <div class="col-12 col-lg-8 col-xl-9 pt-3 pt-lg-5">
+                    {% if self.key_info or self.in_depth %}
+                    <div class="no-js-hide u-max-text-width pr-lg-3">
+                        {% has_tabs self.key_info self.in_depth as show_tabs %}
+                        {% if show_tabs %}
+                        <ul class="nav nav-tabs text-uppercase text-center no-js-hide" id="tabs" role="tablist" aria-owns="key-info-tab in-depth-tab">
+                            <li class="nav-item flex-grow-1" role="presentation">
+                                <a class="nav-link active" id="key-info-tab" data-toggle="tab" href="#key-info" role="tab"
+                                    aria-controls="key-info" aria-selected="true">Key Info</a>
+                            </li>
+                            <li class="nav-item flex-grow-1" role="presentation">
+                                <a class="nav-link" id="in-depth-tab" data-toggle="tab" href="#in-depth" role="tab" aria-controls="in-depth"
+                                    aria-selected="false">In Depth</a>
+                            </li>
+                        </ul>
+                        {% endif %}
+                    
+                        <div class="mb-3">
+                            <div class="{% if show_tabs %}mb-3 tab-content bg-white border border-top-0 no-js-hide{% endif %}">
+                                {% if self.key_info %}
+                                <div id="key-info" class="{% if show_tabs %} tab-pane fade show active p-3" tabindex="0" role="tabpanel"
+                                    aria-labelledby="key-info-tab{% endif %}">
+                                    {{ self.key_info|safe }}
+                                </div>
+                                {% endif %}
+                    
+                                {% if self.in_depth %}
+                                <div id="in-depth" class="{% if show_tabs %} tab-pane fade p-3" role="tabpanel"
+                                    aria-labelledby="in-depth-tab{% endif %}">
+                                    {{ self.in_depth|safe }}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% if show_tabs %}
+                            <noscript>
+                                <div class="u-max-text-width">
+                                    {% if self.key_info %}
+                                        <h2>Key Info</h2>
+                                        {{ self.key_info|safe }}
+                                    {% endif %}
+                                    {% if self.in_depth %}
+                                        <h2>In Depth</h2>
+                                        {{ self.in_depth|safe }}
+                                    {% endif %}
+                                </div>
+                            </noscript>
+                        {% endif %}
+                    </div>
+                    {% endif %}
 
-    {% include "includes/highlight.html" %}
+                    <noscript>
+                        {% if self.key_info %}{{ self.key_info|safe }}{% endif %}
+                        {% if self.in_depth %}{{ self.in_depth|safe }}{% endif %}
+                    </noscript>
+
+                    <div class="d-none d-lg-block">
+                        {% include "includes/highlight.html" %}
+                    </div>
+                </div>
+                {% include "includes/row_siblings_in_section.html" with page=self %}
+            </div>
+            
+        </div>
+        <div class="d-lg-none">
+            {% include "includes/highlight.html" %}
+        </div>
+    </main>
+
 
 {% endblock main_content %}
 

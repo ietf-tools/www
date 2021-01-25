@@ -1,41 +1,39 @@
 {% extends "base.html" %}
-{% load wagtailcore_tags form_tags %}
+{% load wagtailcore_tags %}
 
 {% block content %}
-    <div class="body container">
-        <h1>{{ self.title }}</h1>
-        {{ self.intro|richtext }}
-        <form action="{% pageurl self %}" method="POST" class="standard-form">
-            <div>
+<div class="bg-white">
+    <div class="container pb-3 pt-4">
+        <div class="u-max-text-width">
+            <h1 class="h2">{{ self.title }}</h1>
+            {{ self.intro|richtext }}
+        </div>
+        <form action="{% pageurl self %}" method="POST" class="row">
+            <div class="col-12 col-lg-8 col-xl-6">
                 {% csrf_token %}
 
                 {% if form.errors %}
-                    <p class="error">There were some errors with your form. Please amend the fields highlighted below.</p>
+                    <p class="text-danger">There were some errors with your form. Please amend the fields highlighted below.</p>
                 {% endif %}
 
-                <ul class="fields">
                     {% for field in form %}
-                        <li class="{{ field|fieldtype }} {{ field|widgettype }} {% if field.field.required %}required{% endif %} {% if field.errors %}errors{% endif %}">
+                        <div class="form-group">
                             {% if field.errors %}
-                                {{ field.errors }}
+                                <p class="text-danger">{{ field.errors }}</p>
                             {% endif %}
+                            
 
-                            {% if field|widgettype == 'checkbox_input' %}
-                                <label for="{{ field.id_for_label }}"> {{ field }} {{ field.label }} {% if field.field.required %}<span class="required">*</span>{% endif %}</label>
-                                <div class="form-help">{% if field.help_text %}{{ field.help_text }}{% endif %}</div>
-
+                            {% if field.id_for_label %}
+                                {% include "includes/form_field.html" with field=field field_id=field.id_for_label %}
                             {% else %}
-                                <label for="{{ field.id_for_label }}">{{ field.label }} {% if field.field.required %}<span class="required">*</span>{% endif %}</label>
-                                <div class="form-help">{% if field.help_text %}{{ field.help_text }}{% endif %}</div>
-                                {{ field }}
+
+                                {% include "includes/form_field.html" with field=field field_id=field.auto_id %}
                             {% endif %}
-                        </li>
+                        </div>
                     {% endfor %}
-                    <li class="submit">
-                        <input type="submit" class="button button-inverse" value="{% if self.action_text %}{{ self.action_text|safe }}{% else %}Submit{%endif%}" />
-                    </li>
-                </ul>
+                    <input type="submit" class="btn btn-primary" value="{% if self.action_text %}{{ self.action_text|safe }}{% else %}Submit{%endif%}" />
             </div>
         </form>
     </div>
+</div>
 {% endblock %}

@@ -1,27 +1,23 @@
-<div class="three none body-white float-right mobile-colour rule-mobile side-col">
-    <div class="this-section feedback">
-        <a class="see" href="#">In this section</a>
-        <a class="hide">Hide in this section</a>
-    </div>
-    <ul class="side-nav sticky">
-      <li class="section"><a href="{{ page.get_parent.url }}">{{ page.get_parent.title }}</a></li>
+<nav aria-label="In this section" class="bg-white col-12 col-lg-4 col-xl-3 p-3 p-lg-5 {{ class }}">
+    <h2 class="h5 text-uppercase"><a class="text-dark" href="{{ page.get_parent.url }}">{{ page.get_parent.title }}</a></h2>
+    <ul class="list-unstyled">
       {% for sibling in page.siblings %}
         {% if sibling.slug == page.slug %}
-          <li class="active">
-            <a href="{{ sibling.url }}">{{ sibling.title }}</a>
+          <li class="mb-1">
+            <a href="{{ sibling.url }}" aria-current="page">{{ sibling.title }}</a>
             {% if page.subpages %}
               <ul>
                 {% for subpage in page.subpages %}
                   <li>
-                    <a href="{{ subpage.url }}" >{{ subpage.title }}</a>
+                    <a class="text-dark" href="{{ subpage.url }}" >{{ subpage.title }}</a>
                   </li>
                 {% endfor %}
               </ul>
             {% endif %}
           </li>
         {% else %}
-          <li><a href="{{ sibling.url }}">{{ sibling.title }}</a></li>
+          <li class="mb-1"><a class="text-dark" href="{{ sibling.url }}">{{ sibling.title }}</a></li>
         {% endif %}
       {% endfor %}
     </ul>
-</div>
+</nav>

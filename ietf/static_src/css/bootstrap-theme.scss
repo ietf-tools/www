@@ -1,0 +1,58 @@
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+
+$brand-blue-primary: #1762bb;
+$brand-blue-secondary: #1a7dae;
+
+// Variables used in reboot
+$body-color: #333741;
+$body-bg: #f3f5f6;
+$font-family-base: 'montserrat', Helvetica, arial, sans-serif;
+$link-color: $brand-blue-primary;
+$jumbotron-bg: #000;
+
+$dark: #49555c;
+
+$theme-colors: (
+    'primary': $brand-blue-primary,
+    'secondary': $brand-blue-secondary,
+    'dark': $dark,
+);
+
+$enable-rounded: false;
+
+$grid-breakpoints: (
+    xs: 0,
+    sm: 576px,
+    md: 768px,
+    lg: 992px,
+    xl: 1340px,
+);
+
+$container-max-widths: (
+    sm: 540px,
+    md: 720px,
+    lg: 960px,
+    xl: 1300px,
+);
+
+$headings-font-weight: 400;
+$headings-font-family: 'aktiv-grotesk', 'HelveticaNeue-Light', helvetica, arial,
+    sans-serif;
+
+$dropdown-bg: $dark;
+$dropdown-link-color: $light;
+$dropdown-link-active-bg: $dark;
+$dropdown-link-hover-bg: $dark;
+
+$pagination-color: $brand-blue-primary;
+$pagination-active-bg: $brand-blue-primary;
+$pagination-active-border-color: $brand-blue-primary;
+
+$breadcrumb-divider: quote('>');
+$breadcrumb-divider-color: inherit;
+
+$nav-tabs-border-width: 0px;
+$dropdown-spacer: 0px;
+
+@import '~bootstrap/scss/bootstrap';
