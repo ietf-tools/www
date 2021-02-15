@@ -18,12 +18,6 @@ workflows:
                 tag: app # no tag no docker image
                 path: docker
           after-builds:
-            - add_ssh_keys
-            - run:
-                name: initialise submodules
-                command: |-
-                  ssh-add -L | tail -n1 > last.pub
-                  GIT_SSH_COMMAND="ssh -i last.pub" git submodule update --init
               #            - run:
               #                  name: run backend tests
               #                  command: |-
