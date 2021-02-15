@@ -68,16 +68,19 @@ workflows:
             - run:
                 name: test the website
                 command: |-
-                    set -e
+                    set -eu
 
                     if [ "${CIRCLE_BRANCH}" == "deploy/preview" ] || [ "${CIRCLE_BRANCH}" == "deploy/production" ]; then
                       ENVIRONMENT=`basename "${CIRCLE_BRANCH}"`
-                      # uncomment after going live on AWS
-                      #                    if [ "${ENVIRONMENT}" == "production" ]; then
-                      #                      endpoint=https://www.ietf.org
-                      #                    else
-                        endpoint=https://ietf-${ENVIRONMENT}.springload.nz
-                      #                    fi
+                      # add more environments / endpoints as needed
+                      case "${ENVIRONMENT}" in
+                        production)
+                          endpoint=https://www.ietf.org
+                          ;;
+                        preview)
+                          endpoint=https://wwwdev.ietf.org
+                          ;;
+                      esac
 
 
                       docker run --rm -e BASIC_AUTH=$BASIC_AUTH frontend yarn test $endpoint
