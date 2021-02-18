@@ -18,12 +18,6 @@ workflows:
                 tag: app # no tag no docker image
                 path: docker
           after-builds:
-            - add_ssh_keys
-            - run:
-                name: initialise submodules
-                command: |-
-                  ssh-add -L | tail -n1 > last.pub
-                  GIT_SSH_COMMAND="ssh -i last.pub" git submodule update --init
               #            - run:
               #                  name: run backend tests
               #                  command: |-
@@ -66,26 +60,27 @@ workflows:
                         wait $p
                       done
 
-                      echo "updating the ssm parameter with ejson configuration"
-                      ecs-tool -p "" -e "${ENVIRONMENT}" ejson -f infra/ssm.ejson
                       # running the pre-deployment commands
-                      ecs-tool -p "" -e "${ENVIRONMENT}" run --image_tag "${ENVIRONMENT}-${VERSION}" -- ./deploy.sh
+                      ecs-tool -p "" --config ".circleci/ecs-${ENVIRONMENT}.toml" run --image_tag "${ENVIRONMENT}-${VERSION}" -- ./deploy.sh
                       # deploy new services in parallel
-                      ecs-tool -p "" -e "${ENVIRONMENT}" deploy --image_tag "${ENVIRONMENT}-${VERSION}"
+                      ecs-tool -p "" --config ".circleci/ecs-${ENVIRONMENT}.toml" deploy --image_tag "${ENVIRONMENT}-${VERSION}"
                     fi
             - run:
                 name: test the website
                 command: |-
-                    set -e
+                    set -eu
 
                     if [ "${CIRCLE_BRANCH}" == "deploy/preview" ] || [ "${CIRCLE_BRANCH}" == "deploy/production" ]; then
                       ENVIRONMENT=`basename "${CIRCLE_BRANCH}"`
-                      # uncomment after going live
-                      #                    if [ "${ENVIRONMENT}" == "production" ]; then
-                      #                      endpoint=https://www.ietf.org
-                      #                    else
-                        endpoint=https://ietf-${ENVIRONMENT}.springload.nz
-                      #                    fi
+                      # add more environments / endpoints as needed
+                      case "${ENVIRONMENT}" in
+                        production)
+                          endpoint=https://www.ietf.org
+                          ;;
+                        preview)
+                          endpoint=https://wwwdev.ietf.org
+                          ;;
+                      esac
 
 
                       docker run --rm -e BASIC_AUTH=$BASIC_AUTH frontend yarn test $endpoint
