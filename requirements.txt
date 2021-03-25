@@ -1,10 +1,10 @@
 # link packages version lock down file
 -c constraints.txt
 
-Django<3
+Django>=2.2.19,<3
 djangorestframework>=3.8
 psycopg2-binary>=2.7.5
-wagtail<2.11
+wagtail>=2.11.6,<2.12
 django-libsass>=0.8
 libsass>=0.8.3
 future>=0.15.2
