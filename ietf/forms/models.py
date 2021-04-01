@@ -9,6 +9,10 @@ from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
 class FormField(AbstractFormField):
     page = ParentalKey('FormPage', related_name='form_fields')
 
+    @classmethod
+    def _migrate_legacy_clean_name(cls):
+        return None
+
 
 class FormPage(AbstractEmailForm):
     intro = RichTextField(blank=True)
