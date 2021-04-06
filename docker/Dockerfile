@@ -29,7 +29,7 @@ FROM springload/ssm-parent:1.4.1 as ssm-parent
 FROM python:3.6-alpine as base
 ENV PYCURL_SSL_LIBRARY openssl
 
-RUN apk update && apk add postgresql-libs libevent libjpeg openjpeg zlib
+RUN apk update && apk add postgresql-libs postgresql-client libevent libjpeg openjpeg zlib
 
 WORKDIR /app
 

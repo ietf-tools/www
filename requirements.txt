@@ -1,5 +1,5 @@
 # link packages version lock down file
-#-c constraints.txt
+-c constraints.txt
 
 Django>=2.2.19,<3
 djangorestframework>=3.8
