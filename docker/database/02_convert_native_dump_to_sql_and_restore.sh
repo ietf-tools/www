@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. /docker-entrypoint.sh
+. /usr/local/bin/docker-entrypoint.sh
 
 cd /docker-entrypoint-initdb.d
 
