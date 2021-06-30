@@ -65,12 +65,14 @@ module.exports = (env, options) => {
                             loader: 'postcss-loader',
                             options: {
                                 sourceMap: options.mode === 'development',
-                                ident: 'postcss',
-                                plugins: () => [
-                                    postcssNormalize,
-                                    autoprefixer,
-                                    cssnano,
-                                ],
+                                postcssOptions: {
+                                    ident: 'postcss',
+                                    plugins: [
+                                        postcssNormalize,
+                                        autoprefixer,
+                                        cssnano,
+                                    ],
+                                },
                             },
                         },
                         'sass-loader', // compiles Sass to CSS

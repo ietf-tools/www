@@ -1,5 +1,7 @@
 # Frontend assets get compiled first
-FROM node:erbium-alpine as frontend
+# current-alpine is Node 16 (latest). This will become active LTS later this year.
+# see https://nodejs.org/en/about/releases/
+FROM node:current-alpine as frontend
 
 ENV NODE_PATH=/node_modules
 ENV PATH="${PATH}:/node_modules/.bin"
@@ -20,7 +22,7 @@ RUN NODE_ENV=development yarn install --modules-folder $NODE_PATH
 COPY . /app/
 RUN yarn dist
 
-CMD ["yarn", "start", "--prefix", "/app"]
+CMD ["yarn", "start"]
 
 # Needed for hosting on AWS
 FROM springload/ssm-parent:1.4.1 as ssm-parent
