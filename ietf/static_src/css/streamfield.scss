@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 .block-heading {
     @extend h2;
     margin-bottom: 0.25em;
@@ -68,7 +70,7 @@ $border-colour: #e1e4e5;
 
     th,
     td {
-        padding: $table-padding / 2;
+        padding: math.div($table-padding, 2);
 
         @include media-breakpoint-up(sm) {
             padding: $table-padding;
