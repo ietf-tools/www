@@ -17,7 +17,7 @@ tqdm>=3.7.0
 typed-environment-configuration>=0.1.3,<0.2
 dj-database-url>=0.5.0,<0.6
 # AWS s3 storage for static/media
-django-storages[boto3]>=1.7.1,<1.8
+django-storages[boto3]>=1.7.2,<1.8
 
 # for database reset scripts
 awscli>=1.19,<1.20
