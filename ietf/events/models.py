@@ -110,7 +110,7 @@ class EventPage(Page, PromoteMixin):
         help_text="The end date of the event."
     )
     introduction = models.CharField(
-        max_length=200,
+        max_length=511,
         help_text="The introduction for the event page. "
         "Limited to 511 characters."
     )
