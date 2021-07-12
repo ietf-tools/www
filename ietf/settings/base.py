@@ -151,6 +151,9 @@ STATIC_URL = "/static/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
 
+# File upload permissions
+# https://docs.djangoproject.com/en/3.2/ref/settings/#file-upload-permissions
+FILE_UPLOAD_PERMISSIONS = 0o664
 
 # Django compressor settings
 # http://django-compressor.readthedocs.org/en/latest/settings/
