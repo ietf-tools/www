@@ -97,3 +97,18 @@ USER www
 # and then it runs the migrations and actual process
 ENTRYPOINT ["wait-for", "database:5432", "--"]
 CMD ["/app/docker/init-dev.sh"]
+
+# test stage
+FROM base as app-test
+ENV DJANGO_SETTINGS_MODULE ietf.settings.docker.dev
+COPY docker/init-test.sh /app/docker/
+
+ADD https://raw.githubusercontent.com/mrako/wait-for/d9699cb9fe8a4622f05c4ee32adf2fd93239d005/wait-for /usr/local/bin/
+USER root
+RUN chmod +rx /usr/local/bin/wait-for
+USER www
+
+# wait-for script waits until the database is ready and reachable
+# and then it runs the migrations and tests
+ENTRYPOINT ["wait-for", "database:5432", "--"]
+CMD ["/app/docker/init-test.sh"]
