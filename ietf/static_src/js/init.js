@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import 'jquery-ui/ui/widgets/datepicker';
-import Popper from 'popper.js';
+import * as Popper from '@popperjs/core';
 
 import 'bootstrap';
 
