@@ -181,6 +181,21 @@ WAGTAIL_SITE_NAME = "ietf"
 WAGTAIL_USAGE_COUNT_ENABLED = True
 WAGTAILIMAGES_IMAGE_MODEL = "images.IETFImage"
 WAGTAILDOCS_DOCUMENT_MODEL = "documents.IetfDocument"
+WAGTAILADMIN_RICH_TEXT_EDITORS = {
+    'default': {
+        'WIDGET': 'wagtail.admin.rich_text.DraftailRichTextArea',
+        'OPTIONS': {
+            'features': [
+                'h2', 'h3', 'h4', 'h5', 'h6',
+                'ol', 'ul',
+                'bold', 'italic',
+                'superscript', 'subscript', 'strikethrough',
+                'hr', 'link', 'document-link',
+                'image', 'embed',
+                'code', 'blockquote']
+        }
+    }
+}
 
 # Application-wide settings
 DATATRACKER_URI = "https://datatracker.ietf.org"
