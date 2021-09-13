@@ -105,7 +105,7 @@
                             {% endif %}
                         {% endif %}
 
-                        <h2 class="sr-only">Glossary items{% if search_query %} matching "{{ search_query }}"{% endif %}</h2>
+                        <h2 class="visually-hidden">Glossary items{% if search_query %} matching "{{ search_query }}"{% endif %}</h2>
                         {% for glossary_item in glossary_items %}
                             <div class="mb-4">
                                 {% if glossary_item.link %}<a href="{{ glossary_item.link }}">{% endif %}
