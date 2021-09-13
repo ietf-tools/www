@@ -5,7 +5,7 @@
 {% block main_content %}
 <div class="bg-white">
     <div class="container" id="content">
-        <div class="row align-items-stretch no-gutters">
+        <div class="row align-items-stretch g-0">
             <aside class="col-12 col-lg-4 d-flex flex-column bg-light d-lg-none" aria-label="Statement listing">
                 <button class="btn btn-outline-primary w-100" type="button" data-toggle="collapse"
                     data-target="#blog_sidebar" aria-expanded="false" aria-controls="collapseExample">
@@ -36,7 +36,7 @@
                     {% include "includes/social_share.html" only %}
                     
                 </div>
-                <nav aria-label="blog" class="row no-gutters d-none d-lg-flex">
+                <nav aria-label="blog" class="row g-0 d-none d-lg-flex">
                     <div class="col-6 bg-primary p-4 pl-5 d-flex align-items-center">
                         <a class="text-white" href="{{ self.previous.url }}">
                             <p class="sub">
@@ -58,7 +58,7 @@
             </aside>
         </div>
     </div>
-    <nav aria-label="blog" class="row no-gutters d-lg-none">
+    <nav aria-label="blog" class="row g-0 d-lg-none">
         <div class="col-12 bg-primary p-4">
             <a class="text-white" href="{{ self.previous.url }}">
                 <p>
