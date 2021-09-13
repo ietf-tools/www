@@ -17,7 +17,7 @@
     <table class="mb-4">
       {% for statement in statements %}
       <tr>
-        <td class="text-nowrap align-top pr-3 pb-2 pb-lg-0">{{statement.date_published|date:"Y-m-d"}}</td>
+        <td class="text-nowrap align-top pe-3 pb-2 pb-lg-0">{{statement.date_published|date:"Y-m-d"}}</td>
         <td class="align-top pb-2 pb-lg-0"><a href="{{statement.url}}">{{statement.title}}</a></td>
       </tr>
       {% endfor %}
