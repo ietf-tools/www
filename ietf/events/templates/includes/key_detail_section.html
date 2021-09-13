@@ -1,6 +1,6 @@
 <div class="my-3">
     <button
-            class="d-block btn btn-link p-0 w-100 border-0 text-left"
+            class="d-block btn btn-link p-0 w-100 border-0 text-start"
             data-toggle="collapse"
             data-target="#{{ link_group.value.title|slugify }}"
             aria-expanded="{% if expanded %}true{% else %}false{% endif %}"
@@ -14,7 +14,7 @@
 
     <div class="collapse{% if expanded %} show{% endif %}" id="{{ link_group.value.title|slugify }}">
         {% for link in link_group.value.link_group %}
-        <span class="d-inline-block mb-2 {% if not forloop.last %}pr-2 mr-2 border-right{% endif %}">{{ link }}</span>
+        <span class="d-inline-block mb-2 {% if not forloop.last %}pe-2 me-2 border-end{% endif %}">{{ link }}</span>
         {% endfor %}
     </div>
 </div>

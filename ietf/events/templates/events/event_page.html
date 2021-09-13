@@ -103,15 +103,15 @@
 
                 {% if self.hosts.exists or self.sponsors %}
                     <div class="bg-white py-3">
-                    <h2 class="h4 pl-3">Sponsors</h2>
+                    <h2 class="h4 ps-3">Sponsors</h2>
                         {% if self.hosts.exists %}
-                            <div class="pl-3 py-3">
+                            <div class="ps-3 py-3">
                                 <h3 class="h5 mb-3">Host{{ self.hosts.all|pluralize }}</h3>
 
                                 <ul class="list-unstyled">
                                     {% for h in self.hosts.all %}
                                         {% with h.host as host %}
-                                            <li class="d-inline-block mr-3">
+                                            <li class="d-inline-block me-3">
                                                 {% if host.link %}<a href="{{ host.link }}">{% endif %}
                                                     {% image host.logo max-200x149 as host_image %}
                                                     <img src="{{ host_image.url }}" width="{{ host_image.width }}"
@@ -124,11 +124,11 @@
                             </div>
                         {% endif %}
                         {% for sponsor_category in self.sponsors %}
-                            <div class="border-top pl-3 py-3">
+                            <div class="border-top ps-3 py-3">
                                 <h3 class="h5 mb-3">{{ sponsor_category.value.category_title }}</h3>
                                 <ul class="list-unstyled">
                                     {% for sponsor in sponsor_category.value.sponsor_group %}
-                                        <li class="d-inline-block mr-3">
+                                        <li class="d-inline-block me-3">
                                             {% if sponsor.value.link %}<a href="{{ sponsor.value.link }}">{% endif %}
 
                                             {% image sponsor.value.logo max-120x74 as sponsor_image %}

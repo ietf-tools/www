@@ -3,7 +3,7 @@
         <li class="mb-3">
             <span class="d-inline-block">{{ author.author.name }}</span>
             {% if author.role %}
-                <span class="ml-3 pl-3 d-inline-block border-left">{{ author.role.name }}</span>
+                <span class="ms-3 ps-3 d-inline-block border-start">{{ author.role.name }}</span>
             {% endif %}
         </li>
     {% endfor %}
@@ -11,7 +11,7 @@
         <li class="mb-3">
             <span class="d-inline-block">{{ post.author_group.name }}</span>
             {% if post.author_group.role %}
-                <span class="ml-3 pl-3 d-inline-block border-left">{{ post.author_group.role.name }}</span>
+                <span class="ms-3 ps-3 d-inline-block border-start">{{ post.author_group.role.name }}</span>
             {% endif %}
         </li>
     {% endif %}
