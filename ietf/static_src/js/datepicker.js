@@ -742,11 +742,11 @@ function appendOffscreenMonthText(button) {
     }
 
     buttonText = isNext
-        ? 'Next<span class="sr-only"> Month, ' +
+        ? 'Next<span class="visually-hidden"> Month, ' +
           firstToCap(months[adjacentIndex]) +
           ' ' +
           currentYear
-        : '<span aria-hidden="true">Prev</span><span class="sr-only">Previous Month, ' +
+        : '<span aria-hidden="true">Prev</span><span class="visually-hidden">Previous Month, ' +
           firstToCap(months[adjacentIndex]) +
           ' ' +
           currentYear +
