@@ -1,8 +1,8 @@
 <div class="my-3">
     <button
             class="d-block btn btn-link p-0 w-100 border-0 text-start"
-            data-toggle="collapse"
-            data-target="#{{ link_group.value.title|slugify }}"
+            data-bs-toggle="collapse"
+            data-bs-target="#{{ link_group.value.title|slugify }}"
             aria-expanded="{% if expanded %}true{% else %}false{% endif %}"
             aria-controls="{{ link_group.value.title|slugify }}"
             aria-label="{{ link_group.value.title }} - Click to toggle"
