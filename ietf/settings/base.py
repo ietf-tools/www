@@ -177,6 +177,8 @@ WAGTAILSEARCH_BACKENDS = {
 
 
 WAGTAILMARKDOWN = {
+    # We probably want to configure this more, see
+    # https://github.com/torchbox/wagtail-markdown
     "autodownload_fontawesome": True,
 }
 
