@@ -20,6 +20,8 @@ $theme-colors: (
     'light': $light,
 );
 
+$theme-colors-rgb: map-loop($theme-colors, to-rgb, "$value");
+
 $enable-rounded: false;
 
 $grid-breakpoints: (
