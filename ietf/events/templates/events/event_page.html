@@ -14,7 +14,7 @@
                     <p class="h4 font-italic">{{ self.start_date }}{% if self.end_date %} - {{ self.end_date }}{% endif %}</p>
                 {% endif %}
 
-                <p class="lead font-weight-normal u-max-text-width">{{ self.introduction }}</p>
+                <p class="lead fw-normal u-max-text-width">{{ self.introduction }}</p>
             </div>
         </div>
 
@@ -63,37 +63,37 @@
                         <dl class="row">
                             {% if self.venue %}
                                 <div class="col-12 col-lg-6">
-                                    <dt class="h5 font-weight-bolder">Venue</dt>
+                                    <dt class="h5 fw-bolder">Venue</dt>
                                     <dd>{{ self.venue }}</dd>
                                 </div>
                             {% endif %}
                             {% if self.room_rates %}
                                 <div class="col-12 col-lg-6">
-                                    <dt class="h5 font-weight-bolder">Room rates</dt>
+                                    <dt class="h5 fw-bolder">Room rates</dt>
                                     <dd>{{ self.room_rates }}</dd>
                                 </div>
                             {% endif %}
                             {% if self.extras %}
                                 <div class="col-12 col-lg-6">
-                                    <dt class="h5 font-weight-bolder">Extras</dt>
+                                    <dt class="h5 fw-bolder">Extras</dt>
                                     <dd>{{ self.extras }}</dd>
                                 </div>
                             {% endif %}
                             {% if self.reservations_open %}
                                 <div class="col-12 col-lg-6">
-                                    <dt class="h5 font-weight-bolder">Reservations open</dt>
+                                    <dt class="h5 fw-bolder">Reservations open</dt>
                                     <dd>{{ self.reservations_open }}</dd>
                                 </div>
                             {% endif %}
                             {% if self.reservation_name %}
                                 <div class="col-12 col-lg-6">
-                                    <dt class="h5 font-weight-bolder">Reservation name</dt>
+                                    <dt class="h5 fw-bolder">Reservation name</dt>
                                     <dd>{{ self.reservation_name }}</dd>
                                 </div>
                             {% endif %}
                             {% if self.contact_details %}
                                 <div class="col-12 col-lg-6">
-                                    <dt class="h5 font-weight-bolder">Contact details</dt>
+                                    <dt class="h5 fw-bolder">Contact details</dt>
                                     <dd>{{ self.contact_details }}</dd>
                                 </div>
                             {% endif %}
