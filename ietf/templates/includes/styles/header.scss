@@ -52,7 +52,8 @@
         background-color: darken($dark, 7.5%);
     }
 
-    .header .navbar-nav .nav-item:hover .dropdown-menu {
+    .header .navbar-nav .nav-item:hover .dropdown-toggle[aria-expanded="false"] + .dropdown-menu {
         display: block;
+        margin-top: 2.5em;
     }
 }
