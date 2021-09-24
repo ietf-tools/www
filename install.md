@@ -9,13 +9,31 @@ First, clone this repository.
 This project uses Docker to build and run the code, both frontend and backend.
 So the only requirement to run it locally is a recent version of Docker with docker-compose.
 
-#### How to run
+#### How to run (with a database dump)
 
-1. (Optional) Obtain a recent database dump with name like `ietfa.torchbox.*.gz` and place in `docker/database/` directory. Otherwise, it will start with a fresh database.
+1. Obtain a recent database dump with name like `ietfa.torchbox.*.gz` and place in `docker/database/` directory. Otherwise, it will start with a fresh database.
 2. Obtain and unarchive media files into `media/` folder.
 3. Run `docker-compose up`. It will build and start the frontend builder (`yarn run start`) and the backend (`python manage.py runserver` analog), along with a Postgresql database. The first run will take a while because the database dump needs to be restored.
-4. After the frontend compilation finishes, the website should become available at http://localhost:8081
-5. To destroy everything (i.e. start the database from scratch) run `docker-compose down`.
+4. After the frontend compilation finishes, the website should become available at http://localhost:8001
+5. Create a super user on **Python application** docker instance to access http://localhost:8001/admin
+```
+docker exec -ti wagtail_website_application_1 python manage.py createsuperuser
+```
+6. To destroy everything (i.e. start the database from scratch) run `docker-compose down`.
+
+#### How to run (without a database dump)
+
+1. Run `docker-compose up`. It will build and start the frontend builder (`yarn run start`) and the backend (`python manage.py runserver` analog), along with a Postgresql database. The first run will take a while because the database dump needs to be restored.
+2. Create an admin user
+```
+docker exec -ti wagtail_website_application_1 python manage.py createsuperuser
+```
+3. Log into http://localhost:8001/admin
+4. Create a new "Home Page" (page type must be `Home Page`) and **publish**.
+5. Go to http://localhost:8001/admin/sites/ and select **localhost**.
+6. Select the new "Home Page" as the **root page** and **save**.
+7. The website should become available at http://localhost:8001
+8. To destroy everything (i.e. start the database from scratch) run `docker-compose down`.
 
 #### Backend details
 
@@ -50,7 +68,7 @@ yarn run build
 yarn run dist
 ```
 
-Other available commands cand be viewed with
+Other available commands can be viewed with
 
 ```sh
 yarn run
