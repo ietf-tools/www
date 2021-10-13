@@ -185,11 +185,11 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
 
     @property
     def next(self):
-        return siblings.filter(date__gt=self.date).order_by('date').first()
+        return self.date and siblings.filter(date__gt=self.date).order_by('date').first()
 
     @property
     def previous(self):
-        return siblings.filter(date__lt=self.date).order_by('date').last()
+        return self.date and siblings.filter(date__lt=self.date).order_by('date').last()
 
     def coalesced_published_date(self):
         return self.date_published or self.first_published_at
