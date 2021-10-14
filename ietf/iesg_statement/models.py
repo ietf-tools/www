@@ -132,11 +132,17 @@ class IESGStatementPage(Page, BibliographyMixin, PromoteMixin):
 
     @property
     def next(self):
-        return self.date and siblings.filter(date__gt=self.date).order_by('date').first()
+        if not self.date:
+            return None
+        after = sorted([p for p in self.siblings.exclude(pk=self.pk) if p.date > self.date], key=lambda o:o.date)
+        return after and after[0] or None
 
     @property
     def previous(self):
-        return self.date and siblings.filter(date__lt=self.date).order_by('date').last()
+        if not self.date:
+            return None
+        before = sorted([p for p in self.siblings.exclude(pk=self.pk) if p.date < self.date], key=lambda o:o.date, reverse=True)
+        return before and before[0] or None
 
     def coalesced_published_date(self):
         return self.date_published or self.first_published_at
