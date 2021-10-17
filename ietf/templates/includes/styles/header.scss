@@ -46,6 +46,10 @@
     border: none;
 }
 
+.nav-item a {
+    text-decoration: none;
+}
+
 // Dropdowns displaying on hover
 @include media-breakpoint-up(lg) {
     .header .navbar-nav .nav-item:hover .btn-dark {
