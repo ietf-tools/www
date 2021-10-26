@@ -191,10 +191,10 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
         try:
             return [
                 sibling for sibling in self.siblings
-                if sibling.date < self.date
-            ][0]
+                if sibling.date > self.date
+            ][-1]
         except IndexError:
-            return siblings[0]
+            return None
 
     @property
     def previous(self):
@@ -204,10 +204,10 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
         try:
             return [
                 sibling for sibling in self.siblings
-                if sibling.date > self.date
-            ][-1]
+                if sibling.date < self.date
+            ][0]
         except IndexError:
-            return siblings[-1]
+            return None
 
     def coalesced_published_date(self):
         return self.date_published or self.first_published_at
