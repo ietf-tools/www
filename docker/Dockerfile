@@ -1,7 +1,7 @@
 # Frontend assets get compiled first
-# current-alpine is Node 16 (latest). This will become active LTS later this year.
+# gallium-alpine is Node 16. This is the active LTS.
 # see https://nodejs.org/en/about/releases/
-FROM node:current-alpine as frontend
+FROM node:gallium-alpine as frontend
 
 ENV NODE_PATH=/node_modules
 ENV PATH="${PATH}:/node_modules/.bin"
