@@ -10,7 +10,7 @@
 <div class="bg-white">
     <div id="content">
         <div class="container">
-            <div class="row align-items-stretch no-gutters">
+            <div class="row align-items-stretch g-0">
                 <aside class="col-12 col-lg-4 d-flex flex-column bg-light d-lg-none" aria-label="Blog listing">
                     <div class="d-none d-lg-block">
                         {% include "includes/blog_sidebar.html" with siblings=siblings current=self %}
@@ -24,8 +24,8 @@
                         <button
                             class="btn btn-outline-primary w-100 mb-4 d-lg-none collapsed"
                             type="button"
-                            data-toggle="collapse"
-                            data-target="#blog_sidebar"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#blog_sidebar"
                             aria-expanded="false"
                             aria-controls="collapseExample"
                         >
@@ -51,17 +51,17 @@
                     </div>
                     <hr>
                     <div class="px-3 px-xl-5 mt-5 mb-5">
-                        {% include "includes/social_share.html" only %}
+                        {% include "includes/social_share.html" with page=self settings=settings only %}
                     </div>
-                    <nav aria-label="blog" class="row no-gutters d-none d-lg-flex">
-                        <div class="col-6 bg-primary p-4 pl-5 d-flex align-items-center">
+                    <nav aria-label="blog" class="row g-0 d-none d-lg-flex">
+                        <div class="col-6 bg-primary p-4 ps-5 d-flex align-items-center">
                             <a class="text-white" href="{{ self.previous.url }}">
                                 <p class="sub">
                                     <div class="h6 text-uppercase">Previous</div>{{ self.previous.title }}
                                 </p>
                             </a>
                         </div>
-                        <div class="col-6 bg-secondary p-4 pr-5 d-flex align-items-center">
+                        <div class="col-6 bg-secondary p-4 pe-5 d-flex align-items-center">
                             <a class="text-white" href="{{ self.next.url }}">
                                 <p class="sub">
                                     <div class="h6 text-uppercase">Next</div>{{ self.next.title }}
@@ -76,7 +76,7 @@
             </div>
         </div>
     </div>
-    <nav aria-label="blog" class="row no-gutters d-lg-none">
+    <nav aria-label="blog" class="row g-0 d-lg-none">
         <div class="col-12 bg-primary p-4">
             <a class="text-white" href="{{ self.previous.url }}">
                 <p>

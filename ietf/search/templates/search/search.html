@@ -34,12 +34,12 @@
     </div>
   </div>
   <div class="container">
-    <div class="row no-gutters align-items-stretch justify-content-between">
-      <div class="col-12 col-lg-8 pt-3 pt-lg-5 pr-lg-3">
+    <div class="row g-0 align-items-stretch justify-content-between">
+      <div class="col-12 col-lg-8 pt-3 pt-lg-5 pe-lg-3">
         <div class="u-max-text-width pb-4">
 
           {% if search_picks %}
-          <h2 class="sr-only">Search results{% if search_query %} for "{{ search_query }}"{% endif %}</h2>
+          <h2 class="visually-hidden">Search results{% if search_query %} for "{{ search_query }}"{% endif %}</h2>
           <ul class="list-unstyled">
             {% for result in search_picks %}
             <li class="mb-4">
@@ -60,7 +60,7 @@
           {% endif %}
           
           {% if search_results %}
-          <h2 class="sr-only">Search results{% if search_query %} for "{{ search_query }}"{% endif %}</h2>
+          <h2 class="visually-hidden">Search results{% if search_query %} for "{{ search_query }}"{% endif %}</h2>
           <ul class="list-unstyled">
             {% for result in search_results %}
               <li class="mb-4">

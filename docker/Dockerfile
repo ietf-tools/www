@@ -1,7 +1,7 @@
 # Frontend assets get compiled first
-# current-alpine is Node 16 (latest). This will become active LTS later this year.
+# gallium-alpine is Node 16. This is the active LTS.
 # see https://nodejs.org/en/about/releases/
-FROM node:current-alpine as frontend
+FROM node:gallium-alpine as frontend
 
 ENV NODE_PATH=/node_modules
 ENV PATH="${PATH}:/node_modules/.bin"
@@ -86,6 +86,7 @@ CMD ["/usr/local/bin/gunicorn", "--config", "/app/docker/gunicorn.py", "ietf.wsg
 # development stage
 FROM base as app-dev
 ENV DJANGO_SETTINGS_MODULE ietf.settings.docker.dev
+COPY docker/init-dev.sh /app/docker/
 
 ADD https://raw.githubusercontent.com/mrako/wait-for/d9699cb9fe8a4622f05c4ee32adf2fd93239d005/wait-for /usr/local/bin/
 USER root
@@ -93,6 +94,21 @@ RUN chmod +rx /usr/local/bin/wait-for
 USER www
 
 # wait-for script waits until the database is ready and reachable
-# and then it runs the actual process
+# and then it runs the migrations and actual process
 ENTRYPOINT ["wait-for", "database:5432", "--"]
-CMD ["/usr/local/bin/gunicorn", "--config", "/app/docker/gunicorn.py", "--reload", "ietf.wsgi" ]
+CMD ["/app/docker/init-dev.sh"]
+
+# test stage
+FROM base as app-test
+ENV DJANGO_SETTINGS_MODULE ietf.settings.docker.dev
+COPY docker/init-test.sh /app/docker/
+
+ADD https://raw.githubusercontent.com/mrako/wait-for/d9699cb9fe8a4622f05c4ee32adf2fd93239d005/wait-for /usr/local/bin/
+USER root
+RUN chmod +rx /usr/local/bin/wait-for
+USER www
+
+# wait-for script waits until the database is ready and reachable
+# and then it runs the migrations and tests
+ENTRYPOINT ["wait-for", "database:5432", "--"]
+CMD ["/app/docker/init-test.sh"]

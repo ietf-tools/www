@@ -15,10 +15,10 @@
         </div>
 
         <div class="container">
-            <div class="row no-gutters align-items-stretch justify-content-between">
+            <div class="row g-0 align-items-stretch justify-content-between">
                 
                 {# main content row #}
-                <div class="col-12 col-lg-8 col-xl-9 pt-3 pt-lg-5 pr-lg-3">
+                <div class="col-12 col-lg-8 col-xl-9 pt-3 pt-lg-5 pe-lg-3">
                 {% has_tabs self.prepared_key_info self.prepared_in_depth as show_tabs %}
                 {% if show_tabs %}
                 {% comment %} 
@@ -32,10 +32,10 @@
                  {% endcomment %}
                     <ul class="nav nav-tabs text-uppercase text-center no-js-hide" id="tabs" role="tablist" aria-owns="key-info-tab in-depth-tab">
                         <li class="nav-item flex-grow-1" role="presentation">
-                            <a class="nav-link active" id="key-info-tab" data-toggle="tab" href="#key-info" role="tab" aria-controls="key-info" aria-selected="true">Key Info</a>
+                            <a class="nav-link active" id="key-info-tab" data-bs-toggle="tab" href="#key-info" role="tab" aria-controls="key-info" aria-selected="true">Key Info</a>
                         </li>
                         <li class="nav-item flex-grow-1" role="presentation">
-                            <a class="nav-link" id="in-depth-tab" data-toggle="tab" href="#in-depth" role="tab" aria-controls="in-depth" aria-selected="false">In Depth</a>
+                            <a class="nav-link" id="in-depth-tab" data-bs-toggle="tab" href="#in-depth" role="tab" aria-controls="in-depth" aria-selected="false">In Depth</a>
                         </li>
                     </ul>
                 {% endif %}

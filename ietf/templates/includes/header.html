@@ -1,7 +1,7 @@
 {% load static wagtailcore_tags %}
 
 <header class="header">
-    <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+    <a href="#content" class="visually-hidden visually-hidden-focusable">Skip to main content</a>
     <nav
         class="navbar navbar-expand-lg navbar-dark bg-dark text-light"
         aria-label="Main"
@@ -10,8 +10,8 @@
             <button
                 class="navbar-toggler"
                 type="button"
-                data-toggle="collapse"
-                data-target="#navbarSupportedContent"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent"
                 aria-expanded="false"
                 aria-label="Toggle navigation"
@@ -20,10 +20,10 @@
             </button>
             <!-- Mobile search -->
             <button
-                class="btn btn-link nav-link text-light mr-auto d-lg-none"
+                class="btn btn-link nav-link text-light me-auto d-lg-none"
                 type="button"
-                data-toggle="collapse"
-                data-target="#navbarSearch"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarSearch"
                 aria-controls="navbarSearch"
                 aria-expanded="false"
                 aria-label="Toggle search bar"
@@ -52,15 +52,15 @@
                         <li class="nav-item btn-group {% if item.pk == self.pk %} active{% endif %}">
                             <a
                                 href="{{ item.url }}"
-                                class="nav-link btn btn-dark text-white text-uppercase{% if item.subitems %} pr-1{% endif %}"
+                                class="nav-link btn btn-dark text-white text-uppercase{% if item.subitems %} pe-1{% endif %}"
                             >
                                 {{ item.title }}
                             </a>
                             {% if item.subitems %}
                                 <button
-                                    class="btn btn-dark text-light dropdown-toggle dropdown-toggle-split d-none d-lg-block pl-1 no-js-hide"
+                                    class="btn btn-dark text-light dropdown-toggle dropdown-toggle-split d-none d-lg-block ps-1 no-js-hide"
                                     id="{{ item.pk }}Dropdown"
-                                    data-toggle="dropdown"
+                                    data-bs-toggle="dropdown"
                                     aria-haspopup="true"
                                     aria-expanded="false"
                                     aria-label="Toggle dropdown for {{ item.title }}"
@@ -92,14 +92,14 @@
                     <li class="nav-item btn-group">
                         <a
                             href="{% if settings.utils.SecondaryMenu.tools_page %}{% pageurl settings.utils.SecondaryMenu.tools_page %}{% endif %}"
-                            class="nav-link btn btn-dark text-white  pr-1"
+                            class="nav-link btn btn-dark text-white  pe-1"
                         >
                             Tools
                         </a>
                         <button
-                            class="nav-link btn btn-dark text-white dropdown-toggle dropdown-toggle-split d-none d-lg-block pl-1 no-js-hide"
+                            class="nav-link btn btn-dark text-white dropdown-toggle dropdown-toggle-split d-none d-lg-block ps-1 no-js-hide"
                             id="toolsDropdown"
-                            data-toggle="dropdown"
+                            data-bs-toggle="dropdown"
                             aria-haspopup="true"
                             aria-expanded="false"
                             aria-label="Toggle dropdown for tools"
@@ -118,8 +118,8 @@
                             href="/search"
                             class="btn btn-dark text-white nav-link"
                             role="button"
-                            data-toggle="collapse"
-                            data-target="#navbarSearch"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#navbarSearch"
                             aria-controls="navbarSearch"
                             aria-expanded="false"
                             aria-label="Toggle search bar"

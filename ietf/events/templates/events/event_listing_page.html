@@ -10,7 +10,7 @@
         <div class="container">
             <ul class="row py-4 mb-0 list-unstyled">
                 {% for promoted_event in self.promoted_events.all %}
-                    <li class="card mb-2 border-0 col-12 col-lg-6 row flex-md-row no-gutters align-items-stretch">
+                    <li class="card mb-2 border-0 col-12 col-lg-6 row flex-md-row g-0 align-items-stretch">
                         {% with promoted_event.promoted_event as event %}
                             <div class="col-md-4 h-md-auto">
                                 {% image event.main_image height-245 as event_image %}

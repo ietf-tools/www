@@ -12,11 +12,11 @@
       {% if show_tabs %}
         <ul class="nav nav-tabs text-uppercase text-center no-js-hide" id="tabs" role="tablist" aria-owns="key-info-tab in-depth-tab">
           <li class="nav-item flex-grow-1" role="presentation">
-            <a class="nav-link active" id="key-info-tab" data-toggle="tab" href="#key-info" role="tab"
+            <a class="nav-link active" id="key-info-tab" data-bs-toggle="tab" href="#key-info" role="tab"
               aria-controls="key-info" aria-selected="true">Key Info</a>
           </li>
           <li class="nav-item flex-grow-1" role="presentation">
-            <a class="nav-link" id="in-depth-tab" data-toggle="tab" href="#in-depth" role="tab" aria-controls="in-depth"
+            <a class="nav-link" id="in-depth-tab" data-bs-toggle="tab" href="#in-depth" role="tab" aria-controls="in-depth"
               aria-selected="false">In Depth</a>
           </li>
         </ul>
@@ -64,13 +64,13 @@
   <ul class="row list-unstyled mt-5">
     {% for child in self.children %}
         <li class="col-12 col-lg-6 mb-4">
-          <h2 class="h3"><a href="{% pageurl child %}">{{ child.title }}<span class="icon ion-ios-arrow-forward ml-3"></span></a></h2>
+          <h2 class="h3"><a href="{% pageurl child %}">{{ child.title }}<span class="icon ion-ios-arrow-forward ms-3"></span></a></h2>
           <p>{% if child.search_description %}{{ child.search_description }}{% else %}{{ child.introduction }}{% endif %}</p>
           
           {% if child.feed_related_links.exists %}
             <p class="no-js-hide">
-              <a data-toggle="collapse" href="#collapse{{ related.title|slugify }}" role="button" aria-expanded="false" aria-controls="collapseExample">
-                Related<span class="icon ion-ios-arrow-down ml-2"></span>
+              <a data-bs-toggle="collapse" href="#collapse{{ related.title|slugify }}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                Related<span class="icon ion-ios-arrow-down ms-2"></span>
               </a>
             </p>
             <div class="collapse mt-n2 no-js-hide" id="collapse{{ related.title|slugify }}">

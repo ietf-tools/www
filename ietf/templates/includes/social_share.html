@@ -1,4 +1,4 @@
-{% load ietf_tags %}
+{% load ietf_tags wagtailcore_tags %}
 
 {% comment %} 
     You can set the correct heahding level, for example
@@ -11,7 +11,7 @@
 
     {% comment %}
     <a
-        class="mr-2 h2"
+        class="me-2 h2"
         aria-label="Share on Facebook"
         title="Share on Facebook"
         href="https://www.facebook.com/dialog/feed?app_id={{ social_media_settings.facebook_app_id }}&amp;link={{ page.full_url|urlencode }}&amp;picture={% social_image page wagtail_site %}&amp;name={{ page.title|urlencode }}&amp;description={% social_text page wagtail_site 'True '%}&amp;redirect_uri={{ page.full_url|urlencode }}"
@@ -20,14 +20,14 @@
     </a>
     {% endcomment %}
     <a
-        class="mr-2 h2"
+        class="me-2 h2"
         title="Share on Twitter"
         href="https://twitter.com/intent/tweet?text={% social_text page wagtail_site 'True' %}&amp;url={{ page.full_url|urlencode }}&amp;via={{ social_media_settings.twitter_handle|urlencode }}"
     >
         <span class="icon ion-social-twitter"></span>
     </a>
     <a
-        class="mr-2 h2"
+        class="me-2 h2"
         title="Share on LinkedIn"
         href="https://www.linkedin.com/shareArticle?mini=true&amp;url={{ page.full_url|urlencode }}&amp;title={{ page.title|urlencode }}&amp;summary={% social_text page wagtail_site 'True' %}&amp;source={{ social_media_settings.site_name|urlencode }}"
     >

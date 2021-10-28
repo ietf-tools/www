@@ -2,8 +2,8 @@
 <button
     class="btn btn-outline-primary d-md-none w-100 mb-3"
     type="button"
-    data-toggle="collapse"
-    data-target="#filters-mobile"
+    data-bs-toggle="collapse"
+    data-bs-target="#filters-mobile"
     aria-expanded="false"
     aria-controls="collapseExample"
 >
@@ -13,7 +13,7 @@
 <form method="GET" action="{{ parent_url }}" id="filters-mobile" class="form-row mx-0 mb-3 d-md-none collapse">
     <h2 class="h6">Filter by topic and date</h2>
     <div class="col-12 form-group p-0 flex-shrink-1">
-        <label for="topic-input">Topic</label>
+        <label class="form-label" for="topic-input">Topic</label>
         <select aria-label="Topic" class="form-control bg-light" name="topic" id="topic-input">
             <option value="">All</option>
             {% for topic in topics %}
@@ -27,8 +27,8 @@
         </select>
     </div>
 
-    <div class="col-6 form-group flex-shrink-1 p-0 pr-1">
-        <label for="date_from-input" id="date_from-label">Date from</label>
+    <div class="col-6 form-group flex-shrink-1 p-0 pe-1">
+        <label class="form-label" for="date_from-input" id="date_from-label">Date from</label>
         <div class="input-group">
             <input
                 class="form-control"
@@ -43,8 +43,8 @@
         </div>
     </div>
     <div class="col-6 form-group flex-shrink-1 p-0">
-        <label for="date_to-input" id="date_to-label">Date to</label>
-        <div class="input-group mr-md-">
+        <label class="form-label" for="date_to-input" id="date_to-label">Date to</label>
+        <div class="input-group me-md-">
             <input
                 class="form-control"
                 placeholder="dd/mm/yyyy"
@@ -63,7 +63,7 @@
 <h2 class="h6 d-none d-md-block">Filter by topic and date</h2>
 <form method="GET" action="{{ parent_url }}" class="form-row mx-0 mb-3 flex-md-nowrap d-none d-md-flex">
     <div class="col-auto form-group p-0 flex-shrink-1">
-        <label for="topic-desktop-input">Topic</label>
+        <label class="form-label" for="topic-desktop-input">Topic</label>
         <select aria-label="Topic" class="form-control bg-light" name="topic" id="topic-desktop-input">
             <option value="">All</option>
             {% for topic in topics %}
@@ -78,7 +78,7 @@
     </div>
 
     <div class="col-auto form-group flex-shrink-1 p-0 px-1">
-        <label for="date_from-desktop-input" id="date_from-desktop-label">Date from</label>
+        <label class="form-label" for="date_from-desktop-input" id="date_from-desktop-label">Date from</label>
         <div class="input-group">
             <input
                 class="form-control"
@@ -93,9 +93,9 @@
         </div>
     </div>
     <div class="col-auto form-group flex-shrink-1 p-0">
-        <label for="date_to-desktop-input" id="date_to-desktop-label">Date to</label>
+        <label class="form-label" for="date_to-desktop-input" id="date_to-desktop-label">Date to</label>
         <div class="d-flex">
-            <div class="input-group mr-md-1">
+            <div class="input-group me-md-1">
                 <input
                     class="form-control"
                     placeholder="dd/mm/yyyy"

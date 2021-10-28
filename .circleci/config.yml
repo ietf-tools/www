@@ -17,23 +17,28 @@ workflows:
                 target: aws-app # build this stage
                 tag: app # no tag no docker image
                 path: docker
+            - buildkit/build: # call the build command multiple times to build multiple images
+                target: app-test # build this stage
+                tag: app-test # no tag no docker image
+                path: docker
           after-builds:
-              #            - run:
-              #                  name: run backend tests
-              #                  command: |-
-              #                      set -eu
-              #
-              #                      DATABASE_PASSWORD="$( head -c 24 /dev/urandom | xxd -p | tr -d '\n ')"
-              #                      docker run --name=database \
-              #                          -ePOSTGRES_DB=app_test \
-              #                          -ePOSTGRES_PASSWORD=$DATABASE_PASSWORD \
-              #                          -d postgres:11-alpine
-              #                      docker run \
-              #                          -i --name app-test --rm \
-              #                          --link=database --link=cache --link=search \
-              #                          -eDATABASE_URL="postgres://postgres:$DATABASE_PASSWORD@database/app_test" \
-              #                          -eENVIRONMENT=test \
-              #                          app-test
+            - run:
+                name: run backend tests
+                command: |-
+                    set -eu
+
+                    docker run --name=database \
+                        -ePOSTGRES_DB=app \
+                        -ePOSTGRES_PASSWORD=password \
+                        -d postgres:11-alpine
+                    docker run \
+                        -i --rm --name=app-test \
+                        -u root \
+                        --link=database \
+                        -eDATABASE_URL="postgres://postgres:password@database/app" \
+                        -eAPP_SECRET_KEY=xxxx \
+                        -eENVIRONMENT=test \
+                        app-test
             - run:
                 name: tag, push and deploy images
                 command: |-

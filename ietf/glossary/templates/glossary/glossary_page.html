@@ -11,8 +11,8 @@
             </div>
         </div>
         <div class="container">
-            <div class="row no-gutters align-items-stretch justify-content-between">
-                <div class="col-12 col-lg-8 col-xl-9 pt-3 pt-lg-5 pr-lg-3">
+            <div class="row g-0 align-items-stretch justify-content-between">
+                <div class="col-12 col-lg-8 col-xl-9 pt-3 pt-lg-5 pe-lg-3">
                     <div class="u-max-text-width pb-4">
 
                         <div class="row mb-4">
@@ -105,7 +105,7 @@
                             {% endif %}
                         {% endif %}
 
-                        <h2 class="sr-only">Glossary items{% if search_query %} matching "{{ search_query }}"{% endif %}</h2>
+                        <h2 class="visually-hidden">Glossary items{% if search_query %} matching "{{ search_query }}"{% endif %}</h2>
                         {% for glossary_item in glossary_items %}
                             <div class="mb-4">
                                 {% if glossary_item.link %}<a href="{{ glossary_item.link }}">{% endif %}

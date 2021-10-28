@@ -5,7 +5,7 @@
 
 {% block main_content %}
 <main id="content">
-    <h1 class="sr-only">Welcome to the <abbr title="Internet Engineering Task Force">IETF</abbr></h1>
+    <h1 class="visually-hidden">Welcome to the <abbr title="Internet Engineering Task Force">IETF</abbr></h1>
     <!--  Jumbotron -->
     {% image self.main_image max-4000x4000 as bg_image %}
     <section class="jumbotron text-white home_page__jumbotron"
@@ -55,7 +55,7 @@
                                 </h3>
                                 <p class="card-text">{{ blog.feed_text }}</p>
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <small class="border-left border-secondary pl-2">
+                                    <small class="border-start border-secondary ps-2">
                                         <span>{{ blog.author.name }}</span>
                                         <span>{{ blog.author.title }}</span>
                                         <span>{{ blog.date|date:"DATE_FORMAT" }}</span>
@@ -220,8 +220,8 @@
                 <li class="col mb-4">
                     <div class="card h-100">
                         {% image topic.feed_image max-300x300 as feed_image %}
-                        <div class="embed-responsive embed-responsive-4by3">
-                            <img class="card-img-top embed-responsive-item u-obj-contain" src="{{ feed_image.url }}" alt="{{ topic.feed_image.title }}">
+                        <div class="ratio ratio-4x3">
+                            <img class="card-img-top u-obj-contain" src="{{ feed_image.url }}" alt="{{ topic.feed_image.title }}">
                         </div>
                         <div class="card-body">
                             <h3>

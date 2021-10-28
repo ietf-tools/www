@@ -1,5 +1,6 @@
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
 
 $brand-blue-primary: #1762bb;
 $brand-blue-secondary: #1a7dae;
@@ -9,6 +10,8 @@ $body-color: #333741;
 $body-bg: #f3f5f6;
 $font-family-base: 'montserrat', Helvetica, arial, sans-serif;
 $link-color: $brand-blue-primary;
+$jumbotron-padding: 2rem !default;
+$jumbotron-color: null !default;
 $jumbotron-bg: #000;
 
 $dark: #49555c;
@@ -17,7 +20,28 @@ $theme-colors: (
     'primary': $brand-blue-primary,
     'secondary': $brand-blue-secondary,
     'dark': $dark,
+    'light': $light,
 );
+
+$theme-colors-rgb: map-loop($theme-colors, to-rgb, '$value');
+
+.jumbotron {
+    padding: $jumbotron-padding ($jumbotron-padding / 2);
+    margin-bottom: $jumbotron-padding;
+    color: $jumbotron-color;
+    background-color: $jumbotron-bg;
+    @include border-radius($border-radius-lg);
+
+    @include media-breakpoint-up(sm) {
+        padding: ($jumbotron-padding * 2) $jumbotron-padding;
+    }
+}
+
+.jumbotron-fluid {
+    padding-right: 0;
+    padding-left: 0;
+    @include border-radius(0);
+}
 
 $enable-rounded: false;
 
