@@ -145,7 +145,7 @@ class MenuItem(ClusterableModel, WagtailOrderable):
 
     @property
     def is_dropdown(self):
-        return bool(self.sub_menu_items.count())
+        return self.sub_menu_items.exists()
 
     @property
     def title(self):
