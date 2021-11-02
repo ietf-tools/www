@@ -5,6 +5,21 @@ import django.db.models.deletion
 import modelcluster.fields
 
 
+def migrate_data(apps, schema_editor):
+    SecondaryMenu = apps.get_model('utils', 'SecondaryMenu')
+    ToolsMenuItem = apps.get_model('utils', 'ToolsMenuItem')
+    MenuItem = apps.get_model('utils', 'MenuItem')
+    SubMenuItem = apps.get_model('utils', 'SubMenuItem')
+    menu = SecondaryMenu.objects.first()
+    MenuItem.objects.create(page=menu.contact_page)
+    tools_menu = MenuItem(page=menu.tools_page)
+    tools_menu.save()
+
+    for item in ToolsMenuItem.objects.all():
+        sub_menu = SubMenuItem(parent=tools_menu, page=item.page, link=item.link, text=item.text)
+        sub_menu.save()
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -40,6 +55,7 @@ class Migration(migrations.Migration):
                 'abstract': False,
             },
         ),
+        migrations.RunPython(migrate_data),
         migrations.RemoveField(
             model_name='toolsmenuitem',
             name='model',
