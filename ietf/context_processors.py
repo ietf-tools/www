@@ -9,7 +9,7 @@ def home_page():
     return HomePage.objects.filter(depth=2).first()
 
 def menu():
-    items = MenuItem.objects.order_by('sort_order').all()
+    items = MenuItem.objects.order_by('sort_order').all().select_related('page').prefetch_related('sub_menu_items')
     return items
 
 
