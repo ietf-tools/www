@@ -11,8 +11,9 @@ def migrate_data(apps, schema_editor):
     MenuItem = apps.get_model('utils', 'MenuItem')
     SubMenuItem = apps.get_model('utils', 'SubMenuItem')
     menu = SecondaryMenu.objects.first()
-    MenuItem.objects.create(page=menu.contact_page)
-    tools_menu = MenuItem(page=menu.tools_page)
+    contact_menu = MenuItem(page=menu.contact_page, sort_order=1)
+    contact_menu.save()
+    tools_menu = MenuItem(page=menu.tools_page, sort_order=2)
     tools_menu.save()
 
     for item in ToolsMenuItem.objects.all():
