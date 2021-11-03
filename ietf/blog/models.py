@@ -187,14 +187,14 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
     def next(self):
         if not self.date:
             return None
-        after = sorted([p for p in self.siblings.exclude(pk=self.pk) if p.date > self.date], key=lambda o:o.date)
+        after = sorted([p for p in self.siblings if p.date > self.date], key=lambda o:o.date)
         return after and after[0] or None
 
     @property
     def previous(self):
         if not self.date:
             return None
-        before = sorted([p for p in self.siblings.exclude(pk=self.pk) if p.date < self.date], key=lambda o:o.date, reverse=True)
+        before = sorted([p for p in self.siblings if p.date < self.date], key=lambda o:o.date, reverse=True)
         return before and before[0] or None
 
     def coalesced_published_date(self):
@@ -207,7 +207,7 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
     @functional.cached_property
     def siblings(self):
         """Published siblings that match filter_topic, most recent first"""
-        qs = self.__class__.objects.live().sibling_of(self).annotate(
+        qs = self.__class__.objects.live().sibling_of(self).exclude(pk=self.pk).annotate(
             d=Coalesce('date_published', 'first_published_at')
         ).order_by('-d')
         if self.filter_topic:
