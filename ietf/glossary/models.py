@@ -57,16 +57,6 @@ class GlossaryPage(Page, PromoteMixin):
                 request.GET.get('query'), glossary_items
             )
 
-        page = request.GET.get('page', 1)
-        # Pagination
-        paginator = Paginator(glossary_items, 10)
-        try:
-            glossary_items = paginator.page(page)
-        except PageNotAnInteger:
-            glossary_items = paginator.page(1)
-        except EmptyPage:
-            glossary_items = paginator.page(paginator.num_pages)
-
         context['glossary_items'] = glossary_items
         context['search_query'] = request.GET.get('query')
 
