@@ -11,14 +11,15 @@ def migrate_data(apps, schema_editor):
     MenuItem = apps.get_model('utils', 'MenuItem')
     SubMenuItem = apps.get_model('utils', 'SubMenuItem')
     menu = SecondaryMenu.objects.first()
-    contact_menu = MenuItem(page=menu.contact_page, sort_order=1)
-    contact_menu.save()
-    tools_menu = MenuItem(page=menu.tools_page, sort_order=2)
-    tools_menu.save()
+    if menu is not None:
+        contact_menu = MenuItem(page=menu.contact_page, sort_order=1)
+        contact_menu.save()
+        tools_menu = MenuItem(page=menu.tools_page, sort_order=2)
+        tools_menu.save()
 
-    for item in ToolsMenuItem.objects.all():
-        sub_menu = SubMenuItem(parent=tools_menu, page=item.page, link=item.link, text=item.text)
-        sub_menu.save()
+        for item in ToolsMenuItem.objects.all():
+            sub_menu = SubMenuItem(parent=tools_menu, page=item.page, link=item.link, text=item.text)
+            sub_menu.save()
 
 
 class Migration(migrations.Migration):
