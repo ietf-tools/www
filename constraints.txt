@@ -52,6 +52,7 @@ typepy==0.2.5
 Unidecode==1.1.1
 urllib3==1.25.10
 wagtail==2.11.6
+wagtail-orderable==1.0.3
 webencodings==0.5.1
 Willow==1.4
 xlrd==2.0.1
