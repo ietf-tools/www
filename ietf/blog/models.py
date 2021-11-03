@@ -29,7 +29,7 @@ from ..snippets.models import Topic
 
 
 def ordered_live_annotated_blogs(sibling=None):
-    blogs = BlogPage.objects.live()
+    blogs = BlogPage.objects.live().prefetch_related('authors')
     if sibling:
         blogs = blogs.sibling_of(sibling)
     blogs = blogs.annotate(
@@ -358,7 +358,7 @@ class BlogIndexPage(RoutablePageMixin, Page):
             if slug:
                 self.filter_topic = Topic.objects.filter(slug=slug).first()
                 if not self.filter_topic:
-                    blog_page = get_object_or_404(BlogPage,slug=slug)
+                    blog_page = get_object_or_404(BlogPage.objects.prefetch_related('authors'), slug=slug)
                     return blog_page.serve(request, *args, **kwargs)
 
             blogs = ordered_live_annotated_blogs()
