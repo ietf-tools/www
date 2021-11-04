@@ -29,7 +29,7 @@ from ..snippets.models import Topic
 
 
 def ordered_live_annotated_blogs(sibling=None):
-    blogs = BlogPage.objects.live()
+    blogs = BlogPage.objects.live().prefetch_related('authors')
     if sibling:
         blogs = blogs.sibling_of(sibling)
     blogs = blogs.annotate(
@@ -187,14 +187,14 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
     def next(self):
         if not self.date:
             return None
-        after = sorted([p for p in self.siblings.exclude(pk=self.pk) if p.date > self.date], key=lambda o:o.date)
+        after = sorted([p for p in self.siblings if p.date > self.date], key=lambda o:o.date)
         return after and after[0] or None
 
     @property
     def previous(self):
         if not self.date:
             return None
-        before = sorted([p for p in self.siblings.exclude(pk=self.pk) if p.date < self.date], key=lambda o:o.date, reverse=True)
+        before = sorted([p for p in self.siblings if p.date < self.date], key=lambda o:o.date, reverse=True)
         return before and before[0] or None
 
     def coalesced_published_date(self):
@@ -207,7 +207,7 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
     @functional.cached_property
     def siblings(self):
         """Published siblings that match filter_topic, most recent first"""
-        qs = self.__class__.objects.live().sibling_of(self).annotate(
+        qs = self.__class__.objects.live().sibling_of(self).exclude(pk=self.pk).annotate(
             d=Coalesce('date_published', 'first_published_at')
         ).order_by('-d')
         if self.filter_topic:
@@ -358,7 +358,7 @@ class BlogIndexPage(RoutablePageMixin, Page):
             if slug:
                 self.filter_topic = Topic.objects.filter(slug=slug).first()
                 if not self.filter_topic:
-                    blog_page = get_object_or_404(BlogPage,slug=slug)
+                    blog_page = get_object_or_404(BlogPage.objects.prefetch_related('authors'), slug=slug)
                     return blog_page.serve(request, *args, **kwargs)
 
             blogs = ordered_live_annotated_blogs()
