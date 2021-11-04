@@ -225,16 +225,18 @@ def load_menu_data(apps, schema_editor):
 
     # Update existing
     contact_menu = MenuItem.objects.filter(page__title="Contact").first()
-    contact_menu.sort_order = 6
-    contact_menu.save()
+    if contact_menu is not None:
+        contact_menu.sort_order = 6
+        contact_menu.save()
     tools_menu = MenuItem.objects.filter(page__title="Links").first()
-    tools_menu.text = "Tools"
-    tools_menu.sort_order = 7
-    tools_menu.save()
+    if tools_menu is not None:
+        tools_menu.text = "Tools"
+        tools_menu.sort_order = 7
+        tools_menu.save()
 
     # Add menu items that were previously hard coded
     for item in menu_items:
-        page = Page.objects.get(pk=item['fields']['page'])
+        page = Page.objects.filter(pk=item['fields']['page']).first()
         if page:
             menu_item = MenuItem(text=item['fields']['text'], page=page, sort_order=item['fields']['sort_order'])
             menu_item.save()
@@ -243,7 +245,7 @@ def load_menu_data(apps, schema_editor):
                 for s in sub_menu_items:
                     sub_menu = SubMenuItem(parent=menu_item, text=s['text'], sort_order=s['sort_order'])
                     if s['page']:
-                        page = Page.objects.get(pk=s['page'])
+                        page = Page.objects.filter(pk=s['page']).first()
                         if page:
                             sub_menu.page = page
                     else:
