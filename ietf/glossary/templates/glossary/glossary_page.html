@@ -32,8 +32,8 @@
 
                         <h2 class="visually-hidden">Glossary items{% if search_query %} matching "{{ search_query }}"{% endif %}</h2>
                         {% for key, items in glossary_items.items %}
-                            <h2 id="{{key|upper}}">{{key|upper}}</h4>
-                            <hr />
+                            <h2 class="pt-3" id="{{key|upper}}">{{key|upper}}</h4>
+                            <hr class="mt-0 mb-4"/>
                             {% for glossary_item in items %}
                                 <div class="mb-4">
                                     {% if glossary_item.link %}<a href="{{ glossary_item.link }}">{% endif %}
