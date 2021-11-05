@@ -8,6 +8,10 @@ def add_missing_menu(apps, schema_editor):
     page = Page.objects.filter(pk=42).first()
     if page:
         MenuItem.objects.create(page=page, sort_order=0, text='News & blog')
+    tools_menu = MenuItem.objects.filter(page__title="Links").first()
+    if tools_menu:
+        tools_menu.text = "Tools"
+        tools_menu.save()
 
 class Migration(migrations.Migration):
 
