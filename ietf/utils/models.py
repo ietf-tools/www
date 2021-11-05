@@ -150,6 +150,9 @@ class MenuItem(ClusterableModel, WagtailOrderable):
     @property
     def title(self):
         return self.text or getattr(self.page, "title", "")
+    
+    class Meta:
+        verbose_name_plural = "Secondary Menu"
 
 
 @register_setting

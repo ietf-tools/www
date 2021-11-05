@@ -19,7 +19,7 @@ def editor_css():
 class MenuItemAdmin(OrderableMixin, ModelAdmin):
     model = MenuItem
     menu_order = 900
-    menu_label = "Menu"
+    menu_label = "Secondary Menu"
     menu_icon = "list-ul"
     add_to_settings_menu = True
     list_display = ("title",)
