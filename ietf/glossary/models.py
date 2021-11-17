@@ -1,5 +1,4 @@
 from django.db import models
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from wagtail.core.models import Page, Orderable
 from wagtail.search.backends import get_search_backend
@@ -57,17 +56,12 @@ class GlossaryPage(Page, PromoteMixin):
                 request.GET.get('query'), glossary_items
             )
 
-        page = request.GET.get('page', 1)
-        # Pagination
-        paginator = Paginator(glossary_items, 10)
-        try:
-            glossary_items = paginator.page(page)
-        except PageNotAnInteger:
-            glossary_items = paginator.page(1)
-        except EmptyPage:
-            glossary_items = paginator.page(paginator.num_pages)
-
-        context['glossary_items'] = glossary_items
+        context['glossary_items'] = {}
+        for item in glossary_items:
+            if item.title[0:1].upper() not in context['glossary_items'].keys():
+                context['glossary_items'][item.title[0:1].upper()] = [item]
+            else:
+                context['glossary_items'][item.title[0:1].upper()].append(item)
         context['search_query'] = request.GET.get('query')
 
         return context

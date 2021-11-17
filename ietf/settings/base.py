@@ -59,6 +59,7 @@ INSTALLED_APPS = (
     "wagtail.contrib.table_block",
     "wagtail.contrib.postgres_search",
     "wagtail.contrib.routable_page",
+    "wagtail.contrib.modeladmin",
     "modelcluster",
     "compressor",
     "taggit",
@@ -72,6 +73,7 @@ INSTALLED_APPS = (
     "mod_wsgi.server",
     "analytical",
     "wagtailmarkdown",
+    "wagtailorderable",
 )
 
 MIDDLEWARE = [
