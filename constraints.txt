@@ -17,7 +17,7 @@ django-compressor==3.0
 django-filter==21.1
 django-libsass==0.9
 django-modelcluster==5.2
-django-storages==1.7.2
+django-storages==1.12.3
 django-taggit==1.5.1
 django-treebeard==4.5.1
 djangorestframework==3.13.0
