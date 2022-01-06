@@ -75,6 +75,7 @@ INSTALLED_APPS = (
     "analytical",
     "wagtailmarkdown",
     "wagtailorderable",
+    "wagtail.contrib.typed_table_block",
 )
 
 MIDDLEWARE = [
