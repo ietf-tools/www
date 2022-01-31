@@ -4,7 +4,7 @@
     
 [![Release](https://img.shields.io/github/release/ietf-tools/wagtail_website.svg?style=flat&maxAge=360)](https://github.com/ietf-tools/wagtail_website/releases)
 [![License](https://img.shields.io/github/license/ietf-tools/wagtail_website)](https://github.com/ietf-tools/wagtail_website/blob/main/LICENSE)
-[![CircleCI](https://img.shields.io/circleci/build/github/ietf-tools/wagtail_website?label=Circle%20CI%20Build)](https://app.circleci.com/pipelines/github/ietf-tools/wagtail_website)
+[![CircleCI](https://img.shields.io/circleci/build/github/ietf-tools/wagtail_website?label=Circle%20CI%20Build&logo=circleci)](https://app.circleci.com/pipelines/github/ietf-tools/wagtail_website)
 [![Docker Images](https://img.shields.io/badge/docker%20images-github-blue?logo=docker&logoColor=white)](https://github.com/ietf-tools/wagtail_website/pkgs/container/wagtail_website)
     
 ##### A customized CMS for the IETF website
