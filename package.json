@@ -40,7 +40,7 @@
         "test": "yarn test:accessibility"
     },
     "dependencies": {
-        "@axe-core/puppeteer": "^4.2.2",
+        "@axe-core/puppeteer": "^4.4.2",
         "@buzuli/json": "^2.1.0",
         "@ietf-tools/common-bootstrap-theme": "^0.0.3",
         "@popperjs/core": "^2.10.1",
@@ -54,7 +54,7 @@
         "jquery-ui": "^1.13.0",
         "normalize.css": "^8.0.1",
         "postcss-normalize": "^10.0.0",
-        "puppeteer": "^10.1.0",
+        "puppeteer": "^13.6.0",
         "sass": "^1.35.1",
         "ts-node": "^10.0.0",
         "typescript": "^4.3.4"
