@@ -32,11 +32,7 @@ class BibliographyItem(models.Model):
     )
     content_key = models.CharField(
         max_length=127,
-        help_text='The "key" with which this item was created, eg. "rfc" in [[rfc:3514]].',
-    )
-    test_key = models.CharField(
-        max_length=127,
-        help_text='I have no data migration.',
+        help_text='Updated',
     )
     # Be very wary. The help_text below implies that content_identifier might have an RFC number in it.
     # It does not. Maybe in very early designs that was the plan, but the implementation puts primary
