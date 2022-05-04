@@ -28,7 +28,7 @@ CMD ["yarn", "start"]
 FROM springload/ssm-parent:1.4.1 as ssm-parent
 
 # Base backend
-FROM python:3.6-alpine as base
+FROM python:3.10-alpine as base
 ENV PYCURL_SSL_LIBRARY openssl
 
 RUN apk update && apk add postgresql-libs postgresql-client libevent libjpeg openjpeg zlib
