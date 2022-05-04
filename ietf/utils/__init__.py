@@ -1,4 +1,4 @@
-import collections
+from collections import abc as collections
 
 
 class OrderedSet(collections.MutableSet):
