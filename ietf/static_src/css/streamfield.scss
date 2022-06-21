@@ -38,12 +38,10 @@ $border-colour: #bebebe;
 
 .block-table {
     margin: 30px 0;
-    // border: 1px solid $border-colour;
 
     @include media-breakpoint-up(sm) {
-        margin: 50px 0;
         border: 0;
-        width: calc(100% - 50px);
+        max-width: 902px;
     }
 }
 .block-table,
