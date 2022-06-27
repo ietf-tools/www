@@ -18,7 +18,7 @@ django-filter==21.1
 django-libsass==0.9
 django-modelcluster==5.3
 django-storages==1.12.3
-django-taggit==1.5.1
+django-taggit==2.1.0
 django-treebeard==4.5.1
 djangorestframework==3.13.1
 docutils==0.15.2
@@ -58,7 +58,7 @@ tqdm==4.64.0
 typed-environment-configuration==0.1.4
 typepy==0.2.5
 urllib3==1.26.9
-wagtail==2.15.5
+wagtail==2.16.2
 wagtail-markdown==0.8.0
 wagtail-orderable==1.0.3
 webencodings==0.5.1
