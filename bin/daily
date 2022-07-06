@@ -1,5 +1,0 @@
-#!/bin/sh
-
-# Commands here will be executed daily by cron on the host system
-
-/code/manage.py datatracker_import
