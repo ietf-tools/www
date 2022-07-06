@@ -1,8 +1,0 @@
-<div class="bg-primary p-5 text-white mailing_list_signup__container d-flex flex-column justify-content-center align-items-start h-100">
-    <h2 class="h4">{{ snippet.title }}</h2>
-    {% if snippet.blurb %}<p class="mb-0">{{ snippet.blurb }}</p>{% endif %}
-    <a href="{% url 'disclaimer' snippet.id %}" class="btn btn-light mt-3">
-        <span class="icon ion-ios-paperplane"></span>
-        {{ snippet.button_text }}
-    </a>
-</div>
