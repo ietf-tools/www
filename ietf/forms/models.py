@@ -3,9 +3,9 @@ from logging import Logger
 from django.contrib import messages
 from django.views.defaults import server_error
 from modelcluster.fields import ParentalKey
-from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel
+from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
 from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
-from wagtail.core.fields import RichTextField
+from wagtail.fields import RichTextField
 
 from ietf.views import server_error
 

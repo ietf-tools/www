@@ -1,6 +1,6 @@
 from django.test import TestCase
-from wagtail.core.models import Page, Site
-from wagtail.tests.utils import WagtailTestUtils
+from wagtail.models import Page, Site
+from wagtail.test.utils import WagtailTestUtils
 
 from ietf.events.models import EventListingPage, EventPage
 from ietf.utils.models import MenuItem

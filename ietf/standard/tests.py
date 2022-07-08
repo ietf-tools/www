@@ -1,23 +1,22 @@
 from django.test import TestCase
+from wagtail.models import Page, Site
 
-from .models import StandardPage, StandardIndexPage
 from ..home.models import HomePage
+from .models import StandardIndexPage, StandardPage
 
-from wagtail.core.models import Page, Site
 
 class StandardPageTests(TestCase):
-
     def test_standard_page(self):
 
         root = Page.get_first_root_node()
 
         home = HomePage(
-            slug = 'homepageslug',
-            title = 'home page title',
-            heading = 'home page heading',
-            introduction = 'home page introduction',
-            request_for_comments_section_body = 'rfc section body',
-            working_groups_section_body = 'wg section body',
+            slug="homepageslug",
+            title="home page title",
+            heading="home page heading",
+            introduction="home page introduction",
+            request_for_comments_section_body="rfc section body",
+            working_groups_section_body="wg section body",
         )
 
         root.add_child(instance=home)
@@ -25,25 +24,25 @@ class StandardPageTests(TestCase):
         Site.objects.all().delete()
 
         Site.objects.create(
-            hostname='localhost',
-            root_page = home,
+            hostname="localhost",
+            root_page=home,
             is_default_site=True,
-            site_name='testingsitename',
+            site_name="testingsitename",
         )
 
         standardindex = StandardIndexPage(
-            slug = 'standardindex',
-            title = 'standard index page title',
-            introduction = 'standard index page introduction'
+            slug="standardindex",
+            title="standard index page title",
+            introduction="standard index page introduction",
         )
-        home.add_child(instance = standardindex)       
+        home.add_child(instance=standardindex)
 
         standardpage = StandardPage(
-            slug = 'standard',
-            title = 'standard title',
-            introduction = 'standard introduction',
+            slug="standard",
+            title="standard title",
+            introduction="standard introduction",
         )
-        standardindex.add_child(instance = standardpage)
+        standardindex.add_child(instance=standardpage)
 
         rindex = self.client.get(path=standardindex.url)
         self.assertEqual(rindex.status_code, 200)

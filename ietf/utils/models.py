@@ -3,16 +3,16 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
-from wagtail.admin.edit_handlers import (
+from wagtail.admin.panels import (
     FieldPanel,
     InlinePanel,
     MultiFieldPanel,
     PageChooserPanel,
 )
 from wagtail.contrib.settings.models import BaseSetting, register_setting
-from wagtail.core.models import Orderable
 from wagtail.documents.edit_handlers import DocumentChooserPanel
 from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.models import Orderable
 from wagtailorderable.models import Orderable as WagtailOrderable
 
 
@@ -150,7 +150,7 @@ class MenuItem(ClusterableModel, WagtailOrderable):
     @property
     def title(self):
         return self.text or getattr(self.page, "title", "")
-    
+
     class Meta:
         verbose_name_plural = "Secondary Menu"
 

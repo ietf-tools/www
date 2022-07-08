@@ -54,7 +54,7 @@ INSTALLED_APPS = (
     "wagtail.search",
     "wagtail.contrib.search_promotions",
     "wagtail.admin",
-    "wagtail.core",
+    "wagtail",
     "wagtail.contrib.settings",
     "wagtail.contrib.table_block",
     "wagtail.contrib.postgres_search",
