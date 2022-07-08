@@ -6,16 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("events", "0002_auto_20210325_0442"),
+        ('events', '0002_auto_20210325_0442'),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name="eventpage",
-            name="introduction",
-            field=models.CharField(
-                help_text="The introduction for the event page. Limited to 511 characters.",
-                max_length=511,
-            ),
+            model_name='eventpage',
+            name='introduction',
+            field=models.CharField(help_text='The introduction for the event page. Limited to 511 characters.', max_length=511),
         ),
     ]
