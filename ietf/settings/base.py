@@ -57,7 +57,6 @@ INSTALLED_APPS = (
     "wagtail.core",
     "wagtail.contrib.settings",
     "wagtail.contrib.table_block",
-    "wagtail.contrib.postgres_search",
     "wagtail.contrib.routable_page",
     "wagtail.contrib.modeladmin",
     "modelcluster",
@@ -175,7 +174,7 @@ CACHES = {
 
 
 WAGTAILSEARCH_BACKENDS = {
-    "default": {"BACKEND": "wagtail.contrib.postgres_search.backend",},
+    "default": {"BACKEND": "wagtail.contrib.search.backends.database",},
 }
 
 
