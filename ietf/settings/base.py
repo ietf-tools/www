@@ -174,7 +174,7 @@ CACHES = {
 
 
 WAGTAILSEARCH_BACKENDS = {
-    "default": {"BACKEND": "wagtail.contrib.search.backends.database",},
+    "default": {"BACKEND": "wagtail.search.backends.database",},
 }
 
 
