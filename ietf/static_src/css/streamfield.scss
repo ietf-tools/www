@@ -14,6 +14,13 @@
 .block-image .caption {
     margin-bottom: 1.5em;
     font-size: 14px;
+    color: #666666;
+}
+
+.caption {
+    margin-bottom: 1.5em;
+    font-size: 14px;
+    color: #666666;
 }
 
 .block-paragraph {
@@ -67,6 +74,8 @@ $border-colour: #bebebe;
         }
 
         > caption {
+            margin-bottom: 1.5em;
+            font-size: 14px;
             caption-side: top;
             text-align: center;
             color: #666666;
