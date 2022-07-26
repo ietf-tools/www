@@ -51,7 +51,7 @@
         "cssnano": "^5.0.6",
         "ionicons": "^2",
         "jquery": "^3.6.0",
-        "jquery-ui": "^1.13.0",
+        "jquery-ui": "^1.13.2",
         "normalize.css": "^8.0.1",
         "postcss-normalize": "^10.0.0",
         "puppeteer": "^13.6.0",
