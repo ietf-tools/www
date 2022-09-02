@@ -8,12 +8,11 @@ from django.shortcuts import redirect
 from django.utils import functional
 from django.utils.safestring import mark_safe
 from modelcluster.fields import ParentalKey
-from wagtail.admin.panels import FieldPanel, InlinePanel, StreamFieldPanel
+from wagtail.admin.panels import FieldPanel, InlinePanel
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 from wagtail.fields import StreamField
 from wagtail.models import Page
 from wagtail.search import index
-from wagtail.snippets.edit_handlers import SnippetChooserPanel
 
 from ..bibliography.models import BibliographyMixin
 from ..snippets.models import Topic
@@ -83,7 +82,7 @@ class IESGStatementTopic(models.Model):
         on_delete=models.CASCADE,
     )
 
-    panels = [SnippetChooserPanel("topic")]
+    panels = [FieldPanel("topic")]
 
 
 class IESGStatementPage(Page, BibliographyMixin, PromoteMixin):
@@ -210,7 +209,7 @@ class IESGStatementPage(Page, BibliographyMixin, PromoteMixin):
 IESGStatementPage.content_panels = Page.content_panels + [
     FieldPanel("date_published"),
     FieldPanel("introduction"),
-    StreamFieldPanel("body"),
+    FieldPanel("body"),
     InlinePanel("topics", label="Topics"),
 ]
 

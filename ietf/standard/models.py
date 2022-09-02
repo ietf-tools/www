@@ -2,11 +2,10 @@ from collections import OrderedDict
 
 from django.db import models
 from modelcluster.fields import ParentalKey
-from wagtail.admin.panels import FieldPanel, InlinePanel, StreamFieldPanel
+from wagtail.admin.panels import FieldPanel, InlinePanel
 from wagtail.fields import StreamField
 from wagtail.models import Orderable, Page
 from wagtail.search import index
-from wagtail.snippets.edit_handlers import SnippetChooserPanel
 
 from ..bibliography.models import BibliographyMixin
 from ..utils.blocks import StandardBlock
@@ -41,8 +40,8 @@ class StandardPage(Page, BibliographyMixin, PromoteMixin):
         help_text="Enter the title to display on the page, "
         "you can use only 255 characters.",
     )
-    key_info = StreamField(StandardBlock(required=False), blank=True)
-    in_depth = StreamField(StandardBlock(required=False), blank=True)
+    key_info = StreamField(StandardBlock(required=False), blank=True, use_json_field=True)
+    in_depth = StreamField(StandardBlock(required=False), blank=True, use_json_field=True)
     call_to_action = models.ForeignKey(
         "snippets.CallToAction",
         null=True,
@@ -98,10 +97,10 @@ class StandardPage(Page, BibliographyMixin, PromoteMixin):
 
 StandardPage.content_panels = Page.content_panels + [
     FieldPanel("introduction"),
-    StreamFieldPanel("key_info"),
-    StreamFieldPanel("in_depth"),
-    SnippetChooserPanel("call_to_action"),
-    SnippetChooserPanel("mailing_list_signup"),
+    FieldPanel("key_info"),
+    FieldPanel("in_depth"),
+    FieldPanel("call_to_action"),
+    FieldPanel("mailing_list_signup"),
     InlinePanel("related_links", label="Related Links"),
     InlinePanel("faq_items", label="FAQ Items"),
 ]
@@ -126,8 +125,8 @@ class StandardIndexPage(Page, PromoteMixin):
         help_text="Enter the title to display on the page, "
         "you can use only 255 characters.",
     )
-    key_info = StreamField(StandardBlock(required=False), blank=True)
-    in_depth = StreamField(StandardBlock(required=False), blank=True)
+    key_info = StreamField(StandardBlock(required=False), blank=True, use_json_field=True)
+    in_depth = StreamField(StandardBlock(required=False), blank=True, use_json_field=True)
 
     search_fields = Page.search_fields + [
         index.SearchField("introduction"),
@@ -145,8 +144,8 @@ class StandardIndexPage(Page, PromoteMixin):
 
 StandardIndexPage.content_panels = Page.content_panels + [
     FieldPanel("introduction"),
-    StreamFieldPanel("key_info"),
-    StreamFieldPanel("in_depth"),
+    FieldPanel("key_info"),
+    FieldPanel("in_depth"),
 ]
 
 StandardIndexPage.promote_panels = Page.promote_panels + PromoteMixin.panels

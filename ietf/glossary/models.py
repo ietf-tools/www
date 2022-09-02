@@ -3,7 +3,6 @@ from modelcluster.fields import ParentalKey
 from wagtail.admin.panels import FieldPanel, InlinePanel
 from wagtail.models import Orderable, Page
 from wagtail.search.backends import get_search_backend
-from wagtail.snippets.edit_handlers import SnippetChooserPanel
 
 from ..snippets.models import GlossaryItem
 from ..utils.models import PromoteMixin, RelatedLink
@@ -64,8 +63,8 @@ class GlossaryPage(Page, PromoteMixin):
 GlossaryPage.content_panels = Page.content_panels + [
     FieldPanel("introduction"),
     InlinePanel("related_links", label="Related Links"),
-    SnippetChooserPanel("call_to_action"),
-    SnippetChooserPanel("mailing_list_signup"),
+    FieldPanel("call_to_action"),
+    FieldPanel("mailing_list_signup"),
 ]
 
 GlossaryPage.promote_panels = Page.promote_panels + PromoteMixin.panels

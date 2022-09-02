@@ -6,8 +6,6 @@ from wagtail import blocks
 from wagtail.admin.panels import (
     FieldPanel,
     InlinePanel,
-    PageChooserPanel,
-    StreamFieldPanel,
 )
 from wagtail.blocks import (
     CharBlock,
@@ -19,10 +17,8 @@ from wagtail.blocks import (
 from wagtail.contrib.table_block.blocks import TableBlock
 from wagtail.documents.blocks import DocumentChooserBlock
 from wagtail.fields import StreamField
-from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.models import Page
 from wagtail.snippets.blocks import SnippetChooserBlock
-from wagtail.snippets.edit_handlers import SnippetChooserPanel
 
 from ..snippets.models import Sponsor
 from ..utils.blocks import StandardBlock
@@ -86,7 +82,7 @@ class EventPageHost(models.Model):
         related_name="+",
     )
 
-    panels = [SnippetChooserPanel("host")]
+    panels = [FieldPanel("host")]
 
 
 # Pages
@@ -111,7 +107,7 @@ class EventPage(Page, PromoteMixin):
         max_length=511,
         help_text="The introduction for the event page. " "Limited to 511 characters.",
     )
-    body = StreamField(StandardBlock())
+    body = StreamField(StandardBlock(), use_json_field=True)
     main_image = models.ForeignKey(
         "images.IETFImage",
         null=True,
@@ -124,10 +120,10 @@ class EventPage(Page, PromoteMixin):
         max_length=255, default="Meeting venue information", blank=True
     )
     venue = StreamField(
-        [("address_line", blocks.CharBlock(classname="full title"))], blank=True
+        [("address_line", blocks.CharBlock(classname="full title"))], blank=True, use_json_field=True
     )
     extras = StreamField(
-        [("extra", blocks.CharBlock(classname="full title"))], blank=True
+        [("extra", blocks.CharBlock(classname="full title"))], blank=True, use_json_field=True
     )
     reservation_name = models.CharField(max_length=255, blank=True)
     room_rates = StreamField(
@@ -136,18 +132,19 @@ class EventPage(Page, PromoteMixin):
             ("table", TableBlock(table_options={"renderer": "html"})),
         ],
         blank=True,
+        use_json_field=True,
     )
     reservations_open = models.DateField(null=True, blank=True)
     contact_details = StreamField(
-        [("contact_detail", blocks.CharBlock(classname="full title"))], blank=True
+        [("contact_detail", blocks.CharBlock(classname="full title"))], blank=True, use_json_field=True
     )
 
-    key_details = StreamField([("item", NamedLinkGroupBlock())], blank=True)
+    key_details = StreamField([("item", NamedLinkGroupBlock())], blank=True, use_json_field=True)
     key_details_expanded = models.BooleanField(
         default=False,
         help_text="Show the key details items expanded when the page first loads",
     )
-    sponsors = StreamField([("sponsor_category", SponsorCategoryBlock())], blank=True)
+    sponsors = StreamField([("sponsor_category", SponsorCategoryBlock())], blank=True, use_json_field=True)
     listing_location = models.CharField(
         max_length=255,
         blank=True,
@@ -163,19 +160,19 @@ EventPage.content_panels = Page.content_panels + [
     FieldPanel("start_date"),
     FieldPanel("end_date"),
     FieldPanel("introduction"),
-    StreamFieldPanel("body"),
-    ImageChooserPanel("main_image"),
+    FieldPanel("body"),
+    FieldPanel("main_image"),
     FieldPanel("venue_section_title"),
-    StreamFieldPanel("venue"),
-    StreamFieldPanel("extras"),
+    FieldPanel("venue"),
+    FieldPanel("extras"),
     FieldPanel("reservation_name"),
-    StreamFieldPanel("room_rates"),
+    FieldPanel("room_rates"),
     FieldPanel("reservations_open"),
-    StreamFieldPanel("contact_details"),
+    FieldPanel("contact_details"),
     FieldPanel("key_details_expanded"),
-    StreamFieldPanel("key_details"),
+    FieldPanel("key_details"),
     InlinePanel("hosts", label="Hosts"),
-    StreamFieldPanel("sponsors"),
+    FieldPanel("sponsors"),
 ]
 
 EventPage.promote_panels = (
@@ -191,7 +188,7 @@ class EventListingPagePromotedEvent(models.Model):
         on_delete=models.CASCADE,
     )
 
-    panels = [PageChooserPanel("promoted_event")]
+    panels = [FieldPanel("promoted_event")]
 
 
 class EventListingPage(Page, PromoteMixin):

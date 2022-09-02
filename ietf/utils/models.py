@@ -7,11 +7,8 @@ from wagtail.admin.panels import (
     FieldPanel,
     InlinePanel,
     MultiFieldPanel,
-    PageChooserPanel,
 )
 from wagtail.contrib.settings.models import BaseSetting, register_setting
-from wagtail.documents.edit_handlers import DocumentChooserPanel
-from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.models import Orderable
 from wagtailorderable.models import Orderable as WagtailOrderable
 
@@ -44,8 +41,8 @@ class LinkFields(models.Model):
 
     panels = [
         FieldPanel("link_external"),
-        PageChooserPanel("link_page"),
-        DocumentChooserPanel("link_document"),
+        FieldPanel("link_page"),
+        FieldPanel("link_document"),
     ]
 
     class Meta:
@@ -91,8 +88,8 @@ class PromoteMixin(models.Model):
         MultiFieldPanel(
             [
                 FieldPanel("social_text"),
-                ImageChooserPanel("social_image"),
-                ImageChooserPanel("feed_image"),
+                FieldPanel("social_image"),
+                FieldPanel("feed_image"),
             ],
             "Social/Meta descriptions",
         )
@@ -122,7 +119,7 @@ class SubMenuItem(Orderable):
     def title(self):
         return self.text or getattr(self.page, "title", "")
 
-    panels = [PageChooserPanel("page"), FieldPanel("link"), FieldPanel("text")]
+    panels = [FieldPanel("page"), FieldPanel("link"), FieldPanel("text")]
 
 
 class MenuItem(ClusterableModel, WagtailOrderable):
@@ -136,7 +133,7 @@ class MenuItem(ClusterableModel, WagtailOrderable):
     text = models.CharField(max_length=40, blank=True)
     panels = [
         FieldPanel("text"),
-        PageChooserPanel("page"),
+        FieldPanel("page"),
         InlinePanel(
             "sub_menu_items",
             label="Sub Menu Items",
@@ -191,7 +188,7 @@ class SocialMediaSettings(BaseSetting):
         FieldPanel("twitter_handle"),
         FieldPanel("facebook_app_id"),
         FieldPanel("default_sharing_text"),
-        ImageChooserPanel("default_sharing_image"),
+        FieldPanel("default_sharing_image"),
         FieldPanel("site_name"),
     ]
 

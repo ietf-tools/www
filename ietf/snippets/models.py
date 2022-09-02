@@ -3,10 +3,8 @@ from django.db import models
 from django.template.loader import get_template
 from wagtail.admin.panels import FieldPanel
 from wagtail.fields import RichTextField
-from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 from wagtail.search.index import Indexed
-from wagtail.snippets.edit_handlers import SnippetChooserPanel
 from wagtail.snippets.models import register_snippet
 
 from ..utils.models import RelatedLink
@@ -194,10 +192,10 @@ class Group(models.Model, Indexed, RenderableSnippetMixin):
 
     panels = [
         FieldPanel("name"),
-        SnippetChooserPanel("role"),
+        FieldPanel("role"),
         FieldPanel("summary"),
         FieldPanel("email"),
-        ImageChooserPanel("image"),
+        FieldPanel("image"),
     ]
 
     def __str__(self):
@@ -359,7 +357,7 @@ class Sponsor(models.Model, Indexed):
         index.SearchField("title"),
     ]
 
-    panels = [FieldPanel("title"), ImageChooserPanel("logo"), FieldPanel("link")]
+    panels = [FieldPanel("title"), FieldPanel("logo"), FieldPanel("link")]
 
     def __str__(self):
         return self.title

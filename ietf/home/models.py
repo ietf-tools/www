@@ -9,12 +9,9 @@ from wagtail.admin.panels import (
     FieldPanel,
     InlinePanel,
     MultiFieldPanel,
-    PageChooserPanel,
 )
-from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.models import Page
 from wagtail.search import index
-from wagtail.snippets.edit_handlers import SnippetChooserPanel
 
 from ietf.blog.models import BlogIndexPage, BlogPage
 
@@ -126,15 +123,15 @@ class HomePage(Page):
                 FieldPanel("heading"),
                 FieldPanel("introduction"),
                 FieldPanel("button_text"),
-                ImageChooserPanel("main_image"),
-                PageChooserPanel("button_link"),
+                FieldPanel("main_image"),
+                FieldPanel("button_link"),
             ],
             "Header",
         ),
         MultiFieldPanel(
             [
                 FieldPanel("request_for_comments_section_body"),
-                SnippetChooserPanel("highlighted_request_for_comment"),
+                FieldPanel("highlighted_request_for_comment"),
                 InlinePanel("request_for_comments_section_links", label="Link"),
             ],
             "Request For Comments Section",
@@ -142,10 +139,10 @@ class HomePage(Page):
         MultiFieldPanel(
             [
                 FieldPanel("working_groups_section_body"),
-                SnippetChooserPanel("highlighted_working_group"),
+                FieldPanel("highlighted_working_group"),
                 InlinePanel("working_groups_section_links", label="Link"),
             ],
             "Working Groups Section",
         ),
-        SnippetChooserPanel("call_to_action"),
+        FieldPanel("call_to_action"),
     ]

@@ -9,12 +9,11 @@ from django.shortcuts import get_object_or_404, redirect
 from django.utils import functional
 from django.utils.safestring import mark_safe
 from modelcluster.fields import ParentalKey
-from wagtail.admin.panels import FieldPanel, InlinePanel, StreamFieldPanel
+from wagtail.admin.panels import FieldPanel, InlinePanel
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 from wagtail.fields import StreamField
 from wagtail.models import Page, Site
 from wagtail.search import index
-from wagtail.snippets.edit_handlers import SnippetChooserPanel
 
 from ..bibliography.models import BibliographyMixin
 from ..snippets.models import Topic
@@ -91,7 +90,7 @@ class BlogPageTopic(models.Model):
         on_delete=models.CASCADE,
     )
 
-    panels = [SnippetChooserPanel("topic")]
+    panels = [FieldPanel("topic")]
 
 
 class BlogPageAuthor(models.Model):
@@ -118,8 +117,8 @@ class BlogPageAuthor(models.Model):
     )
 
     panels = [
-        SnippetChooserPanel("author"),
-        SnippetChooserPanel("role"),
+        FieldPanel("author"),
+        FieldPanel("role"),
     ]
 
 
@@ -144,7 +143,7 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
     introduction = models.CharField(
         max_length=511, help_text="The page introduction text."
     )
-    body = StreamField(StandardBlock())
+    body = StreamField(StandardBlock(), use_json_field=True)
 
     search_fields = Page.search_fields + [
         index.SearchField("introduction"),
@@ -301,10 +300,10 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
 
 BlogPage.content_panels = Page.content_panels + [
     InlinePanel("authors", label="Authors"),
-    SnippetChooserPanel("author_group"),
+    FieldPanel("author_group"),
     FieldPanel("date_published"),
     FieldPanel("introduction"),
-    StreamFieldPanel("body"),
+    FieldPanel("body"),
     InlinePanel("topics", label="Topics"),
 ]
 
@@ -398,7 +397,7 @@ class BlogIndexPage(RoutablePageMixin, Page):
 
             return first_blog.serve(request, *args, **kwargs)
 
-    search_fields = []
+    search_fields = Page.search_fields + []
 
     subpage_types = ["blog.BlogPage"]
 
