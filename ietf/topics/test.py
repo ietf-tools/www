@@ -1,23 +1,22 @@
 from django.test import TestCase
+from wagtail.models import Page, Site
 
-from .models import TopicIndexPage, PrimaryTopicPage
 from ..home.models import HomePage
+from .models import PrimaryTopicPage, TopicIndexPage
 
-from wagtail.core.models import Page, Site
 
 class StandardPageTests(TestCase):
-
     def test_standard_page(self):
 
         root = Page.get_first_root_node()
 
         home = HomePage(
-            slug = 'homepageslug',
-            title = 'home page title',
-            heading = 'home page heading',
-            introduction = 'home page introduction',
-            request_for_comments_section_body = 'rfc section body',
-            working_groups_section_body = 'wg section body',
+            slug="homepageslug",
+            title="home page title",
+            heading="home page heading",
+            introduction="home page introduction",
+            request_for_comments_section_body="rfc section body",
+            working_groups_section_body="wg section body",
         )
 
         root.add_child(instance=home)
@@ -25,25 +24,25 @@ class StandardPageTests(TestCase):
         Site.objects.all().delete()
 
         Site.objects.create(
-            hostname='localhost',
-            root_page = home,
+            hostname="localhost",
+            root_page=home,
             is_default_site=True,
-            site_name='testingsitename',
+            site_name="testingsitename",
         )
 
         topicindex = TopicIndexPage(
-            slug = 'topicindex',
-            title = 'topic index page title',
-            introduction = 'topic index page introduction'
+            slug="topicindex",
+            title="topic index page title",
+            introduction="topic index page introduction",
         )
-        home.add_child(instance = topicindex)       
+        home.add_child(instance=topicindex)
 
         topicpage = PrimaryTopicPage(
-            slug = 'topic',
-            title = 'topic title',
-            introduction = 'topic introduction',
+            slug="topic",
+            title="topic title",
+            introduction="topic introduction",
         )
-        topicindex.add_child(instance = topicpage)
+        topicindex.add_child(instance=topicpage)
 
         rindex = self.client.get(path=topicindex.url)
         self.assertEqual(rindex.status_code, 200)

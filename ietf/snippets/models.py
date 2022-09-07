@@ -1,25 +1,20 @@
+from django.conf import settings
 from django.db import models
 from django.template.loader import get_template
-from django.conf import settings
-
-from wagtail.snippets.models import register_snippet
-from wagtail.admin.edit_handlers import FieldPanel
-from wagtail.images.edit_handlers import ImageChooserPanel
-from wagtail.snippets.edit_handlers import SnippetChooserPanel
-from wagtail.search.index import Indexed
+from wagtail.admin.panels import FieldPanel
+from wagtail.fields import RichTextField
 from wagtail.search import index
-from wagtail.core.fields import RichTextField
+from wagtail.search.index import Indexed
+from wagtail.snippets.models import register_snippet
 
 from ..utils.models import RelatedLink
 
 
-class RenderableSnippetMixin():
-
+class RenderableSnippetMixin:
     def render(self):
         template = get_template(self.TEMPLATE_NAME)
-        return template.render(
-            {'snippet': self}
-        )
+        return template.render({"snippet": self})
+
 
 @register_snippet
 class Charter(models.Model, index.Indexed):
@@ -27,16 +22,17 @@ class Charter(models.Model, index.Indexed):
     title = models.TextField(blank=True)
     abstract = models.TextField(blank=True)
     working_group = models.ForeignKey(
-        'snippets.WorkingGroup',
-        blank=True, null=True,
-        related_name='+',
+        "snippets.WorkingGroup",
+        blank=True,
+        null=True,
+        related_name="+",
         help_text="This charter's working group",
         on_delete=models.CASCADE,
     )
 
     search_fields = [
-        index.SearchField('title', partial_match=True, boost=10),
-        index.SearchField('abstract'),
+        index.SearchField("title", partial_match=True, boost=10),
+        index.SearchField("abstract"),
     ]
 
     def __str__(self):
@@ -50,8 +46,9 @@ class Charter(models.Model, index.Indexed):
             return ""
 
     class Meta:
-        ordering = ['title']
+        ordering = ["title"]
         verbose_name = "Charter"
+
 
 @register_snippet
 class WorkingGroup(models.Model, index.Indexed):
@@ -64,9 +61,9 @@ class WorkingGroup(models.Model, index.Indexed):
     # There is no field currently to capture area/parent
 
     search_fields = [
-        index.SearchField('name', partial_match=True, boost=10),
-        index.SearchField('acronym'),
-        index.SearchField('description'),
+        index.SearchField("name", partial_match=True, boost=10),
+        index.SearchField("acronym"),
+        index.SearchField("description"),
     ]
 
     @property
@@ -81,30 +78,34 @@ class WorkingGroup(models.Model, index.Indexed):
         return self.name
 
     class Meta:
-        ordering = ['name']
+        ordering = ["name"]
         verbose_name = "Working Group"
+
 
 @register_snippet
 class RFC(models.Model, index.Indexed):
 
     name = models.CharField(max_length=511)
     title = models.TextField(blank=True)
-    rfc = models.CharField(max_length=511, unique=True, help_text="The RFC's number (without any letters)")
+    rfc = models.CharField(
+        max_length=511, unique=True, help_text="The RFC's number (without any letters)"
+    )
     abstract = models.TextField(blank=True)
     # There is currently no field for authors
     working_group = models.ForeignKey(
-        'snippets.WorkingGroup',
-        blank=True, null=True,
-        related_name='+',
+        "snippets.WorkingGroup",
+        blank=True,
+        null=True,
+        related_name="+",
         help_text="The working group that produced this RFC",
         on_delete=models.SET_NULL,
     )
 
     search_fields = [
-        index.SearchField('title', partial_match=True, boost=10),
-        index.SearchField('rfc', boost=10),
-        index.SearchField('authors'),
-        index.SearchField('abstract'),
+        index.SearchField("title", partial_match=True, boost=10),
+        index.SearchField("rfc", boost=10),
+        index.SearchField("authors"),
+        index.SearchField("abstract"),
     ]
 
     def __str__(self):
@@ -119,43 +120,38 @@ class RFC(models.Model, index.Indexed):
         return settings.DATATRACKER_URI + "/doc/rfc" + self.rfc
 
     class Meta:
-        ordering = ['title']
+        ordering = ["title"]
         verbose_name = "RFC"
+
 
 @register_snippet
 class Person(models.Model, Indexed):
     name = models.CharField(max_length=511)
     link = models.URLField()
 
-    search_fields = [ index.SearchField('name')]
-    panels = [ FieldPanel('name') ]
+    search_fields = [index.SearchField("name")]
+    panels = [FieldPanel("name")]
 
     def __str__(self):
         return self.name
 
     class Meta:
-        ordering = ['name'] 
+        ordering = ["name"]
+
 
 @register_snippet
 class Role(models.Model, Indexed):
-    name = models.CharField(
-        max_length=255,
-        help_text="A role within the IETF."
-    )
+    name = models.CharField(max_length=255, help_text="A role within the IETF.")
 
-    search_fields = [
-        index.SearchField('name')
-    ]
+    search_fields = [index.SearchField("name")]
 
-    panels = [
-        FieldPanel('name')
-    ]
+    panels = [FieldPanel("name")]
 
     def __str__(self):
         return self.name
 
     class Meta:
-        ordering = ['name']
+        ordering = ["name"]
         verbose_name = "Role Override"
 
 
@@ -165,55 +161,50 @@ class Group(models.Model, Indexed, RenderableSnippetMixin):
     A group of people within the IETF. Groups may appear on the site as
     :model:`blog.BlogPage` author groups.
     """
-    name = models.CharField(
-        max_length=255,
-        help_text="This group's name."
-    )
+
+    name = models.CharField(max_length=255, help_text="This group's name.")
     role = models.ForeignKey(
-        'snippets.Role',
-        blank=True, null=True,
-        related_name='+',
+        "snippets.Role",
+        blank=True,
+        null=True,
+        related_name="+",
         help_text="This group's role within the IETF.",
         on_delete=models.SET_NULL,
     )
     summary = models.CharField(
-        blank=True,
-        max_length=511,
-        help_text="More information about this group."
+        blank=True, max_length=511, help_text="More information about this group."
     )
-    email = models.EmailField(
-        blank=True,
-        help_text="This group's email address."
-    )
+    email = models.EmailField(blank=True, help_text="This group's email address.")
     image = models.ForeignKey(
-        'images.IETFImage',
-        blank=True, null=True,
-        related_name='+',
+        "images.IETFImage",
+        blank=True,
+        null=True,
+        related_name="+",
         help_text="An image to represent this group.",
         on_delete=models.SET_NULL,
     )
 
     search_fields = [
-        index.SearchField('name'),
-        index.SearchField('summary'),
-        index.SearchField('email'),
+        index.SearchField("name"),
+        index.SearchField("summary"),
+        index.SearchField("email"),
     ]
 
     panels = [
-        FieldPanel('name'),
-        SnippetChooserPanel('role'),
-        FieldPanel('summary'),
-        FieldPanel('email'),
-        ImageChooserPanel('image')
+        FieldPanel("name"),
+        FieldPanel("role"),
+        FieldPanel("summary"),
+        FieldPanel("email"),
+        FieldPanel("image"),
     ]
 
     def __str__(self):
         return self.name
 
-    TEMPLATE_NAME = 'snippets/group.html'
+    TEMPLATE_NAME = "snippets/group.html"
 
     class Meta:
-        ordering = ['name']
+        ordering = ["name"]
 
 
 @register_snippet
@@ -222,35 +213,33 @@ class CallToAction(Indexed, RelatedLink, RenderableSnippetMixin):
     Content that guides the user to the next step after having
     read a page.
     """
+
     blurb = models.CharField(
-        max_length=255,
-        blank=True,
-        help_text="An explanation of the call to action."
+        max_length=255, blank=True, help_text="An explanation of the call to action."
     )
     button_text = models.CharField(
-        max_length=255,
-        help_text="Text that appears on the call to action link."
+        max_length=255, help_text="Text that appears on the call to action link."
     )
 
     search_fields = [
-        index.SearchField('title'),
-        index.SearchField('blurb'),
-        index.SearchField('button_text'),
+        index.SearchField("title"),
+        index.SearchField("blurb"),
+        index.SearchField("button_text"),
     ]
 
     panels = RelatedLink.panels + [
-        FieldPanel('blurb'),
-        FieldPanel('button_text'),
+        FieldPanel("blurb"),
+        FieldPanel("button_text"),
     ]
 
     def __str__(self):
         return self.title
 
-    TEMPLATE_NAME = 'snippets/call_to_action.html'
+    TEMPLATE_NAME = "snippets/call_to_action.html"
 
     class Meta:
         verbose_name_plural = "Calls to action"
-        ordering = ['title']
+        ordering = ["title"]
 
 
 @register_snippet
@@ -259,47 +248,47 @@ class MailingListSignup(models.Model, Indexed, RenderableSnippetMixin):
     Page content that directs users to a mailing list sign up link
     or address.
     """
+
     title = models.CharField(
-        max_length=255,
-        help_text="The header text for this content."
+        max_length=255, help_text="The header text for this content."
     )
     blurb = models.CharField(
         max_length=255,
         blank=True,
-        help_text="An explanation and call to action for this content."
+        help_text="An explanation and call to action for this content.",
     )
     button_text = models.CharField(
-        max_length=255,
-        help_text="Text that appears on the mailing list link."
+        max_length=255, help_text="Text that appears on the mailing list link."
     )
     sign_up = models.CharField(
         max_length=255,
         blank=True,
         help_text="The URL or email address where the user should sign up. "
-        "If the working group is set then this does not need to be set."
+        "If the working group is set then this does not need to be set.",
     )
     working_group = models.ForeignKey(
-        'snippets.WorkingGroup',
-        null=True, blank=True,
+        "snippets.WorkingGroup",
+        null=True,
+        blank=True,
         on_delete=models.SET_NULL,
-        related_name='+',
+        related_name="+",
         help_text="The group whose mailing list sign up address should be "
-        "used. If sign up is set then this does not need to be set."
+        "used. If sign up is set then this does not need to be set.",
     )
 
     search_fields = [
-        index.SearchField('title'),
-        index.SearchField('blurb'),
-        index.SearchField('button_text'),
-        index.SearchField('sign_up'),
+        index.SearchField("title"),
+        index.SearchField("blurb"),
+        index.SearchField("button_text"),
+        index.SearchField("sign_up"),
     ]
 
     panels = [
-        FieldPanel('title'),
-        FieldPanel('blurb'),
-        FieldPanel('button_text'),
-        FieldPanel('sign_up'),
-        FieldPanel('working_group'),
+        FieldPanel("title"),
+        FieldPanel("blurb"),
+        FieldPanel("button_text"),
+        FieldPanel("sign_up"),
+        FieldPanel("working_group"),
     ]
 
     @property
@@ -309,47 +298,44 @@ class MailingListSignup(models.Model, Indexed, RenderableSnippetMixin):
         else:
             link = self.working_group.list_subscribe
 
-        if '@' in link:
-            return 'mailto:{}'.format(link)
+        if "@" in link:
+            return "mailto:{}".format(link)
         else:
             return link
 
-    TEMPLATE_NAME = 'snippets/mailing_list_signup.html'
+    TEMPLATE_NAME = "snippets/mailing_list_signup.html"
 
     def __str__(self):
         return self.title
 
     class Meta:
-        ordering = ['title']
+        ordering = ["title"]
 
 
 @register_snippet
 class Topic(models.Model, Indexed):
     """
-    These snippets categorise blog posts. 
+    These snippets categorise blog posts.
     """
-    title = models.CharField(
-        max_length=255,
-        help_text="The name of this topic."
-    )
+
+    title = models.CharField(max_length=255, help_text="The name of this topic.")
     slug = models.CharField(max_length=511, unique=True)
 
-
     search_fields = [
-        index.SearchField('title'),
-        index.SearchField('slug'),
+        index.SearchField("title"),
+        index.SearchField("slug"),
     ]
 
     panels = [
-        FieldPanel('title'),
-        FieldPanel('slug'),
+        FieldPanel("title"),
+        FieldPanel("slug"),
     ]
 
     def __str__(self):
         return self.title
 
     class Meta:
-        ordering = ['title']
+        ordering = ["title"]
 
 
 @register_snippet
@@ -357,33 +343,27 @@ class Sponsor(models.Model, Indexed):
     """
     An organisation that sponsors IETF events.
     """
-    title = models.CharField(
-        max_length=255,
-        help_text="The name of the organisation."
-    )
+
+    title = models.CharField(max_length=255, help_text="The name of the organisation.")
     logo = models.ForeignKey(
-        'images.IETFImage',
-        related_name='+',
+        "images.IETFImage",
+        related_name="+",
         help_text="The organisation's logo.",
-        on_delete = models.CASCADE,
+        on_delete=models.CASCADE,
     )
     link = models.URLField(blank=True)
 
     search_fields = [
-        index.SearchField('title'),
+        index.SearchField("title"),
     ]
 
-    panels = [
-        FieldPanel('title'),
-        ImageChooserPanel('logo'),
-        FieldPanel('link')
-    ]
+    panels = [FieldPanel("title"), FieldPanel("logo"), FieldPanel("link")]
 
     def __str__(self):
         return self.title
 
     class Meta:
-        ordering = ['title']
+        ordering = ["title"]
 
 
 @register_snippet
@@ -392,24 +372,20 @@ class GlossaryItem(models.Model, Indexed):
     A short explanation of a technical term.
     Appears on the :models:`glossary.GlossaryPage`.
     """
-    title = models.CharField(
-        max_length=255,
-        help_text="The glossary term."
-    )
-    body = RichTextField(
-        help_text="Explanation of the glossary term."
-    )
+
+    title = models.CharField(max_length=255, help_text="The glossary term.")
+    body = RichTextField(help_text="Explanation of the glossary term.")
     link = models.URLField(blank=True)
 
     search_fields = [
-        index.SearchField('title'),
-        index.SearchField('body'),
+        index.SearchField("title"),
+        index.SearchField("body"),
     ]
 
     panels = [
-        FieldPanel('title'),
-        FieldPanel('body'),
-        FieldPanel('link'),
+        FieldPanel("title"),
+        FieldPanel("body"),
+        FieldPanel("link"),
     ]
 
     def __str__(self):
@@ -418,9 +394,9 @@ class GlossaryItem(models.Model, Indexed):
     @property
     def url(self):
         from ietf.glossary.models import GlossaryPage
-        return "{}?query={}".format(GlossaryPage.objects.first().url,
-                                    self.title)
+
+        return "{}?query={}".format(GlossaryPage.objects.first().url, self.title)
 
     class Meta:
-        ordering = ['title']
+        ordering = ["title"]
         verbose_name = "Glossary item"
