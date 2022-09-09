@@ -1,4 +1,5 @@
-from datetime import datetime, timedelta
+from datetime import timedelta
+from django.utils import timezone
 
 from django.test import TestCase
 from wagtail.models import Page, Site
@@ -37,13 +38,13 @@ class BlogTests(TestCase):
         )
         home.add_child(instance=self.blog_index)
 
-        now = datetime.utcnow()
+        now = timezone.now()
 
         self.otherblog = BlogPage(
             slug="otherpost",
             title="other title",
             introduction="other introduction",
-            body="other body",
+            body='[{"id": "1", "type": "rich_text", "value": "<p>other body</p>"}]',
             date_published=(now - timedelta(minutes=10)),
         )
         self.blog_index.add_child(instance=self.otherblog)
@@ -53,7 +54,7 @@ class BlogTests(TestCase):
             slug="prevpost",
             title="prev title",
             introduction="prev introduction",
-            body="prev body",
+            body='[{"id": "2", "type": "rich_text", "value": "<p>prev body</p>"}]',
             date_published=(now - timedelta(minutes=5)),
         )
         self.blog_index.add_child(instance=self.prevblog)
@@ -63,7 +64,7 @@ class BlogTests(TestCase):
             slug="blogpost",
             title="blog title",
             introduction="blog introduction",
-            body="blog body",
+            body='[{"id": "3", "type": "rich_text", "value": "<p>blog body</p>"}]',
             first_published_at=(now + timedelta(minutes=1)),
         )
         self.blog_index.add_child(instance=self.blog)
@@ -73,7 +74,7 @@ class BlogTests(TestCase):
             slug="nextpost",
             title="next title",
             introduction="next introduction",
-            body="next body",
+            body='[{"id": "4", "type": "rich_text", "value": "<p>next body</p>"}]',
             first_published_at=(now + timedelta(minutes=5)),
         )
         self.blog_index.add_child(instance=self.nextblog)

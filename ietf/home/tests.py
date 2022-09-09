@@ -43,7 +43,7 @@ class HomeTests(TestCase):
             slug="blogpost",
             title="blog title",
             introduction="blog introduction",
-            body="blog body",
+            body='[{"id": "1", "type": "rich_text", "value": "<p>blog body</p>"}]',
         )
         blogindex.add_child(instance=blog)
 
