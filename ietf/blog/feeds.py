@@ -1,6 +1,7 @@
 from django.contrib.syndication.views import Feed
 from django.db.models.functions import Coalesce
-from wagtail.core.models import Site
+from wagtail.models import Site
+
 from ..blog.models import BlogPage
 from ..utils.models import FeedSettings
 
@@ -15,8 +16,11 @@ class BlogFeed(Feed):
         return super().__call__(request, *args, **kwargs)
 
     def items(self):
-        return BlogPage.objects.live().annotate(
-            d=Coalesce('date_published', 'first_published_at')).order_by('-d')
+        return (
+            BlogPage.objects.live()
+            .annotate(d=Coalesce("date_published", "first_published_at"))
+            .order_by("-d")
+        )
 
     def item_title(self, item):
         return item.title

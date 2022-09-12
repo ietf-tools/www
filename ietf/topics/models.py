@@ -1,19 +1,12 @@
 from django.db import models
-
 from modelcluster.fields import ParentalKey
-
-from wagtail.core.models import Page, Orderable
-from wagtail.core.fields import StreamField
-from wagtail.admin.edit_handlers import (
-    FieldPanel, StreamFieldPanel, InlinePanel
-)
+from wagtail.admin.panels import FieldPanel, InlinePanel
+from wagtail.fields import StreamField
+from wagtail.models import Orderable, Page
 from wagtail.search import index
-from wagtail.snippets.edit_handlers import (
-    SnippetChooserPanel
-)
 
-from ..utils.models import PromoteMixin, RelatedLink
 from ..utils.blocks import StandardBlock
+from ..utils.models import PromoteMixin, RelatedLink
 
 
 class TopicIndexPage(Page, PromoteMixin):
@@ -21,18 +14,20 @@ class TopicIndexPage(Page, PromoteMixin):
     This page organises topics. The :model:`topics.PrimaryTopicPage`
     page should be placed beneath it in the page heirarchy.
     """
+
     introduction = models.CharField(
         max_length=255,
         help_text="Enter the introduction to display on the page, "
-        "you can use only 255 characters."
+        "you can use only 255 characters.",
     )
 
     search_fields = Page.search_fields + [
-        index.SearchField('introduction'),
+        index.SearchField("introduction"),
     ]
 
-    subpage_types = ['topics.PrimaryTopicPage',
-                    ]
+    subpage_types = [
+        "topics.PrimaryTopicPage",
+    ]
 
     @property
     def primary_topics(self):
@@ -41,18 +36,16 @@ class TopicIndexPage(Page, PromoteMixin):
     class Meta:
         verbose_name = "Topic Page List"
 
+
 TopicIndexPage.content_panels = Page.content_panels + [
-    FieldPanel('introduction'),
+    FieldPanel("introduction"),
 ]
 
 TopicIndexPage.promote_panels = Page.promote_panels + PromoteMixin.panels
 
 
-
-
 class PrimaryTopicPageRelatedLink(Orderable, RelatedLink):
-    page = ParentalKey('topics.PrimaryTopicPage',
-                       related_name='related_links')
+    page = ParentalKey("topics.PrimaryTopicPage", related_name="related_links")
 
 
 class PrimaryTopicPage(Page, PromoteMixin):
@@ -60,31 +53,34 @@ class PrimaryTopicPage(Page, PromoteMixin):
     When this page is saved a :model:`snippets.PrimaryTopic` snippet
     is created. The snippet is used for organising blog posts.
     """
+
     introduction = models.CharField(
         blank=True,
         max_length=255,
-        help_text="Enter the title to display on the page, you can use only 255 characters."
+        help_text="Enter the title to display on the page, you can use only 255 characters.",
     )
-    key_info = StreamField(StandardBlock(required=False), blank=True)
-    in_depth = StreamField(StandardBlock(required=False), blank=True)
+    key_info = StreamField(StandardBlock(required=False), blank=True, use_json_field=True)
+    in_depth = StreamField(StandardBlock(required=False), blank=True, use_json_field=True)
     call_to_action = models.ForeignKey(
-        'snippets.CallToAction',
-        null=True, blank=True,
+        "snippets.CallToAction",
+        null=True,
+        blank=True,
         on_delete=models.SET_NULL,
-        related_name='+',
-        help_text="Will only be displayed if no mailing list signup is selected."
+        related_name="+",
+        help_text="Will only be displayed if no mailing list signup is selected.",
     )
     mailing_list_signup = models.ForeignKey(
-        'snippets.MailingListSignup',
+        "snippets.MailingListSignup",
         null=True,
-        blank=True, on_delete=models.SET_NULL,
-        related_name='+'
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
     )
 
     search_fields = Page.search_fields + [
-        index.SearchField('introduction'),
-        index.SearchField('key_info'),
-        index.SearchField('in_depth'),
+        index.SearchField("introduction"),
+        index.SearchField("key_info"),
+        index.SearchField("in_depth"),
     ]
 
     @property
@@ -100,14 +96,12 @@ class PrimaryTopicPage(Page, PromoteMixin):
 
 
 PrimaryTopicPage.content_panels = Page.content_panels + [
-    FieldPanel('introduction'),
-    StreamFieldPanel('key_info'),
-    StreamFieldPanel('in_depth'),
-    SnippetChooserPanel('call_to_action'),
-    SnippetChooserPanel('mailing_list_signup'),
-    InlinePanel('related_links', label="Related Links"),
+    FieldPanel("introduction"),
+    FieldPanel("key_info"),
+    FieldPanel("in_depth"),
+    FieldPanel("call_to_action"),
+    FieldPanel("mailing_list_signup"),
+    InlinePanel("related_links", label="Related Links"),
 ]
 
 PrimaryTopicPage.promote_panels = Page.promote_panels + PromoteMixin.panels
-
-

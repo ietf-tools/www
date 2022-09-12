@@ -1,14 +1,12 @@
 from bs4 import BeautifulSoup, NavigableString
-
-from django.template import TemplateDoesNotExist
-from django.template.loader import get_template
+from django.apps import apps
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
-from django.db import models
-from django.apps import apps
 from django.core.exceptions import ObjectDoesNotExist
-
-from wagtail.core.models import Page
+from django.db import models
+from django.template import TemplateDoesNotExist
+from django.template.loader import get_template
+from wagtail.models import Page
 
 from ietf.utils import OrderedSet
 
@@ -26,7 +24,7 @@ class BibliographyItem(models.Model):
     )
     page = models.ForeignKey(
         Page,
-        related_name='bibliography_items',
+        related_name="bibliography_items",
         help_text="The page that this item links to.",
         on_delete=models.CASCADE,
     )
@@ -41,23 +39,22 @@ class BibliographyItem(models.Model):
         max_length=127,
         help_text='The "value" with which this item was created, eg. "3514" in [[rfc:3514]].',
     )
-    content_long_title = models.CharField(
-        max_length=127,
-        blank=True
-    )
+    content_long_title = models.CharField(max_length=127, blank=True)
     content_title = models.CharField(
         max_length=127,
         help_text='The link title for this item, eg. "RFC 7168" for [[rfc:7168]].',
     )
     content_type = models.ForeignKey(
         ContentType,
-        blank=True, null=True,
+        blank=True,
+        null=True,
         on_delete=models.CASCADE,
     )
     object_id = models.PositiveIntegerField(
-        blank=True, null=True,
+        blank=True,
+        null=True,
     )
-    content_object = GenericForeignKey('content_type', 'object_id')
+    content_object = GenericForeignKey("content_type", "object_id")
 
     def render_title(self):
         if not self.content_object:
@@ -73,10 +70,10 @@ class BibliographyItem(models.Model):
 
     @property
     def link(self):
-        soup = BeautifulSoup("", 'html5lib')
-        link = soup.new_tag('a', href="#bibliography" + str(self.ordering))
-        link['class'] = "bibliography-reference"
-        link['data-ordering'] = str(self.ordering)
+        soup = BeautifulSoup("", "html5lib")
+        link = soup.new_tag("a", href="#bibliography" + str(self.ordering))
+        link["class"] = "bibliography-reference"
+        link["data-ordering"] = str(self.ordering)
         link.insert(0, NavigableString(self.content_title))
         return link
 
@@ -91,24 +88,21 @@ class BibliographyItem(models.Model):
         else:
             try:
                 template = get_template(
-                    'bibliography/item_{}.html'.format(self.content_key)
+                    "bibliography/item_{}.html".format(self.content_key)
                 )
             except TemplateDoesNotExist:
                 template = None
             BibliographyItem.TEMPLATE_CACHE[self.content_key] = template
 
         if template:
-            return template.render({
-                'object': self.content_object,
-                'item': self
-            }, request=request)
+            return template.render(
+                {"object": self.content_object, "item": self}, request=request
+            )
         else:
             return str(object)
 
     def __str__(self):
-        return "Bibliography Item #{}: {}".format(
-            self.ordering, self.content_object
-        )
+        return "Bibliography Item #{}: {}".format(self.ordering, self.content_object)
 
 
 class BibliographyMixin(models.Model):
@@ -125,59 +119,70 @@ class BibliographyMixin(models.Model):
         # Don't update prepared content fields if none of the source fields are being updated (e.g. when saving a draft)
         # NB - We have to update all prepared and source fields or none, as there's no way of determining which field a
         #      given BibliographyItem appears in.
-        update_fields = kwargs.get('update_fields')
+        update_fields = kwargs.get("update_fields")
         recreate_bibliography_items = True
 
         if update_fields is not None:
-            source_fields_being_updated = [source_field in update_fields for source_field in self.CONTENT_FIELD_MAP.values()]
-            prepared_fields_being_updated = [prepared_field in update_fields for prepared_field in self.CONTENT_FIELD_MAP.keys()]
+            source_fields_being_updated = [
+                source_field in update_fields
+                for source_field in self.CONTENT_FIELD_MAP.values()
+            ]
+            prepared_fields_being_updated = [
+                prepared_field in update_fields
+                for prepared_field in self.CONTENT_FIELD_MAP.keys()
+            ]
 
             if any(source_fields_being_updated) or any(prepared_fields_being_updated):
-                if not all(source_fields_being_updated) or not all(prepared_fields_being_updated):
-                    raise ValueError('Either all prepared content fields must be updated or none')
+                if not all(source_fields_being_updated) or not all(
+                    prepared_fields_being_updated
+                ):
+                    raise ValueError(
+                        "Either all prepared content fields must be updated or none"
+                    )
             else:
                 recreate_bibliography_items = False
 
         if recreate_bibliography_items:
             self.bibliography_items.all().delete()
 
-            all_content = "".join([
-                str(getattr(self, content_field)) or '' for content_field
-                in self.CONTENT_FIELD_MAP.keys()
-            ])
-            all_soup = BeautifulSoup(all_content, 'html.parser')
+            all_content = "".join(
+                [
+                    str(getattr(self, content_field)) or ""
+                    for content_field in self.CONTENT_FIELD_MAP.keys()
+                ]
+            )
+            all_soup = BeautifulSoup(all_content, "html.parser")
             subsoups = {
                 prepared_content_field: BeautifulSoup(
-                    str(getattr(self, content_field)) or '', 'html.parser'
-                ) for content_field, prepared_content_field in
-                self.CONTENT_FIELD_MAP.items()
+                    str(getattr(self, content_field)) or "", "html.parser"
+                )
+                for content_field, prepared_content_field in self.CONTENT_FIELD_MAP.items()
             }
-            tags = OrderedSet(all_soup.find_all('a', attrs={'data-app': True}))
+            tags = OrderedSet(all_soup.find_all("a", attrs={"data-app": True}))
 
             for tag in tags:
-                app = tag['data-app']
-                model = tag['data-linktype']
-                obj_id = tag['data-id']
+                app = tag["data-app"]
+                model = tag["data-linktype"]
+                obj_id = tag["data-id"]
 
                 try:
-                    obj = apps.get_model(
-                        app_label=app,
-                        model_name=model
-                    ).objects.get(pk=obj_id)
+                    obj = apps.get_model(app_label=app, model_name=model).objects.get(
+                        pk=obj_id
+                    )
                     try:
                         long_title = obj.long_title
                     except AttributeError:
                         long_title = ""
                     object_details = {
-                        'content_object': obj,
-                        'content_long_title': long_title,
-                        'content_title': obj.__str__()
+                        "content_object": obj,
+                        "content_long_title": long_title,
+                        "content_title": obj.__str__(),
                     }
                 except ObjectDoesNotExist:
                     object_details = {
-                        'content_object': None,
-                        'content_long_title': "",
-                        'content_title': '(removed)'
+                        "content_object": None,
+                        "content_long_title": "",
+                        "content_title": "(removed)",
                     }
                 item = BibliographyItem.objects.create(
                     page=self,
@@ -187,11 +192,14 @@ class BibliographyMixin(models.Model):
                     **object_details
                 )
                 for soup in subsoups.values():
-                    for t in soup.find_all('a', attrs={
-                        'data-app': app,
-                        'data-linktype': model,
-                        'data-id': obj_id
-                    }):
+                    for t in soup.find_all(
+                        "a",
+                        attrs={
+                            "data-app": app,
+                            "data-linktype": model,
+                            "data-id": obj_id,
+                        },
+                    ):
                         t.replaceWith(item.link)
 
             for prepared_content_field, prepared_soup in subsoups.items():

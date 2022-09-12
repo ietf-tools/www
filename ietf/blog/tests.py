@@ -1,10 +1,11 @@
+from datetime import timedelta
+from django.utils import timezone
+
 from django.test import TestCase
-from datetime import datetime, timedelta
+from wagtail.models import Page, Site
 
-from .models import BlogPage, BlogIndexPage
 from ..home.models import HomePage
-
-from wagtail.core.models import Page, Site
+from .models import BlogIndexPage, BlogPage
 
 
 class BlogTests(TestCase):
@@ -12,12 +13,12 @@ class BlogTests(TestCase):
         root = Page.get_first_root_node()
 
         home = HomePage(
-            slug = 'homepageslug',
-            title = 'home page title',
-            heading = 'home page heading',
-            introduction = 'home page introduction',
-            request_for_comments_section_body = 'rfc section body',
-            working_groups_section_body = 'wg section body',
+            slug="homepageslug",
+            title="home page title",
+            heading="home page heading",
+            introduction="home page introduction",
+            request_for_comments_section_body="rfc section body",
+            working_groups_section_body="wg section body",
         )
 
         root.add_child(instance=home)
@@ -25,59 +26,58 @@ class BlogTests(TestCase):
         Site.objects.all().delete()
 
         Site.objects.create(
-            hostname='localhost',
-            root_page = home,
+            hostname="localhost",
+            root_page=home,
             is_default_site=True,
-            site_name='testingsitename',
+            site_name="testingsitename",
         )
 
         self.blog_index = BlogIndexPage(
-            slug = 'blog',
-            title = 'blog index title',
+            slug="blog",
+            title="blog index title",
         )
-        home.add_child(instance = self.blog_index)       
+        home.add_child(instance=self.blog_index)
 
-        now = datetime.utcnow()
+        now = timezone.now()
 
         self.otherblog = BlogPage(
-            slug = 'otherpost',
-            title = 'other title',
-            introduction = 'other introduction',
-            body = 'other body',
-            date_published = (now - timedelta(minutes = 10))
+            slug="otherpost",
+            title="other title",
+            introduction="other introduction",
+            body='[{"id": "1", "type": "rich_text", "value": "<p>other body</p>"}]',
+            date_published=(now - timedelta(minutes=10)),
         )
-        self.blog_index.add_child(instance = self.otherblog)
+        self.blog_index.add_child(instance=self.otherblog)
         self.otherblog.save
 
         self.prevblog = BlogPage(
-            slug = 'prevpost',
-            title = 'prev title',
-            introduction = 'prev introduction',
-            body = 'prev body',
-            date_published = (now - timedelta(minutes = 5))
+            slug="prevpost",
+            title="prev title",
+            introduction="prev introduction",
+            body='[{"id": "2", "type": "rich_text", "value": "<p>prev body</p>"}]',
+            date_published=(now - timedelta(minutes=5)),
         )
-        self.blog_index.add_child(instance = self.prevblog)
+        self.blog_index.add_child(instance=self.prevblog)
         self.prevblog.save()
 
-
         self.blog = BlogPage(
-            slug = 'blogpost',
-            title = 'blog title',
-            introduction = 'blog introduction',
-            body = 'blog body',
-            first_published_at = (now + timedelta(minutes=1))
+            slug="blogpost",
+            title="blog title",
+            introduction="blog introduction",
+            body='[{"id": "3", "type": "rich_text", "value": "<p>blog body</p>"}]',
+            first_published_at=(now + timedelta(minutes=1)),
         )
-        self.blog_index.add_child(instance = self.blog)
+        self.blog_index.add_child(instance=self.blog)
         self.blog.save()
 
         self.nextblog = BlogPage(
-            slug = 'nextpost',
-            title = 'next title',
-            introduction = 'next introduction',
-            body = 'next body',
-            first_published_at = (now + timedelta(minutes=5))
+            slug="nextpost",
+            title="next title",
+            introduction="next introduction",
+            body='[{"id": "4", "type": "rich_text", "value": "<p>next body</p>"}]',
+            first_published_at=(now + timedelta(minutes=5)),
         )
-        self.blog_index.add_child(instance = self.nextblog)
+        self.blog_index.add_child(instance=self.nextblog)
         self.nextblog.save()
 
     def test_blog(self):

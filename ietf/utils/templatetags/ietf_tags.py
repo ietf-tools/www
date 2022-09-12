@@ -1,11 +1,9 @@
 from urllib.parse import quote
 
 from django.template import Library
-
-from wagtail.core.models import Site
+from wagtail.models import Site
 
 from ..models import SocialMediaSettings
-
 
 register = Library()
 
@@ -26,19 +24,20 @@ def social_text(page, site, encode=False):
     return text
 
 
-
 @register.simple_tag(takes_context=False)
 def social_image(page, site):
     image = ""
 
     if page and site:
         try:
-            image = page.social_image.get_rendition('original').url
+            image = page.social_image.get_rendition("original").url
         except (AttributeError, ValueError):
             try:
-                image = SocialMediaSettings.for_site(
-                    site
-                ).default_sharing_image.get_rendition('original').url
+                image = (
+                    SocialMediaSettings.for_site(site)
+                    .default_sharing_image.get_rendition("original")
+                    .url
+                )
             except (AttributeError, ValueError):
                 pass
 

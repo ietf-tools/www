@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.utils.html import format_html
+from wagtail import hooks
 from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
-from wagtail.core import hooks
 from wagtailorderable.modeladmin.mixins import OrderableMixin
 
 from ietf.utils.models import MenuItem

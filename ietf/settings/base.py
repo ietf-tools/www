@@ -54,10 +54,9 @@ INSTALLED_APPS = (
     "wagtail.search",
     "wagtail.contrib.search_promotions",
     "wagtail.admin",
-    "wagtail.core",
+    "wagtail",
     "wagtail.contrib.settings",
     "wagtail.contrib.table_block",
-    "wagtail.contrib.postgres_search",
     "wagtail.contrib.routable_page",
     "wagtail.contrib.modeladmin",
     "modelcluster",
@@ -96,7 +95,9 @@ ROOT_URLCONF = "ietf.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join(PROJECT_DIR, "templates"),],
+        "DIRS": [
+            os.path.join(PROJECT_DIR, "templates"),
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -118,7 +119,10 @@ WSGI_APPLICATION = "ietf.wsgi.application"
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
 DATABASES = {
-    "default": {"ENGINE": "django.db.backends.postgresql_psycopg2", "NAME": "ietf",}
+    "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": "ietf",
+    }
 }
 
 
@@ -175,7 +179,9 @@ CACHES = {
 
 
 WAGTAILSEARCH_BACKENDS = {
-    "default": {"BACKEND": "wagtail.contrib.postgres_search.backend",},
+    "default": {
+        "BACKEND": "wagtail.search.backends.database",
+    },
 }
 
 
@@ -192,20 +198,35 @@ WAGTAIL_USAGE_COUNT_ENABLED = True
 WAGTAILIMAGES_IMAGE_MODEL = "images.IETFImage"
 WAGTAILDOCS_DOCUMENT_MODEL = "documents.IetfDocument"
 WAGTAILADMIN_RICH_TEXT_EDITORS = {
-    'default': {
-        'WIDGET': 'wagtail.admin.rich_text.DraftailRichTextArea',
-        'OPTIONS': {
-            'features': [
-                'h2', 'h3', 'h4', 'h5', 'h6',
-                'ol', 'ul',
-                'bold', 'italic',
-                'superscript', 'subscript', 'strikethrough',
-                'hr', 'link', 'document-link',
-                'image', 'embed',
-                'code', 'blockquote']
-        }
+    "default": {
+        "WIDGET": "wagtail.admin.rich_text.DraftailRichTextArea",
+        "OPTIONS": {
+            "features": [
+                "h2",
+                "h3",
+                "h4",
+                "h5",
+                "h6",
+                "ol",
+                "ul",
+                "bold",
+                "italic",
+                "superscript",
+                "subscript",
+                "strikethrough",
+                "hr",
+                "link",
+                "document-link",
+                "image",
+                "embed",
+                "code",
+                "blockquote",
+            ]
+        },
     }
 }
 
 # Application-wide settings
 DATATRACKER_URI = "https://datatracker.ietf.org"
+
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
