@@ -49,15 +49,15 @@ class FormPage(AbstractEmailForm):
 
 
 FormPage.content_panels = [
-    FieldPanel("title", classname="full title"),
-    FieldPanel("intro", classname="full"),
+    FieldPanel("title", classname="title"),
+    FieldPanel("intro"),
     InlinePanel("form_fields", label="Form fields"),
-    FieldPanel("thank_you_text", classname="full"),
+    FieldPanel("thank_you_text"),
     MultiFieldPanel(
         [
-            FieldPanel("to_address", classname="full"),
-            FieldPanel("from_address", classname="full"),
-            FieldPanel("subject", classname="full"),
+            FieldPanel("to_address"),
+            FieldPanel("from_address"),
+            FieldPanel("subject"),
         ],
         "Email",
     ),
