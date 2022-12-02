@@ -96,7 +96,7 @@ class IESGStatementPage(Page, BibliographyMixin, PromoteMixin):
     introduction = models.CharField(
         max_length=511, help_text="The page introduction text."
     )
-    body = StreamField(StandardBlock())
+    body = StreamField(StandardBlock(), use_json_field=True)
 
     search_fields = Page.search_fields + [
         index.SearchField("introduction"),
