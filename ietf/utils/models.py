@@ -3,12 +3,8 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
-from wagtail.admin.panels import (
-    FieldPanel,
-    InlinePanel,
-    MultiFieldPanel,
-)
-from wagtail.contrib.settings.models import BaseSetting, register_setting
+from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
+from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
 from wagtail.models import Orderable
 from wagtailorderable.models import Orderable as WagtailOrderable
 
@@ -153,7 +149,7 @@ class MenuItem(ClusterableModel, WagtailOrderable):
 
 
 @register_setting
-class SocialMediaSettings(BaseSetting):
+class SocialMediaSettings(BaseSiteSetting):
     twitter_handle = models.CharField(
         max_length=255,
         help_text="Your Twitter username without the @, e.g. flickr",
@@ -203,14 +199,14 @@ class FooterLinkItem(Orderable, LinkFields):
 
 
 @register_setting
-class FooterLinks(BaseSetting, ClusterableModel):
+class FooterLinks(BaseSiteSetting, ClusterableModel):
     panels = [
         InlinePanel("footer_link_items", label="Footer Links"),
     ]
 
 
 @register_setting
-class FeedSettings(BaseSetting):
+class FeedSettings(BaseSiteSetting):
     blog_feed_title = models.CharField(
         max_length=255,
         blank=True,

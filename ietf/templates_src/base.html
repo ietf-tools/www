@@ -7,6 +7,9 @@
 <!--[if gt IE 8]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
     <head>
         {% analytical_head_top %}
+        {% if request.in_preview_panel %}
+            <base target="_blank">
+        {% endif %}        
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <title>IETF {% block title %}{% if self.seo_title %} | {{ self.seo_title }}{% else %} | {{ self.title }}{% endif %}{% endblock %}{% block title_suffix %}{% endblock %}</title>
@@ -33,9 +36,9 @@
         <meta property="og:site_name" content="{{ settings.utils.SocialMediaSettings.site_name }}" />
 
         {% block extra_meta %}{% endblock extra_meta %}
-       
+
         {# these styles will only be loaded if JS is enabled -- smooth, eh? #}
-       
+
         {% block extra_css %}{% endblock %}
 
         {% analytical_head_bottom %}
