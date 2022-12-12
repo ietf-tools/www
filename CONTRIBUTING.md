@@ -61,9 +61,7 @@ Replace "`http://localhost:8001`" with the URL of your running website.
 
 ## Deploying
 
-This project uses deploy branches.
-
-Deploys to production are intentionally unavailable via deploy branches.
+This project uses `deploy/preview` branch to preview changes before deploying to `main branch`.
 
 Deploys to preview environments are automated via CircleCI. Use your GitHub credentials to sign in to watch deploys and look for failing tests.
 
@@ -79,10 +77,7 @@ git push origin main:deploy/preview
 
 This would push `main` to `deploy/preview` and trigger a build on CircleCI.
 
-```bash
-git push origin feature/my-feature:deploy/preview
-```
+## Contribututing
 
-This would deploy your feature branch `feature/my-feature` to `deploy/preview`.
-
-The preview environment's domain is private, and is password protected. Ask around for the details.
+Read [Contributing to IETF Tools projects](https://github.com/ietf-tools/.github/blob/main/CONTRIBUTING.md).
+For this project treat `deploy/preview` brach as `main`.
