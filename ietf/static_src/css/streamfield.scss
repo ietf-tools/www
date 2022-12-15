@@ -19,6 +19,9 @@
 }
 
 .caption {
+    // Undo space under images. Caption should sit close.
+    margin-top: -1.3em;
+
     margin-bottom: 1.5em;
     font-size: 14px;
     color: #666666;
