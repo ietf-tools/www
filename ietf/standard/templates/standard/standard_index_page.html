@@ -11,11 +11,11 @@
       {% has_tabs self.key_info self.in_depth as show_tabs %}
       {% if show_tabs %}
         <ul class="nav nav-tabs text-uppercase text-center no-js-hide" id="tabs" role="tablist" aria-owns="key-info-tab in-depth-tab">
-          <li class="nav-item flex-grow-1" role="presentation">
+          <li class="nav-item border flex-grow-1" role="presentation">
             <a class="nav-link active" id="key-info-tab" data-bs-toggle="tab" href="#key-info" role="tab"
               aria-controls="key-info" aria-selected="true">Key Info</a>
           </li>
-          <li class="nav-item flex-grow-1" role="presentation">
+          <li class="nav-item border flex-grow-1" role="presentation">
             <a class="nav-link" id="in-depth-tab" data-bs-toggle="tab" href="#in-depth" role="tab" aria-controls="in-depth"
               aria-selected="false">In Depth</a>
           </li>
@@ -59,9 +59,9 @@
 {% endblock head_content %}
 
 {% block content %}
-
+<div class="bg-white">
 <div class="container">
-  <ul class="row list-unstyled mt-5">
+  <ul class="row list-unstyled pt-5 pb-4 mb-0">
     {% for child in self.children %}
         <li class="col-12 col-lg-6 mb-4">
           <h2 class="h3"><a href="{% pageurl child %}">{{ child.title }}<span class="icon ion-ios-arrow-forward ms-3"></span></a></h2>
@@ -86,5 +86,7 @@
 
   </ul>
 </div>
+</div>
+
 
 {% endblock %}
