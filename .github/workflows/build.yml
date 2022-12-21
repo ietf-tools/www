@@ -1,0 +1,161 @@
+name: Build and Release
+run-name: ${{ github.event.inputs.publish == 'true' && '[Prod]' || '[Dev]' }} Build ${{ github.run_number }} of branch ${{ github.ref_name }} by @${{ github.actor }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: 'Create Production Release'
+        default: false
+        required: true
+        type: boolean
+      sandbox:
+        description: 'Deploy to Sandbox'
+        default: true
+        required: true
+        type: boolean
+
+jobs:
+  # -----------------------------------------------------------------
+  # BUILD / RELEASE
+  # -----------------------------------------------------------------
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    outputs:
+      pkg_version: ${{ steps.buildvars.outputs.pkg_version }}
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        
+    - name: Get Next Version
+      if: ${{ github.event.inputs.publish == 'true' }}
+      id: semver
+      uses: ietf-tools/semver-action@v1
+      with:
+        token: ${{ github.token }}
+        branch: main
+        skipInvalidTags: true
+        
+    - name: Create Draft Release
+      uses: ncipollo/release-action@v1.11.1
+      if: ${{ github.event.inputs.publish == 'true' }}
+      with:
+        prerelease: true
+        draft: false
+        commit: ${{ github.sha }}
+        tag: ${{ steps.semver.outputs.next }}
+        name: ${{ steps.semver.outputs.next }}
+        body: '*pending*'
+        token: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Set Build Variables
+      id: buildvars
+      run: |
+        if [[ $next ]]; then
+          echo "Using AUTO SEMVER mode: $next"
+          echo "pkg_version=$next" >> $GITHUB_OUTPUT
+          echo "image_tags=ghcr.io/${{ github.repository }}:$next,ghcr.io/${{ github.repository }}:latest" >> $GITHUB_OUTPUT
+          echo "::notice::Release $next created using branch $GITHUB_REF_NAME"
+        else
+          PKG_VERSION=v1.0.0-dev.$GITHUB_RUN_NUMBER
+          echo "Using TEST mode: $PKG_VERSION"
+          echo "pkg_version=$PKG_VERSION" >> $GITHUB_OUTPUT
+          echo "image_tags=ghcr.io/${{ github.repository }}:$PKG_VERSION" >> $GITHUB_OUTPUT
+          echo "::notice::Non-production build $PKG_VERSION created using branch $GITHUB_REF_NAME"
+        fi
+        
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v2
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v2
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Docker Build & Push
+      uses: docker/build-push-action@v3
+      with:
+        context: .
+        file: docker/Dockerfile
+        target: app
+        platforms: linux/amd64,linux/arm64
+        push: true
+        tags: ${{ steps.buildvars.outputs.image_tags }}
+        
+    - name: Update CHANGELOG
+      id: changelog
+      uses: Requarks/changelog-action@v1
+      if: ${{ steps.buildvars.outputs.should_deploy == 'true' }}
+      with:
+        token: ${{ github.token }}
+        fromTag: ${{ steps.semver.outputs.next }}
+        toTag: ${{ steps.semver.outputs.current }}
+        writeToFile: false
+        
+    - name: Create Release
+      uses: ncipollo/release-action@v1.12.0
+      if: ${{ steps.buildvars.outputs.should_deploy == 'true' }}
+      with:
+        makeLatest: true
+        allowUpdates: true
+        draft: false
+        tag: ${{ steps.semver.outputs.next }}
+        name: ${{ steps.semver.outputs.next }}
+        body: ${{ steps.changelog.outputs.changes }}
+        token: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Notify on Slack
+      if: ${{ always() }}
+      uses: slackapi/slack-github-action@v1.23.0
+      with:
+        channel-id: ${{ secrets.SLACK_GH_BUILDS_CHANNEL_ID }}
+        payload: |
+          {
+            "text": "wagtail_website - Build <https://github.com/ietf-tools/wagtail_website/actions/runs/${{ github.run_id }}|${{ steps.buildvars.outputs.pkg_version }}> by ${{ github.triggering_actor }} completed"
+          }
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_GH_BOT }}
+
+  # -----------------------------------------------------------------
+  # SANDBOX
+  # -----------------------------------------------------------------
+  sandbox:
+    name: Deploy to Sandbox
+    if: ${{ github.event.inputs.sandbox == 'true' && github.event.inputs.publish == 'false' }}
+    needs: [build]
+    runs-on: dev-server
+    env:
+      PKG_VERSION: ${{needs.build.outputs.pkg_version}}
+      
+    steps:
+    - uses: actions/checkout@v3
+        
+    - name: Download a Release Artifact
+      uses: actions/download-artifact@v3.0.0
+      with:
+        name: release-${{ env.PKG_VERSION }}
+        
+    - name: Deploy to containers
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        echo "Install Deploy to Container CLI dependencies..."
+        cd dev/deploy-to-container
+        npm ci
+        cd ../..
+        echo "Start Deploy..."
+        node ./dev/deploy-to-container/cli.js --branch ${{ github.ref_name }} --domain dev.ietf.org --appversion ${{ env.PKG_VERSION }} --commit ${{ github.sha }} --ghrunid ${{ github.run_id }}
+        
+    - name: Cleanup old docker resources
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        docker image prune -a -f
