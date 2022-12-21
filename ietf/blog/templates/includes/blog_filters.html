@@ -1,6 +1,6 @@
 {% comment %} Mobile view {% endcomment %}
 <button
-    class="btn btn-outline-primary d-md-none w-100 mb-3"
+    class="btn btn-outline-primary d-md-none w-100 mb-4"
     type="button"
     data-bs-toggle="collapse"
     data-bs-target="#filters-mobile"
@@ -10,7 +10,7 @@
     Show filters
     <span class="icon ion-ios-arrow-down"></span>
 </button>
-<form method="GET" action="{{ parent_url }}" id="filters-mobile" class="form-row mx-0 mb-3 d-md-none collapse">
+<form method="GET" action="{{ parent_url }}" id="filters-mobile" class="form-row mx-0 mb-4 d-md-none collapse">
     <h2 class="h6">Filter by topic and date</h2>
     <div class="col-12 form-group p-0 flex-shrink-1">
         <label class="form-label" for="topic-input">Topic</label>
@@ -61,7 +61,7 @@
 </form>
 {% comment %} Desktop view {% endcomment %}
 <h2 class="h6 d-none d-md-block">Filter by topic and date</h2>
-<form method="GET" action="{{ parent_url }}" class="form-row mx-0 mb-3 flex-md-nowrap d-none d-md-flex">
+<form method="GET" action="{{ parent_url }}" class="form-row mx-0 mb-5 flex-md-nowrap d-none d-md-flex">
     <div class="col-auto form-group p-0 flex-shrink-1">
         <label class="form-label" for="topic-desktop-input">Topic</label>
         <select aria-label="Topic" class="form-control bg-light" name="topic" id="topic-desktop-input">
