@@ -1,6 +1,8 @@
 {% if items %}
+
     <div id="bibliography" class="u-max-text-width">
-        <h2 class="h4">Bibliography</h2>
+        <div class="block-paragraph">
+        <h2 class="h3">Bibliography</h2>
         <ul class="list-unstyled">
             {% for item in items %}
                 <li>
@@ -19,5 +21,8 @@
                 </li>
             {% endfor %}
         </ul>
+        </div>
+        
+        
     </div>
 {% endif %}
