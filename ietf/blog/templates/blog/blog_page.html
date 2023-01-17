@@ -10,7 +10,7 @@
 <div class="bg-white">
     <div id="content">
         <div class="container">
-            <div class="row align-items-stretch g-0">
+            <div class="row align-items-start g-0">
                 <aside class="col-12 col-lg-4 d-flex flex-column bg-light d-lg-none" aria-label="Blog listing">
                     <div class="d-none d-lg-block">
                         {% include "includes/blog_sidebar.html" with siblings=siblings current=self %}
@@ -22,7 +22,7 @@
                         {% include 'includes/breadcrumbs.html' %}
 
                         <button
-                            class="btn btn-outline-primary w-100 mb-4 d-lg-none collapsed"
+                            class="btn btn-outline-primary w-100 mb-3 d-lg-none collapsed"
                             type="button"
                             data-bs-toggle="collapse"
                             data-bs-target="#blog_sidebar"
@@ -32,7 +32,7 @@
                             Blog listing
                             <span class="icon ion-ios-arrow-down"></span>
                         </button>
-                        <div id="blog_sidebar" class="collapse">
+                        <div id="blog_sidebar" class="mb-3 collapse">
                             {% include "includes/blog_sidebar.html" with siblings=siblings current=self %}
                         </div>
 
@@ -48,8 +48,9 @@
                         {{ self.prepared_body|safe }}
 
                         {% bibliography self %}
+                        <hr>
                     </div>
-                    <hr>
+                    
                     <div class="px-3 px-xl-5 mt-5 mb-5">
                         {% include "includes/social_share.html" with page=self settings=settings only %}
                     </div>

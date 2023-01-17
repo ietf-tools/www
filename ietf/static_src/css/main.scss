@@ -1,6 +1,7 @@
-@import "@ietf-tools/common-bootstrap-theme/scss/ietf-theme.scss";
-@import "bootstrap/scss/bootstrap";
+@import '@ietf-tools/common-bootstrap-theme/scss/ietf-theme.scss';
+@import 'bootstrap/scss/bootstrap';
 
+@import './bs-override.scss';
 @import './icons.scss';
 @import './pages.scss'; // Styles for page templates
 @import '../../templates/includes/styles/index.scss'; // Styles for global includes template files

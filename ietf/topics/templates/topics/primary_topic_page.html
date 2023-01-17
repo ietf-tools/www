@@ -5,11 +5,11 @@
 {% block main_content %}
 
     <main id="content">
-        <div class="bg-white border-bottom">
+        <div class="bg-white">
             <div class="container">
 
                 {% include 'includes/breadcrumbs.html' %}
-                <div class="row mb-4">
+                <div class="row pb-4">
                     <div class="col-12 col-lg-8 col-xl-9 order-3 order-lg-2">
                         {% include 'includes/optional-introduction.html' with value=self %}
                     </div>
@@ -22,26 +22,29 @@
                 </div>
             </div>
         </div>
+        <div class="bg-white">
         <div class="container">
-            <div class="row g-0 align-items-stretch justify-content-between">
-                <div class="col-12 col-lg-8 col-xl-9 pt-3 pt-lg-5">
+            <div class="row g-0 align-items-start justify-content-between">
+                <div class="col-12 col-lg-8 col-xl-9">
                     {% if self.key_info or self.in_depth %}
                     <div class="no-js-hide u-max-text-width pe-lg-3">
                         {% has_tabs self.key_info self.in_depth as show_tabs %}
                         {% if show_tabs %}
+                        <div class="pt-3 pt-lg-5 border-top">
                         <ul class="nav nav-tabs text-uppercase text-center no-js-hide" id="tabs" role="tablist" aria-owns="key-info-tab in-depth-tab">
-                            <li class="nav-item flex-grow-1" role="presentation">
+                            <li class="nav-item border flex-grow-1" role="presentation">
                                 <a class="nav-link active" id="key-info-tab" data-bs-toggle="tab" href="#key-info" role="tab"
                                     aria-controls="key-info" aria-selected="true">Key Info</a>
                             </li>
-                            <li class="nav-item flex-grow-1" role="presentation">
+                            <li class="nav-item border flex-grow-1" role="presentation">
                                 <a class="nav-link" id="in-depth-tab" data-bs-toggle="tab" href="#in-depth" role="tab" aria-controls="in-depth"
                                     aria-selected="false">In Depth</a>
                             </li>
                         </ul>
+                        </div>
                         {% endif %}
                     
-                        <div class="mb-3">
+                        <div class="mb-3 {% if not show_tabs %}pt-3 pt-lg-5 border-top{% endif %}">
                             <div class="{% if show_tabs %}mb-3 tab-content bg-white border border-top-0 no-js-hide{% endif %}">
                                 {% if self.key_info %}
                                 <div id="key-info" class="{% if show_tabs %} tab-pane fade show active p-3" tabindex="0" role="tabpanel"
@@ -87,6 +90,7 @@
                 {% include "includes/row_siblings_in_section.html" with page=self %}
             </div>
             
+        </div>
         </div>
         <div class="d-lg-none">
             {% include "includes/highlight.html" %}

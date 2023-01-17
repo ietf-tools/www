@@ -6,7 +6,7 @@
 {% endif %}
 <ul class="list-unstyled mb-0">
     {% for sibling in siblings %}
-        <li class="card border-top-0 {% if sibling.slug == current.slug %}bg-white{% else %}bg-light{% endif %}">
+        <li class="card border-bottom-0 {% if sibling.slug == current.slug %}bg-white{% else %}bg-light{% endif %}">
             <div class="card-body">
                 <h2 class="h4"><a class="stretched-link" href="{{ sibling.url }}">{{ sibling.title }}</a></h2>
                 <p class="card-text">{{ sibling.feed_text }}</p>
@@ -15,11 +15,11 @@
             </div>
         </li>
     {% empty %}
-        <li class="card border-top-0 bg-light">
+        <li class="card bg-light">
             <div class="card-body"><p class="card-text">No results</p></div>
         </li>
     {% endfor %}
-    <li class="card border-top-0 bg-light">
+    <li class="card bg-light">
         <div class="card-body">
             <a class="stretched-link" href="{% routablepageurl current.get_parent.specific 'all_entries' %}">
                 Show all

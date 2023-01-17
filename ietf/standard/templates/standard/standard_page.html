@@ -6,7 +6,7 @@
 
     <main id="content">
 
-        <div class="bg-white border-bottom pb-3">
+        <div class="bg-white pb-3">
             <div class="container">
                 {% include 'includes/breadcrumbs.html' %}
                 {% include 'includes/optional-introduction.html' with value=self %}
@@ -14,12 +14,13 @@
             </div>
         </div>
 
+        <div class="bg-white">
         <div class="container">
-            <div class="row g-0 align-items-stretch justify-content-between">
+            <div class="row g-0 align-items-start justify-content-between">
                 
                 {# main content row #}
-                <div class="col-12 col-lg-8 col-xl-9 pt-3 pt-lg-5 pe-lg-3">
                 {% has_tabs self.prepared_key_info self.prepared_in_depth as show_tabs %}
+                <div class="col-12 col-lg-8 col-xl-9 pe-lg-3">
                 {% if show_tabs %}
                 {% comment %} 
                     Bootstrap requires this markup (ul > li > a) to style and handle tabs properly,
@@ -29,19 +30,22 @@
                         Adding `aria-owns` listing the tabs should correct this.
                     - the <li> elements have a listitem role by default which doesn't belong in a tablist but an element with role list or group
                         -> we remove the default role by adding `role="presentation"` which actually sets the role for this element to `none`
-                 {% endcomment %}
+                {% endcomment %}
+                    <div class="pt-3 pt-lg-5 border-top">
                     <ul class="nav nav-tabs text-uppercase text-center no-js-hide" id="tabs" role="tablist" aria-owns="key-info-tab in-depth-tab">
-                        <li class="nav-item flex-grow-1" role="presentation">
+                        <li class="nav-item border flex-grow-1" role="presentation">
                             <a class="nav-link active" id="key-info-tab" data-bs-toggle="tab" href="#key-info" role="tab" aria-controls="key-info" aria-selected="true">Key Info</a>
                         </li>
-                        <li class="nav-item flex-grow-1" role="presentation">
+                        <li class="nav-item border flex-grow-1" role="presentation">
                             <a class="nav-link" id="in-depth-tab" data-bs-toggle="tab" href="#in-depth" role="tab" aria-controls="in-depth" aria-selected="false">In Depth</a>
                         </li>
                     </ul>
+                    </div>
+                    
                 {% endif %}
 
                     {# content #}
-                    <div class="mb-3" >
+                    <div class="mb-3 {% if not show_tabs %}pt-3 pt-lg-5 border-top{% endif %}">
                         <div class="{% if show_tabs %}mb-3 tab-content bg-white border border-top-0 no-js-hide{% endif %}">
                             {% if self.prepared_key_info %}
                                 <div id="key-info" class="u-max-text-width{% if show_tabs %} tab-pane fade show active p-3" tabindex="0" role="tabpanel" aria-labelledby="key-info-tab{% endif %}">
@@ -96,6 +100,7 @@
                 {% include "includes/row_siblings_in_section.html" with page=self %}
             </div>
 
+        </div>
         </div>
 
     </main>

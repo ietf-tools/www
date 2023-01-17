@@ -1,5 +1,6 @@
-<nav aria-label="In this section" class="bg-white col-12 col-lg-4 col-xl-3 p-3 p-lg-5 {{ class }}">
-    <h2 class="h5 text-uppercase"><a class="text-dark" href="{{ page.get_parent.url }}">{{ page.get_parent.title }}</a></h2>
+<nav aria-label="In this section" class="bg-body border col-12 col-lg-4 col-xl-3 p-3 p-lg-5 mb-4 {{ class }}">
+    <h2 class="h5 mb-3"><a class="text-dark" href="{{ page.get_parent.url }}">{{ page.get_parent.title }}</a></h2>
+    <div class="block-paragraph">
     <ul class="list-unstyled">
       {% for sibling in page.siblings %}
         {% if sibling.slug == page.slug %}
@@ -20,4 +21,5 @@
         {% endif %}
       {% endfor %}
     </ul>
+    </div>
 </nav>
