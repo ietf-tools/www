@@ -5,11 +5,7 @@ from datetime import datetime
 from django.db import models
 from django.db.models.expressions import RawSQL
 from modelcluster.fields import ParentalKey
-from wagtail.admin.panels import (
-    FieldPanel,
-    InlinePanel,
-    MultiFieldPanel,
-)
+from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
 from wagtail.models import Page
 from wagtail.search import index
 
@@ -146,3 +142,7 @@ class HomePage(Page):
         ),
         FieldPanel("call_to_action"),
     ]
+
+
+class IABHomePage(HomePage):
+    pass
