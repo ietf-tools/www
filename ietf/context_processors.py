@@ -25,6 +25,8 @@ def menu(site):
 
 
 def secondary_menu(site):
+    if "iab" in site.hostname:
+        return []
     items = (
         MenuItem.objects.order_by("sort_order")
         .all()
