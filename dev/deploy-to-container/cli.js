@@ -37,17 +37,20 @@ async function main () {
   await dock.ping()
   console.info('Connected to Docker Engine API.')
 
-  // Pull latest DB image
-  console.info('Pulling latest DB docker image...')
-  const dbImagePullStream = await dock.pull('ghcr.io/ietf-tools/wagtail_website-db:latest')
+  // Build latest DB image
+  console.info('Building latest DB docker image...')
+  const dbImageBuildStream = await dock.buildImage({
+    context: process.cwd(),
+    src: ['docker/db.Dockerfile']
+  }, { t: 'ws-db:latest' })
   await new Promise((resolve, reject) => {
-    dock.modem.followProgress(dbImagePullStream, (err, res) => err ? reject(err) : resolve(res))
+    dock.modem.followProgress(dbImageBuildStream, (err, res) => err ? reject(err) : resolve(res))
   })
-  console.info('Pulled latest DB docker image successfully.')
+  console.info('Building latest DB docker image successfully.')
   
   // Pull latest Wagtail_website Base image
   console.info('Pulling latest Wagtail_website branch docker image...')
-  const appImagePullStream = await dock.pull(`ghcr.io/ietf-tools/wagtail_website:${branch}`)
+  const appImagePullStream = await dock.pull(`ghcr.io/ietf-tools/wagtail_website:${argv.appversion}`)
   await new Promise((resolve, reject) => {
     dock.modem.followProgress(appImagePullStream, (err, res) => err ? reject(err) : resolve(res))
   })
@@ -91,7 +94,7 @@ async function main () {
   // Create DB container
   console.info(`Creating DB docker container... [ws-db-${branch}]`)
   const dbContainer = await dock.createContainer({
-    Image: 'ghcr.io/ietf-tools/wagtail_website/wagtail_website-db:latest',
+    Image: 'ws-db:latest',
     name: `ws-db-${branch}`,
     Hostname: `ws-db-${branch}`,
     HostConfig: {
@@ -107,7 +110,7 @@ async function main () {
   // Create App container
   console.info(`Creating Wagtail_website docker container... [ws-app-${branch}]`)
   const appContainer = await dock.createContainer({
-    Image: `ghcr.io/ietf-tools/wagtail_website:${branch}`,
+    Image: `ghcr.io/ietf-tools/wagtail_website:${argv.appversion}`,
     name: `ws-app-${branch}`,
     Hostname: `ws-app-${branch}`,
     Env: [

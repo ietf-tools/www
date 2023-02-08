@@ -40,7 +40,7 @@ jobs:
         skipInvalidTags: true
         
     - name: Create Draft Release
-      uses: ncipollo/release-action@v1.11.1
+      uses: ncipollo/release-action@v1.12.0
       if: ${{ github.event.inputs.publish == 'true' }}
       with:
         prerelease: true
@@ -131,17 +131,20 @@ jobs:
     name: Deploy to Sandbox
     if: ${{ github.event.inputs.sandbox == 'true' && github.event.inputs.publish == 'false' }}
     needs: [build]
-    runs-on: dev-server
+    runs-on: [self-hosted, dev-server]
     env:
       PKG_VERSION: ${{needs.build.outputs.pkg_version}}
       
     steps:
     - uses: actions/checkout@v3
-        
-    - name: Download a Release Artifact
-      uses: actions/download-artifact@v3.0.0
-      with:
-        name: release-${{ env.PKG_VERSION }}
+
+    - name: Download latest DB dump
+      env:
+        DEBIAN_FRONTEND: noninteractive
+        AWS_ACCESS_KEY_ID: ${{ secrets.DO_SPACES_DEV_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.DO_SPACES_DEV_ACCESS_KEY }}
+      run: |
+        aws s3 cp --quiet --endpoint-url=${{ secrets.DO_SPACES_DEV_ENDPOINT }} s3://wagtail/ietfa.torchbox.latest.gz ietfa.torchbox.latest.gz
         
     - name: Deploy to containers
       env:
