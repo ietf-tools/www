@@ -41,8 +41,15 @@ async function main () {
   console.info('Building latest DB docker image...')
   const dbImageBuildStream = await dock.buildImage({
     context: process.cwd(),
-    src: ['docker/db.Dockerfile']
-  }, { t: 'ws-db:latest' })
+    src: [
+      'docker/db.Dockerfile',
+      'docker/scripts/db-import.sh',
+      'ietfa.torchbox.latest.gz'
+    ]
+  }, {
+    dockerfile: 'docker/db.Dockerfile',
+    t: 'ws-db:latest'
+  })
   await new Promise((resolve, reject) => {
     dock.modem.followProgress(dbImageBuildStream, (err, res) => err ? reject(err) : resolve(res))
   })
