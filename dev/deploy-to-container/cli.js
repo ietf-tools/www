@@ -128,7 +128,7 @@ async function main () {
       `PGHOST=ws-db-${branch}`,
       `PGDATABASE=torchbox`,
       `PGUSER=postgres`,
-      `PGPASSWORD=password`
+      `PGPASSWORD=password`,
       `SECRET_KEY=${nanoid(36)}`,
       `ALLOWED_HOSTS=${hostname}`,
       `PRIMARY_HOST=${hostname}`

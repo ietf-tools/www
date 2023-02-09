@@ -136,6 +136,9 @@ jobs:
       PKG_VERSION: ${{needs.build.outputs.pkg_version}}
       
     steps:
+    - name: Clear workspace folder from previous runs
+      run: rm -rf $GITHUB_WORKSPACE
+
     - uses: actions/checkout@v3
 
     - name: Download latest DB dump
