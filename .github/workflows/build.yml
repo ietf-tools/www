@@ -137,7 +137,10 @@ jobs:
       
     steps:
     - name: Clear workspace folder from previous runs
-      run: rm -rf $GITHUB_WORKSPACE
+      # Fix because of bug in Checkout action:
+      # https://github.com/actions/checkout/issues/677
+      run: |
+        rm -rf $GITHUB_WORKSPACE/.git
 
     - uses: actions/checkout@v3
 
