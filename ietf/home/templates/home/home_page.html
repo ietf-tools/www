@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends settings.utils.LayoutSettings.base_template %}
 {% load static wagtailimages_tags %}
 
 {% block body_class %}template-{{ self.get_verbose_name|slugify }}{% endblock %}
@@ -211,7 +211,7 @@
         </section>
         <hr class="border-primary mb-4" />
     {% endif %}
-    
+
     <!-- Topics of interest -->
     <section class="container text-center mb-5">
         <h2 class="mb-4">Topics of interest</h2>

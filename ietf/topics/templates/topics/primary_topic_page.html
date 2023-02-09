@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends settings.utils.LayoutSettings.base_template %}
 {% load wagtailimages_tags wagtailcore_tags %}
 {% load has_tabs %}
 
@@ -43,7 +43,7 @@
                         </ul>
                         </div>
                         {% endif %}
-                    
+
                         <div class="mb-3 {% if not show_tabs %}pt-3 pt-lg-5 border-top{% endif %}">
                             <div class="{% if show_tabs %}mb-3 tab-content bg-white border border-top-0 no-js-hide{% endif %}">
                                 {% if self.key_info %}
@@ -52,7 +52,7 @@
                                     {{ self.key_info|safe }}
                                 </div>
                                 {% endif %}
-                    
+
                                 {% if self.in_depth %}
                                 <div id="in-depth" class="{% if show_tabs %} tab-pane fade p-3" role="tabpanel"
                                     aria-labelledby="in-depth-tab{% endif %}">
@@ -89,7 +89,7 @@
                 </div>
                 {% include "includes/row_siblings_in_section.html" with page=self %}
             </div>
-            
+
         </div>
         </div>
         <div class="d-lg-none">
@@ -99,4 +99,3 @@
 
 
 {% endblock main_content %}
-

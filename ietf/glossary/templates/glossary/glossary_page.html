@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends settings.utils.LayoutSettings.base_template %}
 {% load wagtailcore_tags %}
 
 {% block main_content %}
@@ -45,8 +45,8 @@
                                 <p>No results found for <strong>{{ search_query }}</strong></p>
                             {% endfor %}
                         {% endfor %}
-                        
-                    </div>                
+
+                    </div>
                     {% include "includes/highlight.html" %}
                 </div>
                 {% include "includes/row_siblings_in_section.html" with page=self %}

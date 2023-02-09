@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends settings.utils.LayoutSettings.base_template %}
 {% load static wagtailcore_tags %}
 
 {% block title %}Search{% endblock %}
@@ -8,7 +8,7 @@
 <main id="content">
   <div class="bg-white border-bottom">
     <div class="container pb-3">
-      
+
       <nav aria-label="breadcrumbs">
         <ol class="breadcrumb bg-transparent pt-4 mb-0">
           <li class="breadcrumb-item h5">
@@ -18,10 +18,10 @@
           </li>
         </ol>
       </nav>
-      
+
       <h1>Search results for www.ietf.org</h1>
       <p class="lead">The search results below include information from the primary public-facing website of the IETF.</p>
-      
+
       <div class="row mb-4">
         <div class="col-md-8 col-lg-6">
           <form class="input-group" action="{% url 'search' %}" method="get" name="site-search">
@@ -58,7 +58,7 @@
             {% endfor %}
           </ul>
           {% endif %}
-          
+
           {% if search_results %}
           <h2 class="visually-hidden">Search results{% if search_query %} for "{{ search_query }}"{% endif %}</h2>
           <ul class="list-unstyled">
@@ -75,12 +75,12 @@
             </li>
             {% endfor %}
           </ul>
-          
+
           {% if search_results.has_previous %}
             <a href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.previous_page_number }}"
               class="btn btn-primary mb-4">Previous</a>
           {% endif %}
-          
+
           {% if search_results.has_next %}
             <a href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.next_page_number }}"
               class="btn btn-primary mb-4">Next</a>
@@ -114,7 +114,7 @@
           <input type="hidden" name="activedrafts" value="on">
           <input type="hidden" name="by" value="group">
         </form>
-      
+
       </div>
     </div>
 
@@ -122,7 +122,3 @@
 </main>
 
 {% endblock %}
-
-
-
-
