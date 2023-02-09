@@ -123,9 +123,15 @@ async function main () {
     Env: [
       `LETSENCRYPT_HOST=${hostname}`,
       `VIRTUAL_HOST=${hostname}`,
-      `VIRTUAL_PORT=8001`,
-      `DATABASE_URL=postgres://postgres:password@ws-db-${branch}/app`,
-      `APP_SECRET_KEY=${nanoid(36)}`
+      `VIRTUAL_PORT=8000`,
+      `DJANGO_SETTINGS_MODULE=ietf.settings.production`,
+      `PGHOST=ws-db-${branch}`,
+      `PGDATABASE=torchbox`,
+      `PGUSER=postgres`,
+      `PGPASSWORD=password`
+      `SECRET_KEY=${nanoid(36)}`,
+      `ALLOWED_HOSTS=${hostname}`,
+      `PRIMARY_HOST=${hostname}`
     ],
     Labels: {
       appversion: `${argv.appversion}` ?? '0.0.0',
@@ -142,6 +148,23 @@ async function main () {
   })
   await appContainer.start()
   console.info('Created and started Wagtail_website container started successfully.')
+
+  // Send deploy command in App container
+  console.info('Running deploy script in app container...')
+  const appDeployCmdStream = await appContainer.exec({
+    Cmd: ['/app/deploy.sh'],
+    AttachStdout: true,
+    AttachStderr: true
+  })
+  await new Promise((resolve, reject) => {
+    dock.modem.followProgress(appDeployCmdStream, (err, res) => err ? reject(err) : resolve(res))
+  })
+  console.info('Deploy script completed.')
+
+  // Restart App Container
+  console.info('Restarting app container...')
+  await appContainer.restart()
+  console.info('Restarted app container successfully.')
 
   process.exit(0)
 }
