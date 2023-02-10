@@ -11,7 +11,7 @@
     <section class="jumbotron text-white home_page__jumbotron"
         style="background-image: url({% if bg_image.url %}{{ bg_image.url }}{% else %}{% static 'img/group-01.jpg' %}{% endif %});">
         <div class="container position-relative">
-            <h2 class="h1">{{ self.heading }}</h2>
+            <h1 class="h1">{{ self.heading }}</h1>
             <p class="lead">{{ self.introduction }}</p>
             {% if self.button_link %}
                 <p>
@@ -26,7 +26,7 @@
     <div class="container">
         <div class="row">
             <section class="col-md-6 mb-5">
-                <h2 class="mb-4">Upcoming events</h2>
+                <h2 class="mb-4">Blog posts</h2>
                 <ul class="list-unstyled">
                     {% with self.upcoming_events.0 as event %}
                         {% if event %}
@@ -42,7 +42,7 @@
                 <a class="btn btn-outline-primary" href="{{ self.event_index.url }}">All events</a>
             </section>
             <section class="col-md-6">
-                <h2 class="mb-4">What's new?</h2>
+                <h2 class="mb-4">News & announcements</h2>
                 <ul class="list-unstyled">
                     {% for blog in self.blogs %}
                         <li class="card mb-2">
@@ -72,7 +72,7 @@
     <hr class="border-primary mb-4" />
 
     <!-- Search archives-->
-    <div class="container mb-4">
+    <!-- <div class="container mb-4">
         <div class="row">
             <div class="col-lg-7">
                 <h2>Search the IETF email archive</h2>
@@ -130,11 +130,11 @@
             </div>
         </div>
     </div>
-    <hr class="border-primary mb-4" />
+    <hr class="border-primary mb-4" /> -->
 
-    {% if self.working_groups_section_links.all or self.request_for_comments_section_links.all %}
+    <!-- {% if self.working_groups_section_links.all or self.request_for_comments_section_links.all %} -->
         <!-- Understanding IETF -->
-        <section class="container">
+        <!-- <section class="container">
             <h2 class="mb-4">Understanding the Internet Engineering Task Force</h2>
 
             {% if self.working_groups_section_links.all %}
@@ -209,11 +209,11 @@
                 </div>
             {% endif %}
         </section>
-        <hr class="border-primary mb-4" />
-    {% endif %}
+        <hr class="border-primary mb-4" /> -->
+    <!-- {% endif %} -->
 
     <!-- Topics of interest -->
-    <section class="container text-center mb-5">
+    <!-- <section class="container text-center mb-5">
         <h2 class="mb-4">Topics of interest</h2>
         <ul class="list-unstyled row row-cols-1 row-cols-md-2 row-cols-lg-3">
             {% for topic in self.primary_topics %}
@@ -237,7 +237,7 @@
 
         </ul>
         <a href="{{ self.topic_index.url }}" class=" btn btn-primary">All topics</a>
-    </section>
+    </section> -->
     <section class="bg-primary text-light">
         <div class="container py-5 home_page__cta-container">
             {{ self.call_to_action.render }}
