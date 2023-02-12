@@ -32,6 +32,7 @@ class Command(BaseCommand):
         environment = os.getenv("ENVIRONMENT")
         if environment not in ALLOWED_ENVIRONMENTS:
             logger.warning("This command is not allowed for this environment.")
+            exit()
 
         # Now adjust hostnames
         all_sites = Site.objects.all()
