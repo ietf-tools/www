@@ -145,4 +145,5 @@ class HomePage(Page):
 
 
 class IABHomePage(HomePage):
-    pass
+    class Meta:
+        verbose_name = "IAB Home Page"
