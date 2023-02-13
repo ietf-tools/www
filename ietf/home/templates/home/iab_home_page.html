@@ -11,7 +11,7 @@
     <section class="jumbotron text-white home_page__jumbotron"
         style="background-image: url({% if bg_image.url %}{{ bg_image.url }}{% else %}{% static 'img/group-01.jpg' %}{% endif %});">
         <div class="container position-relative">
-            <h1 class="h1">{{ self.heading }}</h1>
+            <h1 class="h1_iab" >{{ self.heading }}</h1>
             <p class="lead">{{ self.introduction }}</p>
             {% if self.button_link %}
                 <p>
@@ -65,7 +65,7 @@
                         </li>
                     {% endfor %}
                 </ul>
-                <a class="btn btn-outline-primary" href="{{ self.blog_index.url }}">All news</a>
+                <a class="btn btn-outline-primary" href="{{ self.blog_index.url }}">All news & announcements</a>
             </section>
         </div>
     </div>

@@ -28,7 +28,7 @@ class WorkingGroupsSectionLinks(RelatedLink):
 
 class HomePage(Page):
     heading = models.CharField(max_length=255)
-    introduction = models.CharField(max_length=255)
+    introduction = models.CharField(max_length=255, blank=True)
     main_image = models.ForeignKey(
         "images.IETFImage",
         null=True,
