@@ -1,8 +1,15 @@
+// Color swatches:
+$brand-blue: #3E96C8;
 $blue: #0B8CC5;
 $blue-2: #004F73;
 $navy: #002D3C;
+$yellow: #FFD13E;
 
-$blue-navbar: #3889BF;
+$grey-1: #F7FAFC;
+$grey-2: #F0F6FA;
+$grey-3: #E6EDF2;
+$grey-4: #D9E0E5;
+$grey-5: #CBD2D6;
 
 
 .h1-iab {
@@ -28,7 +35,8 @@ $blue-navbar: #3889BF;
     background-size: cover;
     position: relative;
     &:before {
-        background-image: linear-gradient(180deg, #3788BF 17.96%, rgba(55, 136, 191, 0) 100%);
+        // second color is $brand-blue with 0% opacity
+        background-image: linear-gradient(180deg, $brand-blue 17.96%, rgba(62, 150, 200, 0) 100%);
         // copied
         content: "";
         bottom: 0;
@@ -42,11 +50,11 @@ $blue-navbar: #3889BF;
 
 .bg-blue-navbar-iab {
     --bs-bg-opacity: 1;
-    background-color: $blue-navbar !important;
+    background-color: $brand-blue !important;
 }
 
 .btn-blue-navbar-iab {
-    background-color: $blue-navbar;
+    background-color: $brand-blue;
     border-radius: 4px;
 
     &:hover {
