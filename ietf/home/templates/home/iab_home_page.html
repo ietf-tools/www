@@ -8,15 +8,15 @@
     <h1 class="visually-hidden">Welcome to the <abbr title="Internet Engineering Task Force">IETF</abbr></h1>
     <!--  Jumbotron -->
     {% image self.main_image max-4000x4000 as bg_image %}
-    <section class="jumbotron text-white home_page__jumbotron"
+    <section class="jumbotron text-white home_page__jumbotron-iab"
         style="background-image: url({% if bg_image.url %}{{ bg_image.url }}{% else %}{% static 'img/group-01.jpg' %}{% endif %});">
         <div class="container position-relative">
-            <h1 class="h1_iab" >{{ self.heading }}</h1>
+            <h1 class="h1-iab" >{{ self.heading }}</h1>
             <p class="lead">{{ self.introduction }}</p>
             {% if self.button_link %}
                 <p>
                     <a href="{{ self.button_link.url }}"
-                        class="btn btn-outline-primary text-white my-2">{{ self.button_text }}</a>
+                        class="btn btn-secondary-iab text-white my-2">{{ self.button_text }}</a>
                 </p>
             {% endif %}
         </div>
@@ -39,7 +39,7 @@
                         {% endif %}
                     {% endwith %}
                 </ul>
-                <a class="btn btn-outline-primary" href="{{ self.event_index.url }}">All events</a>
+                <a class="btn btn-secondary-iab text-white" href="{{ self.event_index.url }}">All events</a>
             </section>
             <section class="col-md-6">
                 <h2 class="mb-4">News & announcements</h2>
@@ -65,7 +65,7 @@
                         </li>
                     {% endfor %}
                 </ul>
-                <a class="btn btn-outline-primary" href="{{ self.blog_index.url }}">All news & announcements</a>
+                <a class="btn btn-secondary-iab text-white" href="{{ self.blog_index.url }}">All news & announcements</a>
             </section>
         </div>
     </div>

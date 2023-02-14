@@ -3,7 +3,7 @@
 <header class="header" >
     <a href="#content" class="visually-hidden visually-hidden-focusable">Skip to main content</a>
     <nav
-        class="navbar navbar-expand-lg navbar-dark bg-dark text-light"
+        class="navbar navbar-expand-lg navbar-dark bg-blue-navbar-iab text-light"
         aria-label="Main"
     >
         <div class="container">
@@ -32,7 +32,7 @@
                 Search
             </button>
 
-            <div class="navbar-brand header__logo-container">
+            <div class="navbar-brand">
                 <a class="text-light" href="{{ HOME.url }}">
                     <img
                         class="header__logo"
@@ -52,7 +52,7 @@
                 <li class="nav-item btn-group {% if item.pk == self.pk %} active{% endif %}">
                     <a
                         href="{{ item.url }}"
-                        class="nav-link btn btn-dark text-white {% if item.subitems %} pe-1{% endif %}"
+                        class="nav-link btn btn-blue-navbar-iab text-white {% if item.subitems %} pe-1{% endif %}"
                     >
                         {{ item.title }}
                     </a>

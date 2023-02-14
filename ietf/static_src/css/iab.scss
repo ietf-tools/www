@@ -1,5 +1,55 @@
-.h1_iab {
+$blue: #0B8CC5;
+$blue-2: #004F73;
+$navy: #002D3C;
+
+$blue-navbar: #3889BF;
+
+
+.h1-iab {
     max-width: 682px; 
     line-height: 1.09; 
     font-size: 2.75rem;
+}
+
+.btn-secondary-iab {
+    background-color: $blue-2;
+    border-radius: 4px;
+    padding: 16px;
+
+    &:hover {
+        background-color: $navy;
+    }
+}
+
+.home_page__jumbotron-iab {
+    // copied
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    &:before {
+        background-image: linear-gradient(180deg, #3788BF 17.96%, rgba(55, 136, 191, 0) 100%);
+        // copied
+        content: "";
+        bottom: 0;
+        left: 0;
+        pointer-events: none;
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+}
+
+.bg-blue-navbar-iab {
+    --bs-bg-opacity: 1;
+    background-color: $blue-navbar !important;
+}
+
+.btn-blue-navbar-iab {
+    background-color: $blue-navbar;
+    border-radius: 4px;
+
+    &:hover {
+        background-color: $navy;
+    }
 }
