@@ -3,7 +3,7 @@
 <header class="header" >
     <a href="#content" class="visually-hidden visually-hidden-focusable">Skip to main content</a>
     <nav
-        class="navbar navbar-expand-lg navbar-dark bg-blue-navbar-iab text-light"
+        class="navbar navbar-expand-lg navbar-dark bg-brand-blue-iab text-light"
         aria-label="Main"
     >
         <div class="container">
@@ -36,13 +36,16 @@
                 <a class="text-light" href="{{ HOME.url }}">
                     <img
                         class="header__logo"
-                        src="{% static 'img/ietf-logo.svg' %}"
+                        src="{% static 'img/iab-logo.svg' %}"
                         alt="IETF logo"
                     />
                 </a>
             </div>
+            <div class="logo-text-iab">
+                Internet Architecture Board
+            </div>
             <div
-                class="collapse navbar-collapse flex-wrap-reverse"
+                class="collapse navbar-collapse flex-wrap-reverse justify-content-end"
                 id="navbarSupportedContent"
             >
                 <ul
@@ -52,7 +55,7 @@
                 <li class="nav-item btn-group {% if item.pk == self.pk %} active{% endif %}">
                     <a
                         href="{{ item.url }}"
-                        class="nav-link btn btn-blue-navbar-iab text-white {% if item.subitems %} pe-1{% endif %}"
+                        class="nav-link btn btn-blue-navbar-iab text-white navbar-text-iab {% if item.subitems %} pe-1{% endif %}"
                     >
                         {{ item.title }}
                     </a>
@@ -78,6 +81,21 @@
                 </li>
 
                 {% endfor %}
+                <li class="nav-item d-none d-lg-inline-block">
+                    <a
+                        href="/search"
+                        class="btn btn-blue-navbar-iab navbar-text-iab text-white nav-link"
+                        role="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbarSearch"
+                        aria-controls="navbarSearch"
+                        aria-expanded="false"
+                        aria-label="Toggle search bar"
+                    >
+                    Search
+                    <span class="icon ion-search"></span>
+                    </a>
+                </li>
                 </ul>
 
                 <!-- <ul class="navbar-nav col-12 col-xl-auto">
@@ -131,7 +149,7 @@
             </div>
         </div>
     </nav>
-    <div class="collapse" id="navbarSearch">
+    <div class="collapse bg-brand-blue-iab" id="navbarSearch">
         <div class="container">
             <div class="row justify-content-center">
                 <form

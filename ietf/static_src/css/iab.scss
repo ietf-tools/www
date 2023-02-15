@@ -48,7 +48,7 @@ $grey-5: #CBD2D6;
     }
 }
 
-.bg-blue-navbar-iab {
+.bg-brand-blue-iab {
     --bs-bg-opacity: 1;
     background-color: $brand-blue !important;
 }
@@ -60,4 +60,15 @@ $grey-5: #CBD2D6;
     &:hover {
         background-color: $navy;
     }
+}
+
+.logo-text-iab {
+    max-width: 124px;
+    font-size: 15px;
+    line-height: 17px;
+}
+
+.navbar-text-iab {
+    font-size: 14px;
+    line-height: 16px;
 }
