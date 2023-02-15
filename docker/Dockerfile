@@ -139,6 +139,9 @@ CMD ["/app/docker/init-test.sh"]
 # ---------------------------------------------------------------------
 # sandbox stage
 FROM base as app-sandbox
+
+USER root
+
 RUN apk update && apk add nginx supervisor
 
 COPY docker/nginx-sandbox.conf /etc/nginx/http.d/default.conf
