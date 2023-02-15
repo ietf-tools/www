@@ -53,13 +53,18 @@ $grey-5: #CBD2D6;
     background-color: $brand-blue !important;
 }
 
-.btn-blue-navbar-iab {
+.btn-brand-blue-navbar-iab {
     background-color: $brand-blue;
     border-radius: 4px;
 
     &:hover {
         background-color: $navy;
     }
+}
+
+.bg-navy-iab {
+    --bs-bg-opacity: 1;
+    background-color: $navy !important;
 }
 
 .logo-text-iab {
@@ -71,4 +76,12 @@ $grey-5: #CBD2D6;
 .navbar-text-iab {
     font-size: 14px;
     line-height: 16px;
+}
+
+.footer-link-iab {
+    border-radius: 4px;
+
+    &:hover {
+        background-color: $blue-2;
+    }
 }
