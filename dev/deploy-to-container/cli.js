@@ -5,6 +5,7 @@ import yargs from 'yargs/yargs'
 import { hideBin } from 'yargs/helpers'
 import slugify from 'slugify'
 import { nanoid } from 'nanoid'
+import { setTimeout } from 'timers/promises'
 
 async function main () {
   const argv = yargs(hideBin(process.argv)).argv
@@ -151,14 +152,26 @@ async function main () {
 
   // Send deploy command in App container
   console.info('Running deploy script in app container...')
-  const appDeployCmdStream = await appContainer.exec({
+  const appDeployExecHandle = await appContainer.exec({
     Cmd: ['/app/deploy.sh'],
     AttachStdout: true,
     AttachStderr: true
   })
-  await new Promise((resolve, reject) => {
-    dock.modem.followProgress(appDeployCmdStream, (err, res) => err ? reject(err) : resolve(res))
-  })
+  await appDeployExecHandle.start()
+  let appDeployCounter = 1
+  while (appDeployCounter > 0) {
+    const execState = await appDeployExecHandle.inspect()
+    if (!execState.Running) {
+      appDeployCounter = 0
+    } else if (appDeployCounter > 60) {
+      console.error('Deploy script failed to complete before timeout. Terminating...')
+      process.exit(1)
+    } else {
+      appDeployCounter++
+      await setTimeout(5000)
+      console.info(`Waiting for deploy script in app container to complete... (${appDeployCounter * 5}s / 300s max)`)
+    }
+  }
   console.info('Deploy script completed.')
 
   // Restart App Container
