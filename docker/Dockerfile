@@ -142,9 +142,9 @@ FROM base as app-sandbox
 
 USER root
 
-RUN apk update && apk add nginx supervisor
+RUN apk update && apk add --no-cache nginx supervisor
 
 COPY docker/nginx-sandbox.conf /etc/nginx/http.d/default.conf
 COPY docker/supervisord-sandbox.conf /app/supervisord.conf
 
-CMD ["/usr/bin/supervisord", "-n", "-c", "/app/supervisord.conf"]
+CMD ["/usr/bin/supervisord", "-c", "/app/supervisord.conf"]
