@@ -8,6 +8,7 @@ import { nanoid } from 'nanoid'
 import { setTimeout } from 'timers/promises'
 
 async function main () {
+  const basePath = process.cwd()
   const argv = yargs(hideBin(process.argv)).argv
 
   // Parse branch argument
@@ -116,7 +117,7 @@ async function main () {
   console.info('Created and started DB docker container successfully.')
 
   // Create App container
-  console.info(`Creating Wagtail_website docker container... [ws-app-${branch}]`)
+  console.info(`Creating app docker container... [ws-app-${branch}]`)
   const appContainer = await dock.createContainer({
     Image: `ghcr.io/ietf-tools/wagtail_website:${argv.appversion}`,
     name: `ws-app-${branch}`,
@@ -147,8 +148,18 @@ async function main () {
       }
     }
   })
+  console.info('Created app container successfully.')
+
+  // Inject media archive into the App container
+  console.info('Injecting media archive into app container...')
+  const tgzPath = path.join(basePath, 'import.tgz')
+  await appContainer.putArchive(tgzPath, { path: '/app/media' })
+  console.info(`Imported media files into app container successfully.`)
+
+  // Start app container
+  console.info('Starting app container...')
   await appContainer.start()
-  console.info('Created and started Wagtail_website container started successfully.')
+  console.info('Started app container successfully.')
 
   // Send deploy command in App container
   console.info('Running deploy script in app container...')
@@ -167,9 +178,9 @@ async function main () {
       console.error('Deploy script failed to complete before timeout. Terminating...')
       process.exit(1)
     } else {
-      appDeployCounter++
       await setTimeout(5000)
       console.info(`Waiting for deploy script in app container to complete... (${appDeployCounter * 5}s / 300s max)`)
+      appDeployCounter++
     }
   }
   console.info('Deploy script completed.')
