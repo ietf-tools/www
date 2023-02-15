@@ -153,7 +153,7 @@ async function main () {
 
   // Inject media archive into the App container
   console.info('Injecting media archive into app container...')
-  const tgzPath = path.join(basePath, 'import.tgz')
+  const tgzPath = path.join(basePath, 'media.tgz')
   await appContainer.putArchive(tgzPath, { path: '/app/media' })
   console.info(`Imported media files into app container successfully.`)
 
