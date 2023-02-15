@@ -6,6 +6,7 @@ import { hideBin } from 'yargs/helpers'
 import slugify from 'slugify'
 import { nanoid } from 'nanoid'
 import { setTimeout } from 'timers/promises'
+import path from 'path'
 
 async function main () {
   const basePath = process.cwd()
