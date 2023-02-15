@@ -1,3 +1,6 @@
+# ---------------------------------------------------------------------
+# FRONTEND
+# ---------------------------------------------------------------------
 # Frontend assets get compiled first
 # gallium-alpine is Node 16. This is the active LTS.
 # see https://nodejs.org/en/about/releases/
@@ -24,9 +27,15 @@ RUN yarn dist
 
 CMD ["yarn", "start"]
 
+# ---------------------------------------------------------------------
+# SSM-PARENT
+# ---------------------------------------------------------------------
 # Needed for hosting on AWS
 FROM springload/ssm-parent:1.4.1 as ssm-parent
 
+# ---------------------------------------------------------------------
+# BASE
+# ---------------------------------------------------------------------
 # Base backend
 FROM python:3.10-alpine as base
 ENV PYCURL_SSL_LIBRARY openssl
@@ -68,6 +77,9 @@ ENV PROJECT wagtail_website
 
 USER www
 
+# ---------------------------------------------------------------------
+# AWS - APP
+# ---------------------------------------------------------------------
 # AWS hosting stages
 FROM base as aws-app
 
@@ -79,10 +91,16 @@ COPY --from=ssm-parent /usr/bin/ssm-parent /usr/bin/ssm-parent
 ENTRYPOINT ["/usr/bin/ssm-parent", "run", "-e", "-p", "/$PROJECT/common/", "-p", "/$PROJECT/$ENVIRONMENT/", "-n", "/$PROJECT/$ENVIRONMENT/ssm", "-r",  "--"]
 CMD ["/usr/local/bin/gunicorn", "--config", "/app/docker/gunicorn.py", "ietf.wsgi" ]
 
+# ---------------------------------------------------------------------
+# APP
+# ---------------------------------------------------------------------
 # base app (hosted elsewhere, not on AWS)
 FROM base as app
 CMD ["/usr/local/bin/gunicorn", "--config", "/app/docker/gunicorn.py", "ietf.wsgi" ]
 
+# ---------------------------------------------------------------------
+# APP - DEV
+# ---------------------------------------------------------------------
 # development stage
 FROM base as app-dev
 ENV DJANGO_SETTINGS_MODULE ietf.settings.docker.dev
@@ -98,6 +116,9 @@ USER www
 ENTRYPOINT ["wait-for", "database:5432", "--"]
 CMD ["/app/docker/init-dev.sh"]
 
+# ---------------------------------------------------------------------
+# APP - TEST
+# ---------------------------------------------------------------------
 # test stage
 FROM base as app-test
 ENV DJANGO_SETTINGS_MODULE ietf.settings.docker.dev
@@ -112,3 +133,15 @@ USER www
 # and then it runs the migrations and tests
 ENTRYPOINT ["wait-for", "database:5432", "--"]
 CMD ["/app/docker/init-test.sh"]
+
+# ---------------------------------------------------------------------
+# APP - SANDBOX
+# ---------------------------------------------------------------------
+# sandbox stage
+FROM base as app-sandbox
+RUN apk update && apk add nginx supervisor
+
+COPY docker/nginx-sandbox.conf /etc/nginx/http.d/default.conf
+COPY docker/supervisord-sandbox.conf /app/supervisord.conf
+
+CMD ["$BINDIR/supervisord", "-n", "-c", "/app/supervisord.conf"]
