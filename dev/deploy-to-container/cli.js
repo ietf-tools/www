@@ -149,6 +149,7 @@ async function main () {
       }
     }
   })
+  await setTimeout(5000)
   console.info('Created app container successfully.')
 
   // Inject media archive into the App container

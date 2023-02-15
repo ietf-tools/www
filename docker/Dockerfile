@@ -147,4 +147,6 @@ RUN apk update && apk add --no-cache nginx supervisor
 COPY docker/nginx-sandbox.conf /etc/nginx/http.d/default.conf
 COPY docker/supervisord-sandbox.conf /app/supervisord.conf
 
+RUN mkdir -p /app/media
+
 CMD ["/usr/bin/supervisord", "-c", "/app/supervisord.conf"]
