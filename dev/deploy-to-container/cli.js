@@ -124,7 +124,7 @@ async function main () {
     Env: [
       `LETSENCRYPT_HOST=${hostname}`,
       `VIRTUAL_HOST=${hostname}`,
-      `VIRTUAL_PORT=8000`,
+      `VIRTUAL_PORT=80`,
       `DJANGO_SETTINGS_MODULE=ietf.settings.production`,
       `PGHOST=ws-db-${branch}`,
       `PGDATABASE=torchbox`,
