@@ -101,9 +101,10 @@ class HomePage(Page):
     def blog_index(self):
         return BlogIndexPage.objects.live().first()
 
-    def blogs(self):
+    def blogs(self, bp_kwargs={}):
         return (
             BlogPage.objects.live()
+            .filter(**bp_kwargs)
             .annotate(
                 date_sql=RawSQL(
                     "CASE WHEN (date_published IS NOT NULL) THEN date_published ELSE first_published_at END",
@@ -147,3 +148,6 @@ class HomePage(Page):
 class IABHomePage(HomePage):
     class Meta:
         verbose_name = "IAB Home Page"
+
+    def blogs(self):
+        return super().blogs({"topics__topic__slug": "iab"})
