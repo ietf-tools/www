@@ -1,15 +1,15 @@
 // Color swatches:
-$brand-blue: #3E96C8;
-$blue: #0B8CC5;
-$blue-2: #004F73;
-$navy: #002D3C;
-$yellow: #FFD13E;
+$brand-blue: #3E96C8;   // (62,150,200)
+$blue: #0B8CC5;         // (11, 140, 97)
+$blue-2: #004F73;       // (0, 79, 115)
+$navy: #002D3C;         // (0, 45, 60)
+$yellow: #FFD13E;       // (255, 209, 62)
 
-$grey-1: #F7FAFC;
-$grey-2: #F0F6FA;
-$grey-3: #E6EDF2;
-$grey-4: #D9E0E5;
-$grey-5: #CBD2D6;
+$grey-1: #F7FAFC;       // (247, 250, 252)
+$grey-2: #F0F6FA;       // (240, 246, 250)
+$grey-3: #E6EDF2;       // (230, 237, 242)
+$grey-4: #D9E0E5;       // (217, 224, 229)
+$grey-5: #CBD2D6;       // (230, 210, 214)
 
 
 .h1-iab {
@@ -84,4 +84,30 @@ $grey-5: #CBD2D6;
     &:hover {
         background-color: $blue-2;
     }
+}
+
+.iab-blog-post {
+    a {
+        color: $brand-blue !important;
+        &:hover {
+            color: $blue-2 !important;
+        }
+    }
+}
+
+.card-text-iab {   
+    font-size: 16px;
+    line-height: 21px;
+    /* or 131% */
+    letter-spacing: 0.4px;
+    font-weight: 300;
+}
+
+.date-text-iab {
+    color: $navy;
+    font-size: 14px;
+    line-height: 18px;
+    /* identical to box height, or 129% */
+    letter-spacing: 0.4px;
+    font-weight: 300;
 }
