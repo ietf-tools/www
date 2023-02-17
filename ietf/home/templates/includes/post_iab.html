@@ -1,0 +1,31 @@
+{% load wagtailimages_tags %}
+
+<li class="card mb-2 row g-0 align-items-stretch iab-blog-post">
+    <div>
+        {% if post.feed_image %}
+            {% image post.feed_image height-245 as post_image %}
+            <img class="home_event__image u-obj-cover w-100 h-100" src="{{ post_image.url }}" alt="{{ post.main_image.title }}">
+        {% endif %}
+    </div>
+    {# col-* classes include positioning, position static cancels that and allows the stretched link to cover the image #}
+    <div>
+        <div class="card-body card-iab">
+            <h3 class="mb-3 h5"><a class="stretched-link" href="{{ post.url }}">{{ post.title }}</a></h3>
+            <p class="card-text-iab">{{ post.introduction }}</p>
+            <div class="d-flex justify-content-between align-items-center date-text-iab">
+                <small>
+                    {% if post.date %}
+                        <span>{{ post.date|date:"DATE_FORMAT" }}</span>
+                    {% elif post.start_date %}
+                        <span>{{ post.start_date|date:"DATE_FORMAT" }}</span>
+                    {% endif %}
+                    
+                    <span>{{ post.listing_location }}</span>
+                    {% if post.host %}
+                        <span>{{ post.host.title }}</span>
+                    {% endif %}
+                </small>
+            </div>
+        </div>
+    </div>
+</li>

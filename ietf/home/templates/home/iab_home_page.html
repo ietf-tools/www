@@ -29,15 +29,8 @@
             <section class="col-md-6">
                 <h2 class="mb-4">Blog posts</h2>
                 <ul class="list-unstyled">
-                    {% with self.upcoming_events.0 as event %}
-                        {% if event %}
-                            {% include "includes/blog_post_iab.html" %}
-                        {% endif %}
-                    {% endwith %}
-                    {% with self.upcoming_events.1 as event %}
-                        {% if event %}
-                            {% include "includes/blog_post_iab.html" %}
-                        {% endif %}
+                    {% with self.blogs.0 as post %}
+                        {% include "includes/post_iab.html" %}
                     {% endwith %}
                 </ul>
                 <a class="btn btn-secondary-iab text-white" href="{{ self.event_index.url }}">All IAB blog posts on IETF website</a>
@@ -45,26 +38,16 @@
             <section class="col-md-6">
                 <h2 class="mb-4">News & announcements</h2>
                 <ul class="list-unstyled">
-                    {% for blog in self.blogs %}
-                        <li class="card mb-2">
-                            <div class="card-body">
-                                <h3 class="h5">
-                                    <a class="stretched-link" href="{{ blog.url }}">
-                                        {{ blog.title }}&nbsp;
-                                        <span class="icon ion-ios-arrow-forward"></span>
-                                    </a>
-                                </h3>
-                                <p class="card-text">{{ blog.feed_text }}</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <small class="border-start border-secondary ps-2">
-                                        <span>{{ blog.author.name }}</span>
-                                        <span>{{ blog.author.title }}</span>
-                                        <span>{{ blog.date|date:"DATE_FORMAT" }}</span>
-                                    </small>
-                                </div>
-                            </div>
-                        </li>
-                    {% endfor %}
+                    {% with self.upcoming_events.0 as post %}
+                        {% if post %}
+                            {% include "includes/post_iab.html" %}
+                        {% endif %}
+                    {% endwith %}
+                    {% with self.upcoming_events.1 as post %}
+                        {% if post %}
+                            {% include "includes/post_iab.html" %}
+                        {% endif %}
+                    {% endwith %}
                 </ul>
                 <a class="btn btn-secondary-iab text-white" href="{{ self.blog_index.url }}">All news & announcements</a>
             </section>

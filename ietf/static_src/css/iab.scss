@@ -11,7 +11,6 @@ $grey-3: #E6EDF2;       // (230, 237, 242)
 $grey-4: #D9E0E5;       // (217, 224, 229)
 $grey-5: #CBD2D6;       // (230, 210, 214)
 
-
 .h1-iab {
     max-width: 682px; 
     line-height: 1.09; 
@@ -110,4 +109,8 @@ $grey-5: #CBD2D6;       // (230, 210, 214)
     /* identical to box height, or 129% */
     letter-spacing: 0.4px;
     font-weight: 300;
+}
+
+.card-iab {
+    padding: 1.5rem;
 }
