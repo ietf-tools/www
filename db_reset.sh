@@ -17,3 +17,5 @@ aws s3 cp s3://${BACKUPS_BUCKET}/ietfa.torchbox.gz - | gzip -d -c | pg_restore -
 python manage.py migrate --noinput
 
 aws s3 sync --delete s3://${BACKUPS_BUCKET}/media/ s3://${AWS_STORAGE_BUCKET_NAME}/media/
+
+python manage.py update_nonprod_hostnames
