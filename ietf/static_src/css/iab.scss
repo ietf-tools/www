@@ -57,7 +57,7 @@ $grey-5: #CBD2D6;       // (230, 210, 214)
     border-radius: 4px;
 
     &:hover {
-        background-color: $navy;
+        background-color: $blue-2;
     }
 }
 
@@ -109,8 +109,44 @@ $grey-5: #CBD2D6;       // (230, 210, 214)
     /* identical to box height, or 129% */
     letter-spacing: 0.4px;
     font-weight: 300;
+    
+    p {
+        &:last-child {
+            margin-bottom: 0rem !important;
+        }
+    }
 }
 
 .card-iab {
     padding: 1.5rem;
+}
+
+.blog-post-image-iab {
+    max-height: 12.5rem;
+}
+
+.iab-left-column {
+    margin-bottom: 4rem; //only on smallest size
+
+    @include media-breakpoint-up(lg) {
+        // background-color: skyblue;
+        margin-bottom: 0rem;
+        padding-right: 1.75rem;
+    }
+
+    @include media-breakpoint-up(xl) {
+        // background-color: orange;
+        margin-bottom: 0rem;
+        padding-right: 3rem;
+    }
+}
+
+.container-iab {
+    @include media-breakpoint-up(lg) {
+        max-width: 864px;
+    }
+
+    @include media-breakpoint-up(xl) {
+        max-width: 1000px;
+    }
 }

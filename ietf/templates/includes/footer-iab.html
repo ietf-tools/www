@@ -12,4 +12,15 @@
             {% endfor %}
         </ul>
     </div>
+    <div class="container">
+        <ul class="nav row">
+            {% if settings.utils.SocialMediaSettings.twitter_handle %}
+                    <li class="nav-item col-6 col-lg-auto navbar-text-iab footer-link-iab p-2">
+                        <a class="text-light " href="https://twitter.com/{{ twitter_handle }}" role="button">
+                            <img src="/static/img/twitter-icon.svg">
+                        </a>
+                    </li>
+            {% endif %}
+        <ul class="nav row">
+    </div>
 </footer>

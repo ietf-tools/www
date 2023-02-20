@@ -12,25 +12,28 @@
         style="background-image: url({% if bg_image.url %}{{ bg_image.url }}{% else %}{% static 'img/group-01.jpg' %}{% endif %});">
         <div class="container position-relative">
             <h1 class="h1-iab" >{{ self.heading }}</h1>
-            <p class="lead">{{ self.introduction }}</p>
+            {% if self.introduction %}
+                <p class="lead">{{ self.introduction }}</p>
+            {% endif %}
             {% if self.button_link %}
                 <p>
                     <a href="{{ self.button_link.url }}"
-                        class="btn btn-secondary-iab text-white my-2">{{ self.button_text }}</a>
+                        class="btn btn-secondary-iab text-white mt-4">{{ self.button_text }}</a>
                 </p>
             {% endif %}
         </div>
     </section>
 
     <!-- Blog Posts -->
-    <!-- style="margin-bottom: 4rem; margin-top: 4rem;" -->
-    <div class="container my-5" >
+    <div class="container container-iab my-400pc" >
         <div class="row">
-            <section class="col-md-6">
+            <section class="col-md-6 iab-left-column">
                 <h2 class="mb-4">Blog posts</h2>
-                <ul class="list-unstyled">
+                <ul class="list-unstyled mb-200pc">
                     {% with self.blogs.0 as post %}
-                        {% include "includes/post_iab.html" %}
+                        {% with True as show_image %}
+                            {% include "includes/post_iab.html" %}
+                        {% endwith %}
                     {% endwith %}
                 </ul>
                 <a class="btn btn-secondary-iab text-white" href="{{ self.event_index.url }}">All IAB blog posts on IETF website</a>
