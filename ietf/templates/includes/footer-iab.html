@@ -10,11 +10,7 @@
             {% for item in settings.utils.FooterLinks.footer_link_items.all %}
                 <li class="navbar-text-iab footer-link-iab me-2"><a class="nav-link text-light" href="{{ item.link }}">{{ item.title }}</a></li>
             {% endfor %}
-        </ul>
-    </div>
-    <div class="container">
-        <ul class="nav">
-            <li class="navbar-text-iab footer-link-iab p-2">
+            <li class="navbar-text-iab footer-link-iab ms-auto p-2">
                 <a href="https://twitter.com/intarchboard" rel="me">
                     <img src="/static/img/twitter-icon.svg"></img>
                 </a>
