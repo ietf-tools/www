@@ -6,21 +6,19 @@
 ></div>
 <footer class="bg-navy-iab text-light py-3">
     <div class="container">
-        <ul class="nav row">
+        <ul class="nav d-flex">
             {% for item in settings.utils.FooterLinks.footer_link_items.all %}
-                <li class="nav-item col-6 col-lg-auto navbar-text-iab footer-link-iab"><a class="nav-link text-light" href="{{ item.link }}">{{ item.title }}</a></li>
+                <li class="navbar-text-iab footer-link-iab me-2"><a class="nav-link text-light" href="{{ item.link }}">{{ item.title }}</a></li>
             {% endfor %}
         </ul>
     </div>
     <div class="container">
-        <ul class="nav row">
-            {% if settings.utils.SocialMediaSettings.twitter_handle %}
-                    <li class="nav-item col-6 col-lg-auto navbar-text-iab footer-link-iab p-2">
-                        <a class="text-light " href="https://twitter.com/{{ twitter_handle }}" role="button">
-                            <img src="/static/img/twitter-icon.svg">
-                        </a>
-                    </li>
-            {% endif %}
-        <ul class="nav row">
+        <ul class="nav">
+            <li class="navbar-text-iab footer-link-iab p-2"><a href="https://twitter.com/intarchboard" rel="me"><i class="text-light bi bi-twitter"></i></a></li>
+            <li class="navbar-text-iab footer-link-iab p-2"><a href="https://www.linkedin.com/company/internet-architecture-board/" rel="me"><i class="text-light bi bi-linkedin"></i></a></li>
+            <li class="navbar-text-iab footer-link-iab p-2"><a href="https://youtube.com/playlist?list=PLC86T-6ZTP5jeMlmiwMRcJ68N5IlWpxuQ" rel="me"><i class="text-light bi bi-youtube"></i></a></li>
+            <li class="navbar-text-iab footer-link-iab p-2"><a href="https://mastodon.online/@intarchboard" rel="me"><i class="text-light bi bi-mastodon"></i></a></li>
+
+            </ul>
     </div>
 </footer>

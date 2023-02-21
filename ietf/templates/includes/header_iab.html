@@ -7,20 +7,24 @@
         aria-label="Main"
     >
         <div class="container">
-            <button
-                class="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-            >
-                <span class="navbar-toggler-icon text-light"></span>
-            </button>
+            <!-- Brand Image -->
+            <div class="navbar-brand">
+                <a class="text-light" href="{{ HOME.url }}">
+                    <img
+                        class="header__logo"
+                        src="{% static 'img/iab-logo.svg' %}"
+                        alt="IETF logo"
+                    />
+                </a>
+            </div>
+            <!-- Brand Text -->
+            <div class="logo-text-iab">
+                Internet Architecture Board
+            </div>
+
             <!-- Mobile search -->
             <button
-                class="btn btn-link nav-link text-light me-auto d-lg-none"
+                class="btn btn-link nav-link text-light ms-auto d-lg-none"
                 type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#navbarSearch"
@@ -31,19 +35,19 @@
                 <span class="icon ion-search"></span>
                 Search
             </button>
-
-            <div class="navbar-brand">
-                <a class="text-light" href="{{ HOME.url }}">
-                    <img
-                        class="header__logo"
-                        src="{% static 'img/iab-logo.svg' %}"
-                        alt="IETF logo"
-                    />
-                </a>
-            </div>
-            <div class="logo-text-iab">
-                Internet Architecture Board
-            </div>
+            <!-- Burger Menu -->
+            <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+            >
+                <span class="navbar-toggler-icon text-light"></span>
+            </button>
+            <!-- Collapsing Desktop Nav -->
             <div
                 class="collapse navbar-collapse flex-wrap-reverse justify-content-end"
                 id="navbarSupportedContent"
@@ -52,27 +56,30 @@
                     class="navbar-nav col-12 col-xl-auto justify-content-xl-center flex-grow"
                 >
                 {% for item in MENU %}
-                <li class="nav-item btn-group me-2 {% if item.pk == self.pk %} active{% endif %}">
+                <li class="nav-item nav-item-iab btn-group me-2 {% if item.pk == self.pk %} active{% endif %}">
                     <a
                         href="{{ item.url }}"
-                        class="nav-link btn btn-brand-blue-navbar-iab text-white navbar-text-iab {% if item.subitems %} pe-1{% endif %}"
+                        class="nav-link btn btn-brand-blue text-white navbar-text-iab {% if item.subitems %} pe-1{% endif %}"
+                        
+
                     >
                         {{ item.title }}
                     </a>
                     {% if item.subitems %}
                         <button
-                            class="btn btn-dark text-light dropdown-toggle dropdown-toggle-split d-none d-lg-block ps-1 no-js-hide"
-                            id="{{ item.pk }}Dropdown"
-                            data-bs-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="false"
-                            aria-label="Toggle dropdown for {{ item.title }}"
-                            title="Toggle dropdown for {{ item.title }}"
+                        class="btn text-light dropdown-toggle dropdown-toggle-split d-none d-lg-block ps-1 no-js-hide"
+                        id="{{ item.pk }}Dropdown"
+                        data-bs-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                        aria-label="Toggle dropdown for {{ item.title }}"
+                        title="Toggle dropdown for {{ item.title }}"
                         >
                         </button>
-                        <ul class="dropdown-menu bg-dark" aria-labelledby="{{ item.pk }}Dropdown">
+                        <ul class="dropdown-menu dropdown-menu-iab bg-blue-2-iab" aria-labelledby="{{ item.pk }}Dropdown">
                             {% for subitem in item.subitems %}
-                                <li class="dropdown-item position-relative{% if subitem.pk == self.pk %} active{% endif %}">
+                                <li class="dropdown-item dropdown-item-iab position-relative{% if subitem.pk == self.pk %} active{% endif %}
+                                ">
                                     <a class="text-white stretched-link" href="{{ subitem.url }}">{{ subitem.title }}</a>
                                 </li>
                             {% endfor %}
@@ -81,7 +88,7 @@
                 </li>
 
                 {% endfor %}
-                <li class="nav-item d-none d-lg-inline-block">
+                <li class="nav-item nav-item-iab btn-group me-2 ">
                     <a
                         href="/search"
                         class="btn btn-brand-blue-navbar-iab navbar-text-iab text-white nav-link"

@@ -1,19 +1,19 @@
 // Color swatches:
-$brand-blue: #3E96C8;   // (62,150,200)
-$blue: #0B8CC5;         // (11, 140, 97)
-$blue-2: #004F73;       // (0, 79, 115)
-$navy: #002D3C;         // (0, 45, 60)
-$yellow: #FFD13E;       // (255, 209, 62)
+$brand-blue: #3e96c8; // (62,150,200)
+$blue: #0b8cc5; // (11, 140, 97)
+$blue-2: #004f73; // (0, 79, 115)
+$navy: #002d3c; // (0, 45, 60)
+$yellow: #ffd13e; // (255, 209, 62)
 
-$grey-1: #F7FAFC;       // (247, 250, 252)
-$grey-2: #F0F6FA;       // (240, 246, 250)
-$grey-3: #E6EDF2;       // (230, 237, 242)
-$grey-4: #D9E0E5;       // (217, 224, 229)
-$grey-5: #CBD2D6;       // (230, 210, 214)
+$grey-1: #f7fafc; // (247, 250, 252)
+$grey-2: #f0f6fa; // (240, 246, 250)
+$grey-3: #e6edf2; // (230, 237, 242)
+$grey-4: #d9e0e5; // (217, 224, 229)
+$grey-5: #cbd2d6; // (230, 210, 214)
 
 .h1-iab {
-    max-width: 682px; 
-    line-height: 1.09; 
+    max-width: 682px;
+    line-height: 1.09;
     font-size: 2.75rem;
 }
 
@@ -35,9 +35,13 @@ $grey-5: #CBD2D6;       // (230, 210, 214)
     position: relative;
     &:before {
         // second color is $brand-blue with 0% opacity
-        background-image: linear-gradient(180deg, $brand-blue 17.96%, rgba(62, 150, 200, 0) 100%);
+        background-image: linear-gradient(
+            180deg,
+            $brand-blue 17.96%,
+            rgba(62, 150, 200, 0) 100%
+        );
         // copied
-        content: "";
+        content: '';
         bottom: 0;
         left: 0;
         pointer-events: none;
@@ -50,6 +54,16 @@ $grey-5: #CBD2D6;       // (230, 210, 214)
 .bg-brand-blue-iab {
     --bs-bg-opacity: 1;
     background-color: $brand-blue !important;
+}
+
+.bg-blue-2-iab {
+    --bs-bg-opacity: 1;
+    background-color: $blue-2 !important;
+}
+
+.bg-navy-iab {
+    --bs-bg-opacity: 1;
+    background-color: $navy !important;
 }
 
 .btn-brand-blue-navbar-iab {
@@ -94,7 +108,7 @@ $grey-5: #CBD2D6;       // (230, 210, 214)
     }
 }
 
-.card-text-iab {   
+.card-text-iab {
     font-size: 16px;
     line-height: 21px;
     /* or 131% */
@@ -109,7 +123,7 @@ $grey-5: #CBD2D6;       // (230, 210, 214)
     /* identical to box height, or 129% */
     letter-spacing: 0.4px;
     font-weight: 300;
-    
+
     p {
         &:last-child {
             margin-bottom: 0rem !important;
@@ -148,5 +162,38 @@ $grey-5: #CBD2D6;       // (230, 210, 214)
 
     @include media-breakpoint-up(xl) {
         max-width: 1000px;
+    }
+}
+
+.nav-item-iab {
+    border-radius: 4px;
+
+    &:hover {
+        .btn {
+            background-color: $blue-2;
+            // border-radius: 36px;
+        }
+    }
+
+    .dropdown-menu-iab {
+        margin-top: 36px !important;
+    }
+
+    a {
+        border-radius: 4px 0px 0px 4px;
+    }
+
+    button {
+        border-radius: 0px 4px 4px 0px;
+    }
+
+    & :only-child {
+        border-radius: 4px !important;
+    }
+}
+
+.dropdown-item-iab {
+    &:hover {
+        background-color: $blue-2;
     }
 }
