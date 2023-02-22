@@ -37,6 +37,8 @@
 
         {% block extra_meta %}{% endblock extra_meta %}
 
+        <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
         {# these styles will only be loaded if JS is enabled -- smooth, eh? #}
 
         {% block extra_css %}{% endblock %}
@@ -84,6 +86,12 @@ for(i=0;i<7;i++)o[l[i]]=o(l[i]);w[n]=o}
 })(window,document,'script','FundraiseUp','AZMGHYUB');
         </script>
         <!-- End Fundraise Up -->
+        <div style="text-align: center;">
+            <a href="#" onclick="window.location.reload();">System</a> &middot;
+            <a href="#" onclick="document.querySelector(':root').style.setProperty('--bs-body-font-family', 'Cairo'); return false;">Cairo</a> &middot;
+            <a href="#" onclick="document.querySelector(':root').style.setProperty('--bs-body-font-family', 'Inter'); return false;">Inter</a> &middot;
+            <a href="#" onclick="document.querySelector(':root').style.setProperty('--bs-body-font-family', 'Noto Sans'); return false;">Noto Sans</a>
+        </div>
     </body>
 </html>
 {% endspaceless %}
