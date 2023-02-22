@@ -20,7 +20,7 @@
         {% endif %}
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>IETF {% block title %}{% if self.seo_title %} | {{ self.seo_title }}{% else %} | {{ self.title }}{% endif %}{% endblock %}{% block title_suffix %}{% endblock %}</title>
+        <title>IAB {% block title %}{% if self.seo_title %} | {{ self.seo_title }}{% else %} | {{ self.title }}{% endif %}{% endblock %}{% block title_suffix %}{% endblock %}</title>
         {% if self.search_description %}
             <meta name="description" content="" />
         {% endif %}
@@ -57,7 +57,7 @@
 
         {% wagtailuserbar %}
 
-        {% include "includes/header.html" %}
+        {% include "includes/header_iab.html" %}
 
         {% block main_content %}
         <main id="content">
@@ -74,7 +74,7 @@
         </main>
         {% endblock %}
 
-        {% include "includes/footer.html" %}
+        {% include "includes/footer-iab.html" %}
         <script type="text/javascript">
             window.staticRoot = "{% static 'dist/' %}";
         </script>
