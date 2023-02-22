@@ -1,22 +1,10 @@
+@import './custom-functions';
 @import 'bootstrap/scss/functions';
 @import 'bootstrap/scss/variables';
 
-$custom-spacers: (
-    200pc: (
-        $spacer * 2,
-    ),
-    250pc: (
-        $spacer * 2.5,
-    ),
-    400pc: (
-        $spacer * 4,
-    ),
-);
+@import './custom-spacers.scss';
 
 @import '@ietf-tools/common-bootstrap-theme/scss/ietf-theme.scss';
-
-$spacers: map-merge($spacers, $custom-spacers);
-
 @import 'bootstrap/scss/bootstrap';
 
 @import './bs-override.scss';
@@ -30,4 +18,8 @@ $spacers: map-merge($spacers, $custom-spacers);
 @import './datepicker'; // Styles for jquery-ui datepicker
 @import './no-js'; // Styles for when javascript is disabled
 @import './focus';
+
+// IAB Specific Styles
+
+@import './iab-colors.scss';
 @import './iab.scss';

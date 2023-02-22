@@ -8,10 +8,10 @@
         {% endif %}
     </div>
     {# col-* classes include positioning, position static cancels that and allows the stretched link to cover the image #}
-    <div class="card-body card-iab">
+    <div class="card-body card-body--iab">
         <h3 class="mb-3 h5"><a class="stretched-link" href="{{ post.url }}">{{ post.title }}</a></h3>
-        <p class="card-text-iab">{{ post.introduction }}</p>
-        <div class="d-flex justify-content-between align-items-center date-text-iab">
+        <p class="iab-card-text">{{ post.introduction }}</p>
+        <div class="d-flex justify-content-between align-items-center iab-date-text">
             <small>
                 {% if post.date %}
                     <p>{{ post.date|date:"DATE_FORMAT" }}</p>
