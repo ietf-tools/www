@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends settings.utils.LayoutSettings.base_template %}
 
 {% load wagtailimages_tags wagtailcore_tags %}
 
@@ -14,7 +14,7 @@
       </div>
     </div>
   </div>
-  
+
   <ul class="list-unstyled pt-5 bg-white mb-0">
     {% for primary_topic in self.primary_topics %}
     <li class="pb-5 {% if not forloop.last %}mb-5 border-primary border-bottom{% endif %}">
@@ -40,7 +40,7 @@
     </li>
     {% endfor %}
   </ul>
-  
+
 </main>
 
 {% endblock main_content %}

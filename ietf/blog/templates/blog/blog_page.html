@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends settings.utils.LayoutSettings.base_template %}
 {% load wagtailroutablepage_tags %}
 {% load bibliography %}
 
@@ -18,7 +18,7 @@
                 </aside>
                 <main class="col-12 col-lg-8">
                     <div class="px-3 px-xl-5 mb-5">
-                        
+
                         {% include 'includes/breadcrumbs.html' %}
 
                         <button
@@ -50,7 +50,7 @@
                         {% bibliography self %}
                         <hr>
                     </div>
-                    
+
                     <div class="px-3 px-xl-5 mt-5 mb-5">
                         {% include "includes/social_share.html" with page=self settings=settings only %}
                     </div>
@@ -96,4 +96,3 @@
 </div>
 
 {% endblock %}
-

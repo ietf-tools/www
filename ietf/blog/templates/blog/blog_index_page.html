@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends settings.utils.LayoutSettings.base_template %}
 {% load wagtailroutablepage_tags %}
 
 {% block main_content %}
@@ -9,7 +9,7 @@
       {% include 'includes/breadcrumbs.html' %}
       <div class="u-max-text-width">
         <h1>{{self.title}}</h1>
-        
+
         {% if self.filter_topic %}
           <p class="lead">You have filtered by {{ self.filter_topic.title }}</p>
         {% endif %}
@@ -39,9 +39,8 @@
           {% endfor %}
         </table>
       </div>
-    
+
     </div>
   </div>
 </main>
 {% endblock %}
-
