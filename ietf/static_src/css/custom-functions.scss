@@ -1,0 +1,19 @@
+@use 'sass:math';
+// =============================================================================
+// Functions
+// =============================================================================
+
+// Used by `rem` function
+@function strip-unit($number) {
+    @if type-of($number) == 'number' and not unitless($number) {
+        @return math.div($number, ($number * 0 + 1));
+    }
+
+    @return $number;
+}
+
+// Convert pixels to rems
+@function rem($size) {
+    $rem-size: math.div(strip-unit($size), strip-unit(16));
+    @return #{$rem-size}rem;
+}

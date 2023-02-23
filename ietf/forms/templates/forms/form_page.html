@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends settings.utils.LayoutSettings.base_template %}
 {% load wagtailcore_tags %}
 
 {% block content %}
@@ -21,7 +21,7 @@
                             {% if field.errors %}
                                 <p class="text-danger">{{ field.errors }}</p>
                             {% endif %}
-                            
+
 
                             {% if field.id_for_label %}
                                 {% include "includes/form_field.html" with field=field field_id=field.id_for_label %}

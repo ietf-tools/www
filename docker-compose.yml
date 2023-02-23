@@ -27,7 +27,7 @@ services:
 
     database:
         restart: on-failure
-        image: postgres:11-alpine
+        image: postgres:14.6-alpine
         volumes:
             - "./docker/database:/docker-entrypoint-initdb.d/"
         environment:

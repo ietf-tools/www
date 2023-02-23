@@ -1,0 +1,87 @@
+
+{% comment %}
+
+  DEV WARNING
+
+  THIS FILE IS AUTO-GENERATED FROM "*_src" DIRECTORY. DO NOT EDIT!
+
+{% endcomment %}
+{% load compress static wagtailuserbar wagtailcore_tags wagtailimages_tags ietf_tags analytical %}
+{% spaceless %}
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+    <head>
+        {% analytical_head_top %}
+        {% if request.in_preview_panel %}
+            <base target="_blank">
+        {% endif %}
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>IAB {% block title %}{% if self.seo_title %} | {{ self.seo_title }}{% else %} | {{ self.title }}{% endif %}{% endblock %}{% block title_suffix %}{% endblock %}</title>
+        {% if self.search_description %}
+            <meta name="description" content="" />
+        {% endif %}
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <!-- Twitter summary card - see https://dev.twitter.com/cards/types/summary -->
+        <!--  and https://dev.twitter.com/cards/getting-started -->
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content="@{{ settings.utils.SocialMediaSettings.twitter_handle }}" />
+        <meta name="twitter:title" content="{{ page.title }}" />
+        <meta name="twitter:description" content="{% social_text page wagtail_site %}">
+        <meta name="twitter:image" content="{% social_image page wagtail_site %}">
+
+        <!--facebook opengraph tags-->
+        <meta property="fb:app_id" content="{{ settings.utils.SocialMediaSettings.facebook_app_id }}" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="{{ page.url }}" />
+        <meta property="og:title" content="{{ page.title }}" />
+        <meta property="og:image" content="{% social_image page wagtail_site %}" />
+        <meta property="og:description" content="{% social_text page wagtail_site %}" />
+        <meta property="og:site_name" content="{{ settings.utils.SocialMediaSettings.site_name }}" />
+
+        {% block extra_meta %}{% endblock extra_meta %}
+
+        {# these styles will only be loaded if JS is enabled -- smooth, eh? #}
+
+        {% block extra_css %}{% endblock %}
+
+        {% analytical_head_bottom %}
+    <link href="{% static 'dist/main.css' %}" rel="stylesheet"></head>
+
+    <body class="{% block body_class %}template-{{ self.get_verbose_name|slugify }}{% endblock %}">
+        {% analytical_body_top %}
+
+        {% wagtailuserbar %}
+
+        {% include "includes/header_iab.html" %}
+
+        {% block main_content %}
+        <main id="content">
+            <div class="bg-white border-bottom pb-3">
+                <div class="container">
+                    {% include 'includes/breadcrumbs.html' %}
+                    {% block head_content %}{% endblock head_content %}
+                </div>
+            </div>
+
+            {% block content %}{% endblock %}
+
+            {% block raw_content %}{% endblock %}
+        </main>
+        {% endblock %}
+
+        {% include "includes/footer-iab.html" %}
+        <script type="text/javascript">
+            window.staticRoot = "{% static 'dist/' %}";
+        </script>
+
+        {% block extra_js %}{% endblock %}
+        {% analytical_body_bottom %}
+
+    <script src="{% static 'dist/main.js' %}"></script></body>
+</html>
+{% endspaceless %}

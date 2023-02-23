@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends settings.utils.LayoutSettings.base_template %}
 {% load wagtailcore_tags %}
 {% load has_tabs %}
 
@@ -30,7 +30,7 @@
             {{ self.key_info|safe }}
           </div>
           {% endif %}
-      
+
           {% if self.in_depth %}
           <div id="in-depth" class="{% if show_tabs %} tab-pane fade p-3" role="tabpanel"
             aria-labelledby="in-depth-tab{% endif %}">
@@ -66,7 +66,7 @@
         <li class="col-12 col-lg-6 mb-4">
           <h2 class="h3"><a href="{% pageurl child %}">{{ child.title }}<span class="icon ion-ios-arrow-forward ms-3"></span></a></h2>
           <p>{% if child.search_description %}{{ child.search_description }}{% else %}{{ child.introduction }}{% endif %}</p>
-          
+
           {% if child.feed_related_links.exists %}
             <p class="no-js-hide">
               <a data-bs-toggle="collapse" href="#collapse{{ related.title|slugify }}" role="button" aria-expanded="false" aria-controls="collapseExample">

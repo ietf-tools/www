@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends settings.utils.LayoutSettings.base_template %}
 {% load wagtailroutablepage_tags %}
 {% load bibliography %}
 
@@ -19,22 +19,22 @@
             <main class="col-12 col-lg-8">
                 <div class="px-3 px-xl-5 mb-5">
                     {% include 'includes/breadcrumbs.html' %}
-                    
+
                     {% include "includes/blog_filters.html" with topics=topics parent_url=parent_url %}
                     {% if filter_text %}
                         <p class="h6">{{ filter_text }}</p>
                     {% endif %}
                     <h1>{{ self.title }}</h1>
                     <p>{{ self.date|date:"DATE_FORMAT" }}</p>
-                    
+
                     <p class="lead">{{ self.introduction }}</p>
-                    
+
                     {{ self.prepared_body|safe }}
-                    
+
                     {% bibliography self %}
-                    
+
                     {% include "includes/social_share.html" only %}
-                    
+
                 </div>
                 <nav aria-label="blog" class="row g-0 d-none d-lg-flex">
                     <div class="col-6 bg-primary p-4 ps-5 d-flex align-items-center">
