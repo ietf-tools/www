@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends settings.utils.LayoutSettings.base_template %}
 
 
 {% block main_content %}
@@ -12,7 +12,7 @@
       </div>
     </div>
   </div>
-  
+
   <div class="container pt-4">
     <table class="mb-4">
       {% for statement in statements %}

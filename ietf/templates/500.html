@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends settings.utils.LayoutSettings.base_template %}
 
 {% block body_class %}template-500{% endblock %}
 
@@ -18,11 +18,11 @@
                     </li>
                 </ol>
             </nav>
-            
-            
+
+
             <div class="u-max-text-width">
                 <h1>HTTP Status Code: 500 Internal Server Error</h1>
-                
+
                 <p>Ooops, something went wrong. We are looking into it, please try again soon.</p>
 
                 {% if messages %}
@@ -33,7 +33,7 @@
                 </ul>
                 {% endif %}
             </div>
-                
+
             <div class="row mb-4 mt-4">
                 <div class="col-md-8 col-lg-6">
                     <form class="input-group" action="{% url 'search' %}" method="GET" name="search">

@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends settings.utils.LayoutSettings.base_template %}
 {% load bibliography %}
 {% load has_tabs %}
 
@@ -17,12 +17,12 @@
         <div class="bg-white">
         <div class="container">
             <div class="row g-0 align-items-start justify-content-between">
-                
+
                 {# main content row #}
                 {% has_tabs self.prepared_key_info self.prepared_in_depth as show_tabs %}
                 <div class="col-12 col-lg-8 col-xl-9 pe-lg-3">
                 {% if show_tabs %}
-                {% comment %} 
+                {% comment %}
                     Bootstrap requires this markup (ul > li > a) to style and handle tabs properly,
                     but it is not valid from an accessibility point of view without some aria and role tweaks:
                     - the elements with role tab should be owned by the element with role tablist
@@ -41,7 +41,7 @@
                         </li>
                     </ul>
                     </div>
-                    
+
                 {% endif %}
 
                     {# content #}

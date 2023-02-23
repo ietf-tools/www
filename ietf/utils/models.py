@@ -218,3 +218,21 @@ class FeedSettings(BaseSiteSetting):
 
     class Meta:
         verbose_name = "Feeds"
+
+
+DEFAULT_BASE = "base.html"
+IAB_BASE = "iab_base.html"
+BASE_TEMPLATE_CHOICES = (
+    (DEFAULT_BASE, "IETF (default)"),
+    (IAB_BASE, "IAB"),
+)
+
+
+@register_setting
+class LayoutSettings(BaseSiteSetting):
+    base_template = models.CharField(
+        max_length=255,
+        blank=True,
+        choices=BASE_TEMPLATE_CHOICES,
+        default="base.html",
+    )
