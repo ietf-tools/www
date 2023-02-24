@@ -3,16 +3,16 @@
 <header class="header" >
     <a href="#content" class="visually-hidden visually-hidden-focusable">Skip to main content</a>
     <nav
-        class="navbar navbar-expand-lg navbar-dark iab-bg-brand-blue text-light"
+        class="navbar navbar-expand-lg navbar-dark iab-bg-blue-3 text-light"
         aria-label="Main"
     >
-        <div class="container">
+        <div class="container container--iab">
             <!-- Brand Image -->
             <div class="navbar-brand">
                 <a class="text-light" href="{{ HOME.url }}">
                     <img
                         class="header__logo"
-                        src="{% static 'img/iab-logo.png' %}"
+                        src="{% static 'img/iab-logo.svg' %}"
                         alt="IAB logo"
                     />
                 </a>
@@ -49,17 +49,17 @@
             </button>
             <!-- Collapsing Desktop Nav -->
             <div
-                class="collapse navbar-collapse flex-wrap-reverse justify-content-end"
+                class="collapse navbar-collapse justify-content-end"
                 id="navbarSupportedContent"
             >
                 <ul
-                    class="navbar-nav col-12 col-xl-auto justify-content-xl-center flex-grow"
+                    class="navbar-nav justify-content-xl-center"
                 >
                 {% for item in MENU %}
                 <li class="nav-item nav-item--iab btn-group me-2 {% if item.pk == self.pk %} active{% endif %}">
                     <a
                         href="{{ item.url }}"
-                        class="nav-link btn btn-brand-blue text-white iab-navbar-text {% if item.subitems %} pe-1{% endif %}"
+                        class="nav-link btn text-white iab-navbar-text {% if item.subitems %} pe-1{% endif %}"
                     >
                         {{ item.title }}
                     </a>
@@ -89,7 +89,7 @@
                 <li class="nav-item nav-item--iab btn-group me-2 ">
                     <a
                         href="/search"
-                        class="btn iab-btn-brand-blue-navbar iab-navbar-text text-white nav-link"
+                        class="btn iab-navbar-text text-white nav-link"
                         role="button"
                         data-bs-toggle="collapse"
                         data-bs-target="#navbarSearch"
@@ -105,7 +105,7 @@
             </div>
         </div>
     </nav>
-    <div class="collapse iab-bg-brand-blue" id="navbarSearch">
+    <div class="collapse iab-bg-blue-3" id="navbarSearch">
         <div class="container">
             <div class="row justify-content-center">
                 <form
@@ -123,7 +123,7 @@
                         name="query"
                         required
                     />
-                    <button type="submit" class="btn btn-primary" aria-label="Submit website search">Go</button>
+                    <button type="submit" class="btn iab-btn-secondary text-white" aria-label="Submit website search">Go</button>
                 </form>
             </div>
         </div>
