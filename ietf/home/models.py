@@ -41,6 +41,19 @@ class HomeBase:
     def blog_index(self):
         return BlogIndexPage.objects.live().first()
 
+    def blogs(self, bp_kwargs={}):
+        return (
+            BlogPage.objects.live()
+            .filter(**bp_kwargs)
+            .annotate(
+                date_sql=RawSQL(
+                    "CASE WHEN (date_published IS NOT NULL) THEN date_published ELSE first_published_at END",
+                    (),
+                )
+            )
+            .order_by("-date_sql")[:2]
+        )
+
 
 class HomePage(Page, HomeBase):
     heading = models.CharField(max_length=255)
@@ -104,19 +117,6 @@ class HomePage(Page, HomeBase):
         except AttributeError:
             return []
 
-    def blogs(self, bp_kwargs={}):
-        return (
-            BlogPage.objects.live()
-            .filter(**bp_kwargs)
-            .annotate(
-                date_sql=RawSQL(
-                    "CASE WHEN (date_published IS NOT NULL) THEN date_published ELSE first_published_at END",
-                    (),
-                )
-            )
-            .order_by("-date_sql")[:2]
-        )
-
     content_panels = Page.content_panels + [
         MultiFieldPanel(
             [
@@ -174,17 +174,7 @@ class IABHomePage(Page, HomeBase):
     ]
 
     def blogs(self, bp_kwargs={}):
-        return (
-            BlogPage.objects.live()
-            .filter(topics__topic__slug="iab")
-            .annotate(
-                date_sql=RawSQL(
-                    "CASE WHEN (date_published IS NOT NULL) THEN date_published ELSE first_published_at END",
-                    (),
-                )
-            )
-            .order_by("-date_sql")[:2]
-        )
+        return super().blogs({"topics__topic__slug": "iab"})
 
     content_panels = Page.content_panels + [
         MultiFieldPanel(
