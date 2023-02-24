@@ -26,7 +26,7 @@ class WorkingGroupsSectionLinks(RelatedLink):
     page = ParentalKey("home.HomePage", related_name="working_groups_section_links")
 
 
-class HomeBase:
+class HomePageBase:
     def upcoming_events(self):
         return (
             EventPage.objects.filter(end_date__gte=datetime.today())
@@ -55,7 +55,7 @@ class HomeBase:
         )
 
 
-class HomePage(Page, HomeBase):
+class HomePage(Page, HomePageBase):
     heading = models.CharField(max_length=255)
     introduction = models.CharField(max_length=255)
     main_image = models.ForeignKey(
@@ -148,7 +148,7 @@ class HomePage(Page, HomeBase):
     ]
 
 
-class IABHomePage(Page, HomeBase):
+class IABHomePage(Page, HomePageBase):
     class Meta:
         verbose_name = "IAB Home Page"
 
