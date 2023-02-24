@@ -26,7 +26,23 @@ class WorkingGroupsSectionLinks(RelatedLink):
     page = ParentalKey("home.HomePage", related_name="working_groups_section_links")
 
 
-class HomePage(Page):
+class HomeBase:
+    def upcoming_events(self):
+        return (
+            EventPage.objects.filter(end_date__gte=datetime.today())
+            .live()
+            .descendant_of(self)
+            .order_by("start_date")[:2]
+        )
+
+    def event_index(self):
+        return EventListingPage.objects.live().descendant_of(self).first()
+
+    def blog_index(self):
+        return BlogIndexPage.objects.live().first()
+
+
+class HomePage(Page, HomeBase):
     heading = models.CharField(max_length=255)
     introduction = models.CharField(max_length=255)
     main_image = models.ForeignKey(
@@ -88,19 +104,6 @@ class HomePage(Page):
         except AttributeError:
             return []
 
-    def upcoming_events(self):
-        return (
-            EventPage.objects.filter(end_date__gte=datetime.today())
-            .live()
-            .order_by("start_date")[:2]
-        )
-
-    def event_index(self):
-        return EventListingPage.objects.live().first()
-
-    def blog_index(self):
-        return BlogIndexPage.objects.live().first()
-
     def blogs(self, bp_kwargs={}):
         return (
             BlogPage.objects.live()
@@ -145,7 +148,7 @@ class HomePage(Page):
     ]
 
 
-class IABHomePage(Page):
+class IABHomePage(Page, HomeBase):
     class Meta:
         verbose_name = "IAB Home Page"
 
@@ -169,19 +172,6 @@ class IABHomePage(Page):
     search_fields = Page.search_fields + [
         index.SearchField("heading"),
     ]
-
-    def upcoming_events(self):
-        return (
-            EventPage.objects.filter(end_date__gte=datetime.today())
-            .live()
-            .order_by("start_date")[:2]
-        )
-
-    def event_index(self):
-        return EventListingPage.objects.live().first()
-
-    def blog_index(self):
-        return BlogIndexPage.objects.live().first()
 
     def blogs(self, bp_kwargs={}):
         return (
