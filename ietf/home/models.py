@@ -117,7 +117,6 @@ class HomePage(Page, HomePageBase):
         except AttributeError:
             return []
 
-<<<<<<< HEAD
     def upcoming_events(self):
         return (
             EventPage.objects.filter(end_date__gte=datetime.today())
@@ -144,8 +143,6 @@ class HomePage(Page, HomePageBase):
             .order_by("-date_sql")[:2]
         )
 
-=======
->>>>>>> forked/deploy/preview
     content_panels = Page.content_panels + [
         MultiFieldPanel(
             [
