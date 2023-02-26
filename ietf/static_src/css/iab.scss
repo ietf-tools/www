@@ -21,11 +21,11 @@
     background-size: cover;
     position: relative;
     &:before {
-        // second color is --color-iab-brand-blue with 0% opacity
+        // second color is --color-iab-blue-3 with 0% opacity
         background-image: linear-gradient(
             180deg,
-            var(--color-iab-brand-blue) 17.96%,
-            rgba(62, 150, 200, 0) 100%
+            var(--color-iab-blue-3) 17.96%,
+            rgba(10, 119, 176, 0) 100%
         );
         // copied
         content: '';
@@ -45,18 +45,14 @@
     background-color: var(--color-iab-blue-2) !important;
 }
 
+.iab-bg-blue-3 {
+    --bs-bg-opacity: 1;
+    background-color: var(--color-iab-blue-3) !important;
+}
+
 .iab-bg-navy {
     --bs-bg-opacity: 1;
     background-color: var(--color-iab-navy) !important;
-}
-
-.iab-btn-brand-blue-navbar {
-    background-color: var(--color-iab-brand-blue);
-    border-radius: 4px;
-
-    &:hover {
-        background-color: var(--color-iab-blue-2);
-    }
 }
 
 .iab-logo-text {
@@ -77,14 +73,18 @@
         background-color: var(--color-iab-blue-2);
     }
 }
-
-// change to --iab
 .iab-blog-post {
     a {
-        color: var(--color-iab-brand-blue) !important;
+        color: var(--color-iab-blue-3) !important;
         &:hover {
             color: var(--color-iab-blue-2) !important;
         }
+    }
+
+    border: 1px solid var(--color-iab-grey-4);
+
+    &:hover {
+        border: 1px solid var(--color-iab-grey-5);
     }
 }
 
@@ -114,7 +114,7 @@
 }
 
 .blog-post-image-iab {
-    max-height: 12.5rem;
+    max-height: rem(250);
 }
 
 .iab-left-column {
@@ -176,4 +176,8 @@
 
 .iab-footer-image {
     height: 48px;
+}
+
+.iab_body {
+    background-color: rgba(62, 139, 193, 0.08);
 }
