@@ -1,11 +1,3 @@
-
-{% comment %}
-
-  DEV WARNING
-
-  THIS FILE IS AUTO-GENERATED FROM "*_src" DIRECTORY. DO NOT EDIT!
-
-{% endcomment %}
 {% load compress static wagtailuserbar wagtailcore_tags wagtailimages_tags ietf_tags analytical %}
 {% spaceless %}
 <!DOCTYPE html>
@@ -52,7 +44,7 @@
         {% analytical_head_bottom %}
     <link href="{% static 'dist/main.css' %}" rel="stylesheet"></head>
 
-    <body class="{% block body_class %}template-{{ self.get_verbose_name|slugify }}{% endblock %}">
+    <body class="{% block body_class %}template-{{ self.get_verbose_name|slugify }}{% endblock %} iab_body">
         {% analytical_body_top %}
 
         {% wagtailuserbar %}
@@ -62,7 +54,7 @@
         {% block main_content %}
         <main id="content">
             <div class="bg-white border-bottom pb-3">
-                <div class="container">
+                <div class="container container--iab">
                     {% include 'includes/breadcrumbs.html' %}
                     {% block head_content %}{% endblock head_content %}
                 </div>
