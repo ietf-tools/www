@@ -11,19 +11,19 @@
     
 </div>
 
-- [Changelog](https://github.com/ietf-tools/wagtail_website/releases)
-- [Contributing](https://github.com/ietf-tools/wagtail_website/blob/main/CONTRIBUTING.md)
-- [Install](#install)
-- [Requirements](#requirements)
-- [Website *(Production)*](https://www.ietf.org)
-- [Website *(Dev)*](https://wwwdev.ietf.org)
+-   [Changelog](https://github.com/ietf-tools/wagtail_website/releases)
+-   [Contributing](https://github.com/ietf-tools/wagtail_website/blob/main/CONTRIBUTING.md)
+-   [Install](#install)
+-   [Requirements](#requirements)
+-   [Website _(Production)_](https://www.ietf.org)
+-   [Website _(Dev)_](https://wwwdev.ietf.org)
 
 ---
 
 ## Requirements
 
-- **macOS / Windows**: Docker for Desktop
-- **Linux**: Docker + Docker-Compose
+-   **macOS / Windows**: Docker for Desktop
+-   **Linux**: Docker + Docker-Compose
 
 ## Install
 
@@ -43,18 +43,22 @@ So the only requirement to run it locally is a recent version of Docker with doc
 3. Run `docker-compose up`. It will build and start the frontend builder (`yarn run start`) and the backend (`python manage.py runserver` analog), along with a Postgresql database. The first run will take a while because the database dump needs to be restored.
 4. After the frontend compilation finishes, the website should become available at http://localhost:8001
 5. Create a super user on **Python application** docker instance to access http://localhost:8001/admin
+
 ```sh
 docker exec -ti wagtail_website_application_1 python manage.py createsuperuser
 ```
+
 6. To destroy everything (i.e. start the database from scratch) run `docker-compose down`.
 
 ##### How to run (without a database dump)
 
 1. Run `docker-compose up`. It will build and start the frontend builder (`yarn run start`) and the backend (`python manage.py runserver` analog), along with a Postgresql database. The first run will take a while because the database dump needs to be restored.
 2. Create an admin user
+
 ```sh
 docker exec -ti wagtail_website_application_1 python manage.py createsuperuser
 ```
+
 3. Log into http://localhost:8001/admin
 4. Create a new "Home Page" (page type must be `Home Page`) and **publish**.
 5. Go to http://localhost:8001/admin/sites/ and select **localhost**.
@@ -100,3 +104,12 @@ Other available commands can be viewed with
 ```sh
 yarn run
 ```
+
+#### Multi site setup
+
+This repo contains code for both the IETF and IAB websites, which are intended to run as separate sites. If you don't have a DB dump, or your dump does not have the IAB site set up, these are the steps you need to have a paralell site running:
+
+-   Set up a page using the IAB homepage template at the root level (`/admin/pages`)
+-   Configure a site with that page as its root (`http://localhost:8001/admin/sites/`)
+-   In settings -> layout settings (http://localhost:8001/admin/settings/utils/layoutsettings/2/), select your new site and make sure that the base template is set to IAB
+-   Header and footer links are populated in the same way as the IETF website. The header contains pages that have the 'show in menu' checkbox ticked in the 'promote' tab. Footer links are set in settings -> footer links.
