@@ -40,8 +40,12 @@ class StandardPage(Page, BibliographyMixin, PromoteMixin):
         help_text="Enter the title to display on the page, "
         "you can use only 255 characters.",
     )
-    key_info = StreamField(StandardBlock(required=False), blank=True, use_json_field=True)
-    in_depth = StreamField(StandardBlock(required=False), blank=True, use_json_field=True)
+    key_info = StreamField(
+        StandardBlock(required=False), blank=True, use_json_field=True
+    )
+    in_depth = StreamField(
+        StandardBlock(required=False), blank=True, use_json_field=True
+    )
     call_to_action = models.ForeignKey(
         "snippets.CallToAction",
         null=True,
@@ -125,8 +129,12 @@ class StandardIndexPage(Page, PromoteMixin):
         help_text="Enter the title to display on the page, "
         "you can use only 255 characters.",
     )
-    key_info = StreamField(StandardBlock(required=False), blank=True, use_json_field=True)
-    in_depth = StreamField(StandardBlock(required=False), blank=True, use_json_field=True)
+    key_info = StreamField(
+        StandardBlock(required=False), blank=True, use_json_field=True
+    )
+    in_depth = StreamField(
+        StandardBlock(required=False), blank=True, use_json_field=True
+    )
 
     search_fields = Page.search_fields + [
         index.SearchField("introduction"),
@@ -149,3 +157,10 @@ StandardIndexPage.content_panels = Page.content_panels + [
 ]
 
 StandardIndexPage.promote_panels = Page.promote_panels + PromoteMixin.panels
+
+
+class IABStandardPage(Page, BibliographyMixin, PromoteMixin):
+    class Meta:
+        verbose_name = "IAB Standard Page"
+
+    pass
