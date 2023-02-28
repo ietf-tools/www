@@ -10,7 +10,7 @@
     {% image self.main_image max-4000x4000 as bg_image %}
     <section class="jumbotron text-white iab-home_page__jumbotron"
         style="background-image: url({% if bg_image.url %}{{ bg_image.url }}{% else %}{% static 'img/group-01.jpg' %}{% endif %});">
-        <div class="container container--iab position-relative">
+        <div class="container position-relative">
             <h1 class="iab-h1" >{{ self.heading }}</h1>
             {% if self.introduction %}
                 <p class="lead">{{ self.introduction }}</p>
@@ -25,7 +25,7 @@
     </section>
 
     <!-- Blog Posts -->
-    <div class="container container--iab my-400pc" >
+    <div class="container my-400pc" >
         <div class="row">
             <section class="col-md-6 iab-left-column">
                 <h2 class="mb-4">Blog posts</h2>
