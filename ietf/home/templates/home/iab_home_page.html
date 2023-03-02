@@ -1,3 +1,5 @@
+<!-- Prettier will move sequential wagtail tags onto one line, which stops them working. Use the comment below to stop it reformatting them. -->
+<!-- prettier-ignore -->
 {% extends settings.utils.LayoutSettings.base_template %} 
 {% load static wagtailimages_tags %} 
 
@@ -37,6 +39,7 @@
             <section class="col-md-6 iab-left-column">
                 <h2 class="mb-4">Blog posts</h2>
                 <ul class="list-unstyled mb-200pc">
+                    <!-- prettier-ignore -->
                     {% with self.blogs.0 as post %} 
                         {% with True as show_image %} 
                             {% include "includes/post_iab.html" %} 
@@ -52,6 +55,7 @@
             <section class="col-md-6">
                 <h2 class="mb-4">News & announcements</h2>
                 <ul class="list-unstyled">
+                    <!-- prettier-ignore -->
                     {% with self.upcoming_events.0 as post %} 
                         {% if post %} 
                             {% include "includes/post_iab.html" %} 
