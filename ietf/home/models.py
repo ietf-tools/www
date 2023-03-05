@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 from datetime import datetime
 
+from django.conf import settings
 from django.db import models
 from django.db.models.expressions import RawSQL
 from modelcluster.fields import ParentalKey
@@ -179,6 +180,7 @@ class IABHomePage(Page):
         verbose_name = "IAB Home Page"
 
     parent_page_types = ["wagtailcore.Page"]  # Restrict to site root
+    subpage_types = settings.IAB_SUBPAGE_TYPES
 
     heading = models.CharField(max_length=255)
     main_image = models.ForeignKey(
