@@ -1,11 +1,16 @@
+<!-- Prettier will move sequential wagtail tags onto one line, which stops them working. Use the comment below to stop it reformatting them. -->
+<!-- prettier-ignore -->
 {% extends settings.utils.LayoutSettings.base_template %}
 {% load static wagtailimages_tags %}
 
-{% block body_class %}template-{{ self.get_verbose_name|slugify }}{% endblock %}
+{% block body_class %}template-{{self.get_verbose_name|slugify }}{% endblock %}
 
 {% block main_content %}
+
 <main id="content">
-    <h1 class="visually-hidden">Welcome to the <abbr title="Internet Engineering Task Force">IETF</abbr></h1>
+    <h1 class="visually-hidden">
+        Welcome to the <abbr title="Internet Engineering Task Force">IETF</abbr>
+    </h1>
     <!--  Jumbotron -->
     {% image self.main_image max-4000x4000 as bg_image %}
     <section class="jumbotron text-white iab-home_page__jumbotron"
@@ -13,34 +18,42 @@
         <div class="container container--iab position-relative">
             <h1 class="iab-h1" >{{ self.heading }}</h1>
             {% if self.introduction %}
-                <p class="lead">{{ self.introduction }}</p>
-            {% endif %}
-            {% if self.button_link %}
-                <p>
-                    <a href="{{ self.button_link.url }}"
-                        class="btn iab-btn-secondary text-white mt-4">{{ self.button_text }}</a>
-                </p>
+            <p class="lead">{{ self.introduction }}</p>
+            {% endif %} {% if self.button_link %}
+            <p>
+                <a
+                    href="{{ self.button_link.url }}"
+                    class="btn iab-btn-secondary text-white mt-4"
+                    >{{ self.button_text }}</a
+                >
+            </p>
             {% endif %}
         </div>
     </section>
 
     <!-- Blog Posts -->
-    <div class="container container--iab my-400pc" >
+    <div class="container my-400pc">
         <div class="row">
             <section class="col-md-6 iab-left-column">
                 <h2 class="mb-4">Blog posts</h2>
                 <ul class="list-unstyled mb-200pc">
+                    <!-- prettier-ignore -->
                     {% with self.blogs.0 as post %}
                         {% with True as show_image %}
                             {% include "includes/post_iab.html" %}
                         {% endwith %}
                     {% endwith %}
                 </ul>
-                <a class="btn iab-btn-secondary text-white" href="{{ self.blog_index.url }}">All IAB Posts on the IETF Blog</a>
+                <a
+                    class="btn iab-btn-secondary text-white"
+                    href="{{ self.blog_index.url }}"
+                    >All IAB Posts on the IETF Blog</a
+                >
             </section>
             <section class="col-md-6">
                 <h2 class="mb-4">News & announcements</h2>
                 <ul class="list-unstyled">
+                    <!-- prettier-ignore -->
                     {% with self.upcoming_events.0 as post %}
                         {% if post %}
                             {% include "includes/post_iab.html" %}
@@ -52,7 +65,11 @@
                         {% endif %}
                     {% endwith %}
                 </ul>
-                <a class="btn iab-btn-secondary text-white" href="{{ self.event_index.url }}">All news & announcements</a>
+                <a
+                    class="btn iab-btn-secondary text-white"
+                    href="{{ self.event_index.url }}"
+                    >All news & announcements</a
+                >
             </section>
         </div>
     </div>

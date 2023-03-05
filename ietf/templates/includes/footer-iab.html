@@ -1,3 +1,5 @@
+{% load static wagtailcore_tags %}
+
 <div 
     style="background-image: url('static/img/background-dark.jpg');"
     class="iab-footer-image"
@@ -10,22 +12,22 @@
             {% endfor %}
             <li class="iab-navbar-text iab-footer-link ms-auto p-2">
                 <a href="https://twitter.com/intarchboard" aria-label="twitter" rel="me">
-                    <img src="/static/img/twitter-icon.svg" alt="" />
+                    <img src="{% static 'img/twitter-icon.svg' %}" alt="" />
                 </a>
             </li>
             <li class="iab-navbar-text iab-footer-link p-2">
                 <a href="https://www.linkedin.com/company/internet-architecture-board/" aria-label="linkedin" rel="me">
-                    <img src="/static/img/linkedin-icon.svg" alt="" />
+                    <img src="{% static 'img/linkedin-icon.svg' %}" alt="" />
                 </a>
             </li>
             <li class="iab-navbar-text iab-footer-link p-2">
                 <a href="https://youtube.com/playlist?list=PLC86T-6ZTP5jeMlmiwMRcJ68N5IlWpxuQ" aria-label="youtube" rel="me">
-                    <img src="/static/img/youtube-icon.svg" alt="" />
+                    <img src="{% static 'img/youtube-icon.svg' %}" alt="" />
                 </a>
             </li>
             <li class="iab-navbar-text iab-footer-link p-2">
                 <a href="https://mastodon.online/@intarchboard" aria-label="mastodon" rel="me">
-                    <img src="/static/img/mastodon-icon.svg" alt="" />
+                    <img src="{% static 'img/mastodon-icon.svg' %}" alt="" />
                 </a>
             </li>
         </ul>

@@ -16,6 +16,6 @@ echo "Getting backups from ${BACKUPS_BUCKET}"
 
 #python manage.py migrate --noinput
 
-#aws s3 sync --delete s3://${BACKUPS_BUCKET}/media/ s3://${AWS_STORAGE_BUCKET_NAME}/media/
+aws s3 sync --delete s3://${BACKUPS_BUCKET}/media/ s3://${AWS_STORAGE_BUCKET_NAME}/media/
 
-#python manage.py update_nonprod_hostnames
+python manage.py update_nonprod_hostnames
