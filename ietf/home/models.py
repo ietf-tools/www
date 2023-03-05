@@ -152,6 +152,8 @@ class IABHomePage(Page, HomePageBase):
     class Meta:
         verbose_name = "IAB Home Page"
 
+    parent_page_types = ["wagtailcore.Page"]  # Restrict to site root
+
     heading = models.CharField(max_length=255)
     main_image = models.ForeignKey(
         "images.IETFImage",
