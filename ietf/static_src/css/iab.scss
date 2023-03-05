@@ -131,16 +131,6 @@
     }
 }
 
-.container--iab {
-    @include media-breakpoint-up(lg) {
-        max-width: 864px;
-    }
-
-    @include media-breakpoint-up(xl) {
-        max-width: 1000px;
-    }
-}
-
 .nav-item--iab {
     border-radius: 4px;
 
@@ -181,3 +171,18 @@
 .iab_body {
     background-color: rgba(62, 139, 193, 0.08);
 }
+
+// .iab-tabs {
+//     // Placeholder rules for the <ul> which contains the tabs
+//     border: none;
+
+//     //placeholder rules for selected
+//     .active {
+//         background-color: red !important;
+//     }
+
+//     //placeholder rules for NOT selected
+//     &:not(.active) {
+//         background-color: blueviolet !important;
+//     }
+// }
