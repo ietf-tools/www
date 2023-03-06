@@ -1,5 +1,6 @@
 from collections import OrderedDict
 
+from django.conf import settings
 from django.db import models
 from modelcluster.fields import ParentalKey
 from wagtail.admin.panels import FieldPanel, InlinePanel
@@ -163,6 +164,8 @@ class IABStandardPage(Page, BibliographyMixin, PromoteMixin):
     class Meta:
         verbose_name = "IAB Standard Page"
 
+    subpage_types = settings.IAB_SUBPAGE_TYPES
+
     introduction = models.CharField(
         blank=True,
         max_length=255,
@@ -234,14 +237,6 @@ IABStandardPage.content_panels = Page.content_panels + [
     FieldPanel("in_depth"),
     FieldPanel("call_to_action"),
     FieldPanel("mailing_list_signup"),
-    # InlinePanel("related_links", label="Related Links"),
-    # InlinePanel("faq_items", label="FAQ Items"),
 ]
 
-IABStandardPage.promote_panels = (
-    Page.promote_panels
-    + PromoteMixin.panels
-    # + [
-    #     InlinePanel("feed_related_links", label="Feed related Links"),
-    # ]
-)
+IABStandardPage.promote_panels = Page.promote_panels + PromoteMixin.panels

@@ -8,7 +8,7 @@
         class="navbar navbar-expand-lg navbar-dark iab-bg-blue-3 text-light"
         aria-label="Main"
     >
-        <div class="container container--iab">
+        <div class="container">
             <!-- Brand Image -->
             <div class="position-relative d-flex align-items-center">
                 <div class="navbar-brand">
@@ -54,10 +54,14 @@
                 class="collapse navbar-collapse justify-content-end"
                 id="navbarSupportedContent"
             >
-                <ul class="navbar-nav justify-content-xl-center">
-                    {% for item in MENU %}
-                    <li
-                        class="nav-item nav-item--iab btn-group me-2 {% if item.pk == self.pk %} active{% endif %}"
+                <ul
+                    class="navbar-nav justify-content-xl-center"
+                >
+                {% for item in MENU %}
+                <li class="nav-item nav-item--iab btn-group me-2 {% if item.pk == self.pk %} active{% endif %}">
+                    <a
+                        href="{{ item.url }}"
+                        class="nav-link btn text-white iab-navbar-text {% if item.subitems %} pe-1{% endif %}"
                     >
                         <a
                             href="{{ item.url }}"
@@ -94,22 +98,22 @@
                         {% endif %}
                     </li>
 
-                    {% endfor %}
-                    <li class="nav-item nav-item--iab btn-group me-2">
-                        <a
-                            href="/search"
-                            class="btn iab-navbar-text text-white nav-link"
-                            role="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#navbarSearch"
-                            aria-controls="navbarSearch"
-                            aria-expanded="false"
-                            aria-label="Toggle search bar"
-                        >
-                            Search
-                            <span class="icon ion-search"></span>
-                        </a>
-                    </li>
+                {% endfor %}
+                <li class="nav-item nav-item--iab btn-group me-2 ">
+                    <a
+                        href="/search"
+                        class="btn iab-navbar-text text-white nav-link"
+                        role="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbarSearch"
+                        aria-controls="navbarSearch"
+                        aria-expanded="false"
+                        aria-label="Toggle search bar"
+                    >
+                    Search
+                    <span class="icon ion-search"></span>
+                    </a>
+                </li>
                 </ul>
             </div>
         </div>
@@ -132,13 +136,7 @@
                         name="query"
                         required
                     />
-                    <button
-                        type="submit"
-                        class="btn iab-btn-secondary text-white"
-                        aria-label="Submit website search"
-                    >
-                        Go
-                    </button>
+                    <button type="submit" class="btn iab-btn-secondary text-white" aria-label="Submit website search">Go</button>
                 </form>
             </div>
         </div>
