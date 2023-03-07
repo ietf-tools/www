@@ -4,29 +4,20 @@
     <div class="body-subtle">
         <div class="rule-blue body">
             <div class="container">
-                <h2>Note Well</h2>
                 <div>
-                    <p>Any submission to the IETF intended by the Contributor for publication as all or part of an IETF Internet-Draft or RFC and any statement made within the context of an IETF activity is considered an "IETF Contribution". Such statements include oral statements in IETF sessions, as well as written and electronic communications made at any time or place, which are addressed to:</p>
-
-                    <p>
-                        <ul>
-                            <li class="bullet-override">The IETF plenary session</li>
-                            <li class="bullet-override">The IESG, or any member thereof on behalf of the IESG</li>
-                            <li class="bullet-override">Any IETF mailing list, including the IETF list itself, any working group or design team list, or any other list functioning under IETF auspices</li>
-                            <li class="bullet-override">Any IETF working group or portion thereof</li>
-                            <li class="bullet-override">Any Birds of a Feather (BOF) session</li>
-                            <li class="bullet-override">The IAB or any member thereof on behalf of the IAB</li>
-                            <li class="bullet-override">The RFC Editor or the Internet-Drafts function</li>
-                            <li class="bullet-override">All IETF Contributions are subject to the rules of RFC 5378 and RFC 3979 (updated by RFC 4879).</li>
-                        </ul>
-                    </p>
-
-                    <p>Statements made outside of an IETF session, mailing list or other function, that are clearly not intended to be input to an IETF activity, group or function, are not IETF Contributions in the context of this notice.  Please consult RFC 5378 and RFC 3979 for details.</p>
-
-                    <p>A participant in any IETF activity is deemed to accept all IETF rules of process, as documented in Best Current Practices RFCs and IESG Statements.</p>
-
-                    <p>A participant in any IETF activity acknowledges that written, audio and video records of meetings may be made and may be available to the public.</p>
-
+                    {% if note_well %}
+                        <h2>{{ note_well.title }}</h2>
+                        {% if note_well.prepared_key_info %}
+                            {{ note_well.prepared_key_info|safe }}
+                        {% endif %}
+                        {% if note_well.prepared_in_depth %}
+                            {{ note_well.prepared_in_depth|safe }}
+                        {% endif %}
+                    {% else %}
+                        {# Fall back to some default text - copied from production note well at the time of writing #}
+                        <h2>Note Well</h2>
+                        <div id="key-info" class="u-max-text-width"><div class="block-paragraph"><p>This is a reminder of IETF policies in effect on various topics such as patents or code of conduct. It is only meant to point you in the right direction. Exceptions may apply. The IETF's patent policy and the definition of an IETF "contribution" and "participation" are set forth in BCP 79; please read it carefully.</p><p>As a reminder:</p><ul><li>By participating in the IETF, you agree to follow IETF processes and policies.<br></li><li>If you are aware that any IETF contribution is covered by patents or patent applications that are owned or controlled by you or your sponsor, you must disclose that fact, or not participate in the discussion.<br></li><li>As a participant in or attendee to any IETF activity you acknowledge that written, audio, video, and photographic records of meetings may be made public.<br></li><li>Personal information that you provide to IETF will be handled in accordance with the IETF Privacy Statement.<br></li><li>As a participant or attendee, you agree to work respectfully with other participants; please contact the ombudsteam (<a href="/contact/ombudsteam/">https://www.ietf.org/contact/ombudsteam/</a>) if you have questions or concerns about this.<br></li></ul><p>Definitive information is in the documents listed below and other IETF BCPs. For advice, please talk to WG chairs or ADs:</p><ul><li><a href="https://www.rfc-editor.org/info/bcp9">BCP 9</a> (Internet Standards Process)<br></li><li><a href="https://www.rfc-editor.org/info/bcp25">BCP 25</a> (Working Group processes)<br></li><li><a href="https://www.rfc-editor.org/info/bcp25">BCP 25</a> (Anti-Harassment Procedures)<br></li><li><a href="https://www.rfc-editor.org/info/bcp54">BCP 54</a> (Code of Conduct)<br></li><li><a href="https://www.rfc-editor.org/info/bcp78">BCP 78</a> (Copyright)<br></li><li><a href="https://www.rfc-editor.org/info/bcp79">BCP 79</a> (Patents, Participation)<br></li><li><a href="/privacy-statement/">https://www.ietf.org/privacy-policy/</a> (Privacy Policy)<br></li></ul></div><div class="block-paragraph"><p></p><hr><p></p><p>View the IETF Note Well as:</p><ul><li><a href="/media/documents/note-well.md">Markdown</a></li><li><a href="/media/documents/note-well_rgthisX.pdf">PDF</a></li><li><a href="/media/documents/note-well.pptx">PPTX</a></li></ul></div></div>
+                    {% endif %}
                     <a href="{{ url }}">I understand.</a>
                 </div>
             </div>
