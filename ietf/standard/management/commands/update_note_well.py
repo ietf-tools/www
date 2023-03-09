@@ -2,6 +2,7 @@ from logging import Logger
 
 import markdown
 import requests
+from django.conf import settings
 from django.core.management.base import BaseCommand
 
 from ietf.standard.models import StandardPage
@@ -14,9 +15,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         # Get content from github
-        note_well_url = (
-            "https://raw.githubusercontent.com/ietf/note-well/main/note-well.md"
-        )
+        note_well_url = settings.NOTE_WELL_REPO
         response = requests.get(note_well_url)
         if response.status_code != 200:
             logger.warn(
