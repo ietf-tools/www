@@ -55,10 +55,15 @@
     background-color: var(--color-iab-navy) !important;
 }
 
+.iab-logo-image {
+    // max-height: 30px;
+    width: 100px !important;
+}
+
 .iab-logo-text {
     max-width: 124px;
-    font-size: rem(15);
-    line-height: 1.13;
+    // font-size: rem(15);
+    // line-height: 1.13;
 }
 
 .iab-navbar-text {
@@ -133,6 +138,8 @@
 
 .nav-item--iab {
     border-radius: 4px;
+
+    text-align: right !important;
 
     &:hover {
         .btn {
