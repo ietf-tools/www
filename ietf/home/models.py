@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 from datetime import datetime
 
+from django.conf import settings
 from django.db import models
 from django.db.models.expressions import RawSQL
 from modelcluster.fields import ParentalKey
@@ -117,6 +118,32 @@ class HomePage(Page, HomePageBase):
         except AttributeError:
             return []
 
+    def upcoming_events(self):
+        return (
+            EventPage.objects.filter(end_date__gte=datetime.today())
+            .live()
+            .order_by("start_date")[:2]
+        )
+
+    def event_index(self):
+        return EventListingPage.objects.live().first()
+
+    def blog_index(self):
+        return BlogIndexPage.objects.live().first()
+
+    def blogs(self, bp_kwargs={}):
+        return (
+            BlogPage.objects.live()
+            .filter(**bp_kwargs)
+            .annotate(
+                date_sql=RawSQL(
+                    "CASE WHEN (date_published IS NOT NULL) THEN date_published ELSE first_published_at END",
+                    (),
+                )
+            )
+            .order_by("-date_sql")[:2]
+        )
+
     content_panels = Page.content_panels + [
         MultiFieldPanel(
             [
@@ -148,9 +175,12 @@ class HomePage(Page, HomePageBase):
     ]
 
 
-class IABHomePage(Page, HomePageBase):
+class IABHomePage(Page):
     class Meta:
         verbose_name = "IAB Home Page"
+
+    parent_page_types = ["wagtailcore.Page"]  # Restrict to site root
+    subpage_types = settings.IAB_SUBPAGE_TYPES
 
     heading = models.CharField(max_length=255)
     main_image = models.ForeignKey(
@@ -173,8 +203,31 @@ class IABHomePage(Page, HomePageBase):
         index.SearchField("heading"),
     ]
 
+    def upcoming_events(self):
+        return (
+            EventPage.objects.filter(end_date__gte=datetime.today())
+            .live()
+            .order_by("start_date")[:2]
+        )
+
+    def event_index(self):
+        return EventListingPage.objects.live().first()
+
+    def blog_index(self):
+        return BlogIndexPage.objects.live().first()
+
     def blogs(self, bp_kwargs={}):
-        return super().blogs({"topics__topic__slug": "iab"})
+        return (
+            BlogPage.objects.live()
+            .filter(topics__topic__slug="iab")
+            .annotate(
+                date_sql=RawSQL(
+                    "CASE WHEN (date_published IS NOT NULL) THEN date_published ELSE first_published_at END",
+                    (),
+                )
+            )
+            .order_by("-date_sql")[:2]
+        )
 
     content_panels = Page.content_panels + [
         MultiFieldPanel(
