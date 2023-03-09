@@ -230,3 +230,7 @@ WAGTAILADMIN_RICH_TEXT_EDITORS = {
 DATATRACKER_URI = "https://datatracker.ietf.org"
 
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
+
+IAB_SUBPAGE_TYPES = [
+    "standard.IABStandardPage",
+]
