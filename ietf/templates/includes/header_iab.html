@@ -59,10 +59,6 @@
                 >
                 {% for item in MENU %}
                 <li class="nav-item nav-item--iab btn-group me-2 {% if item.pk == self.pk %} active{% endif %}">
-                    <!-- <a
-                        href="{{ item.url }}"
-                        class="nav-link btn text-white iab-navbar-text {% if item.subitems %} pe-1{% endif %}"
-                    > -->
                         <a
                             href="{{ item.url }}"
                             class="nav-link btn text-white iab-navbar-text text-lg-start {% if item.subitems %} pe-1{% endif %}"
