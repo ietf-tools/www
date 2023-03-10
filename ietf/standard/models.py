@@ -1,5 +1,6 @@
 from collections import OrderedDict
 
+from django.conf import settings
 from django.db import models
 from modelcluster.fields import ParentalKey
 from wagtail.admin.panels import FieldPanel, InlinePanel
@@ -40,8 +41,12 @@ class StandardPage(Page, BibliographyMixin, PromoteMixin):
         help_text="Enter the title to display on the page, "
         "you can use only 255 characters.",
     )
-    key_info = StreamField(StandardBlock(required=False), blank=True, use_json_field=True)
-    in_depth = StreamField(StandardBlock(required=False), blank=True, use_json_field=True)
+    key_info = StreamField(
+        StandardBlock(required=False), blank=True, use_json_field=True
+    )
+    in_depth = StreamField(
+        StandardBlock(required=False), blank=True, use_json_field=True
+    )
     call_to_action = models.ForeignKey(
         "snippets.CallToAction",
         null=True,
@@ -125,8 +130,12 @@ class StandardIndexPage(Page, PromoteMixin):
         help_text="Enter the title to display on the page, "
         "you can use only 255 characters.",
     )
-    key_info = StreamField(StandardBlock(required=False), blank=True, use_json_field=True)
-    in_depth = StreamField(StandardBlock(required=False), blank=True, use_json_field=True)
+    key_info = StreamField(
+        StandardBlock(required=False), blank=True, use_json_field=True
+    )
+    in_depth = StreamField(
+        StandardBlock(required=False), blank=True, use_json_field=True
+    )
 
     search_fields = Page.search_fields + [
         index.SearchField("introduction"),
@@ -149,3 +158,85 @@ StandardIndexPage.content_panels = Page.content_panels + [
 ]
 
 StandardIndexPage.promote_panels = Page.promote_panels + PromoteMixin.panels
+
+
+class IABStandardPage(Page, BibliographyMixin, PromoteMixin):
+    class Meta:
+        verbose_name = "IAB Standard Page"
+
+    subpage_types = settings.IAB_SUBPAGE_TYPES
+
+    introduction = models.CharField(
+        blank=True,
+        max_length=255,
+        help_text="Enter the title to display on the page, "
+        "you can use only 255 characters.",
+    )
+    key_info = StreamField(
+        StandardBlock(required=False), blank=True, use_json_field=True
+    )
+    in_depth = StreamField(
+        StandardBlock(required=False), blank=True, use_json_field=True
+    )
+    call_to_action = models.ForeignKey(
+        "snippets.CallToAction",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        help_text="Specify the page you would like visitors to go to next.",
+    )
+    mailing_list_signup = models.ForeignKey(
+        "snippets.MailingListSignup",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+
+    search_fields = Page.search_fields + [
+        index.SearchField("introduction"),
+        index.SearchField("key_info"),
+        index.SearchField("in_depth"),
+    ]
+
+    # for bibliography
+    prepared_key_info = models.TextField(
+        blank=True,
+        null=True,
+        help_text="The prepared key info field after bibliography styling has been applied. Auto-generated on each save.",
+    )
+    prepared_in_depth = models.TextField(
+        blank=True,
+        null=True,
+        help_text="The prepared in depth field after bibliography styling has been applied. Auto-generated on each save.",
+    )
+    CONTENT_FIELD_MAP = OrderedDict(
+        [
+            ("key_info", "prepared_key_info"),
+            ("in_depth", "prepared_in_depth"),
+        ]
+    )
+
+    @property
+    def feed_text(self):
+        return self.search_description or self.introduction
+
+    @property
+    def siblings(self):
+        return self.get_siblings().live().public().filter(show_in_menus=True).specific()
+
+    def serve_preview(self, request, mode_name):
+        """This is another hack to overcome the MRO issue we were seeing"""
+        return BibliographyMixin.serve_preview(self, request, mode_name)
+
+
+IABStandardPage.content_panels = Page.content_panels + [
+    FieldPanel("introduction"),
+    FieldPanel("key_info"),
+    FieldPanel("in_depth"),
+    FieldPanel("call_to_action"),
+    FieldPanel("mailing_list_signup"),
+]
+
+IABStandardPage.promote_panels = Page.promote_panels + PromoteMixin.panels
