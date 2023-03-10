@@ -234,3 +234,5 @@ DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 IAB_SUBPAGE_TYPES = [
     "standard.IABStandardPage",
 ]
+
+NOTE_WELL_REPO = "https://github.com/ietf/note-well/raw/main/note-well.md"
