@@ -56,7 +56,6 @@
 }
 
 .iab-logo-image {
-    // max-height: 30px;
     width: 100px !important;
 }
 
@@ -187,5 +186,29 @@
     &:after {
         display: inline;
         vertical-align: -0.75rem;
+    }
+}
+
+.iab-tabs > li {
+    font-size: rem(16);
+    line-height: 1;
+}
+
+.iab-tabs > li > a {
+    padding: rem(16) rem(10);
+    text-align: left;
+}
+
+.iab-tabs > li > .active {
+    color: var(--color-iab-navy) !important;
+    border-bottom: 2px solid black !important;
+}
+
+.iab-tabs > li > :not(.active) {
+    color: #616466 !important;
+    border-bottom: 2px solid var(--color-iab-grey-5) !important;
+
+    &:hover {
+        color: var(--color-iab-navy) !important;
     }
 }
