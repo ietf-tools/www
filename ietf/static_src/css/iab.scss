@@ -55,10 +55,13 @@
     background-color: var(--color-iab-navy) !important;
 }
 
+.iab-logo-image {
+    // max-height: 30px;
+    width: 100px !important;
+}
+
 .iab-logo-text {
     max-width: 124px;
-    font-size: rem(15);
-    line-height: 1.13;
 }
 
 .iab-navbar-text {
@@ -134,6 +137,8 @@
 .nav-item--iab {
     border-radius: 4px;
 
+    max-width: 130px;
+
     &:hover {
         .btn {
             background-color: var(--color-iab-blue-2);
@@ -158,6 +163,12 @@
     }
 }
 
+@include media-breakpoint-up(xl) {
+    .nav-item--iab {
+        max-width: none;
+    }
+}
+
 .dropdown-item--iab {
     &:hover {
         background-color: var(--color-iab-blue-2);
@@ -170,4 +181,11 @@
 
 .iab_body {
     background-color: rgba(62, 139, 193, 0.08);
+}
+
+.dropdown-toggle__iab {
+    &:after {
+        display: inline;
+        vertical-align: -0.75rem;
+    }
 }
