@@ -20,7 +20,7 @@
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
-    &:before {
+    &::before {
         // second color is --color-iab-blue-3 with 0% opacity
         background-image: linear-gradient(
             180deg,
@@ -160,10 +160,8 @@
     & :only-child {
         border-radius: 4px !important;
     }
-}
 
-@include media-breakpoint-up(xl) {
-    .nav-item--iab {
+    @include media-breakpoint-up(xl) {
         max-width: none;
     }
 }
@@ -182,8 +180,8 @@
     background-color: rgba(62, 139, 193, 0.08);
 }
 
-.dropdown-toggle__iab {
-    &:after {
+.dropdown-toggle--iab {
+    &::after {
         display: inline;
         vertical-align: -0.75rem;
     }
@@ -205,10 +203,10 @@
 }
 
 .iab-tabs > li > :not(.active) {
-    color: #616466 !important;
-    border-bottom: 2px solid var(--color-iab-grey-5) !important;
+    color: var(--color-iab-grey-6);
+    border-bottom: 2px solid var(--color-iab-grey-5);
 
     &:hover {
-        color: var(--color-iab-navy) !important;
+        color: var(--color-iab-navy);
     }
 }
