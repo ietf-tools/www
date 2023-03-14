@@ -164,6 +164,7 @@ class IABStandardPage(Page, BibliographyMixin, PromoteMixin):
     class Meta:
         verbose_name = "IAB Standard Page"
 
+    parent_page_types = settings.IAB_PARENT_PAGE_TYPES
     subpage_types = settings.IAB_SUBPAGE_TYPES
 
     introduction = models.CharField(
