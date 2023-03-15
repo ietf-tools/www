@@ -1,0 +1,16 @@
+{% load wagtailimages_tags %}
+
+<li class="card mb-4 row g-0 align-items-stretch iab-blog-post">
+    {# col-* classes include positioning, position static cancels that and allows the stretched link to cover the image #}
+    <div class="card-body card-body--iab">
+        <h3 class="mb-3 h5"><a class="stretched-link" href="{{ announcement.url }}">{{ announcement.title }}</a></h3>
+        <p class="iab-card-text">{{ announcement.introduction|safe|truncatechars:200 }}</p>
+        <div class="d-flex justify-content-between align-items-center iab-date-text">
+            <small>
+                {% if announcement.date %}
+                    <p>{{ announcement.date|date:"DATE_FORMAT" }}</p>
+                {% endif %}
+            </small>
+        </div>
+    </div>
+</li>
