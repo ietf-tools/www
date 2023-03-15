@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
-from wagtail.admin.panels import FieldPanel
+from modelcluster.fields import ParentalKey
+from wagtail.admin.panels import FieldPanel, InlinePanel
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page
 from wagtail.search import index
@@ -33,6 +34,7 @@ class IABAnnouncementPage(Page):
         FieldPanel("date"),
         FieldPanel("introduction"),
         FieldPanel("body"),
+        InlinePanel("topics", label="Topics"),
     ]
 
 
@@ -78,3 +80,19 @@ IABAnnouncementIndexPage.content_panels = Page.content_panels + [
     FieldPanel("key_info"),
     FieldPanel("in_depth"),
 ]
+
+
+class IABAnnouncementTopic(models.Model):
+    """
+    A through model from :model:`announcements.IABAnnouncementPage`
+    to :model:`snippets.Topic`
+    """
+
+    page = ParentalKey("announcements.IABAnnouncementPage", related_name="topics")
+    topic = models.ForeignKey(
+        "snippets.Topic",
+        related_name="+",
+        on_delete=models.CASCADE,
+    )
+
+    panels = [FieldPanel("topic")]
