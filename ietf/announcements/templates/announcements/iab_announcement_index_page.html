@@ -5,73 +5,24 @@
 {% block head_content %}
   {% include 'includes/optional-introduction.html' with value=self %}
   {% include "includes/social_fields.html" %}
-
-  {% if self.key_info or self.in_depth %}
-    <div class="no-js-hide u-max-text-width">
-      {% has_tabs self.key_info self.in_depth as show_tabs %}
-      {% if show_tabs %}
-        <ul class="nav nav-tabs text-uppercase text-center no-js-hide" id="tabs" role="tablist" aria-owns="key-info-tab in-depth-tab">
-          <li class="nav-item border flex-grow-1" role="presentation">
-            <a class="nav-link active" id="key-info-tab" data-bs-toggle="tab" href="#key-info" role="tab"
-              aria-controls="key-info" aria-selected="true">Key Info</a>
-          </li>
-          <li class="nav-item border flex-grow-1" role="presentation">
-            <a class="nav-link" id="in-depth-tab" data-bs-toggle="tab" href="#in-depth" role="tab" aria-controls="in-depth"
-              aria-selected="false">In Depth</a>
-          </li>
-        </ul>
-      {% endif %}
-
-      <div class="mb-3">
-        <div class="{% if show_tabs %}mb-3 tab-content bg-white border border-top-0 no-js-hide{% endif %}">
-          {% if self.key_info %}
-          <div id="key-info" class="{% if show_tabs %} tab-pane fade show active p-3" tabindex="0"
-            role="tabpanel" aria-labelledby="key-info-tab{% endif %}">
-            {{ self.key_info|safe }}
-          </div>
-          {% endif %}
-
-          {% if self.in_depth %}
-          <div id="in-depth" class="{% if show_tabs %} tab-pane fade p-3" role="tabpanel"
-            aria-labelledby="in-depth-tab{% endif %}">
-            {{ self.in_depth|safe }}
-          </div>
-          {% endif %}
-        </div>
-        {% if show_tabs %}
-            <noscript>
-                <div class="u-max-text-width">
-                    {% if self.key_info %}
-                        <h2>Key Info</h2>
-                        {{ self.key_info|safe }}
-                    {% endif %}
-                    {% if self.in_depth %}
-                        <h2>In Depth</h2>
-                        {{ self.in_depth|safe }}
-                    {% endif %}
-                </div>
-            <noscript>
-        {% endif %}
-      </div>
-    </div>
-  {% endif %}
-
 {% endblock head_content %}
 
 {% block content %}
 <div class="bg-white">
-<div class="container">
-  <ul class="row list-unstyled pt-5 pb-4 mb-0">
-    {% for child in self.children %}
-        <li class="col-12 col-lg-6 mb-4">
-          <h2 class="h3"><a href="{% pageurl child %}">{{ child.title }}<span class="icon ion-ios-arrow-forward ms-3"></span></a></h2>
-          <small>{{ child.date }}</small>
-          <p>{{ child.introduction|safe }}</p>
-      </li>
-    {% endfor %}
-
-  </ul>
-</div>
+  <div>
+    {{ page.body|safe }}
+  </div>
+  <div class="container">
+    <ul class="row list-unstyled pt-5 pb-4 mb-0">
+      {% for child in self.children %}
+          <li class="col-12 col-lg-6 mb-4">
+            <h2 class="h3"><a href="{% pageurl child %}">{{ child.title }}<span class="icon ion-ios-arrow-forward ms-3"></span></a></h2>
+            <small>{{ child.date }}</small>
+            <p>{{ child.introduction }}</p>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
 </div>
 
 
