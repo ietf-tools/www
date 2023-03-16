@@ -52,7 +52,8 @@
 $table-padding: 10px;
 $border-colour: #bebebe;
 
-.block-table {
+.block-table,
+.block-typed_table {
     margin: 30px 0;
 
     @include media-breakpoint-up(sm) {
@@ -61,6 +62,7 @@ $border-colour: #bebebe;
     }
 }
 .block-table,
+.block-typed_table,
 .block-table__container {
     > table {
         width: 100%;

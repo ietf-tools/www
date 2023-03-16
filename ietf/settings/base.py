@@ -59,6 +59,7 @@ INSTALLED_APPS = (
     "wagtail.contrib.table_block",
     "wagtail.contrib.routable_page",
     "wagtail.contrib.modeladmin",
+    "wagtail.contrib.typed_table_block",
     "modelcluster",
     "compressor",
     "taggit",
@@ -234,3 +235,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 IAB_SUBPAGE_TYPES = [
     "standard.IABStandardPage",
 ]
+
+IAB_PARENT_PAGE_TYPES = IAB_SUBPAGE_TYPES + [
+    "home.IABHomePage",
+]
+
+NOTE_WELL_REPO = "https://github.com/ietf/note-well/raw/main/note-well.md"
