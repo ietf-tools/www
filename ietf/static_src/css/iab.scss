@@ -20,7 +20,7 @@
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
-    &:before {
+    &::before {
         // second color is --color-iab-blue-3 with 0% opacity
         background-image: linear-gradient(
             180deg,
@@ -55,10 +55,12 @@
     background-color: var(--color-iab-navy) !important;
 }
 
+.iab-logo-image {
+    width: 100px !important;
+}
+
 .iab-logo-text {
     max-width: 124px;
-    font-size: rem(15);
-    line-height: 1.13;
 }
 
 .iab-navbar-text {
@@ -134,6 +136,8 @@
 .nav-item--iab {
     border-radius: 4px;
 
+    max-width: 130px;
+
     &:hover {
         .btn {
             background-color: var(--color-iab-blue-2);
@@ -156,6 +160,10 @@
     & :only-child {
         border-radius: 4px !important;
     }
+
+    @include media-breakpoint-up(xl) {
+        max-width: none;
+    }
 }
 
 .dropdown-item--iab {
@@ -170,4 +178,35 @@
 
 .iab_body {
     background-color: rgba(62, 139, 193, 0.08);
+}
+
+.dropdown-toggle--iab {
+    &::after {
+        display: inline;
+        vertical-align: -0.75rem;
+    }
+}
+
+.iab-tabs > li {
+    font-size: rem(16);
+    line-height: 1;
+}
+
+.iab-tabs > li > a {
+    padding: rem(16) rem(18) rem(10);
+    text-align: left;
+}
+
+.iab-tabs > li > .active {
+    color: var(--color-iab-navy) !important;
+    border-bottom: 2px solid black !important;
+}
+
+.iab-tabs > li > :not(.active) {
+    color: var(--color-iab-grey-6);
+    border-bottom: 2px solid var(--color-iab-grey-5);
+
+    &:hover {
+        color: var(--color-iab-navy);
+    }
 }
