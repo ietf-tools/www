@@ -1,0 +1,30 @@
+<!-- prettier-ignore -->
+{% extends settings.utils.LayoutSettings.base_template %}
+{% load bibliography %}
+{% load has_tabs %}
+
+{% block main_content %}
+
+<main id="content">
+    <div class="bg-white pb-3">
+        <div class="container">
+            <!-- prettier-ignore -->
+            {% include 'includes/breadcrumbs.html' %}
+            {% include "includes/social_fields.html" %}
+        </div>
+    </div>
+
+    <div class="bg-white">
+        <div class="container">
+            <h2>{{ page.title }}</h2>
+            <small>{{ page.date }}</small>
+            <div>
+                {{ page.introduction }}
+            </div>
+            <div>
+                {{ page.body|safe }}
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
