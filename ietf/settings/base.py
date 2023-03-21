@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     "ietf.images",
     "ietf.documents",
     "ietf.iesg_statement",
+    "ietf.announcements",
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
     "wagtail.embeds",
@@ -232,8 +233,11 @@ DATATRACKER_URI = "https://datatracker.ietf.org"
 
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
+# IAB-specific subpage types.  When adding a new IAB subpage type, you'll need to update this.
 IAB_SUBPAGE_TYPES = [
     "standard.IABStandardPage",
+    "announcements.IABAnnouncementPage",
+    "announcements.IABAnnouncementIndexPage",
 ]
 
 IAB_PARENT_PAGE_TYPES = IAB_SUBPAGE_TYPES + [
