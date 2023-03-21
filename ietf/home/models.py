@@ -12,6 +12,7 @@ from wagtail.search import index
 
 from ietf.blog.models import BlogIndexPage, BlogPage
 
+from ..announcements.models import IABAnnouncementIndexPage, IABAnnouncementPage
 from ..events.models import EventListingPage, EventPage
 from ..topics.models import PrimaryTopicPage, TopicIndexPage
 from ..utils.models import RelatedLink
@@ -203,15 +204,15 @@ class IABHomePage(Page):
         index.SearchField("heading"),
     ]
 
-    def upcoming_events(self):
+    def announcements(self):
         return (
-            EventPage.objects.filter(end_date__gte=datetime.today())
+            IABAnnouncementPage.objects.filter(date__gte=datetime.today())
             .live()
-            .order_by("start_date")[:2]
+            .order_by("date")[:2]
         )
 
-    def event_index(self):
-        return EventListingPage.objects.live().first()
+    def announcement_index(self):
+        return IABAnnouncementIndexPage.objects.live().first()
 
     def blog_index(self):
         return BlogIndexPage.objects.live().first()

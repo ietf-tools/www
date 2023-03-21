@@ -1,0 +1,29 @@
+{% extends settings.utils.LayoutSettings.base_template %}
+{% load wagtailcore_tags %}
+{% load has_tabs %}
+
+{% block head_content %}
+  {% include 'includes/optional-introduction.html' with value=self %}
+  {% include "includes/social_fields.html" %}
+{% endblock head_content %}
+
+{% block content %}
+<div class="bg-white">
+  <div>
+    {{ page.body|safe }}
+  </div>
+  <div class="container">
+    <ul class="row list-unstyled pt-5 pb-4 mb-0">
+      {% for child in self.children %}
+          <li class="col-12 col-lg-6 mb-4">
+            <h2 class="h3"><a href="{% pageurl child %}">{{ child.title }}<span class="icon ion-ios-arrow-forward ms-3"></span></a></h2>
+            <small>{{ child.date }}</small>
+            <p>{{ child.introduction }}</p>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+
+{% endblock %}
