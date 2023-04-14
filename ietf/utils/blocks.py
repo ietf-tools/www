@@ -44,4 +44,4 @@ class StandardBlock(StreamBlock):
             ("image", ImageChooserBlock()),
         ]
     )
-    note_well = NoteWellBlock()
+    note_well = NoteWellBlock(icon="placeholder")
