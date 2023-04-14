@@ -5,23 +5,17 @@
         <div class="rule-blue body">
             <div class="container">
                 <div>
-                    {% if note_well %}
-                        <h2>{{ note_well.title }}</h2>
-                        {% if note_well.prepared_key_info %}
-                            {{ note_well.prepared_key_info|safe }}
-                        {% endif %}
-                        {% if note_well.prepared_in_depth %}
-                            {{ note_well.prepared_in_depth|safe }}
-                        {% endif %}
+                    <div>
+                    {% if note_well.text %}
+                        <div>{{ note_well.text|safe }}</div>
                     {% else %}
                         {# Fall back to error text #}
                         <h2>Note Well</h2>
-                        <div id="key-info" class="u-max-text-width">
-                            <p>An error occured fetching the note well.</p>
-                            <p>See <a href="https://github.com/ietf/note-well/">https://github.com/ietf/note-well/</a> for the note well.</p>   
-                            <p>Please <a href="mailto:support@ietf.org">email</a> us to report this.</p>
-                        </div>
+                        <p>An error occured fetching the note well.</p>
+                        <p>See <a href="https://github.com/ietf/note-well/">https://github.com/ietf/note-well/</a> for the note well.</p>   
+                        <p>Please <a href="mailto:support@ietf.org">email</a> us to report this.</p>
                     {% endif %}
+                    </div>
                     <a href="{{ url }}">I understand.</a>
                 </div>
             </div>

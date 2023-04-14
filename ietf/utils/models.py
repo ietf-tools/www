@@ -236,3 +236,8 @@ class LayoutSettings(BaseSiteSetting):
         choices=BASE_TEMPLATE_CHOICES,
         default="base.html",
     )
+
+
+class TextChunk(models.Model):
+    slug = models.SlugField(blank=False, null=False)
+    text = models.TextField()

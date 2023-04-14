@@ -5,13 +5,13 @@ import requests
 from django.conf import settings
 from django.core.management.base import BaseCommand
 
-from ietf.standard.models import StandardPage
+from ietf.utils.models import TextChunk
 
 logger = Logger(__name__)
 
 
 class Command(BaseCommand):
-    help = "Update the note well page from the note well github repo"
+    help = "Update the note well text chunk from the note well github repo"
 
     def handle(self, *args, **options):
         # Get content from github
@@ -27,11 +27,8 @@ class Command(BaseCommand):
         repo_content = response.content.decode("utf-8")
         html_for_page = markdown.markdown(repo_content)
 
-        # Update note well page if github content is different
-        note_well_page = StandardPage.objects.filter(slug="note-well").first()
-        update_needed = note_well_page.key_info[0].value.source != html_for_page
-
-        if update_needed:
-            note_well_page.key_info[0].value.source = html_for_page
-            note_well_page.save_revision().publish()
-            logger.info("Note well page updated")
+        # Update note well page
+        note_well, created = TextChunk.objects.get_or_create(slug="note-well")
+        note_well.text = html_for_page
+        note_well.save()
+        logger.info("Note well text chunk updated")

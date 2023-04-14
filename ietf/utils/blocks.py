@@ -4,12 +4,26 @@ from wagtail.blocks import (
     RawHTMLBlock,
     RichTextBlock,
     StreamBlock,
+    StructBlock,
 )
 from wagtail.contrib.table_block.blocks import TableBlock
 from wagtail.contrib.typed_table_block.blocks import TypedTableBlock
 from wagtail.embeds.blocks import EmbedBlock
 from wagtail.images.blocks import ImageChooserBlock
 from wagtailmarkdown.blocks import MarkdownBlock
+
+from ietf.utils.models import TextChunk
+
+
+class NoteWellBlock(StructBlock):
+    def get_context(self, value, parent_context=None):
+        context = super(NoteWellBlock, self).get_context(value, parent_context)
+        note_well, created = TextChunk.objects.get_or_create(slug="note-well")
+        context.update(note_well=note_well)
+        return context
+
+    class Meta:
+        template = "blocks/note_well_block.html"
 
 
 class StandardBlock(StreamBlock):
@@ -30,3 +44,4 @@ class StandardBlock(StreamBlock):
             ("image", ImageChooserBlock()),
         ]
     )
+    note_well = NoteWellBlock(icon="placeholder", label="Note Well Text")
