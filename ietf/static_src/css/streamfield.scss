@@ -75,6 +75,11 @@ $border-colour: #bebebe;
         > tbody {
             width: 100%;
             background-color: $white;
+
+            img {
+                height: auto;
+                max-width: 100%;
+            }
         }
 
         > caption {
