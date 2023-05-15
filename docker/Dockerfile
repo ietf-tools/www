@@ -28,12 +28,6 @@ RUN yarn dist
 CMD ["yarn", "start"]
 
 # ---------------------------------------------------------------------
-# SSM-PARENT
-# ---------------------------------------------------------------------
-# Needed for hosting on AWS
-FROM springload/ssm-parent:1.4.1 as ssm-parent
-
-# ---------------------------------------------------------------------
 # BASE
 # ---------------------------------------------------------------------
 # Base backend
@@ -76,20 +70,6 @@ ENV ENVIRONMENT unknown
 ENV PROJECT wagtail_website
 
 USER www
-
-# ---------------------------------------------------------------------
-# AWS - APP
-# ---------------------------------------------------------------------
-# AWS hosting stages
-FROM base as aws-app
-
-# ssm-parent is needed for dynamic env-variable configuration on AWS.
-# It just reads encrypted secrets from AWS SSM Parameter Store and exposes them
-# as the environment variables to the process inside of the container
-COPY --from=ssm-parent /usr/bin/ssm-parent /usr/bin/ssm-parent
-
-ENTRYPOINT ["/usr/bin/ssm-parent", "run", "-e", "-p", "/$PROJECT/common/", "-p", "/$PROJECT/$ENVIRONMENT/", "-n", "/$PROJECT/$ENVIRONMENT/ssm", "-r",  "--"]
-CMD ["/usr/local/bin/gunicorn", "--config", "/app/docker/gunicorn.py", "ietf.wsgi" ]
 
 # ---------------------------------------------------------------------
 # APP
