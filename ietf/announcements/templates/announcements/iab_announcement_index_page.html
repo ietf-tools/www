@@ -13,7 +13,7 @@
     {{ page.body|safe }}
   </div>
   <div class="container">
-    <ul class="row list-unstyled pt-5 pb-4 mb-0">
+    <ul class="list-unstyled pt-5 pb-4 mb-0">
       {% for child in self.children %}
           <li class="col-12 col-lg-6 mb-4">
             <h2 class="h3"><a href="{% pageurl child %}">{{ child.title }}<span class="icon ion-ios-arrow-forward ms-3"></span></a></h2>
