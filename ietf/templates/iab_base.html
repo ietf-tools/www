@@ -42,7 +42,9 @@
         {% block extra_css %}{% endblock %}
 
         {% analytical_head_bottom %}
-    <link href="{% static 'dist/main.css' %}" rel="stylesheet"></head>
+        <link href="{% static 'dist/main.css' %}" rel="stylesheet">
+        <link rel="icon" href="{% static '/img/cropped-iab-fav-32x32.png' %}" sizes="32x32">
+    </head>
 
     <body class="{% block body_class %}template-{{ self.get_verbose_name|slugify }}{% endblock %} iab_body">
         {% analytical_body_top %}
