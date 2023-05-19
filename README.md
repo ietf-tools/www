@@ -66,6 +66,14 @@ docker exec -ti wagtail_website_application_1 python manage.py createsuperuser
 
 The backend configuration resides in `ietf/settings/docker`, inheriting some settings from `base.py`. Configuration is done with environment variables with sane checks, i.e. if a variable is required but not set, the application won't start.
 
+#### Analytics settings
+
+To send analytics data to Matomo set the following configuration options in the local settings file.
+```
+MATOMO_DOMAIN_PATH = "analytics.ietf.org"
+MATOMO_SITE_ID = "<site id>"
+```
+
 #### On the frontend (separate from Docker if needed)
 
 Note: Running these steps before the Docker instructions above may prevent the frontend docker instance to run properly.
