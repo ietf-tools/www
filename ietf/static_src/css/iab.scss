@@ -1,7 +1,16 @@
 .iab-h1 {
     max-width: 682px;
     line-height: 1.09;
-    font-size: 2.75rem;
+    font-size: 1.75rem;
+
+    @include media-breakpoint-up(sm) {
+        max-width: 682px;
+        font-size: 2.25rem;
+    }
+
+    @include media-breakpoint-up(md) {
+        font-size: 2.75rem;
+    }
 }
 
 .iab-btn-secondary {
