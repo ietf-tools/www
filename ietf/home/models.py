@@ -206,9 +206,9 @@ class IABHomePage(Page):
 
     def announcements(self):
         return (
-            IABAnnouncementPage.objects.filter(date__gte=datetime.today())
+            IABAnnouncementPage.objects.all()
             .live()
-            .order_by("date")[:2]
+            .order_by("-date")[:2]
         )
 
     def announcement_index(self):
