@@ -150,42 +150,32 @@ class MenuItem(ClusterableModel, WagtailOrderable):
 
 @register_setting
 class SocialMediaSettings(BaseSiteSetting):
-    twitter_handle = models.CharField(
+    twitter = models.CharField(
         max_length=255,
-        help_text="Your Twitter username without the @, e.g. flickr",
+        help_text="Link to twitter profile",
         blank="True",
     )
-    facebook_app_id = models.CharField(
+    linkedin = models.CharField(
         max_length=255,
-        help_text="Your Facebook app id",
+        help_text="Link to linkedin profile",
         blank="True",
     )
-    default_sharing_text = models.CharField(
+    youtube = models.CharField(
         max_length=255,
+        help_text="Link to youtube account",
         blank="True",
-        help_text="Default sharing text to use if social text has not been set on a page.",
     )
-    default_sharing_image = models.ForeignKey(
-        "images.IETFImage",
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name="+",
-        help_text="Default sharing image to use if social image has not been set on a page.",
-    )
-    site_name = models.CharField(
+    mastodon = models.CharField(
         max_length=255,
-        default=settings.WAGTAIL_SITE_NAME,
+        help_text="Link to mastodon profile",
         blank="True",
-        help_text="Site name, used by facebook open graph.",
     )
 
     panels = [
-        FieldPanel("twitter_handle"),
-        FieldPanel("facebook_app_id"),
-        FieldPanel("default_sharing_text"),
-        FieldPanel("default_sharing_image"),
-        FieldPanel("site_name"),
+        FieldPanel("twitter"),
+        FieldPanel("linkedin"),
+        FieldPanel("youtube"),
+        FieldPanel("mastodon"),
     ]
 
 
