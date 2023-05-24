@@ -10,27 +10,36 @@ style="background-image: url({% static 'img/background-dark.jpg' %});"
             {% for item in settings.utils.FooterLinks.footer_link_items.all %}
                 <li class="iab-navbar-text iab-footer-link me-2"><a class="nav-link text-light" href="{{ item.link }}">{{ item.title }}</a></li>
             {% endfor %}
+                <li class="ms-auto"></li>
             {% with settings.utils.SocialMediaSettings as social_media_settings %}
-            <li class="iab-navbar-text iab-footer-link ms-auto p-2">
-                <a href="{{ social_media_settings.twitter }}" aria-label="twitter" rel="me">
-                    <img src="{% static 'img/twitter-icon.svg' %}" alt="" />
-                </a>
-            </li>
-            <li class="iab-navbar-text iab-footer-link p-2">
-                <a href="{{ social_media_settings.linkedin }}" aria-label="linkedin" rel="me">
-                    <img src="{% static 'img/linkedin-icon.svg' %}" alt="" />
-                </a>
-            </li>
-            <li class="iab-navbar-text iab-footer-link p-2">
-                <a href="{{ social_media_settings.youtube }}" aria-label="youtube" rel="me">
-                    <img src="{% static 'img/youtube-icon.svg' %}" alt="" />
-                </a>
-            </li>
-            <li class="iab-navbar-text iab-footer-link p-2">
-                <a href="{{ social_media_settings.mastodon }}" aria-label="mastodon" rel="me">
-                    <img src="{% static 'img/mastodon-icon.svg' %}" alt="" />
-                </a>
-            </li>
+                {% if social_media_settings.twitter %}
+                    <li class="iab-navbar-text iab-footer-link p-2">
+                        <a href="{{ social_media_settings.twitter }}" aria-label="twitter" rel="me">
+                            <img src="{% static 'img/twitter-icon.svg' %}" alt="" />
+                        </a>
+                    </li>
+                {% endif %}
+                {% if social_media_settings.linkedin %}
+                    <li class="iab-navbar-text iab-footer-link p-2">
+                        <a href="{{ social_media_settings.linkedin }}" aria-label="linkedin" rel="me">
+                            <img src="{% static 'img/linkedin-icon.svg' %}" alt="" />
+                        </a>
+                    </li>
+                {% endif %}
+                {% if social_media_settings.youtube %}
+                    <li class="iab-navbar-text iab-footer-link p-2">
+                        <a href="{{ social_media_settings.youtube }}" aria-label="youtube" rel="me">
+                            <img src="{% static 'img/youtube-icon.svg' %}" alt="" />
+                        </a>
+                    </li>
+                {% endif %}
+                {% if social_media_settings.mastodon %}
+                    <li class="iab-navbar-text iab-footer-link p-2">
+                        <a href="{{ social_media_settings.mastodon }}" aria-label="mastodon" rel="me">
+                            <img src="{% static 'img/mastodon-icon.svg' %}" alt="" />
+                        </a>
+                    </li>
+                {% endif %}
             {% endwith %}
         </ul>
     </div>
