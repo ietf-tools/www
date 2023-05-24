@@ -150,28 +150,67 @@ class MenuItem(ClusterableModel, WagtailOrderable):
 
 @register_setting
 class SocialMediaSettings(BaseSiteSetting):
+    twitter_handle = models.CharField(
+        max_length=255,
+        help_text="Your Twitter username without the @, e.g. flickr",
+        blank="True",
+    )
+    facebook_app_id = models.CharField(
+        max_length=255,
+        help_text="Your Facebook app id",
+        blank="True",
+    )
+    default_sharing_text = models.CharField(
+        max_length=255,
+        blank="True",
+        help_text="Default sharing text to use if social text has not been set on a page.",
+    )
+    default_sharing_image = models.ForeignKey(
+        "images.IETFImage",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        help_text="Default sharing image to use if social image has not been set on a page.",
+    )
+    site_name = models.CharField(
+        max_length=255,
+        default=settings.WAGTAIL_SITE_NAME,
+        blank="True",
+        help_text="Site name, used by facebook open graph.",
+    )
+
     twitter = models.CharField(
         max_length=255,
         help_text="Link to twitter profile",
         blank="True",
+        verbose_name="Twitter link"
     )
     linkedin = models.CharField(
         max_length=255,
         help_text="Link to linkedin profile",
         blank="True",
+        verbose_name="LinkedIn link"
     )
     youtube = models.CharField(
         max_length=255,
         help_text="Link to youtube account",
         blank="True",
+        verbose_name="Youtube link"
     )
     mastodon = models.CharField(
         max_length=255,
         help_text="Link to mastodon profile",
         blank="True",
+        verbose_name="Mastodon link"
     )
-
+    
     panels = [
+        FieldPanel("twitter_handle"),
+        FieldPanel("facebook_app_id"),
+        FieldPanel("default_sharing_text"),
+        FieldPanel("default_sharing_image"),
+        FieldPanel("site_name"),
         FieldPanel("twitter"),
         FieldPanel("linkedin"),
         FieldPanel("youtube"),
