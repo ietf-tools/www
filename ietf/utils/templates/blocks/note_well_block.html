@@ -1,4 +1,4 @@
-{% if note_well.text %}
+<!-- {% if note_well.text %}
     <div>{{ note_well.text|safe }}</div>
 {% else %}
     {# Fall back to error text #}
@@ -6,4 +6,28 @@
     <p>An error occured fetching the note well.</p>
     <p>See <a href="https://github.com/ietf/note-well/">https://github.com/ietf/note-well/</a> for the note well.</p>   
     <p>Please <a href="mailto:support@ietf.org">email</a> us to report this.</p>
-{% endif %}
+{% endif %} -->
+<div>Notewell</div>
+<html>
+    <head>
+    </head>
+    <body>
+        <script>
+            async function test() {
+                let response = await fetch (
+                    'https://raw.githubusercontent.com/ietf/note-well/65ea9057c9e93c027bc4b96183c47b0a8c1c17ea/note-well.md'
+                )
+                console.log(response)
+                const data = await response.text()
+                console.log(data)
+                document.write(data)
+                var converter = new Showdown.converter();
+                var html = converter.makeHtml(data.content);
+
+                // alert(html);
+                // document.write(html)
+            }
+        </script>
+        <p>I am trying to print <script>test();</script></p>
+    </body>
+</html>
