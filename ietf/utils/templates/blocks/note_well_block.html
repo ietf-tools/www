@@ -16,12 +16,10 @@
         const data = await response.text()
         const converter = new showdown.Converter();
         const html = await converter.makeHtml(data);
-        console.log(html)
+
         const el = document.querySelector("#notewell_text")
-        console.log(el)
 
         el.innerHTML = html
-        console.log(el.innerHTML)
         } else {
         console.log(`HTTP Response Code: ${response?.status}`)
         }
