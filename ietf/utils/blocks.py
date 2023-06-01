@@ -16,12 +16,6 @@ from ietf.utils.models import TextChunk
 
 
 class NoteWellBlock(StructBlock):
-    def get_context(self, value, parent_context=None):
-        context = super(NoteWellBlock, self).get_context(value, parent_context)
-        note_well, created = TextChunk.objects.get_or_create(slug="note-well")
-        context.update(note_well=note_well)
-        return context
-
     class Meta:
         template = "blocks/note_well_block.html"
 
