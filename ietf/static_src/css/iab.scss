@@ -1,7 +1,16 @@
 .iab-h1 {
     max-width: 682px;
     line-height: 1.09;
-    font-size: 2.75rem;
+    font-size: 1.75rem;
+
+    @include media-breakpoint-up(sm) {
+        max-width: 682px;
+        font-size: 2.25rem;
+    }
+
+    @include media-breakpoint-up(md) {
+        font-size: 2.75rem;
+    }
 }
 
 .iab-btn-secondary {
@@ -56,16 +65,28 @@
 }
 
 .iab-logo-image {
-    width: 100px !important;
+    width: 50px !important;
+
+    @include media-breakpoint-up(sm) {
+        width: 100px !important;
+    }
 }
 
 .iab-logo-text {
-    max-width: 124px;
+    max-width: 62px;
+
+    @include media-breakpoint-up(sm) {
+        max-width: 124px;
+    }
 }
 
 .iab-navbar-text {
-    font-size: rem(14);
+    font-size: rem(10);
     line-height: 1.14;
+
+    @include media-breakpoint-up(sm) {
+        font-size: rem(14);
+    }
 }
 
 .iab-footer-link {
