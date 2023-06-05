@@ -12,10 +12,16 @@ from wagtail.embeds.blocks import EmbedBlock
 from wagtail.images.blocks import ImageChooserBlock
 from wagtailmarkdown.blocks import MarkdownBlock
 
+from django.conf import settings
 from ietf.utils.models import TextChunk
 
 
 class NoteWellBlock(StructBlock):
+    def get_context(self, value):
+        context = super().get_context(value)
+        context['note_well_git_url'] = settings.NOTE_WELL_REPO
+        return context
+
     class Meta:
         template = "blocks/note_well_block.html"
 
