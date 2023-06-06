@@ -244,4 +244,4 @@ IAB_PARENT_PAGE_TYPES = IAB_SUBPAGE_TYPES + [
     "home.IABHomePage",
 ]
 
-NOTE_WELL_REPO = "https://github.com/ietf/note-well/raw/main/note-well.md"
+NOTE_WELL_REPO = "https://raw.githubusercontent.com/ietf/note-well/main/note-well.md"
