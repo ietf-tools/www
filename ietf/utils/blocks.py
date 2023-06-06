@@ -13,7 +13,6 @@ from wagtail.images.blocks import ImageChooserBlock
 from wagtailmarkdown.blocks import MarkdownBlock
 
 from django.conf import settings
-from ietf.utils.models import TextChunk
 
 
 class NoteWellBlock(StructBlock):
