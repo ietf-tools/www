@@ -1,0 +1,32 @@
+<div id="notewell_text">
+    <h2>Note Well</h2>
+    <p>An error occured fetching the note well.</p>
+    <p>See <a href="https://github.com/ietf/note-well/">https://github.com/ietf/note-well/</a> for the note well.</p>   
+    <p>Please <a href="mailto:support@ietf.org">email</a> us to report this.</p>
+</div>
+<script 
+    src="https://cdn.jsdelivr.net/npm/showdown@2.1.0/dist/showdown.min.js
+"></script>
+<script>
+    async function setNotewellHTML() {
+        const response = await fetch (
+            '{{ note_well_git_url }}'
+        ) 
+        if (response?.ok) {
+        const data = await response.text()
+        const converter = new showdown.Converter();
+        const html = await converter.makeHtml(data);
+
+        const el = document.querySelector("#notewell_text")
+
+        el.innerHTML = html
+        } else {
+        console.log(`HTTP Response Code: ${response?.status}`)
+        }
+
+    }
+
+
+
+    setNotewellHTML()
+</script>
