@@ -5,17 +5,7 @@
         <div class="rule-blue body">
             <div class="container">
                 <div>
-                    <div>
-                    {% if note_well.text %}
-                        <div>{{ note_well.text|safe }}</div>
-                    {% else %}
-                        {# Fall back to error text #}
-                        <h2>Note Well</h2>
-                        <p>An error occured fetching the note well.</p>
-                        <p>See <a href="https://github.com/ietf/note-well/">https://github.com/ietf/note-well/</a> for the note well.</p>   
-                        <p>Please <a href="mailto:support@ietf.org">email</a> us to report this.</p>
-                    {% endif %}
-                    </div>
+                    {% include "includes/note_well.html" with note_well_git_url=note_well_git_url %}
                     <a href="{{ url }}">I understand.</a>
                 </div>
             </div>
