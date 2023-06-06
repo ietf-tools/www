@@ -1,4 +1,4 @@
-// Overriding IEFT base themes and bootstrap.
+// Overriding IETF base themes and bootstrap.
 
 h1,
 h2,
@@ -17,3 +17,15 @@ $grid-breakpoints: (
     xl: 1200px,
     xxl: 1400px,
 );
+
+p {
+    //same as _reboot.scss in bootstrap
+    margin-top: 0;
+    margin-bottom: $paragraph-margin-bottom;
+
+    //change margin to padding for last child, so the bottom space uses parent background color
+    &:last-child {
+        margin-bottom: 0;
+        padding-bottom: $paragraph-margin-bottom;
+    }
+}
