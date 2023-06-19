@@ -82,7 +82,7 @@
 
 .iab-navbar-text {
     font-size: rem(10);
-    line-height: 1.14;
+    line-height: calc(16 / 14);
 
     @include media-breakpoint-up(sm) {
         font-size: rem(14);
@@ -232,4 +232,14 @@
     &:hover {
         color: var(--color-iab-navy);
     }
+}
+
+.nav-link--iab {
+    padding-top: rem(10);
+    padding-bottom: rem(10);
+}
+
+.btn--iab-dropdown-toggle {
+    padding-top: rem(9);
+    padding-bottom: rem(3);
 }

@@ -61,13 +61,13 @@
                 <li class="nav-item nav-item--iab btn-group me-2 {% if item.pk == self.pk %} active{% endif %}">
                         <a
                             href="{{ item.url }}"
-                            class="nav-link btn text-white iab-navbar-text text-lg-start {% if item.subitems %} pe-1{% endif %}"
+                            class="nav-link nav-link--iab btn text-white iab-navbar-text text-lg-start {% if item.subitems %} pe-1{% endif %}"
                         >
                             {{ item.title }}
                         </a>
                         {% if item.subitems %}
                         <button
-                            class="btn text-light dropdown-toggle dropdown-toggle-split d-none d-lg-block ps-1 no-js-hide dropdown-toggle--iab"
+                            class="btn btn--iab-dropdown-toggle text-light dropdown-toggle dropdown-toggle-split d-none d-lg-block ps-1 no-js-hide"
                             id="{{ item.pk }}Dropdown"
                             data-bs-toggle="dropdown"
                             aria-haspopup="true"
@@ -98,7 +98,7 @@
                 <li class="nav-item nav-item--iab btn-group me-2 ">
                     <a
                         href="/search"
-                        class="btn iab-navbar-text text-white nav-link"
+                        class="btn iab-navbar-text text-white nav-link nav-link--iab"
                         role="button"
                         data-bs-toggle="collapse"
                         data-bs-target="#navbarSearch"
