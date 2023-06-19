@@ -81,12 +81,8 @@
 }
 
 .iab-navbar-text {
-    font-size: rem(10);
+    font-size: rem(14);
     line-height: calc(16 / 14);
-
-    @include media-breakpoint-up(sm) {
-        font-size: rem(14);
-    }
 }
 
 .iab-footer-link {
