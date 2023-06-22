@@ -1,0 +1,40 @@
+name: Run tests
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Docker build app-test
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: docker/Dockerfile
+          target: app-test
+          push: false
+          tags: app-test:latest
+
+      - name: Docker build db-local
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: docker/db.Dockerfile
+          target: db-local
+          push: false
+          tags: db-local:latest
+
+      - name: Start database
+        run: docker run --name=database -e POSTGRES_DB=app -e POSTGRES_PASSWORD=password -d db-local:latest
+
+      - name: Run tests
+        run: docker run -i --rm --name=app-test -u root --link=database -e DATABASE_URL="postgres://postgres:password@database/app" -e APP_SECRET_KEY=xxxx -e ENVIRONMENT=test app-test
