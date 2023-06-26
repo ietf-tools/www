@@ -27,9 +27,3 @@ ENV POSTGRES_PASSWORD=password
 ENV POSTGRES_USER=postgres
 ENV POSTGRES_DB=app
 ENV POSTGRES_HOST_AUTH_METHOD=trust
-
-# ================================
-# --- Final Image with out data---
-# ================================
-FROM postgres:14.6 AS db-local
-LABEL maintainer="IETF Tools Team <tools-discuss@ietf.org>"
