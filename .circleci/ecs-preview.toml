@@ -1,8 +1,0 @@
-profile = "ietf"
-cluster = "ietf-preview"
-task_definition = "ietf-preview-app"
-container_name = "app"
-log_group = "ecs-tool"
-
-[deploy]
-services = ["app"]
