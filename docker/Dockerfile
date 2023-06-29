@@ -64,7 +64,7 @@ COPY --from=frontend /app/ /app/
 
 ARG VERSION=dev
 ENV APPLICATION_VERSION=${VERSION}
-ENV DJANGO_SETTINGS_MODULE ietf.settings.docker.hosting
+ENV DJANGO_SETTINGS_MODULE ietf.settings.docker.base
 ENV VERSION=${VERSION}
 ENV ENVIRONMENT unknown
 ENV PROJECT wagtail_website
