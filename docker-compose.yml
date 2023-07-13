@@ -15,6 +15,7 @@ services:
             - docker/dev.env
         depends_on:
             - database
+            - memcached
 
     frontend:
         restart: on-failure
@@ -34,3 +35,7 @@ services:
             POSTGRES_DB: "app"
             POSTGRES_USER: "postgres"
             POSTGRES_PASSWORD: "password"
+
+    memcached:
+        image: memcached:latest
+        hostname: memcached
