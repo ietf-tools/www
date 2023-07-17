@@ -1,11 +1,13 @@
 from __future__ import unicode_literals
 
 from datetime import datetime
+from xml.etree import ElementTree
 
 from django.conf import settings
 from django.db import models
 from django.db.models.expressions import RawSQL
 from modelcluster.fields import ParentalKey
+from requests import get as get_request
 from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
 from wagtail.models import Page
 from wagtail.search import index
@@ -204,6 +206,8 @@ class IABHomePage(Page):
         index.SearchField("heading"),
     ]
 
+    blog_index_url = settings.IAB_IETF_BLOG_URL
+
     def announcements(self):
         return (
             IABAnnouncementPage.objects.all()
@@ -218,17 +222,29 @@ class IABHomePage(Page):
         return BlogIndexPage.objects.live().first()
 
     def blogs(self, bp_kwargs={}):
-        return (
-            BlogPage.objects.live()
-            .filter(topics__topic__slug="iab")
-            .annotate(
-                date_sql=RawSQL(
-                    "CASE WHEN (date_published IS NOT NULL) THEN date_published ELSE first_published_at END",
-                    (),
-                )
-            )
-            .order_by("-date_sql")[:2]
-        )
+        entries = []
+        try:
+            response = get_request(settings.IAB_FEED_URL)
+            xml_data = response.text
+
+            root = ElementTree.fromstring(xml_data)
+            for item in root.iter('item'):
+                title = item.find('title').text
+                description = item.find('description').text
+                link = item.find('link').text
+                published_date = datetime.strptime(item.find('pubDate').text, '%a, %d %b %Y %H:%M:%S %z')
+
+                entry_data = {
+                    'title': title,
+                    'description': description,
+                    'link': link,
+                    'published_date': published_date,
+                }
+                entries.append(entry_data)
+        except Exception as _:
+            pass
+
+        return entries
 
     content_panels = Page.content_panels + [
         MultiFieldPanel(

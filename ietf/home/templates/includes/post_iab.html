@@ -1,31 +1,13 @@
 {% load wagtailimages_tags %}
 
 <li class="card mb-4 row g-0 align-items-stretch iab-blog-post">
-    <div>
-        {% if post.feed_image and show_image %}
-            {% image post.feed_image height-245 as post_image %}
-            <img class="blog-post-image-iab u-obj-cover w-100 h-100" src="{{ post_image.url }}" alt="{{ post.main_image.title }}">
-        {% endif %}
-    </div>
     {# col-* classes include positioning, position static cancels that and allows the stretched link to cover the image #}
     <div class="card-body card-body--iab">
-        <h3 class="mb-3 h5"><a class="stretched-link" href="{{ post.url }}">{{ post.title }}</a></h3>
-        <p class="iab-card-text">{{ post.introduction|truncatechars:250 }}</p>
+        <h3 class="mb-3 h5"><a class="stretched-link" href="{{ post.link }}">{{ post.title }}</a></h3>
+        <p class="iab-card-text">{{ post.description|truncatechars:250 }}</p>
         <div class="d-flex justify-content-between align-items-center iab-date-text">
             <small>
-                {% if post.date %}
-                    <p>{{ post.date|date:"DATE_FORMAT" }}</p>
-                {% elif post.start_date %}
-                    <p>{{ post.start_date|date:"DATE_FORMAT" }}</p>
-                {% endif %}
-
-                {% if post.listing_location %}
-                    <p>{{ post.listing_location }}</p>
-                {% endif %}
-
-                {% if post.host %}
-                    <p>{{ post.host.title }}</p>
-                {% endif %}
+                <p>{{ post.published_date|date:"DATE_FORMAT" }}</p>
             </small>
         </div>
     </div>
