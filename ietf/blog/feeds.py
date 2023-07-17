@@ -36,3 +36,12 @@ class BlogFeed(Feed):
 
     def item_pubdate(self, item):
         return item.date
+
+class IABBlogFeed(BlogFeed):
+    def items(self):
+        return (
+            BlogPage.objects.live()
+            .filter(topics__topic__slug="iab")
+            .annotate(d=Coalesce("date_published", "first_published_at"))
+            .order_by("-d")
+        )

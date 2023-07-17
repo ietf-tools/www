@@ -5,7 +5,8 @@ from django.test import TestCase
 from wagtail.models import Page, Site
 
 from ..home.models import HomePage
-from .models import BlogIndexPage, BlogPage
+from ..snippets.models import Topic
+from .models import BlogIndexPage, BlogPage, BlogPageTopic
 
 
 class BlogTests(TestCase):
@@ -100,3 +101,22 @@ class BlogTests(TestCase):
         blog = BlogPage.objects.get(pk=self.blog.pk)
         self.assertEquals(self.prevblog, blog.previous)
         self.assertEquals(self.nextblog, blog.next)
+
+    def test_blog_feed(self):
+        r = self.client.get(path='/blog/feed/')
+        self.assertEqual(r.status_code, 200)
+        self.assertIn(self.blog.url.encode(), r.content)
+        self.assertIn(self.otherblog.url.encode(), r.content)
+
+    def test_iab_feed(self):
+        topic=Topic(title="iab", slug="iab")
+        topic.save()
+        iab_topic = BlogPageTopic(topic=topic, page=self.otherblog)
+        iab_topic.save()
+        self.otherblog.topics = [iab_topic, ]
+        self.otherblog.save()
+
+        r = self.client.get(path='/blog/iab/feed/')
+        self.assertEqual(r.status_code, 200)
+        self.assertNotIn(self.blog.url.encode(), r.content)
+        self.assertIn(self.otherblog.url.encode(), r.content)
