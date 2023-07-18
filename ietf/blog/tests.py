@@ -108,15 +108,28 @@ class BlogTests(TestCase):
         self.assertIn(self.blog.url.encode(), r.content)
         self.assertIn(self.otherblog.url.encode(), r.content)
 
-    def test_iab_feed(self):
-        topic=Topic(title="iab", slug="iab")
-        topic.save()
-        iab_topic = BlogPageTopic(topic=topic, page=self.otherblog)
+    def test_topic_feed(self):
+        iab_topic = Topic(title="iab", slug="iab")
         iab_topic.save()
-        self.otherblog.topics = [iab_topic, ]
+        iab_bptopic = BlogPageTopic(topic=iab_topic, page=self.otherblog)
+        iab_bptopic.save()
+        self.otherblog.topics = [iab_bptopic, ]
         self.otherblog.save()
+        iesg_topic = Topic(title="iesg", slug="iesg")
+        iesg_topic.save()
+        iesg_bptopic = BlogPageTopic(topic=iesg_topic, page=self.otherblog)
+        iesg_bptopic.save()
+        self.nextblog.topics = [iesg_bptopic, ]
+        self.nextblog.save()
 
         r = self.client.get(path='/blog/iab/feed/')
         self.assertEqual(r.status_code, 200)
-        self.assertNotIn(self.blog.url.encode(), r.content)
         self.assertIn(self.otherblog.url.encode(), r.content)
+        self.assertNotIn(self.blog.url.encode(), r.content)
+        self.assertNotIn(self.nextblog.url.encode(), r.content)
+
+        r = self.client.get(path='/blog/iesg/feed/')
+        self.assertEqual(r.status_code, 200)
+        self.assertIn(self.nextblog.url.encode(), r.content)
+        self.assertNotIn(self.blog.url.encode(), r.content)
+        self.assertNotIn(self.otherblog.url.encode(), r.content)

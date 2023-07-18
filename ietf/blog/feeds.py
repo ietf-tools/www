@@ -37,11 +37,15 @@ class BlogFeed(Feed):
     def item_pubdate(self, item):
         return item.date
 
-class IABBlogFeed(BlogFeed):
+class TopicBlogFeed(BlogFeed):
+    def __call__(self, request, *args, **kwargs):
+        self.topic = kwargs.get('topic')
+        return super().__call__(request, *args, **kwargs)
+
     def items(self):
         return (
             BlogPage.objects.live()
-            .filter(topics__topic__slug="iab")
+            .filter(topics__topic__slug=self.topic)
             .annotate(d=Coalesce("date_published", "first_published_at"))
             .order_by("-d")
         )
