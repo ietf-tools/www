@@ -81,6 +81,14 @@ DATABASES = {
     }
 }
 
+# Caches
+
+if 'CACHE_DEFAULT' in env:
+    CACHES['default']['LOCATION'] = env.get('CACHE_DEFAULT')
+
+if 'CACHE_SESSIONS' in env:
+    CACHES['sessions']['LOCATION'] = env.get('CACHE_SESSIONS')
+
 
 # Logging
 
