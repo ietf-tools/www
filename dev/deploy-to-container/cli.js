@@ -57,7 +57,15 @@ async function main () {
     dock.modem.followProgress(dbImageBuildStream, (err, res) => err ? reject(err) : resolve(res))
   })
   console.info('Building latest DB docker image successfully.')
-  
+
+  // Pull latest memcached image
+  console.info('Pulling latest memcached image...')
+  const appImagePullStream = await dock.pull(`memcached:latest`)
+  await new Promise((resolve, reject) => {
+    dock.modem.followProgress(appImagePullStream, (err, res) => err ? reject(err) : resolve(res))
+  })
+  console.info('Pulled latest memcached image.')
+
   // Pull latest Wagtail_website Base image
   console.info('Pulling latest Wagtail_website branch docker image...')
   const appImagePullStream = await dock.pull(`ghcr.io/ietf-tools/wagtail_website:${argv.appversion}`)
@@ -73,6 +81,7 @@ async function main () {
     if (
       container.Names.includes(`/ws-db-${branch}`) ||
       container.Names.includes(`/ws-app-${branch}`)
+      container.Names.includes(`/ws-mc-${branch}`)
       ) {
       console.info(`Terminating old container ${container.Id}...`)
       const oldContainer = dock.getContainer(container.Id)
@@ -117,6 +126,22 @@ async function main () {
   await dbContainer.start()
   console.info('Created and started DB docker container successfully.')
 
+  // Create memcached container
+  console.info(`Creating memcached docker container... [ws-mc-${branch}]`)
+  const mcContainer = await dock.createContainer({
+    Image: 'memcached:latest',
+    name: `ws-mc-${branch}`,
+    Hostname: `ws-mc-${branch}`,
+    HostConfig: {
+      NetworkMode: 'shared',
+      RestartPolicy: {
+        Name: 'unless-stopped'
+      }
+    }
+  })
+  await dbContainer.start()
+  console.info('Created and started memcached docker container successfully.')
+
   // Create App container
   console.info(`Creating app docker container... [ws-app-${branch}]`)
   const appContainer = await dock.createContainer({
@@ -133,6 +158,8 @@ async function main () {
       `PGUSER=postgres`,
       `PGPASSWORD=password`,
       `SECRET_KEY=${nanoid(36)}`,
+      `CACHE_DEFAULT=ws-mc-${branch}:11211`,
+      `CACHE_SESSIONS=ws-mc-${branch}:11211`,
       `ALLOWED_HOSTS=${hostname}`,
       `PRIMARY_HOST=${hostname}`
     ],
