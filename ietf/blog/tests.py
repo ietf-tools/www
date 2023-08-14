@@ -5,7 +5,8 @@ from django.test import TestCase
 from wagtail.models import Page, Site
 
 from ..home.models import HomePage
-from .models import BlogIndexPage, BlogPage
+from ..snippets.models import Topic
+from .models import BlogIndexPage, BlogPage, BlogPageTopic
 
 
 class BlogTests(TestCase):
@@ -100,3 +101,35 @@ class BlogTests(TestCase):
         blog = BlogPage.objects.get(pk=self.blog.pk)
         self.assertEquals(self.prevblog, blog.previous)
         self.assertEquals(self.nextblog, blog.next)
+
+    def test_blog_feed(self):
+        r = self.client.get(path='/blog/feed/')
+        self.assertEqual(r.status_code, 200)
+        self.assertIn(self.blog.url.encode(), r.content)
+        self.assertIn(self.otherblog.url.encode(), r.content)
+
+    def test_topic_feed(self):
+        iab_topic = Topic(title="iab", slug="iab")
+        iab_topic.save()
+        iab_bptopic = BlogPageTopic(topic=iab_topic, page=self.otherblog)
+        iab_bptopic.save()
+        self.otherblog.topics = [iab_bptopic, ]
+        self.otherblog.save()
+        iesg_topic = Topic(title="iesg", slug="iesg")
+        iesg_topic.save()
+        iesg_bptopic = BlogPageTopic(topic=iesg_topic, page=self.otherblog)
+        iesg_bptopic.save()
+        self.nextblog.topics = [iesg_bptopic, ]
+        self.nextblog.save()
+
+        r = self.client.get(path='/blog/iab/feed/')
+        self.assertEqual(r.status_code, 200)
+        self.assertIn(self.otherblog.url.encode(), r.content)
+        self.assertNotIn(self.blog.url.encode(), r.content)
+        self.assertNotIn(self.nextblog.url.encode(), r.content)
+
+        r = self.client.get(path='/blog/iesg/feed/')
+        self.assertEqual(r.status_code, 200)
+        self.assertIn(self.nextblog.url.encode(), r.content)
+        self.assertNotIn(self.blog.url.encode(), r.content)
+        self.assertNotIn(self.otherblog.url.encode(), r.content)

@@ -248,4 +248,7 @@ IAB_PARENT_PAGE_TYPES = IAB_SUBPAGE_TYPES + [
     "home.IABHomePage",
 ]
 
+IAB_FEED_URL = "https://www.ietf.org/blog/iab/feed"
+IAB_IETF_BLOG_URL = "https://www.ietf.org/blog/iab/"
+
 NOTE_WELL_REPO = "https://raw.githubusercontent.com/ietf/note-well/main/note-well.md"
