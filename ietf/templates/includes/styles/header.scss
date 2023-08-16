@@ -1,9 +1,22 @@
+.header > .navbar {
+    border-bottom: 1px solid #DDD;
+    background-color: #F9F9F9;
+
+    .dropdown-menu {
+        background-color: #FFF;
+        box-shadow: $box-shadow;
+
+        .dropdown-item:focus, .dropdown-item:hover {
+            background-color: #EEE;
+            color: $dark;
+        }
+    }
+}
+
 .header__logo-container {
     // Cancel out navbar padding
     margin-top: -$navbar-padding-y;
     margin-bottom: -$navbar-padding-y;
-
-    background-color: $white;
 
     // center logo
     display: flex;
