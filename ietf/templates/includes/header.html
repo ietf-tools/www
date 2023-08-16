@@ -3,7 +3,7 @@
 <header class="header">
     <a href="#content" class="visually-hidden visually-hidden-focusable">Skip to main content</a>
     <nav
-        class="navbar navbar-expand-lg navbar-dark bg-dark text-light"
+        class="navbar navbar-expand-lg"
         aria-label="Main"
     >
         <div class="container">
@@ -52,13 +52,13 @@
                 <li class="nav-item btn-group {% if item.pk == self.pk %} active{% endif %}">
                     <a
                         href="{{ item.url }}"
-                        class="nav-link btn btn-dark text-white text-uppercase{% if item.subitems %} pe-1{% endif %}"
+                        class="nav-link btn text-dark fw-semibold text-uppercase{% if item.subitems %} pe-1{% endif %}"
                     >
                         {{ item.title }}
                     </a>
                     {% if item.subitems %}
                         <button
-                            class="btn btn-dark text-light dropdown-toggle dropdown-toggle-split d-none d-lg-block ps-1 no-js-hide"
+                            class="btn dropdown-toggle dropdown-toggle-split d-none d-lg-block ps-1 no-js-hide"
                             id="{{ item.pk }}Dropdown"
                             data-bs-toggle="dropdown"
                             aria-haspopup="true"
@@ -67,10 +67,10 @@
                             title="Toggle dropdown for {{ item.title }}"
                         >
                         </button>
-                        <ul class="dropdown-menu bg-dark" aria-labelledby="{{ item.pk }}Dropdown">
+                        <ul class="dropdown-menu" aria-labelledby="{{ item.pk }}Dropdown">
                             {% for subitem in item.subitems %}
                                 <li class="dropdown-item position-relative{% if subitem.pk == self.pk %} active{% endif %}">
-                                    <a class="text-white stretched-link" href="{{ subitem.url }}">{{ subitem.title }}</a>
+                                    <a class="text-dark stretched-link" href="{{ subitem.url }}">{{ subitem.title }}</a>
                                 </li>
                             {% endfor %}
                         </ul>
@@ -87,10 +87,10 @@
                     {% else %}
                     <li class="nav-item">
                     {% endif %}
-                        <a class="nav-link btn btn-dark text-white {% if item.is_dropdown %}pe-1{% endif %}" href="{% pageurl item.page %}">{{item.title}}</a>
+                        <a class="nav-link btn text-dark {% if item.is_dropdown %}pe-1{% endif %}" href="{% pageurl item.page %}">{{item.title}}</a>
                     {% if item.is_dropdown %}
                     <button
-                            class="nav-link btn btn-dark text-white dropdown-toggle dropdown-toggle-split d-none d-lg-block ps-1 no-js-hide"
+                            class="nav-link btn text-dark dropdown-toggle dropdown-toggle-split d-none d-lg-block ps-1 no-js-hide"
                             id="{{ item.pk }} Dropdown"
                             data-bs-toggle="dropdown"
                             aria-haspopup="true"
@@ -99,10 +99,10 @@
                             title="Toggle dropdown for tools"
                             {{ item.pk }}
                         ></button>
-                        <ul class="dropdown-menu dropdown-menu-right bg-dark">
+                        <ul class="dropdown-menu dropdown-menu-right">
                             {% for sub_menu in item.sub_menu_items.all %}
                                 <li class="dropdown-item position-relative">
-                                    <a class="text-white stretched-link" href="{{ sub_menu.url}}">{{ sub_menu.title }}</a>
+                                    <a class="text-dark stretched-link" href="{{ sub_menu.url}}">{{ sub_menu.title }}</a>
                                 </li>
                             {% endfor %}
                         </ul>
@@ -112,7 +112,7 @@
                     <li class="nav-item d-none d-lg-inline-block">
                         <a
                             href="/search"
-                            class="btn btn-dark text-white nav-link"
+                            class="btn text-dark nav-link"
                             role="button"
                             data-bs-toggle="collapse"
                             data-bs-target="#navbarSearch"
@@ -134,10 +134,10 @@
                     </li>
                 </ul>
             </div>
-            <div class="bg-primary nav-item">
+            <div class="bg-primary rounded nav-item">
             <a
                 href="/endowment/donate-ietf-endowment/"
-                class="px-3 py-4 d-none d-lg-block text-white">
+                class="px-3 py-3 d-none d-lg-block text-white">
                 Donate
             </a>
             </div>

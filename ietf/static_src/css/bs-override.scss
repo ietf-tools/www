@@ -29,3 +29,7 @@ p {
         padding-bottom: $paragraph-margin-bottom;
     }
 }
+
+:root {
+    --bs-body-font-family: 'Inter', Helvetica, arial, sans-serif;
+}

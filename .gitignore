@@ -12,3 +12,4 @@ node_modules
 *.log
 ietf/templates/base.html
 ietf/static/dist
+docker/database/*.gz
