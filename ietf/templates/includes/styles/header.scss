@@ -1,6 +1,8 @@
 .header > .navbar {
-    border-bottom: 1px solid #DDD;
-    background-color: #F9F9F9;
+    @at-root body:not(.iab_body) & {
+        background-color: #F9F9F9;
+        border-bottom: 1px solid #DDD;
+    }
 
     .dropdown-menu {
         background-color: #FFF;
