@@ -6,11 +6,24 @@
 
     .dropdown-menu {
         background-color: #FFF;
+        border-radius: 5px;
         box-shadow: $box-shadow;
 
         .dropdown-item:focus, .dropdown-item:hover {
-            background-color: #EEE;
+            background-color: rgba(0,0,0,.25);
             color: $dark;
+
+            @at-root body:not(.iab_body) & {
+                background-color: rgba(0,0,0,.1);
+            }
+        }
+
+        .dropdown-item.active, .dropdown-item:active {
+            background-color: rgba(0,0,0, .25);
+
+            @at-root body:not(.iab_body) & {
+                background-color: rgba(#1762bb, .1);
+            }
         }
     }
 
