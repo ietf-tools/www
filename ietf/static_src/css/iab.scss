@@ -40,6 +40,11 @@
         content: '';
         pointer-events: none;
         position: absolute;
+        // inset not supported in safari <14, fix:
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
         inset: 0;
     }
 }
