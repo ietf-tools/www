@@ -1,0 +1,3 @@
+[tool.pytest.ini_options]
+addopts = "--reuse-db"
+python_files = "ietf/*/test*.py"
