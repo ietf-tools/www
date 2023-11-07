@@ -88,6 +88,7 @@ COPY docker/init-dev.sh /app/docker/
 
 ADD https://raw.githubusercontent.com/mrako/wait-for/d9699cb9fe8a4622f05c4ee32adf2fd93239d005/wait-for /usr/local/bin/
 USER root
+RUN pip3 install pytest-django pytest-cov
 RUN chmod +rx /usr/local/bin/wait-for
 USER www
 
@@ -106,6 +107,7 @@ COPY docker/init-test.sh /app/docker/
 
 ADD https://raw.githubusercontent.com/mrako/wait-for/d9699cb9fe8a4622f05c4ee32adf2fd93239d005/wait-for /usr/local/bin/
 USER root
+RUN pip3 install pytest-django pytest-cov
 RUN chmod +rx /usr/local/bin/wait-for
 USER www
 
