@@ -31,4 +31,12 @@ jobs:
         run: docker run --name=memcached -d memcached:latest
 
       - name: Run tests
-        run: docker run -i --rm --name=app-test -u root --link=database --link=memcached -e DATABASE_URL="postgres://postgres:password@database/app" -e APP_SECRET_KEY=xxxx -e ENVIRONMENT=test app-test
+        run: |
+          set -x
+          docker run -i --rm --name=app-test -u root --link=database --link=memcached -e DATABASE_URL="postgres://postgres:password@database/app" -e APP_SECRET_KEY=xxxx -e ENVIRONMENT=test -v $(pwd)/coverage:/coverage app-test
+          cp coverage/.coverage ./
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4-beta
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
