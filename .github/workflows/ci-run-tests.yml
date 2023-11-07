@@ -34,7 +34,7 @@ jobs:
         run: |
           set -x
           docker run -i --rm --name=app-test -u root --link=database --link=memcached -e DATABASE_URL="postgres://postgres:password@database/app" -e APP_SECRET_KEY=xxxx -e ENVIRONMENT=test -v $(pwd)/coverage:/coverage app-test
-          cp coverage/.coverage ./
+          cp coverage/.coverage coverage/coverage.xml ./
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4-beta

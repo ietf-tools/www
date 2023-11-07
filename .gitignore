@@ -14,3 +14,4 @@ ietf/templates/base.html
 ietf/static/dist
 docker/database/*.gz
 .coverage
+coverage.xml
