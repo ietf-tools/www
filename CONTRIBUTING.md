@@ -6,7 +6,7 @@ This website uses the Wagtail CMS.
 
 ### Installing
 
-See the [installation instructions](install.md#install)
+See the [installation instructions](README.md#install)
 
 ### Testing
 
@@ -20,7 +20,7 @@ Please adhere to standard Bootstrap practices where possible rather than adding 
 
 ### Installing
 
-See the [installation instructions](install.md#install) to get the website running on your local machine.
+See the [installation instructions](README.md#install) to get the website running on your local machine.
 
 If you need to inspect the generated files outside of Docker, you can run these commands:
 
@@ -61,21 +61,7 @@ Replace "`http://localhost:8001`" with the URL of your running website.
 
 ## Deploying
 
-This project uses `deploy/preview` branch to preview changes before deploying to `main branch`.
-
-Deploys to preview environments are automated via CircleCI. Use your GitHub credentials to sign in to watch deploys and look for failing tests.
-
-CircleCI is configured to run new site builds, to run tests, and (if the tests pass) to deploy.
-
-Deploys to preview may be done by merging to `deploy/preview`.
-
-Eg,
-
-```bash
-git push origin main:deploy/preview
-```
-
-This would push `main` to `deploy/preview` and trigger a build on CircleCI.
+See the [deployment section](README.md#deployment)
 
 ## Contribututing
 
