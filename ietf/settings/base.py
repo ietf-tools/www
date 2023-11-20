@@ -12,15 +12,8 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-import warnings
 
 from django.conf import global_settings
-
-warnings.filterwarnings(
-    "ignore",
-    message='The psycopg2 wheel package will be renamed from release 2.8; in order to keep installing from binary please use "pip install psycopg2-binary" instead. For details see: <http://initd.org/psycopg/docs/install.html#binary-install-from-pypi>.',
-    module="psycopg2",
-)
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
@@ -72,7 +65,6 @@ INSTALLED_APPS = (
     "django.contrib.staticfiles",
     "django.contrib.admindocs",
     "django.contrib.sitemaps",
-    "mod_wsgi.server",
     "analytical",
     "wagtailmarkdown",
     "wagtailorderable",

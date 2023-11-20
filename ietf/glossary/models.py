@@ -20,7 +20,7 @@ class GlossaryPage(Page, PromoteMixin):
     introduction = models.CharField(
         blank=True,
         max_length=511,
-        help_text="The page introduction text. You can only use 511 " "characters.",
+        help_text="The page introduction text. You can only use 511 characters.",
     )
     call_to_action = models.ForeignKey(
         "snippets.CallToAction",

@@ -2,18 +2,14 @@
 -c constraints.txt
 
 Django>=3.0,<3.3
-djangorestframework>=3.8
 psycopg2-binary>=2.7.5
 wagtail>=4.1,<4.2
 django-libsass>=0.8
 libsass>=0.8.3
-future>=0.15.2
 django_compressor>=2.2
-mod_wsgi>=4.6
 django_analytical>=2.5
 tqdm>=3.7.0
 wagtail-markdown
-Pygments
 wagtail-orderable
 pymemcache
 
