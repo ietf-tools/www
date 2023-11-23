@@ -1,4 +1,19 @@
-*.sql
-media*.tgz
+# The lines below are copied from .gitignore and should be kept in sync
+/venv/
+/static/
+/media/
+/ietf/templates/base.html
+/ietf/static/dist
+/ietf/settings/local.py
+/docker/database/*.gz
+*.pyc
+*.log
+*.swp
+.DS_Store
+.vscode
+.coverage
+node_modules
+coverage.xml
+
+# Docker-only ignore rules
 .git
-media/
