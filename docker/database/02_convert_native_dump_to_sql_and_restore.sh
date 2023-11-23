@@ -5,7 +5,7 @@
 cd /docker-entrypoint-initdb.d
 
 set +e
-FILE=$(ls -1 ietfa.torchbox.* | head)
+FILE=$(ls -1 ietfa.*.gz | head)
 
 set -e
 
