@@ -22,7 +22,7 @@ defusedxml==0.7.1
     # via willow
 dj-database-url==0.5.0
     # via -r base.in
-django==3.2.23
+django==4.0.10
     # via
     #   -r base.in
     #   django-appconf
@@ -87,7 +87,6 @@ pymemcache==4.0.0
     # via -r base.in
 pytz==2023.3.post1
     # via
-    #   django
     #   django-modelcluster
     #   djangorestframework
     #   l18n
