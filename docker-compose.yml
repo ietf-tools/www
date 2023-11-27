@@ -10,7 +10,7 @@ services:
         volumes:
             - ".:/app"
         ports:
-            - "8001:8000"
+            - "${DOCKER_APPLICATION_PORT:-8001}:8000"
         env_file:
             - docker/dev.env
         depends_on:
