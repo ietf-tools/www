@@ -121,6 +121,14 @@ This repo contains code for both the IETF and IAB websites, which are intended t
 -   In settings -> layout settings (http://localhost:8001/admin/settings/utils/layoutsettings/2/), select your new site and make sure that the base template is set to IAB
 -   Header and footer links are populated in the same way as the IETF website. The header contains pages that have the 'show in menu' checkbox ticked in the 'promote' tab. Footer links are set in settings -> footer links.
 
+## Upgrading dependencies
+
+Dependencies are managed using [pip-tools](https://pip-tools.readthedocs.io/en/stable/). They are specified in `requirements/*.in` and version-pinned in `requirements/*.txt`. To update the pins, run:
+
+```sh
+docker compose run --rm application requirements/compile -U
+```
+
 ## Deployment
 
 Production: [IETF](https://www.ietf.org/), [IAB](https://temporary.iab.org/)

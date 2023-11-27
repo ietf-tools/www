@@ -1,0 +1,5 @@
+-c base.txt
+
+pip-tools
+pytest-cov
+pytest-django
