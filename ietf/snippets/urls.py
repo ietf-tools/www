@@ -1,8 +1,8 @@
-from django.conf.urls import url
+from django.urls import re_path
 
 from .views import disclaimer
 
 
 urlpatterns = [
-    url(r'^disclaimer/(\d+)/$', disclaimer, name='disclaimer'),
+    re_path(r'^disclaimer/(\d+)/$', disclaimer, name='disclaimer'),
  ]
