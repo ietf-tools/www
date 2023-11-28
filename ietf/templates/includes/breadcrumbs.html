@@ -2,7 +2,7 @@
 
 {% if self.get_ancestors|length > 1 %}
 <nav aria-label="breadcrumbs">
-    <ol class="breadcrumb bg-transparent pt-4 mb-4 {% if dark_bg %}text-white{% endif %}">
+    <ol class="breadcrumb bg-transparent pt-3 mb-3 {% if dark_bg %}text-white{% endif %}">
         <li class="breadcrumb-item"><a class="{% if dark_bg %}text-white{% else %}text-dark{% endif %}" aria-label="Home" href="/"><span class="icon ion-android-home" ></span></a></li>
         {% for page in self.get_ancestors %}
             {% if not page.slug == "root" and not page.url == '/' %}
