@@ -137,6 +137,6 @@ Dev _(automatically build from **main** branch)_: https://ws-main.dev.ietf.org/
 * Tick **Deploy to Sandbox**.
 * Click **Run Workflow** button.
 
-If main branch is selected, changes will be deployed to https://ws-main.dev.ietf.org/
+If the `main` branch is selected, changes will be deployed to https://ws-main.dev.ietf.org/
 
-If any other branch is selected changes will be available on a subdomain compiled from the branch name. For example, deployment from `feat/foobar` branch will be available on `https://ws-feat-foobar.dev.ietf.org`.
+Changes will be available on a subdomain compiled from the branch name if any other branch is selected. If a `/` is present in the branch name, the first part will be stripped off and any other `/` are replaced with `-`. For example, deployment from the `feat/foobar` branch will be available on `https://ws-foobar.dev.ietf.org`, branch `fix/foo-bar` will be available on `https://ws-foo-bar.dev.ietf.org` and branch `fix/foo/bar` will be available on  `https://ws-foo-bar.dev.ietf.org`.
