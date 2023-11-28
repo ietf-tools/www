@@ -3,5 +3,7 @@ addopts = "--reuse-db"
 python_files = "ietf/*/test*.py"
 filterwarnings = [
     "error",
+    "ignore::DeprecationWarning:willow.image",
+    "ignore::DeprecationWarning:l18n.translation",
     "ignore::UserWarning",
 ]
