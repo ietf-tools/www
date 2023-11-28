@@ -1,8 +1,7 @@
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import render
-from wagtail.contrib.search_promotions.models import SearchPromotion
 from wagtail.models import Page
-from wagtail.search.models import Query
+from wagtail.contrib.search_promotions.models import Query
 
 
 def search(request):
@@ -12,16 +11,10 @@ def search(request):
     # Search
     if search_query and "\x00" not in search_query:
         search_results = Page.objects.live().search(search_query)
-        query = Query.get(search_query)
+        Query.get(search_query).add_hit()
 
-        # Record hit
-        query.add_hit()
-
-        # Get search picks
-        search_picks = query.editors_picks.all()
     else:
         search_results = Page.objects.none()
-        search_picks = SearchPromotion.objects.none()
 
     # Pagination
     paginator = Paginator(search_results, 10)
@@ -38,6 +31,5 @@ def search(request):
         {
             "search_query": search_query,
             "search_results": search_results,
-            "search_picks": search_picks,
         },
     )

@@ -1,7 +1,8 @@
 from django.conf import settings
 from django.db import models
 from django.template.loader import get_template
-from wagtail.admin.panels import FieldPanel
+from wagtail.admin.panels import FieldPanel, TitleFieldPanel
+from wagtail.admin.widgets.slug import SlugInput
 from wagtail.fields import RichTextField
 from wagtail.search import index
 from wagtail.search.index import Indexed
@@ -31,7 +32,7 @@ class Charter(models.Model, index.Indexed):
     )
 
     search_fields = [
-        index.SearchField("title", partial_match=True, boost=10),
+        index.SearchField("title", boost=10),
         index.SearchField("abstract"),
     ]
 
@@ -61,7 +62,7 @@ class WorkingGroup(models.Model, index.Indexed):
     # There is no field currently to capture area/parent
 
     search_fields = [
-        index.SearchField("name", partial_match=True, boost=10),
+        index.SearchField("name", boost=10),
         index.SearchField("acronym"),
         index.SearchField("description"),
     ]
@@ -102,7 +103,7 @@ class RFC(models.Model, index.Indexed):
     )
 
     search_fields = [
-        index.SearchField("title", partial_match=True, boost=10),
+        index.SearchField("title", boost=10),
         index.SearchField("rfc", boost=10),
         index.SearchField("authors"),
         index.SearchField("abstract"),
@@ -327,8 +328,8 @@ class Topic(models.Model, Indexed):
     ]
 
     panels = [
-        FieldPanel("title"),
-        FieldPanel("slug"),
+        TitleFieldPanel("title"),
+        FieldPanel("slug", widget=SlugInput),
     ]
 
     def __str__(self):
