@@ -20,7 +20,7 @@ charset-normalizer==3.3.2
     # via requests
 dj-database-url==0.5.0
     # via -r base.in
-django==4.0.10
+django==4.1.13
     # via
     #   -r base.in
     #   django-filter

@@ -143,7 +143,8 @@ class BibliographyMixin(models.Model):
                 recreate_bibliography_items = False
 
         if recreate_bibliography_items:
-            self.bibliography_items.all().delete()
+            if self.pk is not None:
+                self.bibliography_items.all().delete()
 
             all_content = "".join(
                 [
