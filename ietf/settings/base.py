@@ -55,7 +55,6 @@ INSTALLED_APPS = (
     "wagtail.contrib.modeladmin",
     "wagtail.contrib.typed_table_block",
     "modelcluster",
-    "compressor",
     "taggit",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -138,7 +137,6 @@ USE_TZ = True
 STATICFILES_FINDERS = (
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
-    "compressor.finders.CompressorFinder",
 )
 
 STATICFILES_DIRS = (os.path.join(PROJECT_DIR, "static"),)
@@ -154,11 +152,6 @@ MEDIA_URL = "/media/"
 # File upload permissions
 # https://docs.djangoproject.com/en/3.2/ref/settings/#file-upload-permissions
 FILE_UPLOAD_PERMISSIONS = 0o664
-
-# Django compressor settings
-# http://django-compressor.readthedocs.org/en/latest/settings/
-
-COMPRESS_PRECOMPILERS = (("text/x-scss", "django_libsass.SassCompiler"),)
 
 
 CACHES = {

@@ -1,9 +1,6 @@
 dj-database-url>=0.5.0,<0.6
-django-libsass>=0.8
 django>=4.0,<4.1
 django_analytical>=2.5
-django_compressor>=2.2
-libsass>=0.8.3
 psycopg2-binary>=2.7.5
 pymemcache
 tqdm>=3.7.0

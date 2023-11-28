@@ -25,7 +25,6 @@ dj-database-url==0.5.0
 django==4.0.10
     # via
     #   -r base.in
-    #   django-appconf
     #   django-filter
     #   django-modelcluster
     #   django-permissionedforms
@@ -35,16 +34,8 @@ django==4.0.10
     #   wagtail
 django-analytical==3.1.0
     # via -r base.in
-django-appconf==1.0.6
-    # via django-compressor
-django-compressor==4.4
-    # via
-    #   -r base.in
-    #   django-libsass
 django-filter==22.1
     # via wagtail
-django-libsass==0.9
-    # via -r base.in
 django-modelcluster==6.1
     # via wagtail
 django-permissionedforms==0.1
@@ -67,10 +58,6 @@ idna==3.6
     # via requests
 l18n==2021.3
     # via wagtail
-libsass==0.22.0
-    # via
-    #   -r base.in
-    #   django-libsass
 markdown==3.5.1
     # via wagtail-markdown
 mbstrdecoder==1.1.3
@@ -90,12 +77,8 @@ pytz==2023.3.post1
     #   django-modelcluster
     #   djangorestframework
     #   l18n
-rcssmin==1.1.1
-    # via django-compressor
 requests==2.31.0
     # via wagtail
-rjsmin==1.2.1
-    # via django-compressor
 six==1.16.0
     # via
     #   bleach
