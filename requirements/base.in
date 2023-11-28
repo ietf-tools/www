@@ -7,4 +7,4 @@ tqdm>=3.7.0
 typed-environment-configuration>=0.1.3,<0.2
 wagtail-markdown
 wagtail-orderable
-wagtail>=4.1,<4.2
+wagtail>=4.2,<4.3

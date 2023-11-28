@@ -18,8 +18,6 @@ chardet==5.2.0
     # via mbstrdecoder
 charset-normalizer==3.3.2
     # via requests
-defusedxml==0.7.1
-    # via willow
 dj-database-url==0.5.0
     # via -r base.in
 django==4.0.10
@@ -50,8 +48,6 @@ draftjs-exporter==2.1.7
     # via wagtail
 et-xmlfile==1.1.0
     # via openpyxl
-filetype==1.2.0
-    # via willow
 html5lib==1.1
     # via wagtail
 idna==3.6
@@ -66,7 +62,7 @@ openpyxl==3.1.2
     # via wagtail
 packaging==23.2
     # via bleach
-pillow==10.1.0
+pillow==9.5.0
     # via wagtail
 psycopg2-binary==2.9.9
     # via -r base.in
@@ -100,7 +96,7 @@ typing-extensions==4.8.0
     # via asgiref
 urllib3==2.1.0
     # via requests
-wagtail==4.1.9
+wagtail==4.2.4
     # via
     #   -r base.in
     #   wagtail-markdown
@@ -113,5 +109,5 @@ webencodings==0.5.1
     # via
     #   bleach
     #   html5lib
-willow==1.6.3
+willow==1.4.1
     # via wagtail
