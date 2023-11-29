@@ -61,7 +61,7 @@ p {
     }
 }
 
-block-paragraph {
+.block-paragraph {
     h2 {
         font-size: 1.75rem;
         margin-bottom: 0.6rem;
@@ -84,6 +84,6 @@ block-paragraph {
 }
 
 // this unusual beast is created by Wagtail as an extension of h2 with a fixed margin-bottom.
-block-heading {
+.block-heading {
     margin-bottom: 0.6rem;
 }
