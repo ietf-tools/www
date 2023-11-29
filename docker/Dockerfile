@@ -31,7 +31,7 @@ CMD ["yarn", "start"]
 # BASE
 # ---------------------------------------------------------------------
 # Base backend
-FROM python:3.11-alpine as base
+FROM python:3.12-alpine as base
 ENV PYCURL_SSL_LIBRARY openssl
 
 RUN apk update && apk add postgresql-libs postgresql-client libevent libjpeg openjpeg zlib
