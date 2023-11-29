@@ -72,7 +72,7 @@ pillow==10.1.0
     #   wagtail
 pillow-heif==0.13.1
     # via willow
-psycopg2-binary==2.9.9
+psycopg2==2.9.9
     # via -r base.in
 pymemcache==4.0.0
     # via -r base.in
