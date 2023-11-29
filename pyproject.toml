@@ -5,5 +5,6 @@ filterwarnings = [
     "error",
     "ignore::DeprecationWarning:l18n.translation",
     "ignore:'imghdr' is deprecated:DeprecationWarning:wagtail.images.views.serve",
+    "ignore:'index_together'.*'taggit.TaggedItem':django.utils.deprecation.RemovedInDjango51Warning:",
     "ignore::UserWarning",
 ]

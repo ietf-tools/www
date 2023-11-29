@@ -22,7 +22,7 @@ defusedxml==0.7.1
     # via willow
 dj-database-url==0.5.0
     # via -r base.in
-django==4.1.13
+django==4.2.7
     # via
     #   -r base.in
     #   django-filter
