@@ -34,13 +34,13 @@ django==4.2.7
     #   wagtail
 django-analytical==3.1.0
     # via -r base.in
-django-filter==22.1
+django-filter==23.4
     # via wagtail
 django-modelcluster==6.1
     # via wagtail
 django-permissionedforms==0.1
     # via wagtail
-django-taggit==3.1.0
+django-taggit==4.0.0
     # via wagtail
 django-treebeard==4.7
     # via wagtail
@@ -67,7 +67,11 @@ openpyxl==3.1.2
 packaging==23.2
     # via bleach
 pillow==10.1.0
-    # via wagtail
+    # via
+    #   pillow-heif
+    #   wagtail
+pillow-heif==0.13.1
+    # via willow
 psycopg2-binary==2.9.9
     # via -r base.in
 pymemcache==4.0.0
@@ -98,12 +102,15 @@ typepy==1.3.0
     # via typed-environment-configuration
 urllib3==2.1.0
     # via requests
-wagtail==5.0.5
+wagtail==5.1.3
     # via
     #   -r base.in
     #   wagtail-markdown
+    #   wagtail-modeladmin
     #   wagtail-orderable
 wagtail-markdown==0.11.1
+    # via -r base.in
+wagtail-modeladmin==1.0.0
     # via -r base.in
 wagtail-orderable==1.2.0
     # via -r base.in
@@ -111,5 +118,5 @@ webencodings==0.5.1
     # via
     #   bleach
     #   html5lib
-willow==1.6.3
+willow[heif]==1.6.3
     # via wagtail
