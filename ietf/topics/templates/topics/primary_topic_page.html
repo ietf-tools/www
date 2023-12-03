@@ -30,7 +30,7 @@
                     <div class="no-js-hide u-max-text-width pe-lg-3">
                         {% has_tabs self.key_info self.in_depth as show_tabs %}
                         {% if show_tabs %}
-                        <div class="pt-3 pt-lg-5 border-top">
+                        <div class="pt-3 pt-lg-3 border-top">
                         <ul class="nav nav-tabs text-uppercase text-center no-js-hide" id="tabs" role="tablist" aria-owns="key-info-tab in-depth-tab">
                             <li class="nav-item border flex-grow-1" role="presentation">
                                 <a class="nav-link active" id="key-info-tab" data-bs-toggle="tab" href="#key-info" role="tab"
@@ -44,7 +44,7 @@
                         </div>
                         {% endif %}
 
-                        <div class="mb-3 {% if not show_tabs %}pt-3 pt-lg-5 border-top{% endif %}">
+                        <div class="mb-3 {% if not show_tabs %}pt-3 pt-lg-3 border-top{% endif %}">
                             <div class="{% if show_tabs %}mb-3 tab-content bg-white border border-top-0 no-js-hide{% endif %}">
                                 {% if self.key_info %}
                                 <div id="key-info" class="{% if show_tabs %} tab-pane fade show active p-3" tabindex="0" role="tabpanel"

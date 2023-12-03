@@ -6,7 +6,7 @@
 {% block main_content %}
 
 <main id="content">
-    <div class="bg-white pb-3">
+    <div class="bg-white pb-1">
         <div class="container">
             <!-- prettier-ignore -->
             {% include 'includes/breadcrumbs.html' %}
@@ -37,7 +37,7 @@
                         group -> we remove the default role by adding
                         `role="presentation"` which actually sets the role for
                         this element to `none` {% endcomment %}
-                        <div class="pt-3 pt-lg-5 border-top">
+                        <div class="pt-3 pt-lg-3 border-top">
                             <ul
                                 class="nav nav-tabs no-js-hide iab-tabs"
                                 id="tabs"
@@ -79,7 +79,7 @@
 
                         {% endif %} {# content #}
                         <div
-                            class="mb-3 {% if not show_tabs %}pt-3 pt-lg-5 border-top{% endif %}"
+                            class="mb-3 {% if not show_tabs %}pt-3 pt-lg-3 border-top{% endif %}"
                         >
                             <div
                                 class="{% if show_tabs %}mb-3 tab-content bg-white border border-top-0 no-js-hide{% endif %}"

@@ -1,30 +1,28 @@
 @import 'header.scss';
 
 .block-paragraph {
-    & h2,
-    & h3,
-    & h4 {
-        margin-bottom: 1.3rem;
-    }
-
-    & h2 {
-        font-size: 2rem;
+    .h2, h2 {
+        font-size: 1.75rem;
+        margin-bottom: 0.6rem;
         margin-top: 2rem;
         &:first-child {
             margin-top: 0;
         }
     }
 
-    & h3 {
+    .h3, h3 {
         font-size: 1.5rem;
+        margin-bottom: 0.5rem;
     }
 
-    & h4 {
+    .h4, h4 {
         font-size: 1.25rem;
+        margin-bottom: 0.5rem;
     }
 
-    & h5 {
-        font-size: 1rem;
+    .h5, h5 {
+        font-size: 1.25rem;
+        margin-bottom: 0.5rem;
     }
 
     p,
