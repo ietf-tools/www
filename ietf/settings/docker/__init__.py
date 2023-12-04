@@ -19,6 +19,7 @@ _ENVVARS = [
     StringVariable("AWS_STORAGE_BUCKET_NAME", default=""),  # S3 Bucket Name
     StringVariable("AWS_S3_CUSTOM_DOMAIN", default=""),  # S3 Domain
     StringVariable("DATABASE_URL"),  # e.g. postgres URL
+    StringListVariable("WAGTAILADMIN_BASE_URL", default=""),
 ]
 
 _DJANGO_ENVVARS = [

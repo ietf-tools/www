@@ -99,8 +99,8 @@ class BlogTests(TestCase):
         self.assertTrue(self.prevblog.date < self.blog.date)
         self.assertTrue(self.nextblog.date > self.blog.date)
         blog = BlogPage.objects.get(pk=self.blog.pk)
-        self.assertEquals(self.prevblog, blog.previous)
-        self.assertEquals(self.nextblog, blog.next)
+        self.assertEqual(self.prevblog, blog.previous)
+        self.assertEqual(self.nextblog, blog.next)
 
     def test_blog_feed(self):
         r = self.client.get(path='/blog/feed/')

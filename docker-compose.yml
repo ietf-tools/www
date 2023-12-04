@@ -13,6 +13,8 @@ services:
             - "${DOCKER_APPLICATION_PORT:-8001}:8000"
         env_file:
             - docker/dev.env
+        environment:
+            WAGTAILADMIN_BASE_URL: "http://localhost:${DOCKER_APPLICATION_PORT:-8001}/"
         depends_on:
             - database
             - memcached
