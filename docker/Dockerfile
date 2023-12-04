@@ -2,7 +2,7 @@
 # FRONTEND
 # ---------------------------------------------------------------------
 # Frontend assets get compiled first
-FROM node:18-alpine as frontend
+FROM node:20-alpine as frontend
 
 ENV NODE_PATH=/node_modules
 ENV PATH="${PATH}:/node_modules/.bin"
