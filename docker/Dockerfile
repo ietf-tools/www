@@ -39,9 +39,7 @@ RUN apk update && apk add postgresql-libs postgresql-client libevent libjpeg ope
 WORKDIR /app
 
 # Copy Python reqs to benefit from Docker caching
-COPY docker/requirements.txt docker/constraints.txt /app/docker/
-COPY requirements.txt /app/requirements/main.txt
-COPY constraints.txt /app/requirements/constraints.txt
+COPY requirements ./requirements
 
 # Install build dependencies, then Python requirements, then remove build dependencies
 # to reduce the resulting image size
@@ -52,8 +50,7 @@ RUN apk update && apk add --virtual build-deps make gcc g++ musl-dev apache2-dev
   openjpeg-dev \
   libevent-dev && \
   cd /app && \
-  pip3 install -r docker/requirements.txt && \
-  pip3 install -r requirements/main.txt && \
+  pip3 install -r requirements/base.txt -r requirements/docker.txt && \
   apk del build-deps build-headers
 
 RUN adduser -S www -u 1000 && chown -R www /app
@@ -88,7 +85,8 @@ COPY docker/init-dev.sh /app/docker/
 
 ADD https://raw.githubusercontent.com/mrako/wait-for/d9699cb9fe8a4622f05c4ee32adf2fd93239d005/wait-for /usr/local/bin/
 USER root
-RUN pip3 install pytest-django pytest-cov
+RUN apk add --no-cache bash
+RUN pip3 install -r requirements/dev.txt
 RUN chmod +rx /usr/local/bin/wait-for
 USER www
 
@@ -107,7 +105,7 @@ COPY docker/init-test.sh /app/docker/
 
 ADD https://raw.githubusercontent.com/mrako/wait-for/d9699cb9fe8a4622f05c4ee32adf2fd93239d005/wait-for /usr/local/bin/
 USER root
-RUN pip3 install pytest-django pytest-cov
+RUN pip3 install -r requirements/dev.txt
 RUN chmod +rx /usr/local/bin/wait-for
 USER www
 
