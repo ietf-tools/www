@@ -11,7 +11,7 @@ module.exports = (env, options) => {
     return {
         mode: options.mode,
         devtool:
-            options.mode !== 'production' ? 'inline-source-map' : undefined,
+            options.mode !== 'production' ? 'eval-source-map' : undefined,
         entry: './ietf/static_src/index.js',
         output: {
             filename: '[name].js',

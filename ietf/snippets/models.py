@@ -1,7 +1,8 @@
 from django.conf import settings
 from django.db import models
 from django.template.loader import get_template
-from wagtail.admin.panels import FieldPanel
+from wagtail.admin.panels import FieldPanel, TitleFieldPanel
+from wagtail.admin.widgets.slug import SlugInput
 from wagtail.fields import RichTextField
 from wagtail.search import index
 from wagtail.search.index import Indexed
@@ -31,8 +32,10 @@ class Charter(models.Model, index.Indexed):
     )
 
     search_fields = [
-        index.SearchField("title", partial_match=True, boost=10),
+        index.SearchField("title", boost=10),
+        index.AutocompleteField("title", boost=10),
         index.SearchField("abstract"),
+        index.AutocompleteField("abstract"),
     ]
 
     def __str__(self):
@@ -61,9 +64,12 @@ class WorkingGroup(models.Model, index.Indexed):
     # There is no field currently to capture area/parent
 
     search_fields = [
-        index.SearchField("name", partial_match=True, boost=10),
+        index.SearchField("name", boost=10),
+        index.AutocompleteField("name", boost=10),
         index.SearchField("acronym"),
+        index.AutocompleteField("acronym"),
         index.SearchField("description"),
+        index.AutocompleteField("description"),
     ]
 
     @property
@@ -102,10 +108,14 @@ class RFC(models.Model, index.Indexed):
     )
 
     search_fields = [
-        index.SearchField("title", partial_match=True, boost=10),
+        index.SearchField("title", boost=10),
+        index.AutocompleteField("title", boost=10),
         index.SearchField("rfc", boost=10),
+        index.AutocompleteField("rfc", boost=10),
         index.SearchField("authors"),
+        index.AutocompleteField("authors"),
         index.SearchField("abstract"),
+        index.AutocompleteField("abstract"),
     ]
 
     def __str__(self):
@@ -129,7 +139,10 @@ class Person(models.Model, Indexed):
     name = models.CharField(max_length=511)
     link = models.URLField()
 
-    search_fields = [index.SearchField("name")]
+    search_fields = [
+        index.SearchField("name"),
+        index.AutocompleteField("name"),
+    ]
     panels = [FieldPanel("name")]
 
     def __str__(self):
@@ -143,7 +156,10 @@ class Person(models.Model, Indexed):
 class Role(models.Model, Indexed):
     name = models.CharField(max_length=255, help_text="A role within the IETF.")
 
-    search_fields = [index.SearchField("name")]
+    search_fields = [
+        index.SearchField("name"),
+        index.AutocompleteField("name"),
+    ]
 
     panels = [FieldPanel("name")]
 
@@ -186,8 +202,11 @@ class Group(models.Model, Indexed, RenderableSnippetMixin):
 
     search_fields = [
         index.SearchField("name"),
+        index.AutocompleteField("name"),
         index.SearchField("summary"),
+        index.AutocompleteField("summary"),
         index.SearchField("email"),
+        index.AutocompleteField("email"),
     ]
 
     panels = [
@@ -223,8 +242,11 @@ class CallToAction(Indexed, RelatedLink, RenderableSnippetMixin):
 
     search_fields = [
         index.SearchField("title"),
+        index.AutocompleteField("title"),
         index.SearchField("blurb"),
+        index.AutocompleteField("blurb"),
         index.SearchField("button_text"),
+        index.AutocompleteField("button_text"),
     ]
 
     panels = RelatedLink.panels + [
@@ -278,9 +300,13 @@ class MailingListSignup(models.Model, Indexed, RenderableSnippetMixin):
 
     search_fields = [
         index.SearchField("title"),
+        index.AutocompleteField("title"),
         index.SearchField("blurb"),
+        index.AutocompleteField("blurb"),
         index.SearchField("button_text"),
+        index.AutocompleteField("button_text"),
         index.SearchField("sign_up"),
+        index.AutocompleteField("sign_up"),
     ]
 
     panels = [
@@ -323,12 +349,14 @@ class Topic(models.Model, Indexed):
 
     search_fields = [
         index.SearchField("title"),
+        index.AutocompleteField("title"),
         index.SearchField("slug"),
+        index.AutocompleteField("slug"),
     ]
 
     panels = [
-        FieldPanel("title"),
-        FieldPanel("slug"),
+        TitleFieldPanel("title"),
+        FieldPanel("slug", widget=SlugInput),
     ]
 
     def __str__(self):
@@ -355,6 +383,7 @@ class Sponsor(models.Model, Indexed):
 
     search_fields = [
         index.SearchField("title"),
+        index.AutocompleteField("title"),
     ]
 
     panels = [FieldPanel("title"), FieldPanel("logo"), FieldPanel("link")]
@@ -379,7 +408,9 @@ class GlossaryItem(models.Model, Indexed):
 
     search_fields = [
         index.SearchField("title"),
+        index.AutocompleteField("title"),
         index.SearchField("body"),
+        index.AutocompleteField("body"),
     ]
 
     panels = [

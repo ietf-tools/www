@@ -31,7 +31,7 @@ CMD ["yarn", "start"]
 # BASE
 # ---------------------------------------------------------------------
 # Base backend
-FROM python:3.10-alpine as base
+FROM python:3.12-alpine as base
 ENV PYCURL_SSL_LIBRARY openssl
 
 RUN apk update && apk add postgresql-libs postgresql-client libevent libjpeg openjpeg zlib
@@ -85,7 +85,7 @@ COPY docker/init-dev.sh /app/docker/
 
 ADD https://raw.githubusercontent.com/mrako/wait-for/d9699cb9fe8a4622f05c4ee32adf2fd93239d005/wait-for /usr/local/bin/
 USER root
-RUN apk add --no-cache bash
+RUN apk add --no-cache bash postgresql-dev
 RUN pip3 install -r requirements/dev.txt
 RUN chmod +rx /usr/local/bin/wait-for
 USER www

@@ -8,6 +8,6 @@ def register_resource_menu_item():
     return MenuItem(
         "Documentation",
         reverse("django-admindocs-docroot"),
-        classnames="icon icon-folder-inverse",
+        classname="icon icon-folder-inverse",
         order=10000,
     )
