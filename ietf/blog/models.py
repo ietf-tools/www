@@ -390,6 +390,12 @@ class BlogIndexPage(RoutablePageMixin, Page):
         person = get_object_or_404(Person, slug=slug)
         return BlogIndexByAuthorPage(person=person, parent=self).serve(request)
 
+    @route(r"^(?P<topic>.+)/feed/$", name="blog_feed_with_topic")
+    def feed_with_topic(self, request, topic):
+        from .feeds import TopicBlogFeed
+
+        return TopicBlogFeed()(request, topic=topic)
+
     @route(r"^([-\w]+)/all/$")
     def filtered_entries(self, request, slug, *args, **kwargs):
         self.filter_topic = get_object_or_404(Topic, slug=slug)
