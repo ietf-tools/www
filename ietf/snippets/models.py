@@ -137,13 +137,17 @@ class RFC(models.Model, index.Indexed):
 @register_snippet
 class Person(models.Model, Indexed):
     name = models.CharField(max_length=511)
+    slug = models.SlugField(max_length=511)
     link = models.URLField()
 
     search_fields = [
         index.SearchField("name"),
         index.AutocompleteField("name"),
     ]
-    panels = [FieldPanel("name")]
+    panels = [
+        TitleFieldPanel("name"),
+        FieldPanel("slug", widget=SlugInput),
+    ]
 
     def __str__(self):
         return self.name
