@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from datetime import datetime
 from functools import partial
 
@@ -5,7 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.db.models.functions import Coalesce
 from django.http import Http404
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import functional
 from django.utils.safestring import mark_safe
 from modelcluster.fields import ParentalKey
@@ -16,7 +17,7 @@ from wagtail.models import Page, Site
 from wagtail.search import index
 
 from ..bibliography.models import BibliographyMixin
-from ..snippets.models import Topic
+from ..snippets.models import Person, Topic
 from ..utils.blocks import StandardBlock
 from ..utils.models import FeedSettings, PromoteMixin
 
@@ -308,6 +309,38 @@ BlogPage.content_panels = Page.content_panels + [
 BlogPage.promote_panels = Page.promote_panels + PromoteMixin.panels
 
 
+@dataclass
+class BlogIndexByAuthorPage:
+    """
+    An ephemeral Page-like class to render the author listing page. It allows
+    us to use the existing templates for e.g. page title and breadcrumbs.
+    """
+
+    person: Person
+    parent: "BlogIndexPage"
+
+    @property
+    def title(self):
+        return f"Articles by {self.person.name}"
+
+    def get_ancestors(self):
+        return self.parent.get_ancestors(inclusive=True)
+
+    def get_entries_queryset(self):
+        qs = BlogPage.objects.child_of(self.parent).filter(authors__author=self.person).live()
+        qs = qs.annotate(
+            coalesced_published_date=Coalesce("date_published", "first_published_at")
+        ).order_by("-coalesced_published_date")
+        return qs
+
+    def serve(self, request):
+        context = {
+            "entries": self.get_entries_queryset(),
+            "self": self,
+        }
+        return render(request, "blog/blog_index_by_author.html", context)
+
+
 class BlogIndexPage(RoutablePageMixin, Page):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -330,6 +363,11 @@ class BlogIndexPage(RoutablePageMixin, Page):
     @route(r"^all/$")
     def all_entries(self, request, *args, **kwargs):
         return super().serve(request, *args, **kwargs)
+
+    @route(r"^author/(?P<slug>[^/]+)/$", name="index_by_author")
+    def index_by_author(self, request, slug):
+        person = get_object_or_404(Person, slug=slug)
+        return BlogIndexByAuthorPage(person=person, parent=self).serve(request)
 
     @route(r"^([-\w]+)/all/$")
     def filtered_entries(self, request, slug, *args, **kwargs):
