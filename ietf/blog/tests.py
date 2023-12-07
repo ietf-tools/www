@@ -81,6 +81,14 @@ class BlogTests(TestCase):
         self.blog_index.add_child(instance=self.nextblog)
         self.nextblog.save()
 
+        self.alice = Person.objects.create(name="Alice", slug="alice")
+        self.bob = Person.objects.create(name="Bob", slug="bob")
+
+        BlogPageAuthor.objects.create(page=self.otherblog, author=self.alice)
+        BlogPageAuthor.objects.create(page=self.prevblog, author=self.alice)
+        BlogPageAuthor.objects.create(page=self.prevblog, author=self.bob)
+        BlogPageAuthor.objects.create(page=self.nextblog, author=self.bob)
+
     def test_blog(self):
         r = self.client.get(path=self.blog_index.url)
         self.assertEqual(r.status_code, 200)
@@ -103,14 +111,6 @@ class BlogTests(TestCase):
         self.assertEqual(self.nextblog, blog.next)
 
     def test_author_index(self):
-        self.alice = Person.objects.create(name="Alice", slug="alice")
-        self.bob = Person.objects.create(name="Bob", slug="bob")
-
-        BlogPageAuthor.objects.create(page=self.otherblog, author=self.alice)
-        BlogPageAuthor.objects.create(page=self.prevblog, author=self.alice)
-        BlogPageAuthor.objects.create(page=self.prevblog, author=self.bob)
-        BlogPageAuthor.objects.create(page=self.nextblog, author=self.bob)
-
         alice_url = self.blog_index.reverse_subpage(
             "index_by_author", kwargs={"slug": self.alice.slug}
         )
@@ -155,3 +155,16 @@ class BlogTests(TestCase):
         self.assertIn(self.nextblog.url.encode(), r.content)
         self.assertNotIn(self.blog.url.encode(), r.content)
         self.assertNotIn(self.otherblog.url.encode(), r.content)
+
+    def test_author_feed(self):
+        alice_url = self.blog_index.reverse_subpage(
+            "feed_by_author", kwargs={"slug": self.alice.slug}
+        )
+        self.assertIn("/feed/", alice_url)
+        alice_resp = self.client.get(self.blog_index.url + alice_url)
+        self.assertEqual(alice_resp.status_code, 200)
+        feed = alice_resp.content.decode("utf8")
+        self.assertIn(self.otherblog.url, feed)
+        self.assertIn(self.prevblog.url, feed)
+        self.assertNotIn(self.nextblog.url, feed)
+        self.assertNotIn(self.blog.url, feed)

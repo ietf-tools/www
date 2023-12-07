@@ -361,6 +361,11 @@ class BlogIndexByAuthorPage:
         }
         return render(request, "blog/blog_index_by_author.html", context)
 
+    def feed(self, request):
+        from .feeds import AuthorBlogFeed
+
+        return AuthorBlogFeed(self.person, self.get_entries_queryset())(request)
+
 
 class BlogIndexPage(RoutablePageMixin, Page):
     def __init__(self, *args, **kwargs):
@@ -389,6 +394,11 @@ class BlogIndexPage(RoutablePageMixin, Page):
     def index_by_author(self, request, slug):
         person = get_object_or_404(Person, slug=slug)
         return BlogIndexByAuthorPage(person=person, parent=self).serve(request)
+
+    @route(r"^author/(?P<slug>[^/]+)/feed/$", name="feed_by_author")
+    def feed_by_author(self, request, slug):
+        person = get_object_or_404(Person, slug=slug)
+        return BlogIndexByAuthorPage(person=person, parent=self).feed(request)
 
     @route(r"^(?P<topic>.+)/feed/$", name="blog_feed_with_topic")
     def feed_with_topic(self, request, topic):
