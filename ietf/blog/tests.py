@@ -5,8 +5,8 @@ from django.test import TestCase
 from wagtail.models import Page, Site
 
 from ..home.models import HomePage
-from ..snippets.models import Topic
-from .models import BlogIndexPage, BlogPage, BlogPageTopic
+from ..snippets.models import Person, Topic
+from .models import BlogIndexPage, BlogPage, BlogPageAuthor, BlogPageTopic
 
 
 class BlogTests(TestCase):
@@ -101,6 +101,28 @@ class BlogTests(TestCase):
         blog = BlogPage.objects.get(pk=self.blog.pk)
         self.assertEqual(self.prevblog, blog.previous)
         self.assertEqual(self.nextblog, blog.next)
+
+    def test_author_index(self):
+        self.alice = Person.objects.create(name="Alice", slug="alice")
+        self.bob = Person.objects.create(name="Bob", slug="bob")
+
+        BlogPageAuthor.objects.create(page=self.otherblog, author=self.alice)
+        BlogPageAuthor.objects.create(page=self.prevblog, author=self.alice)
+        BlogPageAuthor.objects.create(page=self.prevblog, author=self.bob)
+        BlogPageAuthor.objects.create(page=self.nextblog, author=self.bob)
+
+        alice_url = self.blog_index.reverse_subpage(
+            "index_by_author", kwargs={"slug": self.alice.slug}
+        )
+        alice_resp = self.client.get(self.blog_index.url + alice_url)
+        self.assertEqual(alice_resp.status_code, 200)
+        html = alice_resp.content.decode("utf8")
+        self.assertIn("<title>IETF  | Articles by Alice</title>", html)
+        self.assertIn("<h1>Articles by Alice</h1>", html)
+        self.assertIn(self.otherblog.url, html)
+        self.assertIn(self.prevblog.url, html)
+        self.assertNotIn(self.nextblog.url, html)
+        self.assertNotIn(self.blog.url, html)
 
     def test_blog_feed(self):
         r = self.client.get(path='/blog/feed/')
