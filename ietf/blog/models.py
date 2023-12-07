@@ -213,6 +213,27 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
             qs = qs.filter(topics__topic=self.filter_topic)
         return qs
 
+    def get_blog_index_page(self):
+        for parent in self.get_ancestors().specific():
+            if isinstance(parent, BlogIndexPage):
+                return parent
+        else:
+            raise ValueError("Cannot find parent BlogIndexPage")
+
+    def get_authors(self):
+        index_page = self.get_blog_index_page()
+
+        return [
+            {
+                "name": author.author.name,
+                "url": index_page.url + index_page.reverse_subpage(
+                    "index_by_author", kwargs={"slug": author.author.slug}
+                ),
+                "role": author.role,
+            }
+            for author in self.authors.all()
+        ]
+
     def get_context(self, request, *args, **kwargs):
         context = super(BlogPage, self).get_context(request, *args, **kwargs)
         siblings = self.siblings
