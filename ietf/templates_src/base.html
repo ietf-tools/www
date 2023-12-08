@@ -1,4 +1,5 @@
 {% load static wagtailuserbar wagtailcore_tags wagtailimages_tags ietf_tags analytical %}
+{% wagtail_site as current_site %}
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html lang="en" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html lang="en" class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -22,16 +23,16 @@
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:site" content="@{{ settings.utils.SocialMediaSettings.twitter_handle }}" />
         <meta name="twitter:title" content="{{ page.title }}" />
-        <meta name="twitter:description" content="{% social_text page wagtail_site %}">
-        <meta name="twitter:image" content="{% social_image page wagtail_site %}">
+        <meta name="twitter:description" content="{% social_text page current_site %}">
+        <meta name="twitter:image" content="{% social_image page current_site %}">
 
         <!--facebook opengraph tags-->
         <meta property="fb:app_id" content="{{ settings.utils.SocialMediaSettings.facebook_app_id }}" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="{{ page.url }}" />
         <meta property="og:title" content="{{ page.title }}" />
-        <meta property="og:image" content="{% social_image page wagtail_site %}" />
-        <meta property="og:description" content="{% social_text page wagtail_site %}" />
+        <meta property="og:image" content="{% social_image page current_site %}" />
+        <meta property="og:description" content="{% social_text page current_site %}" />
         <meta property="og:site_name" content="{{ settings.utils.SocialMediaSettings.site_name }}" />
 
         {% block extra_meta %}{% endblock extra_meta %}
