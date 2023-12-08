@@ -74,7 +74,7 @@ class WorkingGroup(models.Model, index.Indexed):
 
     @property
     def url(self):
-        return settings.DATATRACKER_URI + "/wg/" + self.acronym
+        return settings.DATATRACKER_URI + "/group/" + self.acronym
 
     @property
     def charter_url(self):
