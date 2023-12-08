@@ -87,9 +87,8 @@ class StandardPage(Page, BibliographyMixin, PromoteMixin):
         ]
     )
 
-    @property
-    def feed_text(self):
-        return self.search_description or self.introduction
+    def get_social_text(self):
+        return super().get_social_text() or self.introduction
 
     @property
     def siblings(self):
@@ -142,6 +141,9 @@ class StandardIndexPage(Page, PromoteMixin):
         index.SearchField("key_info"),
         index.SearchField("in_depth"),
     ]
+
+    def get_social_text(self):
+        return super().get_social_text() or self.introduction
 
     @property
     def children(self):
@@ -219,9 +221,8 @@ class IABStandardPage(Page, BibliographyMixin, PromoteMixin):
         ]
     )
 
-    @property
-    def feed_text(self):
-        return self.search_description or self.introduction
+    def get_social_text(self):
+        return super().get_social_text() or self.introduction
 
     @property
     def siblings(self):

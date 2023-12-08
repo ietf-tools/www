@@ -114,6 +114,9 @@ class IESGStatementPage(Page, BibliographyMixin, PromoteMixin):
     parent_page_types = ["iesg_statement.IESGStatementIndexPage"]
     subpage_types = []
 
+    def get_social_text(self):
+        return super().get_social_text() or self.introduction
+
     @property
     def date(self):
         return self.date_published or self.first_published_at
@@ -141,10 +144,6 @@ class IESGStatementPage(Page, BibliographyMixin, PromoteMixin):
 
     def coalesced_published_date(self):
         return self.date_published or self.first_published_at
-
-    @property
-    def feed_text(self):
-        return self.search_description or self.introduction
 
     @functional.cached_property
     def siblings(self):

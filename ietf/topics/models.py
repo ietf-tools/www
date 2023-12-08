@@ -29,6 +29,9 @@ class TopicIndexPage(Page, PromoteMixin):
         "topics.PrimaryTopicPage",
     ]
 
+    def get_social_text(self):
+        return super().get_social_text() or self.introduction
+
     @property
     def primary_topics(self):
         return PrimaryTopicPage.objects.child_of(self)
@@ -83,9 +86,8 @@ class PrimaryTopicPage(Page, PromoteMixin):
         index.SearchField("in_depth"),
     ]
 
-    @property
-    def feed_text(self):
-        return self.search_description or self.introduction
+    def get_social_text(self):
+        return super().get_social_text() or self.introduction
 
     @property
     def siblings(self):

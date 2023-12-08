@@ -13,9 +13,7 @@
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <title>IETF {% block title %}{% if self.seo_title %} | {{ self.seo_title }}{% else %} | {{ self.title }}{% endif %}{% endblock %}{% block title_suffix %}{% endblock %}</title>
-        {% if self.search_description %}
-            <meta name="description" content="" />
-        {% endif %}
+        <meta name="description" content="{% social_text page current_site %}" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <!-- Twitter summary card - see https://dev.twitter.com/cards/types/summary -->

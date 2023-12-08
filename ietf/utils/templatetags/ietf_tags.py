@@ -12,14 +12,14 @@ register = Library()
 def social_text(page, site, encode=False):
     text = ""
 
-    if page and site:
-        try:
-            text = page.social_text
-        except (AttributeError, ValueError):
-            text = SocialMediaSettings.for_site(site).default_sharing_text
+    if isinstance(page, PromoteMixin):
+        text = page.get_social_text()
 
-        if encode:
-            text = quote(text)
+    if not text:
+        text = SocialMediaSettings.for_site(site).default_sharing_text
+
+    if encode:
+        text = quote(text)
 
     return text
 

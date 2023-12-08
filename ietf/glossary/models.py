@@ -37,6 +37,9 @@ class GlossaryPage(Page, PromoteMixin):
         related_name="+",
     )
 
+    def get_social_text(self):
+        return super().get_social_text() or self.introduction
+
     @property
     def siblings(self):
         return self.get_siblings().live().public().filter(show_in_menus=True).specific()
