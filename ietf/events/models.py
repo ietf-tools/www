@@ -155,6 +155,12 @@ class EventPage(Page, PromoteMixin):
     def siblings(self):
         return self.get_siblings().live().public().filter(show_in_menus=True).specific()
 
+    def get_social_image(self):
+        return super().get_social_image() or self.main_image
+
+    def get_social_text(self):
+        return super().get_social_text() or self.introduction
+
 
 EventPage.content_panels = Page.content_panels + [
     FieldPanel("start_date"),
@@ -193,6 +199,9 @@ class EventListingPagePromotedEvent(models.Model):
 
 class EventListingPage(Page, PromoteMixin):
     introduction = models.CharField(blank=True, max_length=511)
+
+    def get_social_text(self):
+        return super().get_social_text() or self.introduction
 
     @property
     def upcoming_events(self):

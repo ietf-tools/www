@@ -3,7 +3,7 @@ from urllib.parse import quote
 from django.template import Library
 from wagtail.models import Site
 
-from ..models import SocialMediaSettings
+from ..models import PromoteMixin, SocialMediaSettings
 
 register = Library()
 
@@ -12,36 +12,29 @@ register = Library()
 def social_text(page, site, encode=False):
     text = ""
 
-    if page and site:
-        try:
-            text = page.social_text
-        except (AttributeError, ValueError):
-            text = SocialMediaSettings.for_site(site).default_sharing_text
+    if isinstance(page, PromoteMixin):
+        text = page.get_social_text()
 
-        if encode:
-            text = quote(text)
+    if not text:
+        text = SocialMediaSettings.for_site(site).default_sharing_text
+
+    if encode:
+        text = quote(text)
 
     return text
 
 
 @register.simple_tag(takes_context=False)
 def social_image(page, site):
-    image = ""
+    image = None
 
-    if page and site:
-        try:
-            image = page.social_image.get_rendition("original").url
-        except (AttributeError, ValueError):
-            try:
-                image = (
-                    SocialMediaSettings.for_site(site)
-                    .default_sharing_image.get_rendition("original")
-                    .url
-                )
-            except (AttributeError, ValueError):
-                pass
+    if isinstance(page, PromoteMixin):
+        image = page.get_social_image()
 
-    if image:
-        image = Site.objects.get(is_default_site=True).root_url + image
+    if image is None:
+        image = SocialMediaSettings.for_site(site).default_sharing_image
 
-    return image
+    if image is not None:
+        return image.get_rendition("original").url
+
+    return ""

@@ -9,7 +9,7 @@
         <li class="card border-bottom-0 {% if sibling.slug == current.slug %}bg-white{% else %}bg-light{% endif %}">
             <div class="card-body">
                 <h2 class="h4"><a class="stretched-link" href="{{ sibling.url }}">{{ sibling.title }}</a></h2>
-                <p class="card-text">{{ sibling.feed_text }}</p>
+                <p class="card-text">{{ sibling.get_social_text }}</p>
                 {% include "includes/blog_authors.html" with post=sibling %}
                 {{ sibling.date|date:"DATE_FORMAT" }}
             </div>

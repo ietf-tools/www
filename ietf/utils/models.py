@@ -94,6 +94,12 @@ class PromoteMixin(models.Model):
     class Meta:
         abstract = True
 
+    def get_social_image(self):
+        return self.social_image
+
+    def get_social_text(self):
+        return self.social_text or self.search_description
+
 
 class SubMenuItem(Orderable):
     parent = ParentalKey("utils.MenuItem", related_name="sub_menu_items")
