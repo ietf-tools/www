@@ -3,14 +3,6 @@
 from django.db import migrations, models
 
 
-def https_links(apps, schema_editor):
-    WorkingGroup = apps.get_model("snippets.WorkingGroup")
-    for wg in WorkingGroup.objects.all():
-        if wg.list_subscribe.startswith("http://www.ietf.org"):
-            wg.list_subscribe = wg.list_subscribe.replace("http://", "https://")
-            wg.save()
-
-
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -23,5 +15,4 @@ class Migration(migrations.Migration):
             name='list_subscribe',
             field=models.URLField(blank=True),
         ),
-        migrations.RunPython(https_links, migrations.RunPython.noop),
     ]
