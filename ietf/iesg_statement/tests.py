@@ -1,4 +1,4 @@
-from django.test import Client, TestCase
+from django.test import TestCase
 from wagtail.models import Page, Site
 
 from ..home.models import HomePage

@@ -2,8 +2,7 @@ from django.test import TestCase
 from wagtail.models import Page, Site
 
 from ..blog.models import BlogIndexPage, BlogPage
-from ..snippets.models import RFC, WorkingGroup
-from .models import HomePage, RequestForCommentsSectionLinks, WorkingGroupsSectionLinks
+from .models import HomePage
 
 
 class HomeTests(TestCase):
