@@ -1,4 +1,4 @@
-{% load static wagtailuserbar wagtailcore_tags wagtailimages_tags ietf_tags analytical %}
+{% load static wagtailuserbar wagtailcore_tags wagtailimages_tags ietf_tags analytical wagtail_ab_testing_tags %}
 {% wagtail_site as current_site %}
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html lang="en" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -72,6 +72,7 @@
         </script>
 
         {% block extra_js %}{% endblock %}
+        {% wagtail_ab_testing_script %}
         {% analytical_body_bottom %}
     </body>
 </html>

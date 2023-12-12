@@ -67,6 +67,7 @@ INSTALLED_APPS = (
     "analytical",
     "wagtailmarkdown",
     "wagtailorderable",
+    "wagtail_ab_testing",
 )
 
 MIDDLEWARE = [

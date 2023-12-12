@@ -5,6 +5,7 @@ psycopg2
 pymemcache
 tqdm
 typed-environment-configuration>=0.1.3,<0.2
+wagtail-ab-testing
 wagtail-markdown
 wagtail-modeladmin
 wagtail-orderable

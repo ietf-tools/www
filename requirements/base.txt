@@ -63,6 +63,10 @@ markdown==3.5.1
     # via wagtail-markdown
 mbstrdecoder==1.1.3
     # via typepy
+numpy==1.26.2
+    # via
+    #   scipy
+    #   wagtail-ab-testing
 openpyxl==3.1.2
     # via wagtail
 packaging==23.2
@@ -84,6 +88,8 @@ pytz==2023.3.post1
     #   l18n
 requests==2.31.0
     # via wagtail
+scipy==1.11.4
+    # via wagtail-ab-testing
 six==1.16.0
     # via
     #   bleach
@@ -103,14 +109,21 @@ typepy==1.3.0
     # via typed-environment-configuration
 typing-extensions==4.8.0
     # via dj-database-url
+ua-parser==0.18.0
+    # via user-agents
 urllib3==2.1.0
     # via requests
+user-agents==2.2.0
+    # via wagtail-ab-testing
 wagtail==5.2.1
     # via
     #   -r base.in
+    #   wagtail-ab-testing
     #   wagtail-markdown
     #   wagtail-modeladmin
     #   wagtail-orderable
+wagtail-ab-testing==0.9
+    # via -r base.in
 wagtail-markdown==0.11.1
     # via -r base.in
 wagtail-modeladmin==1.0.0
