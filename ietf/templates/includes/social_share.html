@@ -10,6 +10,7 @@
     <{{ heading|default:"h2"}} class="h4">Share this page</{{ heading|default:"h2"}}>
 
     {% comment %}
+    {% spaceless %}
     <a
         class="me-2 h2"
         aria-label="Share on Facebook"
@@ -18,7 +19,9 @@
     >
         <span class="icon ion-social-facebook"></span>
     </a>
+    {% endspaceless %}
     {% endcomment %}
+    {% spaceless %}
     <a
         class="me-2 h2"
         title="Share on Twitter"
@@ -26,6 +29,8 @@
     >
         <span class="icon ion-social-twitter"></span>
     </a>
+    {% endspaceless %}
+    {% spaceless %}
     <a
         class="me-2 h2"
         title="Share on LinkedIn"
@@ -33,4 +38,5 @@
     >
         <span class="icon ion-social-linkedin"></span>
     </a>
+    {% endspaceless %}
 {% endwith %}
