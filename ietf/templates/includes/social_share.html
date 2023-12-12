@@ -17,7 +17,7 @@
         title="Share on Facebook"
         href="https://www.facebook.com/dialog/feed?app_id={{ social_media_settings.facebook_app_id }}&amp;link={{ page.full_url|urlencode }}&amp;picture={% social_image page current_site %}&amp;name={{ page.title|urlencode }}&amp;description={% social_text page current_site 'True '%}&amp;redirect_uri={{ page.full_url|urlencode }}"
     >
-        <span class="icon ion-social-facebook"></span>
+        <i class="bi bi-facebook"></i>
     </a>
     {% endspaceless %}
     {% endcomment %}
@@ -27,7 +27,7 @@
         title="Share on Twitter"
         href="https://twitter.com/intent/tweet?text={% social_text page current_site 'True' %}&amp;url={{ page.full_url|urlencode }}&amp;via={{ social_media_settings.twitter_handle|urlencode }}"
     >
-        <span class="icon ion-social-twitter"></span>
+        <i class="bi bi-twitter"></i>
     </a>
     {% endspaceless %}
     {% spaceless %}
@@ -36,7 +36,7 @@
         title="Share on LinkedIn"
         href="https://www.linkedin.com/shareArticle?mini=true&amp;url={{ page.full_url|urlencode }}&amp;title={{ page.title|urlencode }}&amp;summary={% social_text page current_site 'True' %}&amp;source={{ social_media_settings.site_name|urlencode }}"
     >
-        <span class="icon ion-social-linkedin"></span>
+        <i class="bi bi-linkedin"></i>
     </a>
     {% endspaceless %}
 {% endwith %}
