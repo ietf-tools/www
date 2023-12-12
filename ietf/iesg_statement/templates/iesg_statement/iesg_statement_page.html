@@ -33,7 +33,7 @@
 
                     {% bibliography self %}
 
-                    {% include "includes/social_share.html" only %}
+                    {% include "includes/social_share.html" with page=self settings=settings current_site=current_site only %}
 
                 </div>
                 <nav aria-label="blog" class="row g-0 d-none d-lg-flex">
