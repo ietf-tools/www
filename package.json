@@ -47,6 +47,7 @@
         "autoprefixer": "^10.2.6",
         "babel-loader": "^8.2.2",
         "bootstrap": "^5.1.1",
+        "bootstrap-icons": "^1.11.2",
         "browserslist": ">=4",
         "color-json": "^2.0.1",
         "cssnano": "^5.0.6",
