@@ -60,7 +60,7 @@ class WorkingGroup(models.Model, index.Indexed):
     acronym = models.CharField(max_length=511, blank=True)
     description = models.CharField(max_length=4096, blank=True)
     list_email = models.EmailField(blank=True)
-    list_subscribe = models.EmailField(blank=True)
+    list_subscribe = models.URLField(blank=True)
     # There is no field currently to capture area/parent
 
     search_fields = [
@@ -74,7 +74,7 @@ class WorkingGroup(models.Model, index.Indexed):
 
     @property
     def url(self):
-        return settings.DATATRACKER_URI + "/wg/" + self.acronym
+        return settings.DATATRACKER_URI + "/group/" + self.acronym
 
     @property
     def charter_url(self):
