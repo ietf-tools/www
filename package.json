@@ -51,7 +51,6 @@
         "browserslist": ">=4",
         "color-json": "^2.0.1",
         "cssnano": "^5.0.6",
-        "ionicons": "^2",
         "jquery": "^3.6.0",
         "jquery-ui": "^1.13.2",
         "normalize.css": "^8.0.1",
