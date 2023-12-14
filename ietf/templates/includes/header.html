@@ -80,7 +80,7 @@
                 {% endfor %}
                 </ul>
 
-                <ul class="navbar-nav col-12 col-xl-auto">
+                <ul class="navbar-nav col-xl-auto">
                     {% for item in SECONDARY_MENU %}
                     {% if item.is_dropdown %}
                     <li class="nav-item btn-group">
@@ -124,15 +124,22 @@
                             Search
                         </a>
                     </li>
-                    <li class="nav-item btn-group d-lg-none">
-                        <a
-                            href="/endowment/donate-ietf-endowment/"
-                            class="nav-link btn btn-primary text-white"
-                        >
-                            Donate
-                        </a>
-                    </li>
                 </ul>
+                <div class="d-flex justify-content-center ms-lg-auto me-lg-4">
+                    {% for item in SOCIAL_MENU %}
+                        <a class="d-block text-dark px-2" href="{{ item.url }}" rel="me">
+                            <i class="bi bi-{{ item.icon }}"></i>
+                        </a>
+                    {% endfor %}
+                </div>
+                <div class="d-lg-none d-grid gap-2 mt-2">
+                    <a
+                        href="/endowment/donate-ietf-endowment/"
+                        class="btn btn-primary"
+                    >
+                        Donate
+                    </a>
+                </div>
             </div>
             <div class="bg-primary rounded nav-item">
             <a

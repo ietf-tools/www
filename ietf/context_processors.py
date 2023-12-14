@@ -1,9 +1,10 @@
+from operator import itemgetter
 from django.conf import settings
 from wagtail.models import Site
 
 from ietf.blog.models import BlogIndexPage
 from ietf.home.models import HomePage, IABHomePage
-from ietf.utils.models import MenuItem
+from ietf.utils.models import MenuItem, SocialMediaSettings
 
 
 def home_page(site):
@@ -36,6 +37,18 @@ def secondary_menu(site):
     return items
 
 
+def social_menu(site):
+    social = SocialMediaSettings.for_site(site)
+    links = [
+        {"url": social.linkedin, "icon": "linkedin"},
+        {"url": social.twitter, "icon": "twitter"},
+        {"url": social.youtube, "icon": "youtube"},
+        {"url": social.mastodon, "icon": "mastodon"},
+        {"url": social.github, "icon": "github"},
+    ]
+    return filter(itemgetter("url"), links)
+
+
 def global_pages(request):
     site = Site.find_for_request(request)
     return {
@@ -43,6 +56,7 @@ def global_pages(request):
         "BLOG_INDEX": BlogIndexPage.objects.first(),
         "MENU": menu(site),
         "SECONDARY_MENU": secondary_menu(site),
+        "SOCIAL_MENU": social_menu(site),
         "BASE_URL": getattr(settings, "WAGTAILADMIN_BASE_URL", ""),
         "DEBUG": getattr(settings, "DEBUG", ""),
         "FB_APP_ID": getattr(settings, "FB_APP_ID", ""),
