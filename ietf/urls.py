@@ -8,7 +8,7 @@ from wagtail.contrib.sitemaps.views import sitemap
 from wagtail.documents import urls as wagtaildocs_urls
 
 from ietf.bibliography import urls as bibliography_urls
-from ietf.blog.feeds import BlogFeed, TopicBlogFeed
+from ietf.blog.feeds import BlogFeed
 from ietf.search.views import search
 from ietf.snippets import urls as snippet_urls
 
@@ -21,7 +21,6 @@ urlpatterns = [
     re_path(r"^bibliography/", include(bibliography_urls)),
     re_path(r"^django-admin/", admin.site.urls),
     re_path(r"^blog/feed/$", BlogFeed(), name="blog_feed"),
-    re_path(r"^blog/(?P<topic>.+)/feed/$", TopicBlogFeed(), name="blog_feed_with_topic"),
     re_path(r"^admin/", include(wagtailadmin_urls)),
     re_path(r"^documents/", include(wagtaildocs_urls)),
     re_path(r"^search/$", search, name="search"),

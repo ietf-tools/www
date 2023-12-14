@@ -1,7 +1,11 @@
 <ul class="list-unstyled" aria-label="Authors">
-    {% for author in post.authors.all %}
+    {% for author in post.get_authors %}
         <li class="mb-3">
-            <span class="d-inline-block">{{ author.author.name }}</span>
+            <span class="d-inline-block">
+                <a href="{{ author.url }}">
+                    {{ author.name }}
+                </a>
+            </span>
             {% if author.role %}
                 <span class="ms-3 ps-3 d-inline-block border-start">{{ author.role.name }}</span>
             {% endif %}

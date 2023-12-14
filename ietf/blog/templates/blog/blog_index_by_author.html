@@ -1,0 +1,32 @@
+{% extends settings.utils.LayoutSettings.base_template %}
+{% load wagtailroutablepage_tags %}
+
+{% block main_content %}
+
+<main id="content">
+  <div class="bg-white border-bottom pb-1">
+    <div class="container">
+      {% include 'includes/breadcrumbs.html' %}
+      <div class="u-max-text-width">
+        <h1>{{ self.title }}</h1>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-lg py-3">
+        <table class="mb-4">
+          {% for entry in entries %}
+          <tr>
+            <td class="text-nowrap align-top pe-3 pb-2 pb-lg-0">{{entry.coalesced_published_date|date:"Y-m-d"}}</td>
+            <td class="align-top pb-2 pb-lg-0"><a href="{{entry.url}}">{{entry.title}}</a></td>
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
+
+    </div>
+  </div>
+</main>
+{% endblock %}
