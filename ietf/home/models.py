@@ -6,9 +6,8 @@ from xml.etree import ElementTree
 from django.conf import settings
 from django.db import models
 from django.db.models.expressions import RawSQL
-from modelcluster.fields import ParentalKey
 from requests import get as get_request
-from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from wagtail.models import Page
 from wagtail.search import index
 
@@ -16,18 +15,6 @@ from ietf.blog.models import BlogIndexPage, BlogPage
 
 from ..announcements.models import IABAnnouncementIndexPage, IABAnnouncementPage
 from ..events.models import EventListingPage, EventPage
-from ..topics.models import PrimaryTopicPage, TopicIndexPage
-from ..utils.models import RelatedLink
-
-
-class RequestForCommentsSectionLinks(RelatedLink):
-    page = ParentalKey(
-        "home.HomePage", related_name="request_for_comments_section_links"
-    )
-
-
-class WorkingGroupsSectionLinks(RelatedLink):
-    page = ParentalKey("home.HomePage", related_name="working_groups_section_links")
 
 
 class HomePageBase:
@@ -78,24 +65,6 @@ class HomePage(Page, HomePageBase):
         related_name="+",
     )
 
-    request_for_comments_section_body = models.CharField(max_length=500)
-    highlighted_request_for_comment = models.ForeignKey(
-        "snippets.RFC",
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name="+",
-    )
-
-    working_groups_section_body = models.CharField(max_length=500)
-    highlighted_working_group = models.ForeignKey(
-        "snippets.WorkingGroup",
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name="+",
-    )
-
     call_to_action = models.ForeignKey(
         "snippets.CallToAction",
         null=True,
@@ -106,20 +75,7 @@ class HomePage(Page, HomePageBase):
 
     search_fields = Page.search_fields + [
         index.SearchField("heading"),
-        index.SearchField("request_for_comments_section_body"),
-        index.SearchField("working_groups_section_body"),
     ]
-
-    def topic_index(
-        self,
-    ):
-        return TopicIndexPage.objects.live().first()
-
-    def primary_topics(self):
-        try:
-            return PrimaryTopicPage.objects.live().descendant_of(self.topic_index())[:3]
-        except AttributeError:
-            return []
 
     def upcoming_events(self):
         return (
@@ -157,22 +113,6 @@ class HomePage(Page, HomePageBase):
                 FieldPanel("button_link"),
             ],
             "Header",
-        ),
-        MultiFieldPanel(
-            [
-                FieldPanel("request_for_comments_section_body"),
-                FieldPanel("highlighted_request_for_comment"),
-                InlinePanel("request_for_comments_section_links", label="Link"),
-            ],
-            "Request For Comments Section",
-        ),
-        MultiFieldPanel(
-            [
-                FieldPanel("working_groups_section_body"),
-                FieldPanel("highlighted_working_group"),
-                InlinePanel("working_groups_section_links", label="Link"),
-            ],
-            "Working Groups Section",
         ),
         FieldPanel("call_to_action"),
     ]
