@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='person',
             name='slug',
-            field=models.SlugField(default='', max_length=511, unique=True),
+            field=models.SlugField(default='', max_length=511),
             preserve_default=False,
         ),
         migrations.RunPython(generate_person_slugs, migrations.RunPython.noop),
