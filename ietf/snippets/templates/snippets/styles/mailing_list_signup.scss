@@ -1,19 +1,14 @@
-.mailing_list_signup__container {
-    position: relative;
-    &::before {
-        content: '\f473';
-        font-family: $ionicons-font-family;
+.mailing_list_signup {
+    &__container {
+        position: relative;
+    }
+    &__background {
         position: absolute;
-        top: 0;
+        top: -30%;
         bottom: 0;
         right: 10%;
-        color: rgba($white, 0.05);
-        font-size: 30em;
-        line-height: 0.5;
+        font-size: 18em;
         overflow: hidden;
-    }
-    // Sets children position so the absolutely position background icon stays in the background
-    & > * {
-        position: relative;
+        color: rgba(255,255,255, 0.05);
     }
 }

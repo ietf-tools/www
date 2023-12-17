@@ -1,18 +1,8 @@
 .ui-datepicker-trigger {
     @extend .btn;
     @extend .btn-outline-dark;
+    @extend .px-2;
     position: relative;
-
-    &::after {
-        content: '\f2d1';
-        font-family: $ionicons-font-family;
-        position: absolute;
-        padding: $btn-padding-y 0 $btn-padding-y 0;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-    }
 }
 
 #ui-datepicker-div {

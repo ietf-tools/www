@@ -3,8 +3,9 @@
         <h2 class="h6 text-uppercase mb-3">you might be interested in</h2>
         {% for link in related_links %}
             <p class="mb-0">
-                <a class="text-white" href="{{ link.link }}">{{ link.title }}</a>
-                <span class="icon ion-ios-arrow-forward"></span>
+                <a class="text-white" href="{{ link.link }}">
+                    {{ link.title }}<i class="bi bi-chevron-right ps-2"></i>
+                </a>
             </p>
         {% endfor %}
     {% endif %}

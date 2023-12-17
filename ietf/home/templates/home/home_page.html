@@ -49,8 +49,7 @@
                             <div class="card-body">
                                 <h3 class="h5">
                                     <a class="stretched-link" href="{{ blog.url }}">
-                                        {{ blog.title }}&nbsp;
-                                        <span class="icon ion-ios-arrow-forward"></span>
+                                        {{ blog.title }}<i class="bi bi-chevron-right ms-2"></i>
                                     </a>
                                 </h3>
                                 <p class="card-text">{{ blog.get_social_text }}</p>
@@ -134,6 +133,9 @@
 
     <section class="bg-primary text-light">
         <div class="container py-5 home_page__cta-container">
+            <div class="home_page__cta-container__background">
+                <i class="bi bi-send"></i>
+            </div>
             {{ self.call_to_action.render }}
         </div>
     </section>
