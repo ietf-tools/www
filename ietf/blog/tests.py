@@ -5,8 +5,8 @@ from django.test import TestCase
 from wagtail.models import Page, Site
 
 from ..home.models import HomePage
-from ..snippets.models import Topic
-from .models import BlogIndexPage, BlogPage, BlogPageTopic
+from ..snippets.models import Person, Topic
+from .models import BlogIndexPage, BlogPage, BlogPageAuthor, BlogPageTopic
 
 
 class BlogTests(TestCase):
@@ -18,8 +18,6 @@ class BlogTests(TestCase):
             title="home page title",
             heading="home page heading",
             introduction="home page introduction",
-            request_for_comments_section_body="rfc section body",
-            working_groups_section_body="wg section body",
         )
 
         root.add_child(instance=home)
@@ -81,6 +79,14 @@ class BlogTests(TestCase):
         self.blog_index.add_child(instance=self.nextblog)
         self.nextblog.save()
 
+        self.alice = Person.objects.create(name="Alice", slug="alice")
+        self.bob = Person.objects.create(name="Bob", slug="bob")
+
+        BlogPageAuthor.objects.create(page=self.otherblog, author=self.alice)
+        BlogPageAuthor.objects.create(page=self.prevblog, author=self.alice)
+        BlogPageAuthor.objects.create(page=self.prevblog, author=self.bob)
+        BlogPageAuthor.objects.create(page=self.nextblog, author=self.bob)
+
     def test_blog(self):
         r = self.client.get(path=self.blog_index.url)
         self.assertEqual(r.status_code, 200)
@@ -101,6 +107,20 @@ class BlogTests(TestCase):
         blog = BlogPage.objects.get(pk=self.blog.pk)
         self.assertEqual(self.prevblog, blog.previous)
         self.assertEqual(self.nextblog, blog.next)
+
+    def test_author_index(self):
+        alice_url = self.blog_index.reverse_subpage(
+            "index_by_author", kwargs={"slug": self.alice.slug}
+        )
+        alice_resp = self.client.get(self.blog_index.url + alice_url)
+        self.assertEqual(alice_resp.status_code, 200)
+        html = alice_resp.content.decode("utf8")
+        self.assertIn("<title>IETF  | Articles by Alice</title>", html)
+        self.assertIn("<h1>Articles by Alice</h1>", html)
+        self.assertIn(self.otherblog.url, html)
+        self.assertIn(self.prevblog.url, html)
+        self.assertNotIn(self.nextblog.url, html)
+        self.assertNotIn(self.blog.url, html)
 
     def test_blog_feed(self):
         r = self.client.get(path='/blog/feed/')
@@ -133,3 +153,16 @@ class BlogTests(TestCase):
         self.assertIn(self.nextblog.url.encode(), r.content)
         self.assertNotIn(self.blog.url.encode(), r.content)
         self.assertNotIn(self.otherblog.url.encode(), r.content)
+
+    def test_author_feed(self):
+        alice_url = self.blog_index.reverse_subpage(
+            "feed_by_author", kwargs={"slug": self.alice.slug}
+        )
+        self.assertIn("/feed/", alice_url)
+        alice_resp = self.client.get(self.blog_index.url + alice_url)
+        self.assertEqual(alice_resp.status_code, 200)
+        feed = alice_resp.content.decode("utf8")
+        self.assertIn(self.otherblog.url, feed)
+        self.assertIn(self.prevblog.url, feed)
+        self.assertNotIn(self.nextblog.url, feed)
+        self.assertNotIn(self.blog.url, feed)

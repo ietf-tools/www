@@ -2,8 +2,7 @@ from django.test import TestCase
 from wagtail.models import Page, Site
 
 from ..blog.models import BlogIndexPage, BlogPage
-from ..snippets.models import RFC, WorkingGroup
-from .models import HomePage, RequestForCommentsSectionLinks, WorkingGroupsSectionLinks
+from .models import HomePage
 
 
 class HomeTests(TestCase):
@@ -16,8 +15,6 @@ class HomeTests(TestCase):
             title="home page title",
             heading="home page heading",
             introduction="home page introduction",
-            request_for_comments_section_body="rfc section body",
-            working_groups_section_body="wg section body",
         )
 
         root.add_child(instance=home)
