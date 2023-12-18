@@ -5,8 +5,11 @@ from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
 from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
+from wagtail.fields import StreamField
 from wagtail.models import Orderable
 from wagtailorderable.models import Orderable as WagtailOrderable
+
+from ietf.utils.blocks import MainMenuSection
 
 
 class LinkFields(models.Model):
@@ -99,6 +102,32 @@ class PromoteMixin(models.Model):
 
     def get_social_text(self):
         return self.social_text or self.search_description
+
+
+class MainMenuItem(models.Model):
+    page = models.ForeignKey("wagtailcore.Page", related_name="+", on_delete=models.CASCADE)
+    image = models.ForeignKey(
+        "images.IETFImage",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        # help_text="Image to appear alongside 'social text', particularly for sharing on social networks",
+    )
+    secondary_sections = StreamField(
+        [
+            ("section", MainMenuSection()),
+        ],
+        blank=True,
+        use_json_field=True,
+    )
+    sort_order = models.PositiveSmallIntegerField()
+
+    class Meta:
+        ordering = ["sort_order"]
+
+    def __str__(self):
+        return self.page.title
 
 
 class SubMenuItem(Orderable):

@@ -1,6 +1,8 @@
 from django.conf import settings
 from django.utils.html import format_html
 from wagtail import hooks
+from wagtail.snippets.views.snippets import SnippetViewSet
+from wagtail.snippets.models import register_snippet
 from wagtail_modeladmin.options import ModelAdmin, modeladmin_register
 from wagtailorderable.modeladmin.mixins import OrderableMixin
 
@@ -14,6 +16,16 @@ def editor_css():
         + settings.STATIC_URL
         + 'utils/css/page_editor.css">'
     )
+
+
+class MainMenuViewSet(SnippetViewSet):
+    list_display = [
+        "__str__",
+        "sort_order",
+    ]
+
+
+register_snippet(MainMenuItem, viewset=MainMenuViewSet)
 
 
 class MenuItemAdmin(OrderableMixin, ModelAdmin):

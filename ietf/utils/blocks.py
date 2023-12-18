@@ -1,10 +1,13 @@
 from wagtail.blocks import (
     CharBlock,
     FloatBlock,
+    ListBlock,
+    PageChooserBlock,
     RawHTMLBlock,
     RichTextBlock,
     StreamBlock,
     StructBlock,
+    URLBlock,
 )
 from wagtail.contrib.table_block.blocks import TableBlock
 from wagtail.contrib.typed_table_block.blocks import TypedTableBlock
@@ -23,6 +26,17 @@ class NoteWellBlock(StructBlock):
 
     class Meta:
         template = "blocks/note_well_block.html"
+
+
+class LinkBlock(StructBlock):
+    page = PageChooserBlock(label="Page", required=False)
+    title = CharBlock(label="Link text", required=False)
+    external_url = URLBlock(label="External URL", required=False)
+
+
+class MainMenuSection(StructBlock):
+    title = CharBlock(label="Section title", required=True)
+    links = ListBlock(LinkBlock())
 
 
 class StandardBlock(StreamBlock):
