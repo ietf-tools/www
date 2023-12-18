@@ -4,24 +4,13 @@ from wagtail.models import Site
 
 from ietf.home.models import HomePage, IABHomePage
 from ietf.utils.models import SecondaryMenuItem, SocialMediaSettings
+from ietf.utils.context_processors import MainMenu
 
 
-def home_page(site):
+def lazy_home_page(site):
     if "iab" in site.hostname:
-        return IABHomePage.objects.filter(depth=2).first()
-    return HomePage.objects.filter(depth=2).first()
-
-
-def children(item):
-    return item and item.get_children().live().in_menu()
-
-
-def menu(site):
-    items = children(home_page(site))
-    if items:
-        for item in items:
-            item.subitems = children(item)
-    return items
+        return IABHomePage.objects.filter(depth=2).first
+    return HomePage.objects.filter(depth=2).first
 
 
 def secondary_menu(site):
@@ -50,9 +39,11 @@ def social_menu(site):
 
 def global_pages(request):
     site = Site.find_for_request(request)
+    # XXX Return lazy values. This makes a big difference when a page renders
+    # multiple templates, e.g. when the wagtail userbar is displayed.
     return {
-        "HOME": home_page(site),
-        "MENU": menu(site),
+        "HOME": lazy_home_page(site),
+        "MENU": MainMenu().get_menu,
         "SECONDARY_MENU": secondary_menu(site),
-        "SOCIAL_MENU": social_menu(site),
+        "SOCIAL_MENU": lambda: social_menu(site),
     }

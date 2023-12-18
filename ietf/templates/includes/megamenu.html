@@ -1,0 +1,95 @@
+{% load wagtailimages_tags %}
+
+<ul class="navbar-nav col-12 col-xl-auto justify-content-xl-center flex-grow">
+    {% for item in MENU %}
+    <li class="nav-item dropdown position-static">
+        <button
+            class="
+                nav-link btn megamenu__toggle
+                text-dark fw-semibold text-uppercase
+                {% if item.expandable %}dropdown-toggle pe-1{% endif %}
+            "
+            {% if item.expandable %}
+                id="megamenu-toggle-{{ item.main_menu_item.pk }}"
+                role="button"
+                data-bs-toggle="dropdown"
+                data-bs-auto-close="outside"
+                aria-expanded="false"
+            {% else %}
+                href="{{ item.url }}"
+            {% endif %}
+        >
+            {{ item.title }}
+        </button>
+
+        {% if item.expandable %}
+        <div
+            class="dropdown-menu megamenu__menu w-100 px-2"
+            aria-labelledby="megamenu-toggle-{{ item.pk }}"
+        >
+            <div class="container py-3">
+                <div class="row gx-5">
+                    <div class="col-lg-4 d-none d-lg-block">
+                        <div class="">
+                            <p>{{ item.introduction }}</p>
+
+                            {% if item.image %}
+                            {% image item.image width-600 as image %}
+                            <img src="{{ image.url }}" class="w-100 object-fit-cover" />
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-lg-8">
+                        <h5 class="border-bottom mb-1 pb-1">
+                            {% if item.url %}
+                            <a class="dropdown-item" href="{{ item.url }}">
+                                {{ item.title }}
+                                <i class="bi bi-chevron-right"></i>
+                            </a>
+                            {% else %}
+                            {{ item.title }}
+                            {% endif %}
+                        </h5>
+
+                        <ul class="megamenu__linklist">
+                            {% for link in item.main_section_links %}
+                            <li>
+                                <a class="dropdown-item" href="{{ link.url }}">
+                                    {{ link.title }}
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+
+                        {% for section in item.secondary_sections %}
+                        <h6 class="mt-3 mb-1 pb-1 border-bottom">{{ section.title }}</h6>
+
+                        <ul class="megamenu__linklist">
+                            {% for link in section.links %}
+                            <li>
+                                <a class="dropdown-item" href="{{ link.url }}">
+                                    {{ link.title }}
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+
+{% if request.is_preview and MENU_PREVIEW %}
+<script>
+window.addEventListener("load", () => {
+    const toggle = document.querySelector("#megamenu-toggle-{{ MENU_PREVIEW.pk }}");
+    if (toggle) {
+        new bootstrap.Dropdown(toggle).show();
+    }
+});
+</script>
+{% endif %}

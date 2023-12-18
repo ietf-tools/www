@@ -6,7 +6,7 @@ from modelcluster.models import ClusterableModel
 from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
 from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
 from wagtail.fields import StreamField
-from wagtail.models import Orderable
+from wagtail.models import Orderable, PreviewableMixin
 from wagtailorderable.models import Orderable as WagtailOrderable
 
 from ietf.utils.blocks import MainMenuSection
@@ -104,7 +104,7 @@ class PromoteMixin(models.Model):
         return self.social_text or self.search_description
 
 
-class MainMenuItem(models.Model):
+class MainMenuItem(PreviewableMixin, models.Model):
     page = models.ForeignKey("wagtailcore.Page", related_name="+", on_delete=models.CASCADE)
     image = models.ForeignKey(
         "images.IETFImage",
@@ -128,6 +128,18 @@ class MainMenuItem(models.Model):
 
     def __str__(self):
         return self.page.title
+
+    def get_preview_template(self, request, model_name):
+        return "previews/main_menu_item.html"
+
+    def get_preview_context(self, request, model_name):
+        from .context_processors import PreviewMainMenu
+
+        return {
+            **super().get_preview_context(request, model_name),
+            "MENU": PreviewMainMenu(self).get_menu(),
+            "MENU_PREVIEW": self,
+        }
 
 
 class SubMenuItem(Orderable):
