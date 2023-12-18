@@ -186,29 +186,35 @@ class SocialMediaSettings(BaseSiteSetting):
         help_text="Site name, used by facebook open graph.",
     )
 
-    twitter = models.CharField(
-        max_length=255,
-        help_text="Link to twitter profile",
-        blank="True",
-        verbose_name="Twitter link"
-    )
     linkedin = models.CharField(
         max_length=255,
-        help_text="Link to linkedin profile",
+        help_text="Link to LinkedIn profile",
         blank="True",
         verbose_name="LinkedIn link"
     )
+    twitter = models.CharField(
+        max_length=255,
+        help_text="Link to Twitter profile",
+        blank="True",
+        verbose_name="Twitter link"
+    )
     youtube = models.CharField(
         max_length=255,
-        help_text="Link to youtube account",
+        help_text="Link to YouTube account",
         blank="True",
         verbose_name="Youtube link"
     )
     mastodon = models.CharField(
         max_length=255,
-        help_text="Link to mastodon profile",
+        help_text="Link to Mastodon profile",
         blank="True",
         verbose_name="Mastodon link"
+    )
+    github = models.CharField(
+        max_length=255,
+        help_text="Link to GitHub profile",
+        blank="True",
+        verbose_name="GitHub link"
     )
     
     panels = [
@@ -217,10 +223,11 @@ class SocialMediaSettings(BaseSiteSetting):
         FieldPanel("default_sharing_text"),
         FieldPanel("default_sharing_image"),
         FieldPanel("site_name"),
-        FieldPanel("twitter"),
         FieldPanel("linkedin"),
+        FieldPanel("twitter"),
         FieldPanel("youtube"),
         FieldPanel("mastodon"),
+        FieldPanel("github"),
     ]
 
 
