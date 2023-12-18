@@ -3,7 +3,7 @@ from operator import itemgetter
 from wagtail.models import Site
 
 from ietf.home.models import HomePage, IABHomePage
-from ietf.utils.models import MenuItem, SocialMediaSettings
+from ietf.utils.models import SecondaryMenuItem, SocialMediaSettings
 
 
 def home_page(site):
@@ -28,7 +28,7 @@ def secondary_menu(site):
     if "iab" in site.hostname:
         return []
     items = (
-        MenuItem.objects.order_by("sort_order")
+        SecondaryMenuItem.objects.order_by("sort_order")
         .all()
         .select_related("page")
         .prefetch_related("sub_menu_items")

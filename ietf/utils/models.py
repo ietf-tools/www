@@ -102,7 +102,7 @@ class PromoteMixin(models.Model):
 
 
 class SubMenuItem(Orderable):
-    parent = ParentalKey("utils.MenuItem", related_name="sub_menu_items")
+    parent = ParentalKey("utils.SecondaryMenuItem", related_name="sub_menu_items")
     page = models.ForeignKey(
         "wagtailcore.Page",
         related_name="+",
@@ -124,7 +124,7 @@ class SubMenuItem(Orderable):
     panels = [FieldPanel("page"), FieldPanel("link"), FieldPanel("text")]
 
 
-class MenuItem(ClusterableModel, WagtailOrderable):
+class SecondaryMenuItem(ClusterableModel, WagtailOrderable):
     page = models.ForeignKey(
         "wagtailcore.Page",
         null=True,
