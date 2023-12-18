@@ -4,7 +4,7 @@ document.querySelector("html").addEventListener("click", (e) => {
         if (href.startsWith("https://www.ietf.org/mailman/listinfo/")) {
             wagtailAbTesting.triggerEvent("navigate-mailman")
         }
-        if (href.startsWith("https://registration.ietf.org")) {
+        if (href.startsWith("https://registration.ietf.org/")) {
             wagtailAbTesting.triggerEvent("navigate-registration")
         }
     }
