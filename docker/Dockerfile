@@ -29,10 +29,9 @@ CMD ["yarn", "start"]
 # BASE
 # ---------------------------------------------------------------------
 # Base backend
-FROM python:3.12-alpine as base
+FROM python:3.12-slim-bookworm as base
 ENV PYCURL_SSL_LIBRARY openssl
-
-RUN apk update && apk add postgresql-libs postgresql-client libevent libjpeg openjpeg zlib
+ENV APT_BUILD_DEPS "build-essential libpq-dev"
 
 WORKDIR /app
 
@@ -41,17 +40,22 @@ COPY requirements ./requirements
 
 # Install build dependencies, then Python requirements, then remove build dependencies
 # to reduce the resulting image size
-RUN apk update && apk add --virtual build-deps make gcc g++ musl-dev apache2-dev && \
-  apk add --virtual build-headers postgresql-dev \
-  jpeg-dev \
-  zlib-dev \
-  openjpeg-dev \
-  libevent-dev && \
-  cd /app && \
-  pip3 install -r requirements/base.txt -r requirements/docker.txt && \
-  apk del build-deps build-headers
+RUN <<EOF
+    set -ex
+    apt-get update -qq
+    apt-get install -qq postgresql-client netcat-openbsd $APT_BUILD_DEPS
+    cd /app
+    pip3 install -r requirements/base.txt -r requirements/docker.txt
+    apt-get purge -qq $APT_BUILD_DEPS
+    apt-get autoremove --purge -qq
+    rm -rf /var/lib/apt/lists/*
+EOF
 
-RUN adduser -S www -u 1000 && chown -R www /app
+RUN <<EOF
+    set -ex
+    useradd www --create-home
+    chown -R www /app
+EOF
 
 # here we copy the project code along with compiled static assets
 COPY --from=frontend /app/ /app/
@@ -83,7 +87,11 @@ COPY docker/init-dev.sh /app/docker/
 
 ADD https://raw.githubusercontent.com/mrako/wait-for/d9699cb9fe8a4622f05c4ee32adf2fd93239d005/wait-for /usr/local/bin/
 USER root
-RUN apk add --no-cache bash postgresql-dev
+RUN <<EOF
+    set -ex
+    apt-get update -qq
+    apt-get install -qq $APT_BUILD_DEPS
+EOF
 RUN pip3 install -r requirements/dev.txt
 RUN chmod +rx /usr/local/bin/wait-for
 USER www
@@ -120,7 +128,12 @@ FROM base as app-sandbox
 
 USER root
 
-RUN apk update && apk add --no-cache nginx supervisor
+RUN <<EOF
+    set -ex
+    apt-get update -qq
+    apt-get install -qq nginx supervisor
+    rm -rf /var/lib/apt/lists/*
+EOF
 
 COPY docker/nginx-sandbox.conf /etc/nginx/http.d/default.conf
 COPY docker/supervisord-sandbox.conf /app/supervisord.conf
