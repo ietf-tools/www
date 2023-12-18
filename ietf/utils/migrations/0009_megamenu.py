@@ -16,6 +16,8 @@ def populate_main_menu(apps, schema_editor):
     MainMenuItem = apps.get_model("utils.MainMenuItem")
 
     def live_children(page):
+        if not page:
+            return Page.objects.none()
         # path of children is path of parent with 4 more characters at the end
         return Page.objects.filter(path__regex=f"^{page.path}....$").filter(live=True).order_by("path")
 
