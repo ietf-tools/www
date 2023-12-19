@@ -135,7 +135,7 @@ RUN <<EOF
     rm -rf /var/lib/apt/lists/*
 EOF
 
-COPY docker/nginx-sandbox.conf /etc/nginx/http.d/default.conf
+COPY docker/nginx-sandbox.conf /etc/nginx/sites-enabled/default
 COPY docker/supervisord-sandbox.conf /app/supervisord.conf
 
 RUN mkdir -p /app/media
