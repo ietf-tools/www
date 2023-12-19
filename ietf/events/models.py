@@ -210,8 +210,8 @@ class EventListingPage(Page, PromoteMixin):
             .descendant_of(self)
             .live()
             .exclude(
-                pk__in=self.promoted_events.all().values_list(
-                    "promoted_event__pk", flat=True
+                id__in=self.promoted_events.all().values_list(
+                    "promoted_event__id", flat=True
                 )
             )
             .order_by("start_date")
@@ -224,8 +224,8 @@ class EventListingPage(Page, PromoteMixin):
             .descendant_of(self)
             .live()
             .exclude(
-                pk__in=self.promoted_events.all().values_list(
-                    "promoted_event__pk", flat=True
+                id__in=self.promoted_events.all().values_list(
+                    "promoted_event__id", flat=True
                 )
             )
             .order_by("-start_date")
