@@ -62,9 +62,10 @@ class MenuTests(TestCase, WagtailTestUtils):
         menu_items = SecondaryMenuItem.objects.order_by("sort_order").all()
         response = self.client.get("/")
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.context["SECONDARY_MENU"]), 2)
-        self.assertEqual(menu_items[0], response.context["SECONDARY_MENU"][0])
-        self.assertEqual(menu_items[1], response.context["SECONDARY_MENU"][1])
+        secondary_menu = response.context["SECONDARY_MENU"]()
+        self.assertEqual(len(secondary_menu), 2)
+        self.assertEqual(menu_items[0], secondary_menu[0])
+        self.assertEqual(menu_items[1], secondary_menu[1])
 
     def test_menu_in_template(self):
         self._build_menu()
