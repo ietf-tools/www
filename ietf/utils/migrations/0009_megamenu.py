@@ -12,7 +12,6 @@ import wagtail.models
 def populate_main_menu(apps, schema_editor):
     Page = apps.get_model("wagtailcore.Page")
     HomePage = apps.get_model("home.HomePage")
-    IABHomePage = apps.get_model("home.IABHomePage")
     MainMenuItem = apps.get_model("utils.MainMenuItem")
 
     def live_children(page):
@@ -21,7 +20,10 @@ def populate_main_menu(apps, schema_editor):
         # path of children is path of parent with 4 more characters at the end
         return Page.objects.filter(path__regex=f"^{page.path}....$").filter(live=True).order_by("path")
 
-    homepage = HomePage.objects.first() or IABHomePage.objects.first()
+    homepage = HomePage.objects.first()
+    if not homepage:
+        return
+
     menu_pages = live_children(homepage).filter(show_in_menus=True)
     for sort_order, page in enumerate(menu_pages, start=1):
         secondary_sections = []

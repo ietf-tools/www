@@ -76,3 +76,21 @@ class PreviewMainMenu(MainMenu):
         if not self.obj.pk:
             items.append(self.obj)
         return sorted(items, key=attrgetter("sort_order"))
+
+
+def get_iab_main_menu(site):
+    def children(item):
+        return item and item.get_children().live().in_menu()
+
+    items = children(site.root_page)
+    if items:
+        for item in items:
+            item.subitems = children(item)
+    return items
+
+
+def get_main_menu(site):
+    if "iab" in site.hostname:
+        return get_iab_main_menu(site)
+
+    return MainMenu().get_menu()

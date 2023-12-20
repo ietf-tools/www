@@ -58,7 +58,12 @@
                     class="navbar-nav align-items-center"
                 >
                 {% for item in MENU %}
-                <li class="nav-item nav-item--iab btn-group me-2 {% if item.pk == self.pk %} active{% endif %}">
+                <li
+                    class="
+                        nav-item nav-item--iab dropdown-hover btn-group me-2
+                        {% if item.pk == self.pk %} active{% endif %}
+                    "
+                >
                         <a
                             href="{{ item.url }}"
                             class="nav-link nav-link--iab btn text-white iab-navbar-text text-lg-start {% if item.subitems %} pe-1{% endif %}"
