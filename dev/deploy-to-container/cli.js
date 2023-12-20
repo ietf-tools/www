@@ -161,6 +161,7 @@ async function main () {
       `CACHE_DEFAULT=ws-mc-${branch}:11211`,
       `CACHE_SESSIONS=ws-mc-${branch}:11211`,
       `ALLOWED_HOSTS=${hostname}`,
+      `CSRF_TRUSTED_ORIGINS=https://*.dev.ietf.org`,
       `PRIMARY_HOST=${hostname}`
     ],
     Labels: {
