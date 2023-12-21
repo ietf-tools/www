@@ -90,8 +90,48 @@
         background-color: darken($dark, 7.5%);
     }
 
-    .header .navbar-nav .nav-item:hover .dropdown-toggle[aria-expanded="false"] + .dropdown-menu {
-        display: block;
-        margin-top: 2.5em;
+    .dropdown-hover {
+        &:hover .dropdown-menu {
+            display: block;
+            top: 100%;
+        }
+    }
+}
+
+.megamenu {
+    &__toggle {
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        padding-bottom: 16px;
+        margin-bottom: -8px;
+        width: 100%;
+
+        &.show {
+            background: #ddd;
+        }
+    }
+
+    &__menu {
+        --bs-dropdown-link-color: rgb(86, 94, 100);
+
+        li {
+            break-inside: avoid-column;
+        }
+
+        .dropdown-item {
+            display: inline;
+            padding: 0;
+            white-space: inherit;
+            font-weight: inherit;
+            width: auto;
+        }
+    }
+
+    &__linklist {
+        --bs-dropdown-link-color: rgb(86, 94, 100);
+
+        @include media-breakpoint-up(md) {
+            column-count: 2;
+        }
     }
 }

@@ -3,7 +3,7 @@ from wagtail.models import Page, Site
 from wagtail.test.utils import WagtailTestUtils
 
 from ietf.events.models import EventListingPage, EventPage
-from ietf.utils.models import MenuItem
+from ietf.utils.models import SecondaryMenuItem
 
 from ..home.models import HomePage
 
@@ -50,25 +50,26 @@ class MenuTests(TestCase, WagtailTestUtils):
         self.eventlisting.add_child(instance=self.eventpage)
 
     def _build_menu(self):
-        MenuItem.objects.create(page=self.eventlisting, text="Menu One", sort_order=0)
-        MenuItem.objects.create(page=self.eventpage, text="Menu Two", sort_order=1)
+        SecondaryMenuItem.objects.create(page=self.eventlisting, text="Menu One", sort_order=0)
+        SecondaryMenuItem.objects.create(page=self.eventpage, text="Menu Two", sort_order=1)
 
     def test_admin_menu_item_index(self):
-        response = self.client.get("/admin/utils/menuitem/")
+        response = self.client.get("/admin/utils/secondarymenuitem/")
         self.assertEqual(response.status_code, 200)
 
     def test_menu_context_loads(self):
         self._build_menu()
-        menu_items = MenuItem.objects.order_by("sort_order").all()
+        menu_items = SecondaryMenuItem.objects.order_by("sort_order").all()
         response = self.client.get("/")
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.context["SECONDARY_MENU"]), 2)
-        self.assertEqual(menu_items[0], response.context["SECONDARY_MENU"][0])
-        self.assertEqual(menu_items[1], response.context["SECONDARY_MENU"][1])
+        secondary_menu = response.context["SECONDARY_MENU"]()
+        self.assertEqual(len(secondary_menu), 2)
+        self.assertEqual(menu_items[0], secondary_menu[0])
+        self.assertEqual(menu_items[1], secondary_menu[1])
 
     def test_menu_in_template(self):
         self._build_menu()
-        menu_items = MenuItem.objects.order_by("sort_order").all()
+        menu_items = SecondaryMenuItem.objects.order_by("sort_order").all()
         response = self.client.get("/")
         self.assertContains(
             response, "Menu Two".format(menu_items[1].page.url), count=1
