@@ -149,7 +149,7 @@ async function main () {
     name: `ws-app-${branch}`,
     Hostname: `ws-app-${branch}`,
     Env: [
-      `LETSENCRYPT_HOST=${hostname}`,
+      // `LETSENCRYPT_HOST=${hostname}`,
       `VIRTUAL_HOST=${hostname}`,
       `VIRTUAL_PORT=80`,
       `DJANGO_SETTINGS_MODULE=ietf.settings.production`,
