@@ -23,7 +23,7 @@ class MainMenu:
         if page := link.get("page"):
             return page.get_url(current_site=self.site)
 
-        return "#"
+        return ""
 
     def get_link_title(self, link):
         if title := link.get("title"):
@@ -33,6 +33,15 @@ class MainMenu:
             return page.title
 
         return link.get("external_url")
+
+    def get_section_links(self, section):
+        for link in section.value.get("links"):
+            item = {
+                "title": self.get_link_title(link),
+                "url": self.get_link_url(link),
+            }
+            if item["title"] and item["url"]:
+                yield item
 
     def get_menu_item(self, item):
         main_section_links = [
@@ -45,13 +54,7 @@ class MainMenu:
         secondary_sections = [
             {
                 "title": section.value.get("title"),
-                "links": [
-                    {
-                        "title": self.get_link_title(link),
-                        "url": self.get_link_url(link),
-                    }
-                    for link in section.value.get("links")
-                ]
+                "links": list(self.get_section_links(section)),
             }
             for section in item.secondary_sections
         ]
