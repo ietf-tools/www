@@ -6,7 +6,7 @@ from modelcluster.models import ClusterableModel
 from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
 from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
 from wagtail.fields import StreamField
-from wagtail.models import Orderable, PreviewableMixin
+from wagtail.models import Orderable, PreviewableMixin, Site
 from wagtailorderable.models import Orderable as WagtailOrderable
 
 from ietf.utils.blocks import MainMenuSection
@@ -135,9 +135,11 @@ class MainMenuItem(PreviewableMixin, models.Model):
     def get_preview_context(self, request, model_name):
         from .context_processors import PreviewMainMenu
 
+        site = Site.find_for_request(request)
+
         return {
             **super().get_preview_context(request, model_name),
-            "MENU": PreviewMainMenu(self).get_menu(),
+            "MENU": PreviewMainMenu(site, self).get_menu(),
             "MENU_PREVIEW": self,
         }
 

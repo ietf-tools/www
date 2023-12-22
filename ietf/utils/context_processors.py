@@ -4,6 +4,9 @@ from ietf.utils.models import MainMenuItem
 
 
 class MainMenu:
+    def __init__(self, site):
+        self.site = site
+
     def get_items(self):
         return MainMenuItem.objects.all().select_related("page")
 
@@ -18,9 +21,9 @@ class MainMenu:
             return external_url
 
         if page := link.get("page"):
-            return page.url
+            return page.get_url(current_site=self.site)
 
-        return "#"
+        return ""
 
     def get_link_title(self, link):
         if title := link.get("title"):
@@ -31,25 +34,34 @@ class MainMenu:
 
         return link.get("external_url")
 
+    def get_section_links(self, section):
+        for link in section.value.get("links"):
+            item = {
+                "title": self.get_link_title(link),
+                "url": self.get_link_url(link),
+            }
+            if item["title"] and item["url"]:
+                yield item
+
     def get_menu_item(self, item):
-        main_section_links = item.page.get_children().live().in_menu()
+        main_section_links = [
+            {
+                "title": page.title,
+                "url": item.page.get_url(current_site=self.site),
+            }
+            for page in item.page.get_children().live().in_menu()
+        ]
         secondary_sections = [
             {
                 "title": section.value.get("title"),
-                "links": [
-                    {
-                        "title": self.get_link_title(link),
-                        "url": self.get_link_url(link),
-                    }
-                    for link in section.value.get("links")
-                ]
+                "links": list(self.get_section_links(section)),
             }
             for section in item.secondary_sections
         ]
         return {
             "main_menu_item": item,
             "title": item.page.title,
-            "url": item.page.url if item.page.live else "",
+            "url": item.page.get_url(current_site=self.site) if item.page.live else "",
             "introduction": self.get_introduction(item.page.specific),
             "image": item.image,
             "main_section_links": main_section_links,
@@ -65,7 +77,8 @@ class MainMenu:
 
 
 class PreviewMainMenu(MainMenu):
-    def __init__(self, obj):
+    def __init__(self, site, obj):
+        super().__init__(site)
         self.obj = obj
 
     def get_items(self):
@@ -93,4 +106,4 @@ def get_main_menu(site):
     if "iab" in site.hostname:
         return get_iab_main_menu(site)
 
-    return MainMenu().get_menu()
+    return MainMenu(site).get_menu()
