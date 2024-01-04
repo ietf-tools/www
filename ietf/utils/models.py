@@ -5,8 +5,11 @@ from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
 from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
-from wagtail.models import Orderable
+from wagtail.fields import StreamField
+from wagtail.models import Orderable, PreviewableMixin
 from wagtailorderable.models import Orderable as WagtailOrderable
+
+from ietf.utils.blocks import MainMenuSection
 
 
 class LinkFields(models.Model):
@@ -101,8 +104,46 @@ class PromoteMixin(models.Model):
         return self.social_text or self.search_description
 
 
+class MainMenuItem(PreviewableMixin, models.Model):
+    page = models.ForeignKey("wagtailcore.Page", related_name="+", on_delete=models.CASCADE)
+    image = models.ForeignKey(
+        "images.IETFImage",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        # help_text="Image to appear alongside 'social text', particularly for sharing on social networks",
+    )
+    secondary_sections = StreamField(
+        [
+            ("section", MainMenuSection()),
+        ],
+        blank=True,
+        use_json_field=True,
+    )
+    sort_order = models.PositiveSmallIntegerField()
+
+    class Meta:
+        ordering = ["sort_order"]
+
+    def __str__(self):
+        return self.page.title
+
+    def get_preview_template(self, request, model_name):
+        return "previews/main_menu_item.html"
+
+    def get_preview_context(self, request, model_name):
+        from .context_processors import PreviewMainMenu
+
+        return {
+            **super().get_preview_context(request, model_name),
+            "MENU": PreviewMainMenu(self).get_menu(),
+            "MENU_PREVIEW": self,
+        }
+
+
 class SubMenuItem(Orderable):
-    parent = ParentalKey("utils.MenuItem", related_name="sub_menu_items")
+    parent = ParentalKey("utils.SecondaryMenuItem", related_name="sub_menu_items")
     page = models.ForeignKey(
         "wagtailcore.Page",
         related_name="+",
@@ -124,7 +165,7 @@ class SubMenuItem(Orderable):
     panels = [FieldPanel("page"), FieldPanel("link"), FieldPanel("text")]
 
 
-class MenuItem(ClusterableModel, WagtailOrderable):
+class SecondaryMenuItem(ClusterableModel, WagtailOrderable):
     page = models.ForeignKey(
         "wagtailcore.Page",
         null=True,

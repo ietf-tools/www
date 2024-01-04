@@ -149,7 +149,7 @@ async function main () {
     name: `ws-app-${branch}`,
     Hostname: `ws-app-${branch}`,
     Env: [
-      `LETSENCRYPT_HOST=${hostname}`,
+      // `LETSENCRYPT_HOST=${hostname}`,
       `VIRTUAL_HOST=${hostname}`,
       `VIRTUAL_PORT=80`,
       `DJANGO_SETTINGS_MODULE=ietf.settings.production`,
@@ -161,6 +161,7 @@ async function main () {
       `CACHE_DEFAULT=ws-mc-${branch}:11211`,
       `CACHE_SESSIONS=ws-mc-${branch}:11211`,
       `ALLOWED_HOSTS=${hostname}`,
+      `CSRF_TRUSTED_ORIGINS=https://*.dev.ietf.org`,
       `PRIMARY_HOST=${hostname}`
     ],
     Labels: {

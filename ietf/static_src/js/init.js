@@ -2,11 +2,12 @@ import $ from 'jquery';
 import 'jquery-ui/ui/widgets/datepicker';
 import * as Popper from '@popperjs/core';
 
-import 'bootstrap';
+import * as bootstrap from 'bootstrap';
 
 window.$ = $;
 window.jQuery = $;
 window.Popper = Popper;
+window.bootstrap = bootstrap;
 
 document.documentElement.classList.remove('no-js');
 

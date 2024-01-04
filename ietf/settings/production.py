@@ -31,6 +31,9 @@ if 'SECRET_KEY' in env:
 if 'ALLOWED_HOSTS' in env:
     ALLOWED_HOSTS = env['ALLOWED_HOSTS'].split(',')
 
+if 'CSRF_TRUSTED_ORIGINS' in env:
+    CSRF_TRUSTED_ORIGINS = env['CSRF_TRUSTED_ORIGINS'].split(',')
+
 if 'PRIMARY_HOST' in env:
     WAGTAILADMIN_BASE_URL = 'http://%s/' % env['PRIMARY_HOST']
 

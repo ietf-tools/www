@@ -1,10 +1,10 @@
 from operator import itemgetter
-from django.conf import settings
+
 from wagtail.models import Site
 
-from ietf.blog.models import BlogIndexPage
 from ietf.home.models import HomePage, IABHomePage
-from ietf.utils.models import MenuItem, SocialMediaSettings
+from ietf.utils.models import SecondaryMenuItem, SocialMediaSettings
+from ietf.utils.context_processors import get_main_menu
 
 
 def home_page(site):
@@ -13,23 +13,11 @@ def home_page(site):
     return HomePage.objects.filter(depth=2).first()
 
 
-def children(item):
-    return item and item.get_children().live().in_menu()
-
-
-def menu(site):
-    items = children(home_page(site))
-    if items:
-        for item in items:
-            item.subitems = children(item)
-    return items
-
-
 def secondary_menu(site):
     if "iab" in site.hostname:
         return []
     items = (
-        MenuItem.objects.order_by("sort_order")
+        SecondaryMenuItem.objects.order_by("sort_order")
         .all()
         .select_related("page")
         .prefetch_related("sub_menu_items")
@@ -51,14 +39,11 @@ def social_menu(site):
 
 def global_pages(request):
     site = Site.find_for_request(request)
+    # XXX Return lazy values. This makes a big difference when a page renders
+    # multiple templates, e.g. when the wagtail userbar is displayed.
     return {
-        "HOME": home_page(site),
-        "BLOG_INDEX": BlogIndexPage.objects.first(),
-        "MENU": menu(site),
-        "SECONDARY_MENU": secondary_menu(site),
-        "SOCIAL_MENU": social_menu(site),
-        "BASE_URL": getattr(settings, "WAGTAILADMIN_BASE_URL", ""),
-        "DEBUG": getattr(settings, "DEBUG", ""),
-        "FB_APP_ID": getattr(settings, "FB_APP_ID", ""),
-        "SITE": site,
+        "HOME": lambda: home_page(site),
+        "MENU": lambda: get_main_menu(site),
+        "SECONDARY_MENU": lambda: secondary_menu(site),
+        "SOCIAL_MENU": lambda: social_menu(site),
     }
