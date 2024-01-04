@@ -242,3 +242,15 @@ IAB_FEED_URL = "https://www.ietf.org/blog/iab/feed"
 IAB_IETF_BLOG_URL = "https://www.ietf.org/blog/iab/"
 
 NOTE_WELL_REPO = "https://raw.githubusercontent.com/ietf/note-well/main/note-well.md"
+
+_cf_purge_bearer_token = os.environ.get("CLOUDFLARE_CACHE_PURGE_BEARER_TOKEN")
+_cf_purge_zone_id = os.environ.get("CLOUDFLARE_CACHE_PURGE_ZONE_ID")
+if _cf_purge_bearer_token and _cf_purge_zone_id:
+    INSTALLED_APPS += ( "wagtail.contrib.frontend_cache", )
+    WAGTAILFRONTENDCACHE = {
+        "cloudflare": {
+            "BACKEND": "wagtail.contrib.frontend_cache.backends.CloudflareBackend",
+            "BEARER_TOKEN": _cf_purge_bearer_token,
+            "ZONEID": _cf_purge_zone_id,
+        },
+    }
