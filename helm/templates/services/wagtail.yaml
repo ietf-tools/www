@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{include "wagtail.fullname" .}}
+  labels: {{- include "wagtail.labels" . | nindent 4 }}
+  {{- with .Values.wagtail.service.annotations }}
+  annotations:
+    {{- range $key, $value := . }}
+      {{ $key }}: {{ $value | quote }}
+    {{- end }}
+  {{- end }}
+spec:
+  type: {{.Values.wagtail.service.type}}
+  ports:
+    - port: {{ default "80" .Values.wagtail.service.port}}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector: {{- include "wagtail.selectorLabels" . | nindent 4}}
