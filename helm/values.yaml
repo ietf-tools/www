@@ -88,7 +88,7 @@ wagtail:
 
   service:
     type: ClusterIP
-    port: 80
+    port: 8000
 
   serviceAccount:
     # Specifies whether a service account should be created
