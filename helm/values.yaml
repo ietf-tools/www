@@ -24,7 +24,7 @@ wagtail:
     repository: "ghcr.io/ietf-tools/wagtail_website"
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    # tag: "v1.1.0"
+    tag: "latest"
 
   imagePullSecrets: []
   nameOverride: ""
