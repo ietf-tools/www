@@ -46,11 +46,11 @@ wagtail:
     #    hosts:
     #      - chart-example.local
 
-  livenessProbe:
-    httpGet:
-      # /submit/tool-instructions/ just happens to be cheap until we get a real health endpoint
-      path: /submit/tool-instructions/
-      port: http
+  # livenessProbe:
+  #   httpGet:
+  #     # /submit/tool-instructions/ just happens to be cheap until we get a real health endpoint
+  #     path: /submit/tool-instructions/
+  #     port: http
 
   podAnnotations: {}
   podLabels: {}
