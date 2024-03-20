@@ -206,6 +206,7 @@ autoscaling:
   # targetMemoryUtilizationPercentage: 80
 
 env:
+  DJANGO_SETTINGS_MODULE: "ietf.settings.dev"
   EMAIL_HOST: "localhost"
   DBHOST: "host.minikube.internal"
   DBNAME: "wagtail"
@@ -214,5 +215,3 @@ env:
   SECRET_KEY: "SpAA3v4icREtlC2ND3oZ8JABMEP2Cf1U"
   ALLOWED_HOSTS: "localhost"
   WAGTAILADMIN_BASE_URL: "http://localhost:8080/admin"
-  # MEMCACHED_SERVICE_HOST: ""
-  # MEMCACHED_SERVICE_PORT: ""
