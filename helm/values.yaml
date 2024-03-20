@@ -213,5 +213,5 @@ env:
   DBUSER: "postgres"
   DBPASS: "postgres"
   SECRET_KEY: "SpAA3v4icREtlC2ND3oZ8JABMEP2Cf1U"
-  ALLOWED_HOSTS: "localhost"
+  ALLOWED_HOSTS: "localhost,127.0.0.1"
   WAGTAILADMIN_BASE_URL: "http://localhost:8080/admin"
