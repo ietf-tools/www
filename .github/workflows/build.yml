@@ -37,6 +37,7 @@ jobs:
       with:
         token: ${{ github.token }}
         branch: main
+        patchList: fix, bugfix, perf, refactor, test, tests, chore, ci, build
         skipInvalidTags: true
         
     - name: Create Draft Release
