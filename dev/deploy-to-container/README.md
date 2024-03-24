@@ -1,4 +1,4 @@
-# Wagtail_website Deploy to Container Tool
+# WWW Deploy to Container Tool
 
 This tool takes a docker image and deploys it to a container, along with its own database container.
 

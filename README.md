@@ -1,18 +1,18 @@
 <div align="center">
     
-<img src="https://raw.githubusercontent.com/ietf-tools/common/main/assets/logos/wagtail-site.svg" alt="IETF Wagtail Website" height="125" />
+<img src="https://raw.githubusercontent.com/ietf-tools/common/main/assets/logos/www.svg" alt="IETF WWW" height="125" />
     
-[![Release](https://img.shields.io/github/release/ietf-tools/wagtail_website.svg?style=flat&maxAge=360)](https://github.com/ietf-tools/wagtail_website/releases)
-[![License](https://img.shields.io/github/license/ietf-tools/wagtail_website)](https://github.com/ietf-tools/wagtail_website/blob/main/LICENSE)
-[![CircleCI](https://img.shields.io/circleci/build/github/ietf-tools/wagtail_website?label=Circle%20CI%20Build&logo=circleci)](https://app.circleci.com/pipelines/github/ietf-tools/wagtail_website)
-[![Docker Images](https://img.shields.io/badge/docker%20images-github-blue?logo=docker&logoColor=white)](https://github.com/ietf-tools/wagtail_website/pkgs/container/wagtail_website)
+[![Release](https://img.shields.io/github/release/ietf-tools/www.svg?style=flat&maxAge=360)](https://github.com/ietf-tools/www/releases)
+[![License](https://img.shields.io/github/license/ietf-tools/www)](https://github.com/ietf-tools/www/blob/main/LICENSE)
+[![CircleCI](https://img.shields.io/circleci/build/github/ietf-tools/www?label=Circle%20CI%20Build&logo=circleci)](https://app.circleci.com/pipelines/github/ietf-tools/www)
+[![Docker Images](https://img.shields.io/badge/docker%20images-github-blue?logo=docker&logoColor=white)](https://github.com/ietf-tools/www/pkgs/container/www)
     
 ##### A customized CMS for the IETF website
     
 </div>
 
--   [Changelog](https://github.com/ietf-tools/wagtail_website/releases)
--   [Contributing](https://github.com/ietf-tools/wagtail_website/blob/main/CONTRIBUTING.md)
+-   [Changelog](https://github.com/ietf-tools/www/releases)
+-   [Contributing](https://github.com/ietf-tools/www/blob/main/CONTRIBUTING.md)
 -   [Install](#install)
 -   [Requirements](#requirements)
 -   [Deployment](#deployment)
@@ -44,7 +44,7 @@ So the only requirement to run it locally is a recent version of Docker with doc
 5. Create a super user on **Python application** docker instance to access http://localhost:8001/admin
 
     ```sh
-    docker exec -ti wagtail_website-application-1 python manage.py createsuperuser
+    docker exec -ti www-application-1 python manage.py createsuperuser
     ```
 
 6. To destroy everything (i.e. start the database from scratch) run `docker compose down`.
@@ -55,7 +55,7 @@ So the only requirement to run it locally is a recent version of Docker with doc
 2. Create an admin user
 
     ```sh
-    docker exec -ti wagtail_website-application-1 python manage.py createsuperuser
+    docker exec -ti www-application-1 python manage.py createsuperuser
     ```
 
 3. Log into http://localhost:8001/admin
@@ -139,7 +139,7 @@ Dev _(automatically build from **main** branch)_: https://ws-main.dev.ietf.org/
 
 ### Testing changes on sandbox
 
-* Use [Build and release](https://github.com/ietf-tools/wagtail_website/actions/workflows/build.yml) GHA.
+* Use [Build and release](https://github.com/ietf-tools/www/actions/workflows/build.yml) GHA.
 * Select the branch that you want to deploy.
 * Make sure **Create Production Release** is **not** ticked.
 * Tick **Deploy to Sandbox**.

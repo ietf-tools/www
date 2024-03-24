@@ -137,7 +137,7 @@ jobs:
         channel-id: ${{ secrets.SLACK_GH_BUILDS_CHANNEL_ID }}
         payload: |
           {
-            "text": "wagtail_website - Build <https://github.com/ietf-tools/wagtail_website/actions/runs/${{ github.run_id }}|${{ steps.buildvars.outputs.pkg_version }}> by ${{ github.triggering_actor }} completed"
+            "text": "www - Build <https://github.com/ietf-tools/www/actions/runs/${{ github.run_id }}|${{ steps.buildvars.outputs.pkg_version }}> by ${{ github.triggering_actor }} completed"
           }
       env:
         SLACK_BOT_TOKEN: ${{ secrets.SLACK_GH_BOT }}

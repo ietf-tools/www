@@ -66,13 +66,13 @@ async function main () {
   })
   console.info('Pulled latest memcached image.')
 
-  // Pull latest Wagtail_website Base image
-  console.info('Pulling latest Wagtail_website branch docker image...')
-  const appImagePullStream = await dock.pull(`ghcr.io/ietf-tools/wagtail_website:${argv.appversion}`)
+  // Pull latest WWW Base image
+  console.info('Pulling latest WWW branch docker image...')
+  const appImagePullStream = await dock.pull(`ghcr.io/ietf-tools/www:${argv.appversion}`)
   await new Promise((resolve, reject) => {
     dock.modem.followProgress(appImagePullStream, (err, res) => err ? reject(err) : resolve(res))
   })
-  console.info('Pulled latest Wagtail_website branch docker image.')
+  console.info('Pulled latest WWW branch docker image.')
 
   // Terminate existing containers
   console.info('Ensuring existing containers with same name are terminated...')
@@ -145,7 +145,7 @@ async function main () {
   // Create App container
   console.info(`Creating app docker container... [ws-app-${branch}]`)
   const appContainer = await dock.createContainer({
-    Image: `ghcr.io/ietf-tools/wagtail_website:${argv.appversion}`,
+    Image: `ghcr.io/ietf-tools/www:${argv.appversion}`,
     name: `ws-app-${branch}`,
     Hostname: `ws-app-${branch}`,
     Env: [

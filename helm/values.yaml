@@ -21,7 +21,7 @@ serviceAccounts:
 wagtail:
   name: wagtail
   image:
-    repository: "ghcr.io/ietf-tools/wagtail_website"
+    repository: "ghcr.io/ietf-tools/www"
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
     tag: "v2.0.0"
@@ -210,7 +210,7 @@ env:
   DJANGO_SETTINGS_MODULE: "ietf.settings.dev"
   EMAIL_HOST: "localhost"
   DBHOST: "host.minikube.internal"
-  DBNAME: "wagtail"
+  DBNAME: "www"
   DBUSER: "www_iab"
   DBPASS: "www_iab"
   SECRET_KEY: "SpAA3v4icREtlC2ND3oZ8JABMEP2Cf1U"

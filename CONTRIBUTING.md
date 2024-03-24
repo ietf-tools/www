@@ -90,10 +90,10 @@ For this project treat `deploy/preview` brach as `main`.
     docker pull postgres:14.6-alpine
     ```
 
--   Database backup: `wagtail_backup_latest.gz`
+-   Database backup: `www_backup_latest.gz`
 
     ``` bash
-    gunzip wagtail_backup_latest.gz
+    gunzip www_backup_latest.gz
     ```
 
     Note: The name of your backup file will be different.
@@ -114,7 +114,7 @@ For this project treat `deploy/preview` brach as `main`.
 
     ``` bash
     docker run --name my-postgres \
-           -v $(pwd)/wagtail_backup_latest:/wagtail_backup_latest \
+           -v $(pwd)/www_backup_latest:/www_backup_latest \
            -v pgdata:/var/lib/postgresql/data \
            -e POSTGRES_PASSWORD=postgres \
            -p 5432:5432 \
@@ -129,14 +129,14 @@ For this project treat `deploy/preview` brach as `main`.
 
     where `188fcfec0bf9` is the ID of the container.
 
-    1.  (Required only once) Using `psql`, create a new database called `wagtail`, and a new role called `www_iab`.
+    1.  (Required only once) Using `psql`, create a new database called `www`, and a new role called `www_iab`.
 
         ``` bash
         psql -U postgres
         ```
 
         ``` sql
-        CREATE DATABASE wagtail;
+        CREATE DATABASE www;
         CREATE ROLE www_iab WITH LOGIN PASSWORD 'www_iab';
         ```
 
@@ -144,16 +144,16 @@ For this project treat `deploy/preview` brach as `main`.
         \q
         ```
 
-    2.  (Required only once) Restore `wagtail_backup_latest` to the `wagtail` database using `pg_restore`.
+    2.  (Required only once) Restore `www_backup_latest` to the `www` database using `pg_restore`.
 
         ``` bash
-        pg_restore -U postgres -d wagtail wagtail_backup_latest
+        pg_restore -U postgres -d www www_backup_latest
         ```
 
 4.  Run
 
     ``` bash
-    helm install wagtail helm
+    helm install www helm
     ```
 
     to install the Helm chart.
@@ -167,7 +167,7 @@ For this project treat `deploy/preview` brach as `main`.
     e.g.
 
     ``` bash
-    kubectl --namespace default port-forward wagtail-wagtail-5bf8f48bf5-28dvr 8080:8000
+    kubectl --namespace default port-forward www-wagtail-69f957f5d6-ppfsd 8080:8000
     ```
 
 6.  Go to localhost:8080 on your web browser, and perform basic testing.
@@ -181,7 +181,7 @@ For this project treat `deploy/preview` brach as `main`.
     e.g.
 
     ``` bash
-    kubectl exec -it wagtail-wagtail-845c6b54b5-dkfqw --container wagtail -- python manage.py createsuperuser
+    kubectl exec -it www-wagtail-69f957f5d6-ppfsd --container www -- python manage.py createsuperuser
     ```
 
 8.  Using the admin username and password, log in to localhost:8080/admin.
