@@ -111,15 +111,20 @@ wagtail==5.2.1
     #   wagtail-markdown
     #   wagtail-modeladmin
     #   wagtail-orderable
+    #   wagtailcharts
 wagtail-markdown==0.11.1
     # via -r base.in
 wagtail-modeladmin==1.0.0
     # via -r base.in
 wagtail-orderable==1.2.0
     # via -r base.in
+wagtailcharts==0.4.0
+    # via -r base.in
 webencodings==0.5.1
     # via
     #   bleach
     #   html5lib
 willow[heif]==1.6.3
-    # via wagtail
+    # via
+    #   wagtail
+    #   willow

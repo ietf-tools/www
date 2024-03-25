@@ -40,3 +40,8 @@ class MenuItemAdmin(OrderableMixin, ModelAdmin):
 
 
 modeladmin_register(MenuItemAdmin)
+
+
+@hooks.register("register_icons")
+def register_icons(icons):
+    return icons + ["icons/chart-line.svg"]

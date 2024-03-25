@@ -13,6 +13,7 @@ from wagtail.contrib.table_block.blocks import TableBlock
 from wagtail.contrib.typed_table_block.blocks import TypedTableBlock
 from wagtail.embeds.blocks import EmbedBlock
 from wagtail.images.blocks import ImageChooserBlock
+from wagtailcharts.blocks import ChartBlock
 from wagtailmarkdown.blocks import MarkdownBlock
 
 from django.conf import settings
@@ -58,3 +59,4 @@ class StandardBlock(StreamBlock):
         ]
     )
     note_well = NoteWellBlock(icon="placeholder", label="Note Well Text")
+    chart = ChartBlock(icon="chart-line")

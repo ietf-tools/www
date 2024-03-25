@@ -9,3 +9,4 @@ wagtail-markdown
 wagtail-modeladmin
 wagtail-orderable
 wagtail>=5.2,<5.3
+wagtailcharts
