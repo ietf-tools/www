@@ -4,7 +4,6 @@
     
 [![Release](https://img.shields.io/github/release/ietf-tools/www.svg?style=flat&maxAge=360)](https://github.com/ietf-tools/www/releases)
 [![License](https://img.shields.io/github/license/ietf-tools/www)](https://github.com/ietf-tools/www/blob/main/LICENSE)
-[![CircleCI](https://img.shields.io/circleci/build/github/ietf-tools/www?label=Circle%20CI%20Build&logo=circleci)](https://app.circleci.com/pipelines/github/ietf-tools/www)
 [![Docker Images](https://img.shields.io/badge/docker%20images-github-blue?logo=docker&logoColor=white)](https://github.com/ietf-tools/www/pkgs/container/www)
     
 ##### A customized CMS for the IETF website
