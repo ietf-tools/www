@@ -1,8 +1,8 @@
 {
-    "name": "wagtail_website",
+    "name": "www",
     "version": "0.11.0",
     "description": "IETF Wagtail site",
-    "repository": "git@github.com:ietf-tools/wagtail_website.git",
+    "repository": "git@github.com:ietf-tools/www.git",
     "author": "The Internet Engineering Task Force <webmaster@ietf.org>",
     "license": "SEE LICENSE FILE",
     "private": true,

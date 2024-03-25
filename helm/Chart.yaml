@@ -1,6 +1,6 @@
 apiVersion: v2
-name: wagtail_website
-description: Helm chart for IETF wagtail_website
+name: www
+description: Helm chart for IETF www
 maintainers:
   - name: IETF Tools Team
     email: tools-discuss@ietf.org
