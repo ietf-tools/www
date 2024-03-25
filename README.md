@@ -1,6 +1,6 @@
 <div align="center">
     
-<img src="https://raw.githubusercontent.com/ietf-tools/common/main/assets/logos/www.svg" alt="IETF WWW" height="125" />
+<img src="https://raw.githubusercontent.com/ietf-tools/common/main/assets/logos/wagtail-site.svg" alt="IETF Wagtail Website" height="125" />
     
 [![Release](https://img.shields.io/github/release/ietf-tools/www.svg?style=flat&maxAge=360)](https://github.com/ietf-tools/www/releases)
 [![License](https://img.shields.io/github/license/ietf-tools/www)](https://github.com/ietf-tools/www/blob/main/LICENSE)
