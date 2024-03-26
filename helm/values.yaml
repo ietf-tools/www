@@ -217,3 +217,4 @@ env:
   ALLOWED_HOSTS: "localhost,127.0.0.1"
   WAGTAILADMIN_BASE_URL: "http://localhost:8080/admin"
   CSRF_TRUSTED_ORIGINS: "http://localhost:8080/,"
+  MATOMO_SITE_ID: 11
