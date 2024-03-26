@@ -22,6 +22,8 @@ FILE_UPLOAD_PERMISSIONS = 0o664
 
 ALLOWED_HOSTS = os.environ["ALLOWED_HOSTS"].split(",")
 
+CSRF_TRUSTED_ORIGINS = os.environ["CSRF_TRUSTED_ORIGINS"].split(",")
+
 WAGTAILADMIN_BASE_URL = os.environ["WAGTAILADMIN_BASE_URL"]
 
 ADMINS = (("Django Server", "django-project@ietf.org"),)
