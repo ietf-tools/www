@@ -22,6 +22,8 @@ FILE_UPLOAD_PERMISSIONS = 0o664
 
 ALLOWED_HOSTS = os.environ["ALLOWED_HOSTS"].split(",")
 
+CSRF_TRUSTED_ORIGINS = os.environ["CSRF_TRUSTED_ORIGINS"].split(",")
+
 WAGTAILADMIN_BASE_URL = os.environ["WAGTAILADMIN_BASE_URL"]
 
 ADMINS = (("Django Server", "django-project@ietf.org"),)
@@ -52,7 +54,7 @@ LOGGING = {
 }
 
 MATOMO_DOMAIN_PATH = "analytics.ietf.org"
-MATOMO_SITE_ID = "1"
+MATOMO_SITE_ID = os.environ["MATOMO_SITE_ID"]
 MATOMO_DISABLE_COOKIES = True
 
 MEMCACHED_HOST = os.environ["MEMCACHED_SERVICE_HOST"]
