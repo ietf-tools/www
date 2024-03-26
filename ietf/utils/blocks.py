@@ -7,6 +7,8 @@ from wagtail.blocks import (
     RichTextBlock,
     StreamBlock,
     StructBlock,
+    StructValue,
+    TextBlock,
     URLBlock,
 )
 from wagtail.contrib.table_block.blocks import TableBlock
@@ -40,6 +42,31 @@ class MainMenuSection(StructBlock):
     links = ListBlock(LinkBlock())
 
 
+class AccessibleChartValue(StructValue):
+    def aria_label(self):
+        label = self.get("accessible_label")
+        if not label:
+            label = "A chart"
+            title = self.get("title")
+            if title:
+                label += f" of {title}"
+
+        return label
+
+
+class AccessibleChartBlock(ChartBlock):
+    accessible_label = TextBlock(
+        required=False,
+        help_text=(
+            "A description of the chart for screen readers. If not set, a generic"
+            " description is used, based on the chart title."
+        ),
+    )
+
+    class Meta:
+        value_class = AccessibleChartValue
+
+
 class StandardBlock(StreamBlock):
     heading = CharBlock(icon="title")
     paragraph = RichTextBlock(icon="pilcrow")
@@ -59,4 +86,4 @@ class StandardBlock(StreamBlock):
         ]
     )
     note_well = NoteWellBlock(icon="placeholder", label="Note Well Text")
-    chart = ChartBlock(icon="chart-line")
+    chart = AccessibleChartBlock(icon="chart-line")

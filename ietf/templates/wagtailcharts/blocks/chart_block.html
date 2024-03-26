@@ -1,9 +1,9 @@
-{% if self.title %}<h3>{{self.title}}</h3>{% endif %}
+{% if self.title %}<h3>{{ self.title }}</h3>{% endif %}
 <canvas
-  id="chart-{{block.id}}"
-  data-datasets="{{self.datasets}}"
-  data-config="{{self.settings.config}}"
-  data-chart-type="{{self.chart_type}}"
+  id="chart-{{ block.id }}"
+  data-datasets="{{ self.datasets }}"
+  data-config="{{ self.settings.config }}"
+  data-chart-type="{{ self.chart_type }}"
   role="img"
-  aria-label="A chart {% if self.title %}of {{self.title}}{%endif%}"
+  aria-label="{{ self.aria_label }}"
 ></canvas>
