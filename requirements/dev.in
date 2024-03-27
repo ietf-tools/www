@@ -3,3 +3,4 @@
 pip-tools
 pytest-cov
 pytest-django
+wagtail-factories
