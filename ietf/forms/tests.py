@@ -1,3 +1,4 @@
+from django.core import mail
 from django.test import TestCase
 from wagtail.models import Page, Site
 
@@ -8,6 +9,8 @@ from .models import FormPage
 
 
 class FormPageTests(TestCase):
+    FORM_ADDRESS = "forms@example.com"
+
     def setUp(self):
         root = Page.get_first_root_node()
         self.home: HomePage = HomePageFactory(parent=root)  # type: ignore
@@ -18,6 +21,7 @@ class FormPageTests(TestCase):
 
         self.form_page: FormPage = FormPageFactory(
             parent=self.home,
+            to_address=self.FORM_ADDRESS,
         )  # type: ignore
 
     def test_form_page(self):
@@ -27,3 +31,10 @@ class FormPageTests(TestCase):
 
         self.assertIn(self.form_page.title, html)
         self.assertIn(self.form_page.intro, html)
+
+    def test_submit(self):
+        response = self.client.post(self.form_page.url, {})
+        assert response.status_code == 200
+        assert len(mail.outbox) == 1
+        message = mail.outbox[0]
+        assert message.to == [self.FORM_ADDRESS]
