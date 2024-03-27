@@ -4,19 +4,120 @@
 #
 #    pip-compile dev.in
 #
+anyascii==0.3.2
+    # via
+    #   -c base.txt
+    #   wagtail
+asgiref==3.7.2
+    # via
+    #   -c base.txt
+    #   django
+beautifulsoup4==4.11.2
+    # via
+    #   -c base.txt
+    #   wagtail
 build==1.0.3
     # via pip-tools
+certifi==2023.11.17
+    # via
+    #   -c base.txt
+    #   requests
+charset-normalizer==3.3.2
+    # via
+    #   -c base.txt
+    #   requests
 click==8.1.7
     # via pip-tools
 coverage[toml]==7.3.2
-    # via pytest-cov
+    # via
+    #   coverage
+    #   pytest-cov
+defusedxml==0.7.1
+    # via
+    #   -c base.txt
+    #   willow
+django==4.2.7
+    # via
+    #   -c base.txt
+    #   django-filter
+    #   django-modelcluster
+    #   django-permissionedforms
+    #   django-taggit
+    #   django-treebeard
+    #   djangorestframework
+    #   wagtail
+django-filter==23.4
+    # via
+    #   -c base.txt
+    #   wagtail
+django-modelcluster==6.1
+    # via
+    #   -c base.txt
+    #   wagtail
+django-permissionedforms==0.1
+    # via
+    #   -c base.txt
+    #   wagtail
+django-taggit==4.0.0
+    # via
+    #   -c base.txt
+    #   wagtail
+django-treebeard==4.7
+    # via
+    #   -c base.txt
+    #   wagtail
+djangorestframework==3.14.0
+    # via
+    #   -c base.txt
+    #   wagtail
+draftjs-exporter==2.1.7
+    # via
+    #   -c base.txt
+    #   wagtail
+et-xmlfile==1.1.0
+    # via
+    #   -c base.txt
+    #   openpyxl
+factory-boy==3.3.0
+    # via wagtail-factories
+faker==24.4.0
+    # via factory-boy
+filetype==1.2.0
+    # via
+    #   -c base.txt
+    #   willow
+html5lib==1.1
+    # via
+    #   -c base.txt
+    #   wagtail
+idna==3.6
+    # via
+    #   -c base.txt
+    #   requests
 iniconfig==2.0.0
     # via pytest
+l18n==2021.3
+    # via
+    #   -c base.txt
+    #   wagtail
+openpyxl==3.1.2
+    # via
+    #   -c base.txt
+    #   wagtail
 packaging==23.2
     # via
     #   -c base.txt
     #   build
     #   pytest
+pillow==10.1.0
+    # via
+    #   -c base.txt
+    #   pillow-heif
+    #   wagtail
+pillow-heif==0.13.1
+    # via
+    #   -c base.txt
+    #   willow
 pip-tools==7.3.0
     # via -r dev.in
 pluggy==1.3.0
@@ -31,8 +132,57 @@ pytest-cov==4.1.0
     # via -r dev.in
 pytest-django==4.7.0
     # via -r dev.in
+python-dateutil==2.9.0.post0
+    # via faker
+pytz==2023.3.post1
+    # via
+    #   -c base.txt
+    #   django-modelcluster
+    #   djangorestframework
+    #   l18n
+requests==2.31.0
+    # via
+    #   -c base.txt
+    #   wagtail
+six==1.16.0
+    # via
+    #   -c base.txt
+    #   html5lib
+    #   l18n
+    #   python-dateutil
+soupsieve==2.5
+    # via
+    #   -c base.txt
+    #   beautifulsoup4
+sqlparse==0.4.4
+    # via
+    #   -c base.txt
+    #   django
+telepath==0.3.1
+    # via
+    #   -c base.txt
+    #   wagtail
+urllib3==2.1.0
+    # via
+    #   -c base.txt
+    #   requests
+wagtail==5.2.1
+    # via
+    #   -c base.txt
+    #   wagtail-factories
+wagtail-factories==4.1.0
+    # via -r dev.in
+webencodings==0.5.1
+    # via
+    #   -c base.txt
+    #   html5lib
 wheel==0.42.0
     # via pip-tools
+willow[heif]==1.6.3
+    # via
+    #   -c base.txt
+    #   wagtail
+    #   willow
 
 # The following packages are considered to be unsafe in a requirements file:
 # pip
