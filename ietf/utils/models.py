@@ -126,7 +126,7 @@ class MainMenuItem(PreviewableMixin, models.Model):
     class Meta:
         ordering = ["sort_order"]
 
-    def __str__(self):
+    def __str__(self):  # pragma: no cover
         return self.page.title
 
     def get_preview_template(self, request, model_name):

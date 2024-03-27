@@ -15,7 +15,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 CELERY_EAGER_PROPAGATES_EXCEPTIONS = True
 CELERY_ALWAYS_EAGER = True
 
-try:
+try:  # pragma: no cover
     from .local import *
-except ImportError:
+except ImportError:  # pragma: no cover
     pass

@@ -101,7 +101,7 @@ class BibliographyItem(models.Model):
         else:
             return str(object)
 
-    def __str__(self):
+    def __str__(self):  # pragma: no cover
         return "Bibliography Item #{}: {}".format(self.ordering, self.content_object)
 
 
