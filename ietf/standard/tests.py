@@ -1,53 +1,42 @@
 from django.test import TestCase
 from wagtail.models import Page, Site
 
+from ..home.factories import HomePageFactory
 from ..home.models import HomePage
+from .factories import StandardIndexPageFactory, StandardPageFactory
 from .models import StandardIndexPage, StandardPage
 
 
 class StandardPageTests(TestCase):
-    def test_standard_page(self):
-
+    def setUp(self):
         root = Page.get_first_root_node()
+        self.home: HomePage = HomePageFactory(parent=root)  # type: ignore
 
-        home = HomePage(
-            slug="homepageslug",
-            title="home page title",
-            heading="home page heading",
-            introduction="home page introduction",
-        )
+        site = Site.objects.get()
+        site.root_page = self.home
+        site.save(update_fields=["root_page"])
 
-        root.add_child(instance=home)
+        self.standard_index: StandardIndexPage = StandardIndexPageFactory(
+            parent=self.home,
+        )  # type: ignore
 
-        Site.objects.all().delete()
+        self.standard_page: StandardPage = StandardPageFactory(
+            parent=self.standard_index,
+        )  # type: ignore
 
-        Site.objects.create(
-            hostname="localhost",
-            root_page=home,
-            is_default_site=True,
-            site_name="testingsitename",
-        )
+    def test_index_page(self):
+        response = self.client.get(path=self.standard_index.url)
+        self.assertEqual(response.status_code, 200)
+        html = response.content.decode()
 
-        standardindex = StandardIndexPage(
-            slug="standardindex",
-            title="standard index page title",
-            introduction="standard index page introduction",
-        )
-        home.add_child(instance=standardindex)
+        self.assertIn(self.standard_page.title, html)
+        self.assertIn(f'href="{self.standard_page.url}"', html)
 
-        standardpage = StandardPage(
-            slug="standard",
-            title="standard title",
-            introduction="standard introduction",
-        )
-        standardindex.add_child(instance=standardpage)
+    def test_standard_page(self):
+        response = self.client.get(path=self.standard_page.url)
+        self.assertEqual(response.status_code, 200)
+        html = response.content.decode()
 
-        rindex = self.client.get(path=standardindex.url)
-        self.assertEqual(rindex.status_code, 200)
-
-        r = self.client.get(path=standardpage.url)
-        self.assertEqual(r.status_code, 200)
-
-        self.assertIn(standardpage.title.encode(), r.content)
-        self.assertIn(standardpage.introduction.encode(), r.content)
-        self.assertIn(('href="%s"' % standardindex.url).encode(), r.content)
+        self.assertIn(self.standard_page.title, html)
+        self.assertIn(self.standard_page.introduction, html)
+        self.assertIn(f'href="{self.standard_index.url}"', html)

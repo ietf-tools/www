@@ -1,53 +1,53 @@
+from datetime import timedelta
 from django.test import TestCase
+from django.utils import timezone
 from wagtail.models import Page, Site
 
+
+from ..home.factories import HomePageFactory
 from ..home.models import HomePage
+from .factories import EventListingPageFactory, EventPageFactory
 from .models import EventListingPage, EventPage
 
 
 class EventPageTests(TestCase):
-    def test_event_page(self):
-
+    def setUp(self):
         root = Page.get_first_root_node()
+        self.home: HomePage = HomePageFactory(parent=root)  # type: ignore
 
-        home = HomePage(
-            slug="homepageslug",
-            title="home page title",
-            heading="home page heading",
-            introduction="home page introduction",
-        )
+        site = Site.objects.get()
+        site.root_page = self.home
+        site.save(update_fields=["root_page"])
 
-        root.add_child(instance=home)
+        self.event_listing: EventListingPage = EventListingPageFactory(
+            parent=self.home,
+        )  # type: ignore
+        self.event_page: EventPage = EventPageFactory(
+            parent=self.event_listing,
+            end_date=timezone.now() + timedelta(days=1),
+        )  # type: ignore
 
-        Site.objects.all().delete()
+    def test_event_listing(self):
+        response = self.client.get(path=self.event_listing.url)
+        self.assertEqual(response.status_code, 200)
+        html = response.content.decode()
 
-        Site.objects.create(
-            hostname="localhost",
-            root_page=home,
-            is_default_site=True,
-            site_name="testingsitename",
-        )
+        self.assertIn(self.event_page.title, html)
+        self.assertIn(f'href="{self.event_page.url}"', html)
 
-        eventlisting = EventListingPage(
-            slug="eventlisting",
-            title="event listing page title",
-            introduction="event listing page introduction",
-        )
-        home.add_child(instance=eventlisting)
+    def test_event_page(self):
+        response = self.client.get(path=self.event_page.url)
+        self.assertEqual(response.status_code, 200)
+        html = response.content.decode()
 
-        eventpage = EventPage(
-            slug="event",
-            title="event title",
-            introduction="event introduction",
-        )
-        eventlisting.add_child(instance=eventpage)
+        self.assertIn(self.event_page.title, html)
+        self.assertIn(self.event_page.introduction, html)
+        self.assertIn(f'href="{self.event_listing.url}"', html)
 
-        rindex = self.client.get(path=eventlisting.url)
-        self.assertEqual(rindex.status_code, 200)
+    def test_home_page(self):
+        response = self.client.get(path=self.home.url)
+        self.assertEqual(response.status_code, 200)
+        html = response.content.decode()
 
-        r = self.client.get(path=eventpage.url)
-        self.assertEqual(r.status_code, 200)
-
-        self.assertIn(eventpage.title.encode(), r.content)
-        self.assertIn(eventpage.introduction.encode(), r.content)
-        self.assertIn(('href="%s"' % eventlisting.url).encode(), r.content)
+        self.assertIn(f'href="{self.event_page.url}"', html)
+        self.assertIn(self.event_page.title, html)

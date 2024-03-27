@@ -4,109 +4,78 @@ from django.utils import timezone
 from django.test import TestCase
 from wagtail.models import Page, Site
 
+from ietf.snippets.factories import PersonFactory
+
+from ..home.factories import HomePageFactory
 from ..home.models import HomePage
-from ..snippets.models import Person, Topic
+from ..snippets.models import Topic
+from .factories import BlogIndexPageFactory, BlogPageFactory
 from .models import BlogIndexPage, BlogPage, BlogPageAuthor, BlogPageTopic
 
 
 class BlogTests(TestCase):
     def setUp(self):
         root = Page.get_first_root_node()
+        self.home: HomePage = HomePageFactory(parent=root)  # type: ignore
 
-        home = HomePage(
-            slug="homepageslug",
-            title="home page title",
-            heading="home page heading",
-            introduction="home page introduction",
-        )
+        site = Site.objects.get()
+        site.root_page = self.home
+        site.save(update_fields=["root_page"])
 
-        root.add_child(instance=home)
-
-        Site.objects.all().delete()
-
-        Site.objects.create(
-            hostname="localhost",
-            root_page=home,
-            is_default_site=True,
-            site_name="testingsitename",
-        )
-
-        self.blog_index = BlogIndexPage(
+        self.blog_index: BlogIndexPage = BlogIndexPageFactory(
+            parent=self.home,
             slug="blog",
-            title="blog index title",
-        )
-        home.add_child(instance=self.blog_index)
+        )  # type: ignore
 
         now = timezone.now()
 
-        self.otherblog = BlogPage(
-            slug="otherpost",
-            title="other title",
-            introduction="other introduction",
-            body='[{"id": "1", "type": "rich_text", "value": "<p>other body</p>"}]',
+        self.other_blog_page: BlogPage = BlogPageFactory(
+            parent=self.blog_index,
             date_published=(now - timedelta(minutes=10)),
-        )
-        self.blog_index.add_child(instance=self.otherblog)
-        self.otherblog.save
+        )  # type: ignore
 
-        self.prevblog = BlogPage(
-            slug="prevpost",
-            title="prev title",
-            introduction="prev introduction",
-            body='[{"id": "2", "type": "rich_text", "value": "<p>prev body</p>"}]',
+        self.prev_blog_page: BlogPage = BlogPageFactory(
+            parent=self.blog_index,
             date_published=(now - timedelta(minutes=5)),
-        )
-        self.blog_index.add_child(instance=self.prevblog)
-        self.prevblog.save()
+        )  # type: ignore
 
-        self.blog = BlogPage(
-            slug="blogpost",
-            title="blog title",
-            introduction="blog introduction",
-            body='[{"id": "3", "type": "rich_text", "value": "<p>blog body</p>"}]',
+        self.blog_page: BlogPage = BlogPageFactory(
+            parent=self.blog_index,
             first_published_at=(now + timedelta(minutes=1)),
-        )
-        self.blog_index.add_child(instance=self.blog)
-        self.blog.save()
+        )  # type: ignore
 
-        self.nextblog = BlogPage(
-            slug="nextpost",
-            title="next title",
-            introduction="next introduction",
-            body='[{"id": "4", "type": "rich_text", "value": "<p>next body</p>"}]',
+        self.next_blog_page: BlogPage = BlogPageFactory(
+            parent=self.blog_index,
             first_published_at=(now + timedelta(minutes=5)),
-        )
-        self.blog_index.add_child(instance=self.nextblog)
-        self.nextblog.save()
+        )  # type: ignore
 
-        self.alice = Person.objects.create(name="Alice", slug="alice")
-        self.bob = Person.objects.create(name="Bob", slug="bob")
+        self.alice = PersonFactory(name="Alice", slug="alice")
+        self.bob = PersonFactory(name="Bob", slug="bob")
 
-        BlogPageAuthor.objects.create(page=self.otherblog, author=self.alice)
-        BlogPageAuthor.objects.create(page=self.prevblog, author=self.alice)
-        BlogPageAuthor.objects.create(page=self.prevblog, author=self.bob)
-        BlogPageAuthor.objects.create(page=self.nextblog, author=self.bob)
+        BlogPageAuthor.objects.create(page=self.other_blog_page, author=self.alice)
+        BlogPageAuthor.objects.create(page=self.prev_blog_page, author=self.alice)
+        BlogPageAuthor.objects.create(page=self.prev_blog_page, author=self.bob)
+        BlogPageAuthor.objects.create(page=self.next_blog_page, author=self.bob)
 
     def test_blog(self):
         r = self.client.get(path=self.blog_index.url)
         self.assertEqual(r.status_code, 200)
 
-        r = self.client.get(path=self.blog.url)
+        r = self.client.get(path=self.blog_page.url)
         self.assertEqual(r.status_code, 200)
 
-        self.assertIn(self.blog.title.encode(), r.content)
-        self.assertIn(self.blog.introduction.encode(), r.content)
-        # self.assertIn(blog.body.raw_text.encode(), r.content)
-        self.assertIn(('href="%s"' % self.nextblog.url).encode(), r.content)
-        self.assertIn(('href="%s"' % self.prevblog.url).encode(), r.content)
-        self.assertIn(('href="%s"' % self.otherblog.url).encode(), r.content)
+        self.assertIn(self.blog_page.title.encode(), r.content)
+        self.assertIn(self.blog_page.introduction.encode(), r.content)
+        self.assertIn(('href="%s"' % self.next_blog_page.url).encode(), r.content)
+        self.assertIn(('href="%s"' % self.prev_blog_page.url).encode(), r.content)
+        self.assertIn(('href="%s"' % self.other_blog_page.url).encode(), r.content)
 
     def test_previous_next_links_correct(self):
-        self.assertTrue(self.prevblog.date < self.blog.date)
-        self.assertTrue(self.nextblog.date > self.blog.date)
-        blog = BlogPage.objects.get(pk=self.blog.pk)
-        self.assertEqual(self.prevblog, blog.previous)
-        self.assertEqual(self.nextblog, blog.next)
+        self.assertTrue(self.prev_blog_page.date < self.blog_page.date)
+        self.assertTrue(self.next_blog_page.date > self.blog_page.date)
+        blog = BlogPage.objects.get(pk=self.blog_page.pk)
+        self.assertEqual(self.prev_blog_page, blog.previous)
+        self.assertEqual(self.next_blog_page, blog.next)
 
     def test_author_index(self):
         alice_url = self.blog_index.reverse_subpage(
@@ -117,42 +86,42 @@ class BlogTests(TestCase):
         html = alice_resp.content.decode("utf8")
         self.assertIn("<title>IETF  | Articles by Alice</title>", html)
         self.assertIn("<h1>Articles by Alice</h1>", html)
-        self.assertIn(self.otherblog.url, html)
-        self.assertIn(self.prevblog.url, html)
-        self.assertNotIn(self.nextblog.url, html)
-        self.assertNotIn(self.blog.url, html)
+        self.assertIn(self.other_blog_page.url, html)
+        self.assertIn(self.prev_blog_page.url, html)
+        self.assertNotIn(self.next_blog_page.url, html)
+        self.assertNotIn(self.blog_page.url, html)
 
     def test_blog_feed(self):
         r = self.client.get(path='/blog/feed/')
         self.assertEqual(r.status_code, 200)
-        self.assertIn(self.blog.url.encode(), r.content)
-        self.assertIn(self.otherblog.url.encode(), r.content)
+        self.assertIn(self.blog_page.url.encode(), r.content)
+        self.assertIn(self.other_blog_page.url.encode(), r.content)
 
     def test_topic_feed(self):
         iab_topic = Topic(title="iab", slug="iab")
         iab_topic.save()
-        iab_bptopic = BlogPageTopic(topic=iab_topic, page=self.otherblog)
+        iab_bptopic = BlogPageTopic(topic=iab_topic, page=self.other_blog_page)
         iab_bptopic.save()
-        self.otherblog.topics = [iab_bptopic, ]
-        self.otherblog.save()
+        self.other_blog_page.topics = [iab_bptopic, ]
+        self.other_blog_page.save()
         iesg_topic = Topic(title="iesg", slug="iesg")
         iesg_topic.save()
-        iesg_bptopic = BlogPageTopic(topic=iesg_topic, page=self.otherblog)
+        iesg_bptopic = BlogPageTopic(topic=iesg_topic, page=self.other_blog_page)
         iesg_bptopic.save()
-        self.nextblog.topics = [iesg_bptopic, ]
-        self.nextblog.save()
+        self.next_blog_page.topics = [iesg_bptopic, ]
+        self.next_blog_page.save()
 
         r = self.client.get(path='/blog/iab/feed/')
         self.assertEqual(r.status_code, 200)
-        self.assertIn(self.otherblog.url.encode(), r.content)
-        self.assertNotIn(self.blog.url.encode(), r.content)
-        self.assertNotIn(self.nextblog.url.encode(), r.content)
+        self.assertIn(self.other_blog_page.url.encode(), r.content)
+        self.assertNotIn(self.blog_page.url.encode(), r.content)
+        self.assertNotIn(self.next_blog_page.url.encode(), r.content)
 
         r = self.client.get(path='/blog/iesg/feed/')
         self.assertEqual(r.status_code, 200)
-        self.assertIn(self.nextblog.url.encode(), r.content)
-        self.assertNotIn(self.blog.url.encode(), r.content)
-        self.assertNotIn(self.otherblog.url.encode(), r.content)
+        self.assertIn(self.next_blog_page.url.encode(), r.content)
+        self.assertNotIn(self.blog_page.url.encode(), r.content)
+        self.assertNotIn(self.other_blog_page.url.encode(), r.content)
 
     def test_author_feed(self):
         alice_url = self.blog_index.reverse_subpage(
@@ -162,7 +131,15 @@ class BlogTests(TestCase):
         alice_resp = self.client.get(self.blog_index.url + alice_url)
         self.assertEqual(alice_resp.status_code, 200)
         feed = alice_resp.content.decode("utf8")
-        self.assertIn(self.otherblog.url, feed)
-        self.assertIn(self.prevblog.url, feed)
-        self.assertNotIn(self.nextblog.url, feed)
-        self.assertNotIn(self.blog.url, feed)
+        self.assertIn(self.other_blog_page.url, feed)
+        self.assertIn(self.prev_blog_page.url, feed)
+        self.assertNotIn(self.next_blog_page.url, feed)
+        self.assertNotIn(self.blog_page.url, feed)
+
+    def test_homepage(self):
+        response = self.client.get(path=self.home.url)
+        self.assertEqual(response.status_code, 200)
+        html = response.content.decode()
+
+        self.assertIn(f'href="{self.blog_page.url}"', html)
+        self.assertIn(self.blog_page.title, html)

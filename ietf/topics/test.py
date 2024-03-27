@@ -1,53 +1,42 @@
 from django.test import TestCase
 from wagtail.models import Page, Site
 
+from ..home.factories import HomePageFactory
 from ..home.models import HomePage
+from .factories import PrimaryTopicPageFactory, TopicIndexPageFactory
 from .models import PrimaryTopicPage, TopicIndexPage
 
 
-class StandardPageTests(TestCase):
-    def test_standard_page(self):
-
+class TopicPageTests(TestCase):
+    def setUp(self):
         root = Page.get_first_root_node()
+        self.home: HomePage = HomePageFactory(parent=root)  # type: ignore
 
-        home = HomePage(
-            slug="homepageslug",
-            title="home page title",
-            heading="home page heading",
-            introduction="home page introduction",
-        )
+        site = Site.objects.get()
+        site.root_page = self.home
+        site.save(update_fields=["root_page"])
 
-        root.add_child(instance=home)
+        self.topic_index: TopicIndexPage = TopicIndexPageFactory(
+            parent=self.home,
+        )  # type: ignore
 
-        Site.objects.all().delete()
+        self.topic_page: PrimaryTopicPage = PrimaryTopicPageFactory(
+            parent=self.topic_index,
+        )  # type: ignore
 
-        Site.objects.create(
-            hostname="localhost",
-            root_page=home,
-            is_default_site=True,
-            site_name="testingsitename",
-        )
+    def test_index_page(self):
+        response = self.client.get(path=self.topic_index.url)
+        self.assertEqual(response.status_code, 200)
+        html = response.content.decode()
 
-        topicindex = TopicIndexPage(
-            slug="topicindex",
-            title="topic index page title",
-            introduction="topic index page introduction",
-        )
-        home.add_child(instance=topicindex)
+        self.assertIn(self.topic_page.title, html)
+        self.assertIn(f'href="{self.topic_page.url}"', html)
 
-        topicpage = PrimaryTopicPage(
-            slug="topic",
-            title="topic title",
-            introduction="topic introduction",
-        )
-        topicindex.add_child(instance=topicpage)
+    def test_topic_page(self):
+        response = self.client.get(path=self.topic_page.url)
+        self.assertEqual(response.status_code, 200)
+        html = response.content.decode()
 
-        rindex = self.client.get(path=topicindex.url)
-        self.assertEqual(rindex.status_code, 200)
-
-        r = self.client.get(path=topicpage.url)
-        self.assertEqual(r.status_code, 200)
-
-        self.assertIn(topicpage.title.encode(), r.content)
-        self.assertIn(topicpage.introduction.encode(), r.content)
-        self.assertIn(('href="%s"' % topicindex.url).encode(), r.content)
+        self.assertIn(self.topic_page.title, html)
+        self.assertIn(self.topic_page.introduction, html)
+        self.assertIn(f'href="{self.topic_index.url}"', html)

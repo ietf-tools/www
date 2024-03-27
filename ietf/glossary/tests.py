@@ -1,42 +1,31 @@
 from django.test import TestCase
 from wagtail.models import Page, Site
 
+from ietf.home.factories import HomePageFactory
+
 from ..home.models import HomePage
+from .factories import GlossaryPageFactory
 from .models import GlossaryPage
 
 
 class GlossaryPageTests(TestCase):
-    def test_glossary_page(self):
-
+    def setUp(self):
         root = Page.get_first_root_node()
+        self.home: HomePage = HomePageFactory(parent=root)  # type: ignore
+        self.assertEqual(HomePage.objects.count(), 1)
 
-        home = HomePage(
-            slug="homepageslug",
-            title="home page title",
-            heading="home page heading",
-            introduction="home page introduction",
-        )
+        site = Site.objects.get()
+        site.root_page = self.home
+        site.save(update_fields=["root_page"])
 
-        root.add_child(instance=home)
+        self.glossary_page: GlossaryPage = GlossaryPageFactory(
+            parent=self.home,
+        )  # type: ignore
 
-        Site.objects.all().delete()
+    def test_glossary_page(self):
+        response = self.client.get(path=self.glossary_page.url)
+        self.assertEqual(response.status_code, 200)
+        html = response.content.decode()
 
-        Site.objects.create(
-            hostname="localhost",
-            root_page=home,
-            is_default_site=True,
-            site_name="testingsitename",
-        )
-
-        glossary = GlossaryPage(
-            slug="glossary",
-            title="glossary title",
-            introduction="glossary introduction",
-        )
-        home.add_child(instance=glossary)
-
-        r = self.client.get(path=glossary.url)
-        self.assertEqual(r.status_code, 200)
-
-        self.assertIn(glossary.title.encode(), r.content)
-        self.assertIn(glossary.introduction.encode(), r.content)
+        self.assertIn(self.glossary_page.title, html)
+        self.assertIn(self.glossary_page.introduction, html)

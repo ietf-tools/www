@@ -1,74 +1,43 @@
 from django.test import TestCase
 from wagtail.models import Page, Site
 
-from ..blog.models import BlogIndexPage, BlogPage
+from ietf.standard.factories import StandardPageFactory
+from ietf.standard.models import StandardPage
+
+from .factories import HomePageFactory
 from .models import HomePage
 
 
 class HomeTests(TestCase):
-    def test_homepage(self):
-
+    def setUp(self):
         root = Page.get_first_root_node()
-
-        home = HomePage(
-            slug="homepageslug",
-            title="home page title",
-            heading="home page heading",
-            introduction="home page introduction",
-        )
-
-        root.add_child(instance=home)
-
+        self.home: HomePage = HomePageFactory(parent=root)  # type: ignore
         self.assertEqual(HomePage.objects.count(), 1)
 
-        Site.objects.all().delete()
+        site = Site.objects.get()
+        site.root_page = self.home
+        site.save(update_fields=["root_page"])
 
-        Site.objects.create(
-            hostname="localhost",
-            root_page=home,
-            is_default_site=True,
-            site_name="testingsitename",
-        )
+    def test_homepage(self):
+        response = self.client.get(path=self.home.url)
+        self.assertEqual(response.status_code, 200)
+        html = response.content.decode()
 
-        blogindex = BlogIndexPage(
-            slug="blog",
-            title="blog index title",
-        )
-        home.add_child(instance=blogindex)
+        self.assertIn(self.home.title, html)
+        self.assertIn(self.home.heading, html)
+        self.assertIn(self.home.introduction, html)
 
-        blog = BlogPage(
-            slug="blogpost",
-            title="blog title",
-            introduction="blog introduction",
-            body='[{"id": "1", "type": "rich_text", "value": "<p>blog body</p>"}]',
-        )
-        blogindex.add_child(instance=blog)
+    def test_button(self):
+        page: StandardPage = StandardPageFactory(
+            parent=self.home,
+        )  # type: ignore
+        self.home.button_text = "Homepage button text"
+        self.home.button_link = page
+        self.home.save(update_fields=["button_text", "button_link"])
 
-        home.button_text = "blog button text"
-        home.button_link = blog
-        home.save()
+        response = self.client.get(path=self.home.url)
+        self.assertEqual(response.status_code, 200)
+        html = response.content.decode()
 
-        r = self.client.get(path=home.url)
-        self.assertEqual(r.status_code, 200)
-        self.assertIn(home.title.encode(), r.content)
-        self.assertIn(home.heading.encode(), r.content)
-        self.assertIn(home.introduction.encode(), r.content)
-        self.assertIn(home.button_text.encode(), r.content)
-        self.assertIn(('href="%s"' % blog.url).encode(), r.content)
-
-        # other_page = BlogPage.objects.create(
-        #     introduction = 'blog introduction',
-        #     title='blog title',
-        #     slug='blog-slug',
-        # )
-
-        # home = HomePage.objects.create(
-        #     heading = 'homepage heading',
-        #     introduction = 'homepage introduction',
-        #     #main_image = TODO,
-        #     button_text = 'homepage button text',
-        #     button_link_id = other_page,
-        # )
-
-        # r = self.client.get(url=home.url_path)
-        # self.assertEqual(r.status_code, 200)
+        self.assertIn(self.home.button_text, html)
+        self.assertIn(f'href="{page.url}"', html)
