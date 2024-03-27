@@ -44,11 +44,9 @@ class MainMenuSection(StructBlock):
 
 class AccessibleChartValue(StructValue):
     def aria_label(self):
-        label = self.get("accessible_label")
-        if not label:
+        if not (label := self.get("accessible_label")):
             label = "A chart"
-            title = self.get("title")
-            if title:
+            if title := self.get("title"):
                 label += f" of {title}"
 
         return label
