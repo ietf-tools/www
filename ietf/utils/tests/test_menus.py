@@ -3,9 +3,8 @@ from wagtail.models import Page, Site
 from wagtail.test.utils import WagtailTestUtils
 
 from ietf.events.models import EventListingPage, EventPage
+from ietf.home.models import HomePage
 from ietf.utils.models import SecondaryMenuItem
-
-from ..home.models import HomePage
 
 
 class MenuTests(TestCase, WagtailTestUtils):
