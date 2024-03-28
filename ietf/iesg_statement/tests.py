@@ -1,3 +1,5 @@
+from datetime import timedelta
+from bs4 import BeautifulSoup
 from django.test import TestCase
 from django.utils import timezone
 from wagtail.models import Page, Site
@@ -8,8 +10,14 @@ from .factories import IESGStatementIndexPageFactory, IESGStatementPageFactory
 from .models import IESGStatementIndexPage, IESGStatementPage
 
 
+def datefmt(value):
+    return value.strftime("%d/%m/%Y")
+
+
 class IESGStatementPageTests(TestCase):
     def setUp(self):
+        self.now = timezone.now()
+
         root = Page.get_first_root_node()
         self.home: HomePage = HomePageFactory(parent=root)  # type: ignore
 
@@ -23,7 +31,7 @@ class IESGStatementPageTests(TestCase):
 
         self.statement: IESGStatementPage = IESGStatementPageFactory(
             parent=self.index,
-            date_published=timezone.now(),
+            date_published=self.now,
         )  # type: ignore
 
     def test_index_page(self):
@@ -42,3 +50,37 @@ class IESGStatementPageTests(TestCase):
         self.assertIn(self.statement.title, html)
         self.assertIn(self.statement.introduction, html)
         self.assertIn(f'href="{self.index.url}"', html)
+
+    def test_filtering(self):
+        old1 = IESGStatementPageFactory(
+            parent=self.index, date_published=self.now - timedelta(days=10)
+        )
+        old2 = IESGStatementPageFactory(
+            parent=self.index, date_published=self.now - timedelta(days=5)
+        )
+        new1 = IESGStatementPageFactory(
+            parent=self.index, date_published=self.now + timedelta(days=5)
+        )
+
+        def get_filtered(days_before=0, days_after=0):
+            date_from = self.now + timedelta(days=days_before)
+            date_to = self.now + timedelta(days=days_after)
+            params = f"date_from={datefmt(date_from)}&date_to={datefmt(date_to)}"
+            response = self.client.get(f"{self.index.url}?{params}", follow=True)
+            assert response.status_code == 200
+            html = response.content.decode()
+            soup = BeautifulSoup(html, "html.parser")
+            featured = soup.select("h1")[0].get_text().strip()
+            others = [
+                a.get_text().strip()
+                for a in soup.select('aside[aria-label="Statement listing"] h2 a')
+            ]
+            return (featured, others)
+
+        assert get_filtered(-10, 10) == (
+            new1.title, [self.statement.title, old2.title, old1.title]
+        )
+
+        assert get_filtered(0, 10) == (new1.title, [self.statement.title])
+
+        assert get_filtered(-10, 0) == (old2.title, [old1.title])

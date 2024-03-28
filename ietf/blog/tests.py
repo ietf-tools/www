@@ -1,16 +1,21 @@
 from datetime import timedelta
+from bs4 import BeautifulSoup
 from django.utils import timezone
 
 from django.test import TestCase
 from wagtail.models import Page, Site
 
-from ietf.snippets.factories import PersonFactory
+from ietf.snippets.factories import PersonFactory, TopicFactory
 
 from ..home.factories import HomePageFactory
 from ..home.models import HomePage
 from ..snippets.models import Topic
 from .factories import BlogIndexPageFactory, BlogPageFactory
-from .models import BlogIndexPage, BlogPage, BlogPageAuthor, BlogPageTopic
+from .models import IESG_STATEMENT_TOPIC_ID, BlogIndexPage, BlogPage, BlogPageAuthor, BlogPageTopic
+
+
+def datefmt(value):
+    return value.strftime("%d/%m/%Y")
 
 
 class BlogTests(TestCase):
@@ -27,26 +32,32 @@ class BlogTests(TestCase):
             slug="blog",
         )  # type: ignore
 
-        now = timezone.now()
+        self.now = timezone.now()
+
+        self.iab_topic: Topic = TopicFactory(title="iab", slug="iab")  # type: ignore
+        self.iesg_topic: Topic = TopicFactory(title="iesg", slug="iesg")  # type: ignore
 
         self.other_blog_page: BlogPage = BlogPageFactory(
             parent=self.blog_index,
-            date_published=(now - timedelta(minutes=10)),
+            date_published=self.now - timedelta(days=10),
+            topics=[BlogPageTopic(topic=self.iab_topic)],
         )  # type: ignore
 
         self.prev_blog_page: BlogPage = BlogPageFactory(
             parent=self.blog_index,
-            date_published=(now - timedelta(minutes=5)),
+            date_published=self.now - timedelta(days=5),
+            topics=[BlogPageTopic(topic=self.iab_topic)],
         )  # type: ignore
 
         self.blog_page: BlogPage = BlogPageFactory(
             parent=self.blog_index,
-            first_published_at=(now + timedelta(minutes=1)),
+            first_published_at=self.now + timedelta(days=1),
         )  # type: ignore
 
         self.next_blog_page: BlogPage = BlogPageFactory(
             parent=self.blog_index,
-            first_published_at=(now + timedelta(minutes=5)),
+            first_published_at=self.now + timedelta(days=5),
+            topics=[BlogPageTopic(topic=self.iesg_topic)],
         )  # type: ignore
 
         self.alice = PersonFactory(name="Alice", slug="alice")
@@ -92,32 +103,19 @@ class BlogTests(TestCase):
         self.assertNotIn(self.blog_page.url, html)
 
     def test_blog_feed(self):
-        r = self.client.get(path='/blog/feed/')
+        r = self.client.get(path="/blog/feed/")
         self.assertEqual(r.status_code, 200)
         self.assertIn(self.blog_page.url.encode(), r.content)
         self.assertIn(self.other_blog_page.url.encode(), r.content)
 
     def test_topic_feed(self):
-        iab_topic = Topic(title="iab", slug="iab")
-        iab_topic.save()
-        iab_bptopic = BlogPageTopic(topic=iab_topic, page=self.other_blog_page)
-        iab_bptopic.save()
-        self.other_blog_page.topics = [iab_bptopic, ]
-        self.other_blog_page.save()
-        iesg_topic = Topic(title="iesg", slug="iesg")
-        iesg_topic.save()
-        iesg_bptopic = BlogPageTopic(topic=iesg_topic, page=self.other_blog_page)
-        iesg_bptopic.save()
-        self.next_blog_page.topics = [iesg_bptopic, ]
-        self.next_blog_page.save()
-
-        r = self.client.get(path='/blog/iab/feed/')
+        r = self.client.get(path="/blog/iab/feed/")
         self.assertEqual(r.status_code, 200)
         self.assertIn(self.other_blog_page.url.encode(), r.content)
         self.assertNotIn(self.blog_page.url.encode(), r.content)
         self.assertNotIn(self.next_blog_page.url.encode(), r.content)
 
-        r = self.client.get(path='/blog/iesg/feed/')
+        r = self.client.get(path="/blog/iesg/feed/")
         self.assertEqual(r.status_code, 200)
         self.assertIn(self.next_blog_page.url.encode(), r.content)
         self.assertNotIn(self.blog_page.url.encode(), r.content)
@@ -143,3 +141,75 @@ class BlogTests(TestCase):
 
         self.assertIn(f'href="{self.blog_page.url}"', html)
         self.assertIn(self.blog_page.title, html)
+
+    def test_all_page(self):
+        response = self.client.get(f"{self.blog_index.url}all/")
+        assert response.status_code == 200
+        html = response.content.decode()
+        soup = BeautifulSoup(html, "html.parser")
+        links = [a.get_text().strip() for a in soup.select("main table a")]
+        assert links == [
+            self.next_blog_page.title,
+            self.blog_page.title,
+            self.prev_blog_page.title,
+            self.other_blog_page.title,
+        ]
+
+    def test_filtering(self):
+        def get_filtered(days_before=0, days_after=0, topic=None):
+            date_from = self.now + timedelta(days=days_before)
+            date_to = self.now + timedelta(days=days_after)
+            params = f"date_from={datefmt(date_from)}&date_to={datefmt(date_to)}"
+            if topic:
+                params += f"&topic={topic.pk}"
+            response = self.client.get(f"{self.blog_index.url}?{params}", follow=True)
+            assert response.status_code == 200
+            html = response.content.decode()
+            soup = BeautifulSoup(html, "html.parser")
+            featured = soup.select("h1")[0].get_text().strip()
+            others = [
+                a.get_text().strip()
+                for a in soup.select('aside[aria-label="Blog listing"] h2 a')
+            ]
+            return (featured, others)
+
+        assert get_filtered(-10, 10) == (
+            self.next_blog_page.title,
+            [
+                self.blog_page.title,
+                self.prev_blog_page.title,
+                self.other_blog_page.title,
+            ],
+        )
+
+        assert get_filtered(0, 10) == (
+            self.next_blog_page.title, [self.blog_page.title]
+        )
+
+        assert get_filtered(-10, 0) == (
+            self.prev_blog_page.title, [self.other_blog_page.title]
+        )
+
+        assert get_filtered(-10, 10, self.iab_topic) == (
+            self.prev_blog_page.title, [self.other_blog_page.title]
+        )
+
+    def test_iesg_statements_redirect(self):
+        params = "&".join(
+            [
+                f"primary_topic={IESG_STATEMENT_TOPIC_ID}",
+                f"date_from={datefmt(self.now + timedelta(days=-10))}",
+                f"date_to={datefmt(self.now + timedelta(days=10))}",
+                f"secondary_topic={self.iab_topic.pk}",
+            ]
+        )
+        response = self.client.get(f"{self.blog_index.url}?{params}")
+        new_params = "&".join(
+            [
+                f"topic={self.iab_topic.pk}",
+                f"date_from={datefmt(self.now + timedelta(days=-10))}",
+                f"date_to={datefmt(self.now + timedelta(days=10))}",
+            ]
+        )
+        assert response.status_code == 302
+        assert response.url == f"/about/groups/iesg/statements?{new_params}"
