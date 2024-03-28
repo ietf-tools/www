@@ -12,14 +12,6 @@ from ietf.snippets.factories import MailingListSignupFactory, WorkingGroupFactor
 pytestmark = pytest.mark.django_db
 
 
-@pytest.fixture
-def home():
-    site = Site.objects.get()
-    site.root_page = HomePageFactory(parent=Page.get_first_root_node())
-    site.save(update_fields=["root_page"])
-    return site.root_page
-
-
 def test_disclaimer(client: Client, home: HomePage):
     snippet = MailingListSignupFactory()
     page = StandardPageFactory(parent=home, mailing_list_signup=snippet)
