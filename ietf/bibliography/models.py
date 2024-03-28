@@ -8,8 +8,6 @@ from django.template import TemplateDoesNotExist
 from django.template.loader import get_template
 from wagtail.models import Page
 
-from ietf.utils import OrderedSet
-
 
 class BibliographyItem(models.Model):
     """
@@ -159,9 +157,8 @@ class BibliographyMixin(models.Model):
                 )
                 for content_field, prepared_content_field in self.CONTENT_FIELD_MAP.items()
             }
-            tags = OrderedSet(all_soup.find_all("a", attrs={"data-app": True}))
 
-            for tag in tags:
+            for index, tag in enumerate(all_soup.find_all("a", attrs={"data-app": True})):
                 app = tag["data-app"]
                 model = tag["data-linktype"]
                 obj_id = tag["data-id"]
@@ -187,7 +184,7 @@ class BibliographyMixin(models.Model):
                     }
                 item = BibliographyItem.objects.create(
                     page=self,
-                    ordering=list(tags).index(tag) + 1,
+                    ordering=index + 1,
                     content_key=model,
                     content_identifier=obj_id,
                     **object_details
