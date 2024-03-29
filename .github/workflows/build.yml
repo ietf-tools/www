@@ -61,7 +61,7 @@ jobs:
           echo "image_tags=ghcr.io/${{ github.repository }}:$next,ghcr.io/${{ github.repository }}:latest" >> $GITHUB_OUTPUT
           echo "::notice::Release $next created using branch $GITHUB_REF_NAME"
         else
-          PKG_VERSION=v1.0.0-dev.$GITHUB_RUN_NUMBER
+          PKG_VERSION=v1.0.0-sandbox-build.$GITHUB_RUN_NUMBER
           echo "Using TEST mode: $PKG_VERSION"
           echo "pkg_version=$PKG_VERSION" >> $GITHUB_OUTPUT
           echo "image_tags=ghcr.io/${{ github.repository }}:$PKG_VERSION" >> $GITHUB_OUTPUT
@@ -152,7 +152,7 @@ jobs:
     needs: [build]
     runs-on: [self-hosted, dev-server]
     env:
-      PKG_VERSION: ${{needs.build.outputs.pkg_version}}
+      PKG_VERSION: ${{ needs.build.outputs.pkg_version }}
       
     steps:
     - name: Clear workspace folder from previous runs
