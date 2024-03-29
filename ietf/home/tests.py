@@ -1,4 +1,4 @@
-from django.test import Client, TestCase
+from django.test import Client
 import pytest
 
 from ietf.standard.factories import IABStandardPageFactory, StandardPageFactory
@@ -9,7 +9,7 @@ from .models import HomePage, IABHomePage
 pytestmark = pytest.mark.django_db
 
 
-class HomeTests(TestCase):
+class TestHome:
     @pytest.fixture(autouse=True)
     def set_up(self, home: HomePage, client: Client):
         self.home = home
@@ -17,13 +17,13 @@ class HomeTests(TestCase):
 
     def test_homepage(self):
         response = self.client.get(path=self.home.url)
-        self.assertEqual(response.status_code, 200)
+        assert response.status_code == 200
         html = response.content.decode()
 
-        self.assertIn("<title>IETF", html)
-        self.assertIn(self.home.title, html)
-        self.assertIn(self.home.heading, html)
-        self.assertIn(self.home.introduction, html)
+        assert "<title>IETF" in html
+        assert self.home.title in html
+        assert self.home.heading in html
+        assert self.home.introduction in html
 
     def test_button(self):
         page: StandardPage = StandardPageFactory(
@@ -34,11 +34,11 @@ class HomeTests(TestCase):
         self.home.save(update_fields=["button_text", "button_link"])
 
         response = self.client.get(path=self.home.url)
-        self.assertEqual(response.status_code, 200)
+        assert response.status_code == 200
         html = response.content.decode()
 
-        self.assertIn(self.home.button_text, html)
-        self.assertIn(f'href="{page.url}"', html)
+        assert self.home.button_text in html
+        assert f'href="{page.url}"' in html
 
 
 IAB_FEED_XML = """\

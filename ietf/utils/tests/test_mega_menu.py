@@ -1,9 +1,7 @@
 from bs4 import BeautifulSoup
 import pytest
 from django.test import Client, RequestFactory
-from wagtail.models import Page, Site
 
-from ietf.home.factories import HomePageFactory
 from ietf.home.models import HomePage
 from ietf.standard.factories import StandardIndexPageFactory, StandardPageFactory
 from ietf.standard.models import StandardIndexPage, StandardPage
@@ -14,15 +12,9 @@ pytestmark = pytest.mark.django_db
 
 class TestMegaMenu:
     @pytest.fixture(autouse=True)
-    def set_up(self, client: Client):
+    def set_up(self, home: HomePage, client: Client):
+        self.home = home
         self.client = client
-
-        root = Page.get_first_root_node()
-        self.home: HomePage = HomePageFactory(parent=root)  # type: ignore
-
-        site = Site.objects.get()
-        site.root_page = self.home
-        site.save(update_fields=["root_page"])
 
         self.standard_index: StandardIndexPage = StandardIndexPageFactory(
             parent=self.home,

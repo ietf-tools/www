@@ -1,20 +1,20 @@
-from django.test import TestCase
+import pytest
+from django.test import Client
 from django.urls import reverse
-from wagtail.models import Page, Site
+from wagtail.models import Page
 
-from ..home.factories import HomePageFactory
-from ..standard.factories import StandardPageFactory
-from ..standard.models import StandardPage
+from ietf.home.models import HomePage
+from ietf.standard.factories import StandardPageFactory
+from ietf.standard.models import StandardPage
+
+pytestmark = pytest.mark.django_db
 
 
-class SearchTests(TestCase):
-    def setUp(self):
-        root = Page.get_first_root_node()
-        self.home: HomePage = HomePageFactory(parent=root)  # type: ignore
-
-        site = Site.objects.get()
-        site.root_page = self.home
-        site.save(update_fields=["root_page"])
+class TestSearch:
+    @pytest.fixture(autouse=True)
+    def set_up(self, home: HomePage, client: Client):
+        self.home = home
+        self.client = client
 
         self.standard_page: StandardPage = StandardPageFactory(
             parent=self.home,
@@ -24,32 +24,26 @@ class SearchTests(TestCase):
     def test_search(self):
         query = "random"
         resp = self.client.get(f"{reverse('search')}?query={query}")
-        self.assertEqual(resp.status_code, 200)
+        assert resp.status_code == 200
 
-        self.assertEqual(resp.context["search_query"], query)
-        self.assertEqual(
-            list(resp.context["search_results"]),
-            [Page.objects.get(pk=self.standard_page.pk)],
-        )
+        assert resp.context["search_query"] == query
+        assert list(resp.context["search_results"]) == \
+            [Page.objects.get(pk=self.standard_page.pk)]
 
     def test_empty_query(self):
         resp = self.client.get(f"{reverse('search')}?query=")
-        self.assertEqual(resp.status_code, 200)
+        assert resp.status_code == 200
 
     def test_empty_page(self):
         query = "random"
         resp = self.client.get(f"{reverse('search')}?query={query}&page=100")
-        self.assertEqual(resp.status_code, 200)
-        self.assertEqual(
-            list(resp.context["search_results"]),
-            [Page.objects.get(pk=self.standard_page.pk)],
-        )
+        assert resp.status_code == 200
+        assert list(resp.context["search_results"]) == \
+            [Page.objects.get(pk=self.standard_page.pk)]
 
     def test_non_integer_page(self):
         query = "random"
         resp = self.client.get(f"{reverse('search')}?query={query}&page=foo")
-        self.assertEqual(resp.status_code, 200)
-        self.assertEqual(
-            list(resp.context["search_results"]),
-            [Page.objects.get(pk=self.standard_page.pk)],
-        )
+        assert resp.status_code == 200
+        assert list(resp.context["search_results"]) == \
+            [Page.objects.get(pk=self.standard_page.pk)]

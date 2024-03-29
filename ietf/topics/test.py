@@ -1,20 +1,18 @@
-from django.test import TestCase
-from wagtail.models import Page, Site
+import pytest
+from django.test import Client
 
-from ..home.factories import HomePageFactory
-from ..home.models import HomePage
+from ietf.home.models import HomePage
 from .factories import PrimaryTopicPageFactory, TopicIndexPageFactory
 from .models import PrimaryTopicPage, TopicIndexPage
 
+pytestmark = pytest.mark.django_db
 
-class TopicPageTests(TestCase):
-    def setUp(self):
-        root = Page.get_first_root_node()
-        self.home: HomePage = HomePageFactory(parent=root)  # type: ignore
 
-        site = Site.objects.get()
-        site.root_page = self.home
-        site.save(update_fields=["root_page"])
+class TestTopicPage:
+    @pytest.fixture(autouse=True)
+    def set_up(self, home: HomePage, client: Client):
+        self.home = home
+        self.client = client
 
         self.topic_index: TopicIndexPage = TopicIndexPageFactory(
             parent=self.home,
@@ -26,17 +24,17 @@ class TopicPageTests(TestCase):
 
     def test_index_page(self):
         response = self.client.get(path=self.topic_index.url)
-        self.assertEqual(response.status_code, 200)
+        assert response.status_code == 200
         html = response.content.decode()
 
-        self.assertIn(self.topic_page.title, html)
-        self.assertIn(f'href="{self.topic_page.url}"', html)
+        assert self.topic_page.title in html
+        assert f'href="{self.topic_page.url}"' in html
 
     def test_topic_page(self):
         response = self.client.get(path=self.topic_page.url)
-        self.assertEqual(response.status_code, 200)
+        assert response.status_code == 200
         html = response.content.decode()
 
-        self.assertIn(self.topic_page.title, html)
-        self.assertIn(self.topic_page.introduction, html)
-        self.assertIn(f'href="{self.topic_index.url}"', html)
+        assert self.topic_page.title in html
+        assert self.topic_page.introduction in html
+        assert f'href="{self.topic_index.url}"' in html

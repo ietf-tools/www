@@ -1,29 +1,27 @@
 from datetime import timedelta
-from bs4 import BeautifulSoup
-from django.test import TestCase
-from django.utils import timezone
-from wagtail.models import Page, Site
 
-from ..home.factories import HomePageFactory
-from ..home.models import HomePage
+import pytest
+from bs4 import BeautifulSoup
+from django.test import Client
+from django.utils import timezone
+
+from ietf.home.models import HomePage
 from .factories import IESGStatementIndexPageFactory, IESGStatementPageFactory
 from .models import IESGStatementIndexPage, IESGStatementPage
+
+pytestmark = pytest.mark.django_db
 
 
 def datefmt(value):
     return value.strftime("%d/%m/%Y")
 
 
-class IESGStatementPageTests(TestCase):
-    def setUp(self):
+class TestIESGStatementPage:
+    @pytest.fixture(autouse=True)
+    def set_up(self, home: HomePage, client: Client):
+        self.home = home
+        self.client = client
         self.now = timezone.now()
-
-        root = Page.get_first_root_node()
-        self.home: HomePage = HomePageFactory(parent=root)  # type: ignore
-
-        site = Site.objects.get()
-        site.root_page = self.home
-        site.save(update_fields=["root_page"])
 
         self.index: IESGStatementIndexPage = IESGStatementIndexPageFactory(
             parent=self.home,
@@ -36,20 +34,20 @@ class IESGStatementPageTests(TestCase):
 
     def test_index_page(self):
         response = self.client.get(path=self.index.url)
-        self.assertEqual(response.status_code, 200)
+        assert response.status_code == 200
         html = response.content.decode()
 
-        self.assertIn(self.statement.title, html)
-        self.assertIn(f'href="{self.statement.url}"', html)
+        assert self.statement.title in html
+        assert f'href="{self.statement.url}"' in html
 
     def test_statement_page(self):
         response = self.client.get(path=self.statement.url)
-        self.assertEqual(response.status_code, 200)
+        assert response.status_code == 200
         html = response.content.decode()
 
-        self.assertIn(self.statement.title, html)
-        self.assertIn(self.statement.introduction, html)
-        self.assertIn(f'href="{self.index.url}"', html)
+        assert self.statement.title in html
+        assert self.statement.introduction in html
+        assert f'href="{self.index.url}"' in html
 
     def test_filtering(self):
         old1 = IESGStatementPageFactory(

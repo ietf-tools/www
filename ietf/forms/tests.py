@@ -1,23 +1,21 @@
+import pytest
 from django.core import mail
-from django.test import TestCase
-from wagtail.models import Page, Site
+from django.test import Client
 
-from ..home.factories import HomePageFactory
-from ..home.models import HomePage
+from ietf.home.models import HomePage
 from .factories import FormPageFactory
 from .models import FormPage
 
+pytestmark = pytest.mark.django_db
 
-class FormPageTests(TestCase):
+
+class TestFormPage:
     FORM_ADDRESS = "forms@example.com"
 
-    def setUp(self):
-        root = Page.get_first_root_node()
-        self.home: HomePage = HomePageFactory(parent=root)  # type: ignore
-
-        site = Site.objects.get()
-        site.root_page = self.home
-        site.save(update_fields=["root_page"])
+    @pytest.fixture(autouse=True)
+    def set_up(self, home: HomePage, client: Client):
+        self.home = home
+        self.client = client
 
         self.form_page: FormPage = FormPageFactory(
             parent=self.home,
@@ -26,11 +24,11 @@ class FormPageTests(TestCase):
 
     def test_form_page(self):
         response = self.client.get(path=self.form_page.url)
-        self.assertEqual(response.status_code, 200)
+        assert response.status_code == 200
         html = response.content.decode()
 
-        self.assertIn(self.form_page.title, html)
-        self.assertIn(self.form_page.intro, html)
+        assert self.form_page.title in html
+        assert self.form_page.intro in html
 
     def test_submit(self):
         response = self.client.post(self.form_page.url, {})

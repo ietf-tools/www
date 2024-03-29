@@ -1,29 +1,22 @@
-from django.contrib.contenttypes.models import ContentType
-from django.urls import reverse
 import pytest
-from django.test import TestCase
-from wagtail.models import Page, Site
+from django.contrib.contenttypes.models import ContentType
+from django.test import Client
+from django.urls import reverse
 
 from ietf.bibliography.models import BibliographyItem
+from ietf.home.models import HomePage
 from ietf.snippets.models import RFC
-
-from ..home.factories import HomePageFactory
-from ..home.models import HomePage
-from ..standard.factories import StandardIndexPageFactory, StandardPageFactory
-from ..standard.models import StandardIndexPage, StandardPage
+from ietf.standard.factories import StandardIndexPageFactory, StandardPageFactory
+from ietf.standard.models import StandardIndexPage, StandardPage
 
 pytestmark = pytest.mark.django_db
 
 
 class TestBibliography:
     @pytest.fixture(autouse=True)
-    def set_up(self):
-        root = Page.get_first_root_node()
-        self.home: HomePage = HomePageFactory(parent=root)  # type: ignore
-
-        site = Site.objects.get()
-        site.root_page = self.home
-        site.save(update_fields=["root_page"])
+    def set_up(self, home: HomePage, client: Client):
+        self.home = home
+        self.client = client
 
         self.rfc_2026 = RFC.objects.create(
             name="draft-ietf-poised95-std-proc-3",

@@ -1,5 +1,4 @@
 import factory
-import wagtail_factories
 from factory.django import DjangoModelFactory
 
 from .models import Charter, MailingListSignup, Person, Topic, WorkingGroup

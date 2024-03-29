@@ -1,9 +1,9 @@
 from unittest.mock import Mock, call
 
 import pytest
-from wagtail.models import Page, Site
+from django.test import Client
+from wagtail.models import Page
 
-from ietf.home.factories import HomePageFactory
 from ietf.home.models import HomePage
 from ietf.standard.factories import StandardIndexPageFactory, StandardPageFactory
 from ietf.standard.models import StandardIndexPage, StandardPage
@@ -14,13 +14,9 @@ pytestmark = pytest.mark.django_db
 
 class TestPagePurging:
     @pytest.fixture(autouse=True)
-    def set_up(self, monkeypatch: pytest.MonkeyPatch):
-        root = Page.get_first_root_node()
-        self.home: HomePage = HomePageFactory(parent=root)  # type: ignore
-
-        site = Site.objects.get()
-        site.root_page = self.home
-        site.save(update_fields=["root_page"])
+    def set_up(self, home: HomePage, client: Client, monkeypatch: pytest.MonkeyPatch):
+        self.home = home
+        self.client = client
 
         self.standard_index: StandardIndexPage = StandardIndexPageFactory(
             parent=self.home,
