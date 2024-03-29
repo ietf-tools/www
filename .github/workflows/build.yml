@@ -102,6 +102,7 @@ jobs:
 
 
     - name: Package and Push Chart
+      if: ${{ github.event.inputs.publish == 'true' }}
       run: |
         helm plugin install https://github.com/chartmuseum/helm-push.git
         helm repo add chartmuseum https://charts.ietf.org
