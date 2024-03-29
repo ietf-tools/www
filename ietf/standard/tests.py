@@ -1,20 +1,18 @@
-from django.test import TestCase
-from wagtail.models import Page, Site
+from django.test import Client
+import pytest
 
-from ..home.factories import HomePageFactory
-from ..home.models import HomePage
+from ietf.home.models import HomePage
 from .factories import StandardIndexPageFactory, StandardPageFactory
 from .models import StandardIndexPage, StandardPage
 
+pytestmark = pytest.mark.django_db
 
-class StandardPageTests(TestCase):
-    def setUp(self):
-        root = Page.get_first_root_node()
-        self.home: HomePage = HomePageFactory(parent=root)  # type: ignore
 
-        site = Site.objects.get()
-        site.root_page = self.home
-        site.save(update_fields=["root_page"])
+class TestStandardPage:
+    @pytest.fixture(autouse=True)
+    def set_up(self, home: HomePage, client: Client):
+        self.home = home
+        self.client = client
 
         self.standard_index: StandardIndexPage = StandardIndexPageFactory(
             parent=self.home,
@@ -26,17 +24,17 @@ class StandardPageTests(TestCase):
 
     def test_index_page(self):
         response = self.client.get(path=self.standard_index.url)
-        self.assertEqual(response.status_code, 200)
+        assert response.status_code == 200
         html = response.content.decode()
 
-        self.assertIn(self.standard_page.title, html)
-        self.assertIn(f'href="{self.standard_page.url}"', html)
+        assert self.standard_page.title in html
+        assert f'href="{self.standard_page.url}"' in html
 
     def test_standard_page(self):
         response = self.client.get(path=self.standard_page.url)
-        self.assertEqual(response.status_code, 200)
+        assert response.status_code == 200
         html = response.content.decode()
 
-        self.assertIn(self.standard_page.title, html)
-        self.assertIn(self.standard_page.introduction, html)
-        self.assertIn(f'href="{self.standard_index.url}"', html)
+        assert self.standard_page.title in html
+        assert self.standard_page.introduction in html
+        assert f'href="{self.standard_index.url}"' in html

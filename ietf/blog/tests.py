@@ -1,31 +1,34 @@
 from datetime import timedelta
 from bs4 import BeautifulSoup
+from django.test import Client
 from django.utils import timezone
 
-from django.test import TestCase
-from wagtail.models import Page, Site
+import pytest
 
 from ietf.snippets.factories import PersonFactory, TopicFactory
-
-from ..home.factories import HomePageFactory
-from ..home.models import HomePage
-from ..snippets.models import Topic
+from ietf.home.models import HomePage
+from ietf.snippets.models import Topic
 from .factories import BlogIndexPageFactory, BlogPageFactory
-from .models import IESG_STATEMENT_TOPIC_ID, BlogIndexPage, BlogPage, BlogPageAuthor, BlogPageTopic
+from .models import (
+    IESG_STATEMENT_TOPIC_ID,
+    BlogIndexPage,
+    BlogPage,
+    BlogPageAuthor,
+    BlogPageTopic,
+)
+
+pytestmark = pytest.mark.django_db
 
 
 def datefmt(value):
     return value.strftime("%d/%m/%Y")
 
 
-class BlogTests(TestCase):
-    def setUp(self):
-        root = Page.get_first_root_node()
-        self.home: HomePage = HomePageFactory(parent=root)  # type: ignore
-
-        site = Site.objects.get()
-        site.root_page = self.home
-        site.save(update_fields=["root_page"])
+class TestBlog:
+    @pytest.fixture(autouse=True)
+    def set_up(self, home: HomePage, client: Client):
+        self.home = home
+        self.client = client
 
         self.blog_index: BlogIndexPage = BlogIndexPageFactory(
             parent=self.home,
@@ -70,77 +73,77 @@ class BlogTests(TestCase):
 
     def test_blog(self):
         r = self.client.get(path=self.blog_index.url)
-        self.assertEqual(r.status_code, 200)
+        assert r.status_code == 200
 
         r = self.client.get(path=self.blog_page.url)
-        self.assertEqual(r.status_code, 200)
+        assert r.status_code == 200
 
-        self.assertIn(self.blog_page.title.encode(), r.content)
-        self.assertIn(self.blog_page.introduction.encode(), r.content)
-        self.assertIn(('href="%s"' % self.next_blog_page.url).encode(), r.content)
-        self.assertIn(('href="%s"' % self.prev_blog_page.url).encode(), r.content)
-        self.assertIn(('href="%s"' % self.other_blog_page.url).encode(), r.content)
+        assert self.blog_page.title.encode() in r.content
+        assert self.blog_page.introduction.encode() in r.content
+        assert ('href="%s"' % self.next_blog_page.url).encode() in r.content
+        assert ('href="%s"' % self.prev_blog_page.url).encode() in r.content
+        assert ('href="%s"' % self.other_blog_page.url).encode() in r.content
 
     def test_previous_next_links_correct(self):
-        self.assertTrue(self.prev_blog_page.date < self.blog_page.date)
-        self.assertTrue(self.next_blog_page.date > self.blog_page.date)
+        assert self.prev_blog_page.date < self.blog_page.date
+        assert self.next_blog_page.date > self.blog_page.date
         blog = BlogPage.objects.get(pk=self.blog_page.pk)
-        self.assertEqual(self.prev_blog_page, blog.previous)
-        self.assertEqual(self.next_blog_page, blog.next)
+        assert self.prev_blog_page == blog.previous
+        assert self.next_blog_page == blog.next
 
     def test_author_index(self):
         alice_url = self.blog_index.reverse_subpage(
             "index_by_author", kwargs={"slug": self.alice.slug}
         )
         alice_resp = self.client.get(self.blog_index.url + alice_url)
-        self.assertEqual(alice_resp.status_code, 200)
+        assert alice_resp.status_code == 200
         html = alice_resp.content.decode("utf8")
-        self.assertIn("<title>IETF  | Articles by Alice</title>", html)
-        self.assertIn("<h1>Articles by Alice</h1>", html)
-        self.assertIn(self.other_blog_page.url, html)
-        self.assertIn(self.prev_blog_page.url, html)
-        self.assertNotIn(self.next_blog_page.url, html)
-        self.assertNotIn(self.blog_page.url, html)
+        assert "<title>IETF  | Articles by Alice</title>" in html
+        assert "<h1>Articles by Alice</h1>" in html
+        assert self.other_blog_page.url in html
+        assert self.prev_blog_page.url in html
+        assert self.next_blog_page.url not in html
+        assert self.blog_page.url not in html
 
     def test_blog_feed(self):
         r = self.client.get(path="/blog/feed/")
-        self.assertEqual(r.status_code, 200)
-        self.assertIn(self.blog_page.url.encode(), r.content)
-        self.assertIn(self.other_blog_page.url.encode(), r.content)
+        assert r.status_code == 200
+        assert self.blog_page.url.encode() in r.content
+        assert self.other_blog_page.url.encode() in r.content
 
     def test_topic_feed(self):
         r = self.client.get(path="/blog/iab/feed/")
-        self.assertEqual(r.status_code, 200)
-        self.assertIn(self.other_blog_page.url.encode(), r.content)
-        self.assertNotIn(self.blog_page.url.encode(), r.content)
-        self.assertNotIn(self.next_blog_page.url.encode(), r.content)
+        assert r.status_code == 200
+        assert self.other_blog_page.url.encode() in r.content
+        assert self.blog_page.url.encode() not in r.content
+        assert self.next_blog_page.url.encode() not in r.content
 
         r = self.client.get(path="/blog/iesg/feed/")
-        self.assertEqual(r.status_code, 200)
-        self.assertIn(self.next_blog_page.url.encode(), r.content)
-        self.assertNotIn(self.blog_page.url.encode(), r.content)
-        self.assertNotIn(self.other_blog_page.url.encode(), r.content)
+        assert r.status_code == 200
+        assert self.next_blog_page.url.encode() in r.content
+        assert self.blog_page.url.encode() not in r.content
+        assert self.other_blog_page.url.encode() not in r.content
 
     def test_author_feed(self):
         alice_url = self.blog_index.reverse_subpage(
             "feed_by_author", kwargs={"slug": self.alice.slug}
         )
-        self.assertIn("/feed/", alice_url)
+        assert "/feed/" in alice_url
         alice_resp = self.client.get(self.blog_index.url + alice_url)
-        self.assertEqual(alice_resp.status_code, 200)
+        assert alice_resp.status_code == 200
         feed = alice_resp.content.decode("utf8")
-        self.assertIn(self.other_blog_page.url, feed)
-        self.assertIn(self.prev_blog_page.url, feed)
-        self.assertNotIn(self.next_blog_page.url, feed)
-        self.assertNotIn(self.blog_page.url, feed)
+        assert self.other_blog_page.url in feed
+        assert self.prev_blog_page.url in feed
+        assert self.next_blog_page.url not in feed
+        assert self.blog_page.url not in feed
 
     def test_homepage(self):
         response = self.client.get(path=self.home.url)
-        self.assertEqual(response.status_code, 200)
+        assert response.status_code == 200
         html = response.content.decode()
 
-        self.assertIn(f'href="{self.blog_page.url}"', html)
-        self.assertIn(self.blog_page.title, html)
+        assert f'href="{self.blog_page.url}"' in html
+        assert self.blog_page.title in html
 
     def test_all_page(self):
         response = self.client.get(f"{self.blog_index.url}all/")
@@ -183,15 +186,18 @@ class BlogTests(TestCase):
         )
 
         assert get_filtered(0, 10) == (
-            self.next_blog_page.title, [self.blog_page.title]
+            self.next_blog_page.title,
+            [self.blog_page.title],
         )
 
         assert get_filtered(-10, 0) == (
-            self.prev_blog_page.title, [self.other_blog_page.title]
+            self.prev_blog_page.title,
+            [self.other_blog_page.title],
         )
 
         assert get_filtered(-10, 10, self.iab_topic) == (
-            self.prev_blog_page.title, [self.other_blog_page.title]
+            self.prev_blog_page.title,
+            [self.other_blog_page.title],
         )
 
     def test_iesg_statements_redirect(self):
