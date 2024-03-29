@@ -9,7 +9,7 @@ from wagtail.fields import StreamField
 from wagtail.models import Orderable, PreviewableMixin, Site
 from wagtailorderable.models import Orderable as WagtailOrderable
 
-from ietf.utils.blocks import MainMenuSection
+from ietf.utils.blocks import LinkBlock, MainMenuSection
 
 
 class LinkFields(models.Model):
@@ -195,6 +195,24 @@ class SecondaryMenuItem(ClusterableModel, WagtailOrderable):
 
     class Meta:
         verbose_name_plural = "Secondary Menu"
+
+
+class FooterColumn(PreviewableMixin, models.Model):
+    title = models.CharField(max_length=255)
+    links = StreamField(
+        [
+            ("link", LinkBlock()),
+        ],
+        blank=True,
+        use_json_field=True,
+    )
+    sort_order = models.PositiveSmallIntegerField()
+
+    class Meta:
+        ordering = ["sort_order"]
+
+    def __str__(self):  # pragma: no cover
+        return self.title
 
 
 @register_setting

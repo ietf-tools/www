@@ -4,7 +4,7 @@ from wagtail.models import Site
 
 from ietf.home.models import HomePage, IABHomePage
 from ietf.utils.models import SecondaryMenuItem, SocialMediaSettings
-from ietf.utils.context_processors import get_main_menu
+from ietf.utils.context_processors import get_footer, get_main_menu
 
 
 def home_page(site):
@@ -46,4 +46,5 @@ def global_pages(request):
         "MENU": lambda: get_main_menu(site),
         "SECONDARY_MENU": lambda: secondary_menu(site),
         "SOCIAL_MENU": lambda: social_menu(site),
+        "FOOTER": lambda: get_footer(),
     }

@@ -1,6 +1,6 @@
 from operator import attrgetter
 
-from ietf.utils.models import MainMenuItem
+from ietf.utils.models import FooterColumn, MainMenuItem
 
 
 class MainMenu:
@@ -16,11 +16,6 @@ class MainMenu:
 
         return ""
 
-    def get_section_links(self, section):
-        for link in section.value.get("links"):
-            if link.text and link.url:
-                yield link
-
     def get_menu_item(self, item):
         main_section_links = [
             {
@@ -32,7 +27,11 @@ class MainMenu:
         secondary_sections = [
             {
                 "title": section.value.get("title"),
-                "links": list(self.get_section_links(section)),
+                "links": [
+                    link
+                    for link in section.value.get("links")
+                    if link.text and link.url
+                ],
             }
             for section in item.secondary_sections
         ]
@@ -48,10 +47,7 @@ class MainMenu:
         }
 
     def get_menu(self):
-        return [
-            self.get_menu_item(item)
-            for item in self.get_items()
-        ]
+        return [self.get_menu_item(item) for item in self.get_items()]
 
 
 class PreviewMainMenu(MainMenu):
@@ -85,3 +81,7 @@ def get_main_menu(site):
         return get_iab_main_menu(site)
 
     return MainMenu(site).get_menu()
+
+
+def get_footer():
+    return FooterColumn.objects.all()

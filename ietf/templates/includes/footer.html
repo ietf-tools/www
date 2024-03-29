@@ -1,9 +1,44 @@
 <footer class="bg-dark text-light py-1">
-    <div class="container">
-        <ul class="nav row">
-            {% for item in settings.utils.FooterLinks.footer_link_items.all %}
-                <li class="nav-item col-6 col-lg-auto"><a class="nav-link text-light" href="{{ item.link }}">{{ item.title }}</a></li>
+    <div class="container my-5">
+        <div class="row">
+            {% for column in FOOTER %}
+                <section class="col">
+                    <h4>{{ column.title }}</h4>
+                    <ul class="list-unstyled">
+                        {% for link in column.links %}
+                            {% if link.value.url and link.value.text %}
+                                <li class="nav-item">
+                                    <a
+                                        href="{{ link.value.url }}"
+                                        class="link-underline-opacity-0 link-light opacity-75"
+                                    >
+                                        {{ link.value.text }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </section>
             {% endfor %}
-        </ul>
+        </div>
+    </div>
+    <div class="container my-5">
+        <div class="d-flex justify-content-between lh-1">
+            <div>
+                social
+            </div>
+            <ul class="nav row gx-0">
+                {% for item in settings.utils.FooterLinks.footer_link_items.all %}
+                    <li class="nav-item col-6 col-lg-auto border-start u-first-no-border">
+                        <a
+                            href="{{ item.link }}"
+                            class="nav-link text-light py-0 px-3 fs-10"
+                        >
+                            {{ item.title }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
 </footer>
