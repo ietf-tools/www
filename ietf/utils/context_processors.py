@@ -16,32 +16,10 @@ class MainMenu:
 
         return ""
 
-    def get_link_url(self, link):
-        if external_url := link.get("external_url"):
-            return external_url
-
-        if page := link.get("page"):
-            return page.get_url(current_site=self.site)
-
-        return ""
-
-    def get_link_title(self, link):
-        if title := link.get("title"):
-            return title
-
-        if page := link.get("page"):
-            return page.title
-
-        return link.get("external_url")
-
     def get_section_links(self, section):
         for link in section.value.get("links"):
-            item = {
-                "title": self.get_link_title(link),
-                "url": self.get_link_url(link),
-            }
-            if item["title"] and item["url"]:
-                yield item
+            if link.text and link.url:
+                yield link
 
     def get_menu_item(self, item):
         main_section_links = [
