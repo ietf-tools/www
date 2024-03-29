@@ -129,9 +129,6 @@ class IABHomePage(Page):
     def announcement_index(self):
         return IABAnnouncementIndexPage.objects.live().first()
 
-    def blog_index(self):
-        return BlogIndexPage.objects.live().first()
-
     def blogs(self, bp_kwargs={}):
         entries = []
         try:

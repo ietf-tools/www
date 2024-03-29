@@ -1,7 +1,7 @@
 import factory
 import wagtail_factories
 
-from .models import StandardIndexPage, StandardPage
+from .models import IABStandardPage, StandardIndexPage, StandardPage
 
 
 class StandardPageFactory(wagtail_factories.PageFactory):
@@ -17,3 +17,11 @@ class StandardIndexPageFactory(wagtail_factories.PageFactory):
 
     class Meta:  # type: ignore
         model = StandardIndexPage
+
+
+class IABStandardPageFactory(wagtail_factories.PageFactory):
+    title = factory.Faker("name")
+    introduction = factory.Faker("paragraph")
+
+    class Meta:  # type: ignore
+        model = IABStandardPage

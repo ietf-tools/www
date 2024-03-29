@@ -319,7 +319,7 @@ class LayoutSettings(BaseSiteSetting):
         max_length=255,
         blank=True,
         choices=BASE_TEMPLATE_CHOICES,
-        default="base.html",
+        default=DEFAULT_BASE,
     )
 
 
