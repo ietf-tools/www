@@ -1,0 +1,17 @@
+footer section {
+    &.expanded h4 button {
+        transform: rotate(180deg);
+    }
+
+    ul {
+        opacity: .65;
+        display: none;
+        @include media-breakpoint-up(lg) {
+            display: block;
+        }
+    }
+
+    &.expanded ul {
+        display: block;
+    }
+}

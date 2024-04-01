@@ -2,45 +2,50 @@
     <div class="container my-5">
         <div class="row">
             {% for column in FOOTER %}
-                <section class="col">
-                    <h4>{{ column.title }}</h4>
-                    <ul class="list-unstyled">
-                        {% for link in column.links %}
-                            {% if link.value.url and link.value.text %}
-                                <li class="nav-item">
-                                    <a
-                                        href="{{ link.value.url }}"
-                                        class="link-underline-opacity-0 link-light opacity-75"
-                                    >
-                                        {{ link.value.text }}
-                                    </a>
-                                </li>
-                            {% endif %}
-                        {% endfor %}
-                    </ul>
+                <section class="col-lg">
+                    <div class="border-bottom u-border-lg-bottom-0 border-light border-opacity-50">
+                        <h4 class="my-4 fs-6">
+                            {{ column.title }}
+                            <button class="btn border-0 d-lg-none text-light p-0 float-end">
+                                <i class="bi bi-chevron-down"></i>
+                            </button>
+                        </h4>
+                        <ul class="list-unstyled">
+                            {% for link in column.links %}
+                                {% if link.value.url and link.value.text %}
+                                    <li class="nav-item">
+                                        <a
+                                            href="{{ link.value.url }}"
+                                            class="link-underline-opacity-0 link-light fw-semibold"
+                                        >
+                                            {{ link.value.text }}
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
                 </section>
             {% endfor %}
         </div>
     </div>
     <div class="container my-5">
-        <div class="d-flex justify-content-between align-items-start lh-1">
-            <div class="d-flex fs-4">
+        <div class="d-lg-flex justify-content-between align-items-start lh-1">
+            <div class="d-flex fs-4 my-5 my-lg-0 ms-n2 my-5 me-3">
                 {% for item in SOCIAL_MENU %}
                     <a class="d-block text-light px-2" href="{{ item.url }}" rel="me">
                         <i class="bi bi-{{ item.icon }}"></i>
                     </a>
                 {% endfor %}
             </div>
-            <ul class="nav row gx-0">
+            <ul class="
+                row gx-0 column-gap-5 row-gap-3 justify-content-lg-end
+                my-5 my-lg-0
+                nav opacity-75
+            ">
                 {% for item in settings.utils.FooterLinks.footer_link_items.all %}
-                    <li class="
-                        nav-item col-6 col-lg-auto
-                        {% if not forloop.first %} border-start {% endif %}
-                    ">
-                        <a
-                            href="{{ item.link }}"
-                            class="nav-link text-light py-0 px-3 fs-10"
-                        >
+                    <li class="nav-item col-auto py-0">
+                        <a href="{{ item.link }}" class="nav-link text-light fs-10 p-0">
                             {{ item.title }}
                         </a>
                     </li>
@@ -49,3 +54,11 @@
         </div>
     </div>
 </footer>
+
+<script>
+[... document.querySelectorAll("footer section")].forEach((section) => {
+    section.querySelector("h4 button").addEventListener("click", () => {
+        section.classList.toggle("expanded");
+    });
+});
+</script>
