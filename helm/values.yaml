@@ -117,6 +117,9 @@ wagtail:
     - name: settings-local-volume
       configMap:
         name: django-configmap
+    - name: media
+      hostPath:
+        path: /path-to/media
 
   # Additional volumeMounts on the output Deployment definition.
   volumeMounts:
@@ -124,6 +127,8 @@ wagtail:
       mountPath: /app/ietf/settings/local.py
       subPath: local.py
       readOnly: true
+    - name: media
+      mountPath: "/app/media"
 
   tolerations: []
 
