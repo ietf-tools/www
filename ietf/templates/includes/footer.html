@@ -23,13 +23,20 @@
         </div>
     </div>
     <div class="container my-5">
-        <div class="d-flex justify-content-between lh-1">
-            <div>
-                social
+        <div class="d-flex justify-content-between align-items-start lh-1">
+            <div class="d-flex fs-4">
+                {% for item in SOCIAL_MENU %}
+                    <a class="d-block text-light px-2" href="{{ item.url }}" rel="me">
+                        <i class="bi bi-{{ item.icon }}"></i>
+                    </a>
+                {% endfor %}
             </div>
             <ul class="nav row gx-0">
                 {% for item in settings.utils.FooterLinks.footer_link_items.all %}
-                    <li class="nav-item col-6 col-lg-auto border-start u-first-no-border">
+                    <li class="
+                        nav-item col-6 col-lg-auto
+                        {% if not forloop.first %} border-start {% endif %}
+                    ">
                         <a
                             href="{{ item.link }}"
                             class="nav-link text-light py-0 px-3 fs-10"
