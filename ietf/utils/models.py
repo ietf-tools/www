@@ -214,6 +214,17 @@ class FooterColumn(PreviewableMixin, models.Model):
     def __str__(self):  # pragma: no cover
         return self.title
 
+    def get_preview_template(self, request, mode_name):
+        return "previews/footer_column.html"
+
+    def get_preview_context(self, request, mode_name):
+        from .context_processors import get_preview_footer
+
+        return {
+            **super().get_preview_context(request, mode_name),
+            "FOOTER": get_preview_footer(current=self),
+        }
+
 
 @register_setting
 class SocialMediaSettings(BaseSiteSetting):
