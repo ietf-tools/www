@@ -37,8 +37,8 @@ class TestBlog:
 
         self.now = timezone.now()
 
-        self.iab_topic: Topic = TopicFactory(title="iab", slug="iab")  # type: ignore
-        self.iesg_topic: Topic = TopicFactory(title="iesg", slug="iesg")  # type: ignore
+        self.iab_topic: Topic = TopicFactory(title="iab")  # type: ignore
+        self.iesg_topic: Topic = TopicFactory(title="iesg")  # type: ignore
 
         self.other_blog_page: BlogPage = BlogPageFactory(
             parent=self.blog_index,
@@ -63,8 +63,8 @@ class TestBlog:
             topics=[BlogPageTopic(topic=self.iesg_topic)],
         )  # type: ignore
 
-        self.alice = PersonFactory(name="Alice", slug="alice")
-        self.bob = PersonFactory(name="Bob", slug="bob")
+        self.alice = PersonFactory(name="Alice")
+        self.bob = PersonFactory(name="Bob")
 
         BlogPageAuthor.objects.create(page=self.other_blog_page, author=self.alice)
         BlogPageAuthor.objects.create(page=self.prev_blog_page, author=self.alice)

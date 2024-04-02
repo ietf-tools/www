@@ -1,4 +1,5 @@
 import factory
+from django.utils.text import slugify
 from factory.django import DjangoModelFactory
 
 from .models import Charter, MailingListSignup, Person, Topic, WorkingGroup
@@ -6,6 +7,7 @@ from .models import Charter, MailingListSignup, Person, Topic, WorkingGroup
 
 class PersonFactory(DjangoModelFactory):
     name = factory.Faker("name")
+    slug = factory.LazyAttribute(lambda obj: slugify(obj.name))
 
     class Meta:  # type: ignore
         model = Person
@@ -13,6 +15,7 @@ class PersonFactory(DjangoModelFactory):
 
 class TopicFactory(DjangoModelFactory):
     title = factory.Faker("name")
+    slug = factory.LazyAttribute(lambda obj: slugify(obj.title))
 
     class Meta:  # type: ignore
         model = Topic
