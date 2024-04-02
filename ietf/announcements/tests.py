@@ -37,6 +37,7 @@ class TestIABAnnouncement:
         self.announcement_3: IABAnnouncementPage = IABAnnouncementPageFactory(
             parent=self.index,
             date=now - timedelta(days=4),
+            body__0__heading="Heading in body Streamfield",
         )  # type: ignore
 
         self.announcement_4: IABAnnouncementPage = IABAnnouncementPageFactory(
@@ -50,6 +51,7 @@ class TestIABAnnouncement:
         html = response.content.decode()
 
         assert self.announcement_3.title in html
+        assert self.announcement_3.body[0].value in html
         assert self.announcement_3.introduction in html
 
     def test_homepage(self):

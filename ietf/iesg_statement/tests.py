@@ -1,5 +1,6 @@
 from datetime import timedelta
 
+import factory
 import pytest
 from bs4 import BeautifulSoup
 from django.test import Client
@@ -30,6 +31,7 @@ class TestIESGStatementPage:
         self.statement: IESGStatementPage = IESGStatementPageFactory(
             parent=self.index,
             date_published=self.now,
+            body__0__heading="Heading in body Streamfield",
         )  # type: ignore
 
     def test_index_page(self):
@@ -47,6 +49,7 @@ class TestIESGStatementPage:
 
         assert self.statement.title in html
         assert self.statement.introduction in html
+        assert self.statement.body[0].value in html
         assert f'href="{self.index.url}"' in html
 
     def test_filtering(self):
@@ -76,7 +79,8 @@ class TestIESGStatementPage:
             return (featured, others)
 
         assert get_filtered(-10, 10) == (
-            new1.title, [self.statement.title, old2.title, old1.title]
+            new1.title,
+            [self.statement.title, old2.title, old1.title],
         )
 
         assert get_filtered(0, 10) == (new1.title, [self.statement.title])

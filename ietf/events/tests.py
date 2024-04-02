@@ -23,6 +23,7 @@ class TestEventPage:
         self.event_page: EventPage = EventPageFactory(
             parent=self.event_listing,
             end_date=timezone.now() + timedelta(days=1),
+            body__0__heading="Heading in body Streamfield",
         )  # type: ignore
 
     def test_event_listing(self):
@@ -39,6 +40,7 @@ class TestEventPage:
         html = response.content.decode()
 
         assert self.event_page.title in html
+        assert self.event_page.body[0].value in html
         assert self.event_page.introduction in html
         assert f'href="{self.event_listing.url}"' in html
 

@@ -8,6 +8,7 @@ from .models import Charter, MailingListSignup, Person, Topic, WorkingGroup
 class PersonFactory(DjangoModelFactory):
     name = factory.Faker("name")
     slug = factory.LazyAttribute(lambda obj: slugify(obj.name))
+    link = factory.Faker("url")
 
     class Meta:  # type: ignore
         model = Person

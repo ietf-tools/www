@@ -55,6 +55,7 @@ class TestBlog:
         self.blog_page: BlogPage = BlogPageFactory(
             parent=self.blog_index,
             first_published_at=self.now + timedelta(days=1),
+            body__0__heading="Heading in body Streamfield",
         )  # type: ignore
 
         self.next_blog_page: BlogPage = BlogPageFactory(
@@ -72,17 +73,19 @@ class TestBlog:
         BlogPageAuthor.objects.create(page=self.next_blog_page, author=self.bob)
 
     def test_blog(self):
-        r = self.client.get(path=self.blog_index.url)
-        assert r.status_code == 200
+        index_response = self.client.get(path=self.blog_index.url)
+        assert index_response.status_code == 200
 
-        r = self.client.get(path=self.blog_page.url)
-        assert r.status_code == 200
+        response = self.client.get(path=self.blog_page.url)
+        assert response.status_code == 200
+        html = response.content.decode()
 
-        assert self.blog_page.title.encode() in r.content
-        assert self.blog_page.introduction.encode() in r.content
-        assert ('href="%s"' % self.next_blog_page.url).encode() in r.content
-        assert ('href="%s"' % self.prev_blog_page.url).encode() in r.content
-        assert ('href="%s"' % self.other_blog_page.url).encode() in r.content
+        assert self.blog_page.title in html
+        assert self.blog_page.body[0].value in html
+        assert self.blog_page.introduction in html
+        assert ('href="%s"' % self.next_blog_page.url) in html
+        assert ('href="%s"' % self.prev_blog_page.url) in html
+        assert ('href="%s"' % self.other_blog_page.url) in html
 
     def test_previous_next_links_correct(self):
         assert self.prev_blog_page.date < self.blog_page.date
@@ -106,23 +109,29 @@ class TestBlog:
         assert self.blog_page.url not in html
 
     def test_blog_feed(self):
-        r = self.client.get(path="/blog/feed/")
-        assert r.status_code == 200
-        assert self.blog_page.url.encode() in r.content
-        assert self.other_blog_page.url.encode() in r.content
+        response = self.client.get(path="/blog/feed/")
+        assert response.status_code == 200
+        html = response.content.decode()
+
+        assert self.blog_page.url in html
+        assert self.other_blog_page.url in html
 
     def test_topic_feed(self):
-        r = self.client.get(path="/blog/iab/feed/")
-        assert r.status_code == 200
-        assert self.other_blog_page.url.encode() in r.content
-        assert self.blog_page.url.encode() not in r.content
-        assert self.next_blog_page.url.encode() not in r.content
+        iab_response = self.client.get(path="/blog/iab/feed/")
+        assert iab_response.status_code == 200
+        iab_html = iab_response.content.decode()
 
-        r = self.client.get(path="/blog/iesg/feed/")
-        assert r.status_code == 200
-        assert self.next_blog_page.url.encode() in r.content
-        assert self.blog_page.url.encode() not in r.content
-        assert self.other_blog_page.url.encode() not in r.content
+        assert self.other_blog_page.url in iab_html
+        assert self.blog_page.url not in iab_html
+        assert self.next_blog_page.url not in iab_html
+
+        ietf_response = self.client.get(path="/blog/iesg/feed/")
+        assert ietf_response.status_code == 200
+        ietf_html = ietf_response.content.decode()
+
+        assert self.next_blog_page.url in ietf_html
+        assert self.blog_page.url not in ietf_html
+        assert self.other_blog_page.url not in ietf_html
 
     def test_author_feed(self):
         alice_url = self.blog_index.reverse_subpage(
