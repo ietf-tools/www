@@ -52,7 +52,7 @@ class StandardBlock(StreamBlock):
     typed_table = TypedTableBlock(
         [
             ("text", CharBlock(required=False)),
-            ("numeric", FloatBlock(required=False)),
+            ("numeric", FloatBlock(required=False, template="blocks/float_block.html")),
             ("rich_text", RichTextBlock(required=False)),
             ("image", ImageChooserBlock(required=False)),
         ]
