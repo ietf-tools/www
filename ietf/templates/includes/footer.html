@@ -4,11 +4,9 @@
             {% for column in FOOTER %}
                 <section class="col-lg">
                     <div class="border-bottom u-border-lg-bottom-0 border-light border-opacity-50">
-                        <h4 class="my-4 fs-6">
+                        <h4 class="my-0 py-4 fs-6" role="button" aria-expanded="false">
                             {{ column.title }}
-                            <button class="btn border-0 d-lg-none text-light p-0 float-end">
-                                <i class="bi bi-chevron-down"></i>
-                            </button>
+                            <i class="bi bi-chevron-down"></i>
                         </h4>
                         <ul class="list-unstyled">
                             {% for link in column.links %}
@@ -57,8 +55,10 @@
 
 <script>
 [... document.querySelectorAll("footer section")].forEach((section) => {
-    section.querySelector("h4 button").addEventListener("click", () => {
-        section.classList.toggle("expanded");
+    const heading = section.querySelector("h4");
+    heading.addEventListener("click", () => {
+        const expanded = section.classList.toggle("expanded");
+        heading.setAttribute("aria-expanded", expanded);
     });
 });
 </script>
