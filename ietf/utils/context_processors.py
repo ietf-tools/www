@@ -47,7 +47,7 @@ class MainMenu:
         main_section_links = [
             {
                 "title": page.title,
-                "url": item.page.get_url(current_site=self.site),
+                "url": page.get_url(current_site=self.site),
             }
             for page in item.page.get_children().live().in_menu()
         ]
