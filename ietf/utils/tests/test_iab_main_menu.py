@@ -28,6 +28,7 @@ class TestIABHome:
         soup = BeautifulSoup(html, "html.parser")
 
         def get_nav_item(item):
+            """ Get the menu item link, and the links within the menu. """
             [main_link] = item.select("a.nav-link")
             child_links = item.select("ul.dropdown-menu > li > a")
             return (

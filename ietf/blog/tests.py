@@ -147,6 +147,7 @@ class TestBlog:
         assert self.blog_page.url not in feed
 
     def test_homepage(self):
+        """ The two most recent blog posts are shown on the homepage. """
         response = self.client.get(path=self.home.url)
         assert response.status_code == 200
         html = response.content.decode()
@@ -155,6 +156,7 @@ class TestBlog:
         assert self.blog_page.title in html
 
     def test_all_page(self):
+        """ The /blog/all/ page shows all the published blog posts. """
         response = self.client.get(f"{self.blog_index.url}all/")
         assert response.status_code == 200
         html = response.content.decode()
@@ -168,6 +170,14 @@ class TestBlog:
         ]
 
     def test_filtering(self):
+        """
+        Test the filtering of the blogs page.
+
+        The blog page shows the most recent (filtered) post, along with a list
+        of other posts that match the filter, in descending order of
+        publication date.
+        """
+
         def get_filtered(days_before=0, days_after=0, topic=None):
             date_from = self.now + timedelta(days=days_before)
             date_to = self.now + timedelta(days=days_after)

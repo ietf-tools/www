@@ -53,6 +53,13 @@ class TestIESGStatementPage:
         assert f'href="{self.index.url}"' in html
 
     def test_filtering(self):
+        """
+        Test the filtering on the individual IESG statement page.
+
+        The page shows the current statement, and a list of other recent
+        statements, that fall within the filtered date interval.
+        """
+
         old1 = IESGStatementPageFactory(
             parent=self.index, date_published=self.now - timedelta(days=10)
         )

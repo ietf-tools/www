@@ -33,14 +33,21 @@ class TestMegaMenu:
         html = response.content.decode()
         soup = BeautifulSoup(html, "html.parser")
 
+        # Select the button that expands the megamenu for our MainMenuItem.
         [button] = soup.select(".megamenu__toggle")
         assert button.get_text().strip() == self.standard_index.title
 
+        # Select the menu content box.
         [menu] = soup.select(".megamenu__menu")
+
+        # Select the primary heading, which links to the MainMenuItem's page,
+        # defined in its `page` field.
         [primary_heading] = menu.select("h5")
         assert primary_heading.get_text().strip() == self.standard_index.title
         assert primary_heading.select("a")[0].attrs["href"] == self.standard_index.url
 
+        # Select the links just below the primary heading. They should be child
+        # pages of the MainMenuItem's page.
         primary_linklist = menu.select("ul.megamenu__linklist")[0]
         [page_link] = primary_linklist.select("li a")
         assert page_link.get_text().strip() == self.standard_page.title
@@ -71,10 +78,15 @@ class TestMegaMenu:
         html = response.content.decode()
         soup = BeautifulSoup(html, "html.parser")
 
+        # Select the menu content box.
         [menu] = soup.select(".megamenu__menu")
+
+        # Select the (single) secondary heading, defined in the `secondary_links` field.
         [secondary_heading] = menu.select("h6")
         assert secondary_heading.get_text() == "Secondary Links"
 
+        # Select the links just below the secondary heading. They should match
+        # what we specified in the `secondary_links` field.
         secondary_linklist = menu.select("ul.megamenu__linklist")[1]
         [link1, link2, link3, link4] = secondary_linklist.select("li a")
         assert link1.get_text().strip() == self.standard_index.title

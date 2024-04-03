@@ -11,6 +11,11 @@ pytestmark = pytest.mark.django_db
 
 
 def test_disclaimer(client: Client, home: HomePage):
+    """
+    The "note well" disclaimer is a page that is shown when a user clicks on a
+    mailing list link. It displays an informative text, and the "next" button
+    is a link to the actual mailing list.
+    """
     snippet = MailingListSignupFactory()
     page = StandardPageFactory(parent=home, mailing_list_signup=snippet)
 
