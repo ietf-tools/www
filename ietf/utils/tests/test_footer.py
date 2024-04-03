@@ -66,7 +66,7 @@ class TestFooterColumns:
         [section] = soup.select("footer section")
 
         [h4] = section.select("h4")
-        assert h4.get_text() == "Column Title"
+        assert h4.get_text().strip() == "Column Title"
 
         [link1, link2, link3, link4] = section.select("ul li a")
         assert link1.get_text().strip() == self.standard_index.title
