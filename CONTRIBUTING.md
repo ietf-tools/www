@@ -10,7 +10,13 @@ See the [installation instructions](README.md#install)
 
 ### Testing
 
-Wagtail is based on Django, and there are many Django-style tests typically named `tests.py` to test templates. These verify that the templates can be compiled (that they don't have syntax errors) and that they are inserting variables.
+Wagtail is based on Django, and there are many tests, in each app, typically named `tests.py` or `tests/test_*.py`, to test templates and business logic. These verify that the pages render without error and that they contain the expected values.
+
+The testsuite uses [pytest](https://docs.pytest.org/) and [pytest-django](https://pytest-django.readthedocs.io/). You can run the testsuite locally:
+
+```bash
+pytest
+```
 
 ## Frontend Development
 
