@@ -157,6 +157,11 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
     )
     CONTENT_FIELD_MAP = {"body": "prepared_body"}
 
+    parent_page_types = [
+        "blog.BlogIndexPage",
+    ]
+    subpage_types = []
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.filter_topic = None
