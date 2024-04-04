@@ -22,6 +22,14 @@ The testsuite uses [pytest](https://docs.pytest.org/) and [pytest-django](https:
 pytest
 ```
 
+### Linting
+
+To ensure a uniform code style, this project uses [black](https://black.readthedocs.io/en/stable/) and [ruff](https://docs.astral.sh/ruff/). You can install the [pre-commit](https://pre-commit.com) hook to run them automatically when making a git commit:
+
+```bash
+pre-commit install
+```
+
 ## Frontend Development
 
 This project uses Bootstrap. The exact version is specified in the `package.json` file.
