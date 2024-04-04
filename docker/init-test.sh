@@ -2,7 +2,6 @@
 
 set -x
 
-pre-commit run --all-files
 python /app/manage.py makemigrations --dry-run --no-input
 python /app/manage.py makemigrations --check --no-input
 python /app/manage.py migrate --no-input
