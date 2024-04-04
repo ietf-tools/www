@@ -18,7 +18,6 @@ footer section {
     }
 
     ul {
-        opacity: .65;
         display: none;
         @include media-breakpoint-up(lg) {
             display: block;
