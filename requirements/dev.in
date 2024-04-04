@@ -1,6 +1,9 @@
 -c base.txt
 
+black
 pip-tools
+pre-commit
 pytest-cov
 pytest-django
+ruff
 wagtail-factories
