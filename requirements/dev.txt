@@ -16,24 +16,34 @@ beautifulsoup4==4.11.2
     # via
     #   -c base.txt
     #   wagtail
+black==24.4.2
+    # via -r dev.in
 build==1.0.3
     # via pip-tools
 certifi==2023.11.17
     # via
     #   -c base.txt
     #   requests
+cfgv==3.4.0
+    # via pre-commit
 charset-normalizer==3.3.2
     # via
     #   -c base.txt
     #   requests
 click==8.1.7
-    # via pip-tools
+    # via
+    #   black
+    #   pip-tools
 coverage[toml]==7.3.2
-    # via pytest-cov
+    # via
+    #   coverage
+    #   pytest-cov
 defusedxml==0.7.1
     # via
     #   -c base.txt
     #   willow
+distlib==0.3.8
+    # via virtualenv
 django==4.2.11
     # via
     #   -c base.txt
@@ -80,6 +90,8 @@ factory-boy==3.3.0
     # via wagtail-factories
 faker==24.4.0
     # via factory-boy
+filelock==3.15.1
+    # via virtualenv
 filetype==1.2.0
     # via
     #   -c base.txt
@@ -88,6 +100,8 @@ html5lib==1.1
     # via
     #   -c base.txt
     #   wagtail
+identify==2.5.36
+    # via pre-commit
 idna==3.7
     # via
     #   -c base.txt
@@ -98,6 +112,10 @@ l18n==2021.3
     # via
     #   -c base.txt
     #   wagtail
+mypy-extensions==1.0.0
+    # via black
+nodeenv==1.9.1
+    # via pre-commit
 openpyxl==3.1.2
     # via
     #   -c base.txt
@@ -105,8 +123,11 @@ openpyxl==3.1.2
 packaging==23.2
     # via
     #   -c base.txt
+    #   black
     #   build
     #   pytest
+pathspec==0.12.1
+    # via black
 pillow==10.3.0
     # via
     #   -c base.txt
@@ -118,8 +139,14 @@ pillow-heif==0.13.1
     #   willow
 pip-tools==7.3.0
     # via -r dev.in
+platformdirs==4.2.2
+    # via
+    #   black
+    #   virtualenv
 pluggy==1.3.0
     # via pytest
+pre-commit==3.7.1
+    # via -r dev.in
 pyproject-hooks==1.0.0
     # via build
 pytest==7.4.3
@@ -138,10 +165,14 @@ pytz==2023.3.post1
     #   django-modelcluster
     #   djangorestframework
     #   l18n
+pyyaml==6.0.1
+    # via pre-commit
 requests==2.32.2
     # via
     #   -c base.txt
     #   wagtail
+ruff==0.4.9
+    # via -r dev.in
 six==1.16.0
     # via
     #   -c base.txt
@@ -164,6 +195,8 @@ urllib3==2.1.0
     # via
     #   -c base.txt
     #   requests
+virtualenv==20.26.2
+    # via pre-commit
 wagtail==5.2.1
     # via
     #   -c base.txt
