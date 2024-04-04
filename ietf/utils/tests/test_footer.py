@@ -63,11 +63,16 @@ class TestFooterColumns:
         assert response.status_code == 200
         html = response.content.decode()
         soup = BeautifulSoup(html, "html.parser")
+
+        # Select the single footer column.
         [section] = soup.select("footer section")
 
+        # Select the column's heading.
         [h4] = section.select("h4")
         assert h4.get_text().strip() == "Column Title"
 
+        # Select the links. They should match what we specified in the `links`
+        # field.
         [link1, link2, link3, link4] = section.select("ul li a")
         assert link1.get_text().strip() == self.standard_index.title
         assert link1.attrs["href"] == self.standard_index.url
