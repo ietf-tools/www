@@ -403,7 +403,7 @@ class BlogIndexPage(RoutablePageMixin, Page):
     def feed_with_topic(self, request, topic):
         from .feeds import TopicBlogFeed
 
-        return TopicBlogFeed()(request, topic=topic)
+        return TopicBlogFeed(topic=topic)(request)
 
     @route(r"^([-\w]+)/all/$")
     def filtered_entries(self, request, slug, *args, **kwargs):

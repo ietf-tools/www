@@ -4,6 +4,8 @@ from django.utils import timezone
 from django.test import TestCase
 from wagtail.models import Page, Site
 
+from ietf.utils.models import FeedSettings
+
 from ..home.models import HomePage
 from ..snippets.models import Person, Topic
 from .models import BlogIndexPage, BlogPage, BlogPageAuthor, BlogPageTopic
@@ -24,7 +26,7 @@ class BlogTests(TestCase):
 
         Site.objects.all().delete()
 
-        Site.objects.create(
+        self.site = Site.objects.create(
             hostname="localhost",
             root_page=home,
             is_default_site=True,
@@ -87,6 +89,11 @@ class BlogTests(TestCase):
         BlogPageAuthor.objects.create(page=self.prevblog, author=self.bob)
         BlogPageAuthor.objects.create(page=self.nextblog, author=self.bob)
 
+        self.feed_settings = FeedSettings.for_site(self.site)
+        self.feed_settings.blog_feed_title = "Blog Feed Title"
+        self.feed_settings.blog_feed_description = "Blog Feed Description"
+        self.feed_settings.save()
+
     def test_blog(self):
         r = self.client.get(path=self.blog_index.url)
         self.assertEqual(r.status_code, 200)
@@ -123,10 +130,12 @@ class BlogTests(TestCase):
         self.assertNotIn(self.blog.url, html)
 
     def test_blog_feed(self):
-        r = self.client.get(path='/blog/feed/')
-        self.assertEqual(r.status_code, 200)
-        self.assertIn(self.blog.url.encode(), r.content)
-        self.assertIn(self.otherblog.url.encode(), r.content)
+        response = self.client.get(path='/blog/feed/')
+        self.assertEqual(response.status_code, 200)
+        feed = response.content.decode()
+        self.assertIn(f"<title>{self.feed_settings.blog_feed_title}</title>", feed)
+        self.assertIn(self.blog.url, feed)
+        self.assertIn(self.otherblog.url, feed)
 
     def test_topic_feed(self):
         iab_topic = Topic(title="iab", slug="iab")
@@ -142,17 +151,25 @@ class BlogTests(TestCase):
         self.nextblog.topics = [iesg_bptopic, ]
         self.nextblog.save()
 
-        r = self.client.get(path='/blog/iab/feed/')
-        self.assertEqual(r.status_code, 200)
-        self.assertIn(self.otherblog.url.encode(), r.content)
-        self.assertNotIn(self.blog.url.encode(), r.content)
-        self.assertNotIn(self.nextblog.url.encode(), r.content)
+        iab_response = self.client.get('/blog/iab/feed/')
+        self.assertEqual(iab_response.status_code, 200)
+        iab_feed = iab_response.content.decode()
+        self.assertIn(
+            f"<title>{self.feed_settings.blog_feed_title} – iab</title>", iab_feed
+        )
+        self.assertIn(self.otherblog.url, iab_feed)
+        self.assertNotIn(self.blog.url, iab_feed)
+        self.assertNotIn(self.nextblog.url, iab_feed)
 
-        r = self.client.get(path='/blog/iesg/feed/')
-        self.assertEqual(r.status_code, 200)
-        self.assertIn(self.nextblog.url.encode(), r.content)
-        self.assertNotIn(self.blog.url.encode(), r.content)
-        self.assertNotIn(self.otherblog.url.encode(), r.content)
+        iesg_response = self.client.get('/blog/iesg/feed/')
+        self.assertEqual(iesg_response.status_code, 200)
+        iesg_feed = iesg_response.content.decode()
+        self.assertIn(
+            f"<title>{self.feed_settings.blog_feed_title} – iesg</title>", iesg_feed
+        )
+        self.assertIn(self.nextblog.url, iesg_feed)
+        self.assertNotIn(self.blog.url, iesg_feed)
+        self.assertNotIn(self.otherblog.url, iesg_feed)
 
     def test_author_feed(self):
         alice_url = self.blog_index.reverse_subpage(
@@ -162,6 +179,9 @@ class BlogTests(TestCase):
         alice_resp = self.client.get(self.blog_index.url + alice_url)
         self.assertEqual(alice_resp.status_code, 200)
         feed = alice_resp.content.decode("utf8")
+        self.assertIn(
+            f"<title>{self.feed_settings.blog_feed_title} – Alice</title>", feed
+        )
         self.assertIn(self.otherblog.url, feed)
         self.assertIn(self.prevblog.url, feed)
         self.assertNotIn(self.nextblog.url, feed)
