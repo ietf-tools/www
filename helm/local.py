@@ -64,12 +64,12 @@ CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.memcached.PyMemcacheCache",
         "LOCATION": f"{MEMCACHED_HOST}:{MEMCACHED_PORT}",
-        "KEY_PREFIX": "ietf",
+        "KEY_PREFIX": "iab",
     },
     "sessions": {
         "BACKEND": "django.core.cache.backends.memcached.PyMemcacheCache",
         "LOCATION": f"{MEMCACHED_HOST}:{MEMCACHED_PORT}",
-        "KEY_PREFIX": "ietf",
+        "KEY_PREFIX": "iab",
     },
     "dummy": {"BACKEND": "django.core.cache.backends.dummy.DummyCache"},
 }
