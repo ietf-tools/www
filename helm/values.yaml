@@ -223,3 +223,4 @@ env:
   WAGTAILADMIN_BASE_URL: "http://localhost:8080/admin"
   CSRF_TRUSTED_ORIGINS: "http://localhost:8080/,http://127.0.0.1:8080/"
   MATOMO_SITE_ID: "11"
+  MEMCACHED_KEY_PREFIX: "iab"
