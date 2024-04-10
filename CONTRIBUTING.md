@@ -187,7 +187,11 @@ See the [deployment section](README.md#deployment)
         (16 rows)
         ```
 
-        Note: The `adminpack` extension is not available in RDS, therefore it will not be included in future database snapshots. See [Extensions supported for RDS for PostgreSQL 14](https://docs.aws.amazon.com/AmazonRDS/latest/PostgreSQLReleaseNotes/postgresql-extensions.html#postgresql-extensions-14x) for more information.
+        Notes:
+
+        -   The `adminpack` extension is not available in RDS, therefore it will not be included in future database snapshots. See [Extensions supported for RDS for PostgreSQL 14](https://docs.aws.amazon.com/AmazonRDS/latest/PostgreSQLReleaseNotes/postgresql-extensions.html#postgresql-extensions-14x) for more information.
+
+        -   The extensions above are from the latest IAB snapshot.
 
 4.  Run
 
