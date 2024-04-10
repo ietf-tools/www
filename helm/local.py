@@ -60,16 +60,18 @@ MATOMO_DISABLE_COOKIES = True
 MEMCACHED_HOST = os.environ["MEMCACHED_SERVICE_HOST"]
 MEMCACHED_PORT = os.environ["MEMCACHED_SERVICE_PORT"]
 
+MEMCACHED_KEY_PREFIX = os.environ["MEMCACHED_KEY_PREFIX"]
+
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.memcached.PyMemcacheCache",
         "LOCATION": f"{MEMCACHED_HOST}:{MEMCACHED_PORT}",
-        "KEY_PREFIX": "ietf",
+        "KEY_PREFIX": MEMCACHED_KEY_PREFIX,
     },
     "sessions": {
         "BACKEND": "django.core.cache.backends.memcached.PyMemcacheCache",
         "LOCATION": f"{MEMCACHED_HOST}:{MEMCACHED_PORT}",
-        "KEY_PREFIX": "ietf",
+        "KEY_PREFIX": MEMCACHED_KEY_PREFIX,
     },
     "dummy": {"BACKEND": "django.core.cache.backends.dummy.DummyCache"},
 }
