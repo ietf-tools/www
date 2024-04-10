@@ -1,5 +1,10 @@
 # Developing on the Internet Engineering Task Force (IETF) Website
 
+## Contribututing
+
+Read [Contributing to IETF Tools projects](https://github.com/ietf-tools/.github/blob/main/CONTRIBUTING.md).
+For this project treat `deploy/preview` brach as `main`.
+
 ## Backend Development
 
 This website uses the Wagtail CMS.
@@ -220,8 +225,3 @@ See the [deployment section](README.md#deployment)
     ```
 
 8.  Using the admin username and password, log in to localhost:8080/admin.
-
-## Contribututing
-
-Read [Contributing to IETF Tools projects](https://github.com/ietf-tools/.github/blob/main/CONTRIBUTING.md).
-For this project treat `deploy/preview` brach as `main`.
