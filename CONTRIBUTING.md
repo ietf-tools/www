@@ -3,7 +3,6 @@
 ## Contribututing
 
 Read [Contributing to IETF Tools projects](https://github.com/ietf-tools/.github/blob/main/CONTRIBUTING.md).
-For this project treat `deploy/preview` brach as `main`.
 
 ## Backend Development
 
