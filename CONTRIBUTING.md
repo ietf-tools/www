@@ -118,8 +118,11 @@ See the [deployment section](README.md#deployment)
            -v pgdata:/var/lib/postgresql/data \
            -e POSTGRES_PASSWORD=postgres \
            -p 5432:5432 \
-           postgres:14.6-alpine
+           postgres:14.6-alpine \
+           postgres -c log_statement=all
     ```
+
+    NOTE: With `log_statement=all`, it will output all queries hitting the database in stdout.
 
 3.  Start a new `bash` session in the container.
 
