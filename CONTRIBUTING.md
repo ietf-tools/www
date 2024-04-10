@@ -1,6 +1,6 @@
 # Developing on the Internet Engineering Task Force (IETF) Website
 
-## Contribututing
+## Contributing
 
 Read [Contributing to IETF Tools projects](https://github.com/ietf-tools/.github/blob/main/CONTRIBUTING.md).
 
