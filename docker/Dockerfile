@@ -138,6 +138,9 @@ EOF
 COPY docker/nginx-sandbox.conf /etc/nginx/sites-enabled/default
 COPY docker/supervisord-sandbox.conf /app/supervisord.conf
 
+COPY docker/init.sh /app/init.sh
+RUN chmod +x /app/init.sh
+
 RUN mkdir -p /app/media
 
-CMD ["/usr/bin/supervisord", "-c", "/app/supervisord.conf"]
+CMD ["./init.sh"]
