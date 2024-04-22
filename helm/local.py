@@ -21,6 +21,7 @@ SECRET_KEY = os.environ["SECRET_KEY"]
 FILE_UPLOAD_PERMISSIONS = 0o664
 
 ALLOWED_HOSTS = os.environ["ALLOWED_HOSTS"].split(",")
+ALLOWED_HOSTS.append(os.environ["POD_IP"])
 
 CSRF_TRUSTED_ORIGINS = os.environ["CSRF_TRUSTED_ORIGINS"].split(",")
 
