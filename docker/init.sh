@@ -1,7 +1,7 @@
 #!/bin/bash
 
-echo "Running collectstatic..."
-python /app/manage.py collectstatic --no-input
+echo "Running migrate..."
+python /app/manage.py migrate
 
 echo "Starting supervisor..."
 /usr/bin/supervisord -c /app/supervisord.conf
