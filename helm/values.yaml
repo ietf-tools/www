@@ -46,11 +46,11 @@ wagtail:
     #    hosts:
     #      - chart-example.local
 
-  # livenessProbe:
-  #   httpGet:
-  #     # /submit/tool-instructions/ just happens to be cheap until we get a real health endpoint
-  #     path: /submit/tool-instructions/
-  #     port: http
+  livenessProbe:
+    timeoutSeconds: 5
+    httpGet:
+      path: /healthz
+      port: http
 
   podAnnotations: {}
   podLabels: {}
@@ -58,11 +58,11 @@ wagtail:
   podSecurityContext: {}
     # fsGroup: 2000
 
-#readinessProbe:
-#  httpGet:
-#    # /submit/tool-instructions/ just happens to be cheap until we get a real health endpoint
-#    path: /submit/tool-instructions/
-#    port: http
+  readinessProbe:
+    timeoutSeconds: 5
+    httpGet:
+      path: /healthz
+      port: http
 
   replicaCount: 1
 
@@ -102,15 +102,14 @@ wagtail:
     # If not set and create is true, a name is generated using the fullname template
     name: ""
 
-  # startupProbe:
-  #   initialDelaySeconds: 15
-  #   periodSeconds: 5
-  #   timeoutSeconds: 5
-  #   successThreshold: 1
-  #   failureThreshold: 60
-  #   httpGet:
-  #     path: 
-  #     port: http
+  startupProbe:
+    timeoutSeconds: 5
+    periodSeconds: 10
+    failureThreshold: 6
+    successThreshold: 1
+    httpGet:
+      path: /healthz
+      port: http
 
   # Additional volumes on the output Deployment definition.
   volumes:
