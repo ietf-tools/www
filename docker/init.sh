@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Running management commands..."
+echo "Running collectstatic..."
 python /app/manage.py collectstatic --no-input
 
 echo "Starting supervisor..."
