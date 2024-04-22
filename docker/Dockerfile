@@ -143,4 +143,10 @@ RUN chmod +x /app/init.sh
 
 RUN mkdir -p /app/media
 
+# Configure environment variables (each with a placeholder) required
+# to bootstrap Django, so that collectstatic can run successfully
+RUN APP_SECRET_KEY="abcdef" \
+    DATABASE_URL="postgresql://userspec@hostspec/dbname?paramspec" \
+    python /app/manage.py collectstatic --no-input
+
 CMD ["./init.sh"]
