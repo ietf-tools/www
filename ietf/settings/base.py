@@ -254,3 +254,5 @@ if _cf_purge_bearer_token and _cf_purge_zone_id:  # pragma: no cover
             "ZONEID": _cf_purge_zone_id,
         },
     }
+
+WAGTAIL_ENABLE_UPDATE_CHECK = "lts"

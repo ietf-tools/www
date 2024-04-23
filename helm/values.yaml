@@ -24,7 +24,7 @@ wagtail:
     repository: "ghcr.io/ietf-tools/www"
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: "v2.0.0"
+    # tag: "v2.1.3"
 
   imagePullSecrets: []
   nameOverride: ""
@@ -46,11 +46,11 @@ wagtail:
     #    hosts:
     #      - chart-example.local
 
-  # livenessProbe:
-  #   httpGet:
-  #     # /submit/tool-instructions/ just happens to be cheap until we get a real health endpoint
-  #     path: /submit/tool-instructions/
-  #     port: http
+  livenessProbe:
+    timeoutSeconds: 5
+    httpGet:
+      path: /healthz
+      port: http
 
   podAnnotations: {}
   podLabels: {}
@@ -58,11 +58,11 @@ wagtail:
   podSecurityContext: {}
     # fsGroup: 2000
 
-#readinessProbe:
-#  httpGet:
-#    # /submit/tool-instructions/ just happens to be cheap until we get a real health endpoint
-#    path: /submit/tool-instructions/
-#    port: http
+  readinessProbe:
+    timeoutSeconds: 5
+    httpGet:
+      path: /healthz
+      port: http
 
   replicaCount: 1
 
@@ -89,7 +89,6 @@ wagtail:
   service:
     type: ClusterIP
     port: 80
-    targetPort: 8000
 
   serviceAccount:
     # Specifies whether a service account should be created
@@ -102,21 +101,23 @@ wagtail:
     # If not set and create is true, a name is generated using the fullname template
     name: ""
 
-  # startupProbe:
-  #   initialDelaySeconds: 15
-  #   periodSeconds: 5
-  #   timeoutSeconds: 5
-  #   successThreshold: 1
-  #   failureThreshold: 60
-  #   httpGet:
-  #     path: 
-  #     port: http
+  startupProbe:
+    timeoutSeconds: 5
+    periodSeconds: 10
+    failureThreshold: 6
+    successThreshold: 1
+    httpGet:
+      path: /healthz
+      port: http
 
   # Additional volumes on the output Deployment definition.
   volumes:
     - name: settings-local-volume
       configMap:
         name: django-configmap
+    - name: media
+      hostPath:
+        path: /path-to/media
 
   # Additional volumeMounts on the output Deployment definition.
   volumeMounts:
@@ -124,6 +125,8 @@ wagtail:
       mountPath: /app/ietf/settings/local.py
       subPath: local.py
       readOnly: true
+    - name: media
+      mountPath: "/app/media"
 
   tolerations: []
 
@@ -218,3 +221,4 @@ env:
   WAGTAILADMIN_BASE_URL: "http://localhost:8080/admin"
   CSRF_TRUSTED_ORIGINS: "http://localhost:8080/,http://127.0.0.1:8080/"
   MATOMO_SITE_ID: "11"
+  MEMCACHED_KEY_PREFIX: "iab"

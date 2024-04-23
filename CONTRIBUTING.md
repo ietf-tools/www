@@ -1,5 +1,9 @@
 # Developing on the Internet Engineering Task Force (IETF) Website
 
+## Contributing
+
+Read [Contributing to IETF Tools projects](https://github.com/ietf-tools/.github/blob/main/CONTRIBUTING.md).
+
 ## Backend Development
 
 This website uses the Wagtail CMS.
@@ -69,11 +73,6 @@ Replace "`http://localhost:8001`" with the URL of your running website.
 
 See the [deployment section](README.md#deployment)
 
-## Contribututing
-
-Read [Contributing to IETF Tools projects](https://github.com/ietf-tools/.github/blob/main/CONTRIBUTING.md).
-For this project treat `deploy/preview` brach as `main`.
-
 ## Running Kubernetes Locally
 
 ### Prerequisites
@@ -120,12 +119,16 @@ For this project treat `deploy/preview` brach as `main`.
 
     ``` bash
     docker run --name my-postgres \
+           --rm \
            -v $(pwd)/www_backup_latest:/www_backup_latest \
            -v pgdata:/var/lib/postgresql/data \
            -e POSTGRES_PASSWORD=postgres \
            -p 5432:5432 \
-           postgres:14.6-alpine
+           postgres:14.6-alpine \
+           postgres -c log_statement=all
     ```
+
+    NOTE: With `log_statement=all`, it will output all queries hitting the database in stdout.
 
 3.  Start a new `bash` session in the container.
 
@@ -156,6 +159,49 @@ For this project treat `deploy/preview` brach as `main`.
         pg_restore -U postgres -d www www_backup_latest
         ```
 
+    3.  Check extensions installed in the `www` database.
+
+        ``` bash
+        psql -U postgres
+        ```
+
+        ``` text
+        \c www
+        ```
+
+        ``` text
+        \dx
+        ```
+
+        ``` text
+                                                    List of installed extensions
+                Name        | Version |   Schema   |                              Description
+        --------------------+---------+------------+------------------------------------------------------------------------
+         adminpack          | 2.1     | pg_catalog | administrative functions for PostgreSQL
+         amcheck            | 1.3     | public     | functions for verifying relation integrity
+         bloom              | 1.0     | public     | bloom access method - signature file based index
+         btree_gin          | 1.3     | public     | support for indexing common datatypes in GIN
+         btree_gist         | 1.6     | public     | support for indexing common datatypes in GiST
+         citext             | 1.6     | public     | data type for case-insensitive character strings
+         fuzzystrmatch      | 1.1     | public     | determine similarities and distance between strings
+         pageinspect        | 1.9     | public     | inspect the contents of database pages at a low level
+         pg_buffercache     | 1.3     | public     | examine the shared buffer cache
+         pg_freespacemap    | 1.2     | public     | examine the free space map (FSM)
+         pg_stat_statements | 1.9     | public     | track planning and execution statistics of all SQL statements executed
+         pg_trgm            | 1.6     | public     | text similarity measurement and index searching based on trigrams
+         pg_visibility      | 1.2     | public     | examine the visibility map (VM) and page-level visibility info
+         pgrowlocks         | 1.2     | public     | show row-level locking information
+         pgstattuple        | 1.5     | public     | show tuple-level statistics
+         plpgsql            | 1.0     | pg_catalog | PL/pgSQL procedural language
+        (16 rows)
+        ```
+
+        Notes:
+
+        -   The `adminpack` extension is not available in RDS, therefore it will not be included in future database snapshots. See [Extensions supported for RDS for PostgreSQL 14](https://docs.aws.amazon.com/AmazonRDS/latest/PostgreSQLReleaseNotes/postgresql-extensions.html#postgresql-extensions-14x) for more information.
+
+        -   The extensions above are from the latest IAB snapshot.
+
 4.  Run
 
     ``` bash
@@ -181,7 +227,7 @@ For this project treat `deploy/preview` brach as `main`.
 7.  Create an admin user.
 
     ``` bash
-    kubectl exec -it $POD_NAME --container wagtail -- python manage.py createsuperuser
+    kubectl exec -it $POD_NAME --container www -- python manage.py createsuperuser
     ```
 
     e.g.
