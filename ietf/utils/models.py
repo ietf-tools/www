@@ -126,19 +126,19 @@ class MainMenuItem(PreviewableMixin, models.Model):
     class Meta:
         ordering = ["sort_order"]
 
-    def __str__(self):
+    def __str__(self):  # pragma: no cover
         return self.page.title
 
-    def get_preview_template(self, request, model_name):
+    def get_preview_template(self, request, mode_name):
         return "previews/main_menu_item.html"
 
-    def get_preview_context(self, request, model_name):
+    def get_preview_context(self, request, mode_name):
         from .context_processors import PreviewMainMenu
 
         site = Site.find_for_request(request)
 
         return {
-            **super().get_preview_context(request, model_name),
+            **super().get_preview_context(request, mode_name),
             "MENU": PreviewMainMenu(site, self).get_menu(),
             "MENU_PREVIEW": self,
         }
@@ -319,7 +319,7 @@ class LayoutSettings(BaseSiteSetting):
         max_length=255,
         blank=True,
         choices=BASE_TEMPLATE_CHOICES,
-        default="base.html",
+        default=DEFAULT_BASE,
     )
 
 

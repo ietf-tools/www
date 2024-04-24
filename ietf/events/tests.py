@@ -1,53 +1,54 @@
-from django.test import TestCase
-from wagtail.models import Page, Site
+from datetime import timedelta
 
-from ..home.models import HomePage
+import pytest
+from django.test import Client
+from django.utils import timezone
+
+from ietf.home.models import HomePage
+from .factories import EventListingPageFactory, EventPageFactory
 from .models import EventListingPage, EventPage
 
+pytestmark = pytest.mark.django_db
 
-class EventPageTests(TestCase):
+
+class TestEventPage:
+    @pytest.fixture(autouse=True)
+    def set_up(self, home: HomePage, client: Client):
+        self.home = home
+        self.client = client
+
+        self.event_listing: EventListingPage = EventListingPageFactory(
+            parent=self.home,
+        )  # type: ignore
+        self.event_page: EventPage = EventPageFactory(
+            parent=self.event_listing,
+            end_date=timezone.now() + timedelta(days=1),
+            body__0__heading="Heading in body Streamfield",
+        )  # type: ignore
+
+    def test_event_listing(self):
+        response = self.client.get(path=self.event_listing.url)
+        assert response.status_code == 200
+        html = response.content.decode()
+
+        assert self.event_page.title in html
+        assert f'href="{self.event_page.url}"' in html
+
     def test_event_page(self):
+        response = self.client.get(path=self.event_page.url)
+        assert response.status_code == 200
+        html = response.content.decode()
 
-        root = Page.get_first_root_node()
+        assert self.event_page.title in html
+        assert self.event_page.body[0].value in html
+        assert self.event_page.introduction in html
+        assert f'href="{self.event_listing.url}"' in html
 
-        home = HomePage(
-            slug="homepageslug",
-            title="home page title",
-            heading="home page heading",
-            introduction="home page introduction",
-        )
+    def test_home_page(self):
+        """ The first two upcoming events are shown on the homepage. """
+        response = self.client.get(path=self.home.url)
+        assert response.status_code == 200
+        html = response.content.decode()
 
-        root.add_child(instance=home)
-
-        Site.objects.all().delete()
-
-        Site.objects.create(
-            hostname="localhost",
-            root_page=home,
-            is_default_site=True,
-            site_name="testingsitename",
-        )
-
-        eventlisting = EventListingPage(
-            slug="eventlisting",
-            title="event listing page title",
-            introduction="event listing page introduction",
-        )
-        home.add_child(instance=eventlisting)
-
-        eventpage = EventPage(
-            slug="event",
-            title="event title",
-            introduction="event introduction",
-        )
-        eventlisting.add_child(instance=eventpage)
-
-        rindex = self.client.get(path=eventlisting.url)
-        self.assertEqual(rindex.status_code, 200)
-
-        r = self.client.get(path=eventpage.url)
-        self.assertEqual(r.status_code, 200)
-
-        self.assertIn(eventpage.title.encode(), r.content)
-        self.assertIn(eventpage.introduction.encode(), r.content)
-        self.assertIn(('href="%s"' % eventlisting.url).encode(), r.content)
+        assert f'href="{self.event_page.url}"' in html
+        assert self.event_page.title in html

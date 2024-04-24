@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, time
 from functools import partial
 
 from django.core.exceptions import ObjectDoesNotExist
@@ -7,6 +7,7 @@ from django.db.models.functions import Coalesce
 from django.shortcuts import redirect
 from django.utils import functional
 from django.utils.safestring import mark_safe
+from django.utils.timezone import make_aware
 from modelcluster.fields import ParentalKey
 from wagtail.admin.panels import FieldPanel, InlinePanel
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
@@ -18,8 +19,11 @@ from ..bibliography.models import BibliographyMixin
 from ..snippets.models import Topic
 from ..utils.blocks import StandardBlock
 
-# from ..utils.models import FeedSettings, PromoteMixin
 from ..utils.models import PromoteMixin
+
+
+def make_date_aware(value):
+    return make_aware(datetime.combine(value, time()))
 
 
 def filter_pages_by_topic(pages, topic):
@@ -31,11 +35,11 @@ def get_topic_by_id(id):
 
 
 def filter_pages_by_date_from(pages, date_from):
-    return pages.filter(d__gte=date_from)
+    return pages.filter(d__gte=make_date_aware(date_from))
 
 
 def filter_pages_by_date_to(pages, date_to):
-    return pages.filter(d__lte=date_to)
+    return pages.filter(d__lte=make_date_aware(date_to))
 
 
 def parse_date_search_input(date):

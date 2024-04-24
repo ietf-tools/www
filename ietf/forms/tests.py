@@ -1,42 +1,38 @@
-from django.test import TestCase
-from wagtail.models import Page, Site
+import pytest
+from django.core import mail
+from django.test import Client
 
-from ..home.models import HomePage
+from ietf.home.models import HomePage
+from .factories import FormPageFactory
 from .models import FormPage
 
+pytestmark = pytest.mark.django_db
 
-class FormPageTests(TestCase):
+
+class TestFormPage:
+    FORM_ADDRESS = "forms@example.com"
+
+    @pytest.fixture(autouse=True)
+    def set_up(self, home: HomePage, client: Client):
+        self.home = home
+        self.client = client
+
+        self.form_page: FormPage = FormPageFactory(
+            parent=self.home,
+            to_address=self.FORM_ADDRESS,
+        )  # type: ignore
+
     def test_form_page(self):
+        response = self.client.get(path=self.form_page.url)
+        assert response.status_code == 200
+        html = response.content.decode()
 
-        root = Page.get_first_root_node()
+        assert self.form_page.title in html
+        assert self.form_page.intro in html
 
-        home = HomePage(
-            slug="homepageslug",
-            title="home page title",
-            heading="home page heading",
-            introduction="home page introduction",
-        )
-
-        root.add_child(instance=home)
-
-        Site.objects.all().delete()
-
-        Site.objects.create(
-            hostname="localhost",
-            root_page=home,
-            is_default_site=True,
-            site_name="testingsitename",
-        )
-
-        form = FormPage(
-            slug="form",
-            title="form title",
-            intro="form introduction",
-        )
-        home.add_child(instance=form)
-
-        r = self.client.get(path=form.url)
-        self.assertEqual(r.status_code, 200)
-
-        self.assertIn(form.title.encode(), r.content)
-        self.assertIn(form.intro.encode(), r.content)
+    def test_submit(self):
+        response = self.client.post(self.form_page.url, {})
+        assert response.status_code == 200
+        assert len(mail.outbox) == 1
+        message = mail.outbox[0]
+        assert message.to == [self.FORM_ADDRESS]

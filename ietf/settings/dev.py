@@ -10,7 +10,13 @@ SECRET_KEY = 'CHANGEME!!!'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-try:
+
+# Process all tasks synchronously.
+# Helpful for local development and running tests
+CELERY_EAGER_PROPAGATES_EXCEPTIONS = True
+CELERY_ALWAYS_EAGER = True
+
+try:  # pragma: no cover
     from .local import *
-except ImportError:
+except ImportError:  # pragma: no cover
     pass
