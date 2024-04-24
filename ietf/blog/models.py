@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, time
 from functools import partial
 
 from django.core.exceptions import ObjectDoesNotExist
@@ -9,6 +9,7 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import functional
 from django.utils.safestring import mark_safe
+from django.utils.timezone import make_aware
 from modelcluster.fields import ParentalKey
 from wagtail.admin.panels import FieldPanel, InlinePanel
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
@@ -20,6 +21,12 @@ from ..bibliography.models import BibliographyMixin
 from ..snippets.models import Person, Topic
 from ..utils.blocks import StandardBlock
 from ..utils.models import FeedSettings, PromoteMixin
+
+IESG_STATEMENT_TOPIC_ID = "7"
+
+
+def make_date_aware(value):
+    return make_aware(datetime.combine(value, time()))
 
 
 def ordered_live_annotated_blogs(sibling=None):
@@ -33,11 +40,11 @@ def ordered_live_annotated_blogs(sibling=None):
 
 
 def filter_pages_by_date_from(pages, date_from):
-    return pages.filter(d__gte=date_from)
+    return pages.filter(d__gte=make_date_aware(date_from))
 
 
 def filter_pages_by_date_to(pages, date_to):
-    return pages.filter(d__lte=date_to)
+    return pages.filter(d__lte=make_date_aware(date_to))
 
 
 def parse_date_search_input(date):
@@ -160,13 +167,6 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.filter_topic = None
-
-    @property
-    def first_author(self):
-        try:
-            return self.authors.first().author
-        except AttributeError:
-            return self.authors.none()
 
     @property
     def date(self):
@@ -416,7 +416,7 @@ class BlogIndexPage(RoutablePageMixin, Page):
         # IESG statements were moved under the IESG about/groups page. Queries to the
         # base /blog/ page that used a query string to filter for IESG statements can't
         # be redirected through ordinary redirection, so we're doing it here.
-        if request.GET.get("primary_topic") == "7":
+        if request.GET.get("primary_topic") == IESG_STATEMENT_TOPIC_ID:
             query_string = ""
             topic = request.GET.get("secondary_topic")
             if topic:
@@ -428,7 +428,7 @@ class BlogIndexPage(RoutablePageMixin, Page):
             date_to = request.GET.get("date_to")
             if date_to:
                 separator = "&" if query_string else ""
-                query_string = query_string + separator + "date_to" + date_to
+                query_string = query_string + separator + "date_to=" + date_to
             target_url = "/about/groups/iesg/statements"
             if query_string:
                 target_url = target_url + "?" + query_string

@@ -138,6 +138,15 @@ EOF
 COPY docker/nginx-sandbox.conf /etc/nginx/sites-enabled/default
 COPY docker/supervisord-sandbox.conf /app/supervisord.conf
 
+COPY docker/init.sh /app/init.sh
+RUN chmod +x /app/init.sh
+
 RUN mkdir -p /app/media
 
-CMD ["/usr/bin/supervisord", "-c", "/app/supervisord.conf"]
+# Configure environment variables (each with a placeholder) required
+# to bootstrap Django, so that collectstatic can run successfully
+RUN APP_SECRET_KEY="abcdef" \
+    DATABASE_URL="postgresql://userspec@hostspec/dbname?paramspec" \
+    python /app/manage.py collectstatic --no-input
+
+CMD ["./init.sh"]

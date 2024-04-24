@@ -1,3 +1,4 @@
+from collections.abc import Iterable
 from operator import attrgetter
 
 from ietf.utils.models import FooterColumn, MainMenuItem
@@ -7,7 +8,7 @@ class MainMenu:
     def __init__(self, site):
         self.site = site
 
-    def get_items(self):
+    def get_items(self) -> Iterable[MainMenuItem]:
         return MainMenuItem.objects.all().select_related("page")
 
     def get_introduction(self, page):
@@ -20,7 +21,7 @@ class MainMenu:
         main_section_links = [
             {
                 "title": page.title,
-                "url": item.page.get_url(current_site=self.site),
+                "url": page.get_url(current_site=self.site),
             }
             for page in item.page.get_children().live().in_menu()
         ]

@@ -32,6 +32,10 @@ spec:
           env:
             - name: "CONTAINER_ROLE"
               value: "wagtail"
+            - name: "POD_IP"
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
             {{- if $.Values.env }}
             {{- range $key, $val := $.Values.env }}
             - name: {{ $key | quote }}
@@ -44,7 +48,7 @@ spec:
     {{- end }}
           ports:
             - name: http
-              containerPort: 8000
+              containerPort: 80
               protocol: TCP
           livenessProbe:
             {{- toYaml $podValues.livenessProbe | nindent 12 }}

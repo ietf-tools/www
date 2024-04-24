@@ -9,6 +9,7 @@ from wagtail.documents import urls as wagtaildocs_urls
 
 from ietf.bibliography import urls as bibliography_urls
 from ietf.blog.feeds import BlogFeed
+from ietf.health.views import healthz
 from ietf.search.views import search
 from ietf.snippets import urls as snippet_urls
 
@@ -17,6 +18,7 @@ handler500 = "ietf.views.server_error"
 
 urlpatterns = [
     path("sitemap.xml", sitemap),
+    path("healthz", healthz, name="healthz"),
     re_path(r"^admin/doc/", include("django.contrib.admindocs.urls")),
     re_path(r"^bibliography/", include(bibliography_urls)),
     re_path(r"^django-admin/", admin.site.urls),
@@ -27,7 +29,7 @@ urlpatterns = [
 ]
 
 
-if settings.DEBUG:
+if settings.DEBUG:  # pragma: no cover
     from django.conf.urls.static import static
     from django.contrib.staticfiles.urls import staticfiles_urlpatterns
     from django.views.generic import TemplateView
