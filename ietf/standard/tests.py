@@ -1,53 +1,60 @@
-from django.test import TestCase
-from wagtail.models import Page, Site
+from django.test import Client
+import pytest
 
-from ..home.models import HomePage
-from .models import StandardIndexPage, StandardPage
+from ietf.home.models import HomePage, IABHomePage
+from .factories import IABStandardPageFactory, StandardIndexPageFactory, StandardPageFactory
+from .models import IABStandardPage, StandardIndexPage, StandardPage
+
+pytestmark = pytest.mark.django_db
 
 
-class StandardPageTests(TestCase):
+class TestStandardPage:
+    @pytest.fixture(autouse=True)
+    def set_up(self, home: HomePage, client: Client):
+        self.home = home
+        self.client = client
+
+        self.standard_index: StandardIndexPage = StandardIndexPageFactory(
+            parent=self.home,
+        )  # type: ignore
+
+        self.standard_page: StandardPage = StandardPageFactory(
+            parent=self.standard_index,
+        )  # type: ignore
+
+    def test_index_page(self):
+        response = self.client.get(path=self.standard_index.url)
+        assert response.status_code == 200
+        html = response.content.decode()
+
+        assert self.standard_page.title in html
+        assert f'href="{self.standard_page.url}"' in html
+
     def test_standard_page(self):
+        response = self.client.get(path=self.standard_page.url)
+        assert response.status_code == 200
+        html = response.content.decode()
 
-        root = Page.get_first_root_node()
+        assert self.standard_page.title in html
+        assert self.standard_page.introduction in html
+        assert f'href="{self.standard_index.url}"' in html
 
-        home = HomePage(
-            slug="homepageslug",
-            title="home page title",
-            heading="home page heading",
-            introduction="home page introduction",
-        )
 
-        root.add_child(instance=home)
+class TestIABStandardPage:
+    @pytest.fixture(autouse=True)
+    def set_up(self, iab_home: IABHomePage, client: Client):
+        self.home = iab_home
+        self.client = client
 
-        Site.objects.all().delete()
+        self.standard_page: IABStandardPage = IABStandardPageFactory(
+            parent=self.home,
+        )  # type: ignore
 
-        Site.objects.create(
-            hostname="localhost",
-            root_page=home,
-            is_default_site=True,
-            site_name="testingsitename",
-        )
+    def test_standard_page(self):
+        response = self.client.get(path=self.standard_page.url)
+        assert response.status_code == 200
+        html = response.content.decode()
 
-        standardindex = StandardIndexPage(
-            slug="standardindex",
-            title="standard index page title",
-            introduction="standard index page introduction",
-        )
-        home.add_child(instance=standardindex)
-
-        standardpage = StandardPage(
-            slug="standard",
-            title="standard title",
-            introduction="standard introduction",
-        )
-        standardindex.add_child(instance=standardpage)
-
-        rindex = self.client.get(path=standardindex.url)
-        self.assertEqual(rindex.status_code, 200)
-
-        r = self.client.get(path=standardpage.url)
-        self.assertEqual(r.status_code, 200)
-
-        self.assertIn(standardpage.title.encode(), r.content)
-        self.assertIn(standardpage.introduction.encode(), r.content)
-        self.assertIn(('href="%s"' % standardindex.url).encode(), r.content)
+        assert self.standard_page.title in html
+        assert self.standard_page.introduction in html
+        assert f'href="{self.home.url}"' in html
