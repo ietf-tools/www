@@ -1,6 +1,21 @@
+import json
+
 accesslog = "-"
 errorlog = "-"
-access_log_format = '%(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s" "%({X-Forwarded-For}i)s"'
+access_log_format = json.dumps(
+    {
+        "remote_host": "%(h)s",
+        "remote_logname": "%(l)s",
+        "remote_user": "%(u)s",
+        "timestamp": "%(t)s",
+        "request": "%(r)s",
+        "status_code": "%(s)s",
+        "response_size": "%(b)s",
+        "referrer": "%(f)s",
+        "user_agent": "%(a)s",
+        "x_forwarded_for": "%({x-forwarded-for}i)s",
+    }
+)
 capture_output = True
 forwarded_allow_ips = "*"
 secure_scheme_headers = {"X-CLOUDFRONT": "yes"}
