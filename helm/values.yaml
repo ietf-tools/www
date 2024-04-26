@@ -210,7 +210,7 @@ autoscaling:
   # targetMemoryUtilizationPercentage: 80
 
 env:
-  DJANGO_SETTINGS_MODULE: "ietf.settings.dev"
+  DJANGO_SETTINGS_MODULE: "ietf.settings.production"
   EMAIL_HOST: "localhost"
   DBHOST: "host.minikube.internal"
   DBNAME: "www"
