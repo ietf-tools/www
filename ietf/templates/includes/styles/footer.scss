@@ -1,0 +1,30 @@
+footer section {
+    h4[role=button] {
+        @include media-breakpoint-up(lg) {
+            cursor: text;
+        }
+    }
+
+    h4 .bi-chevron-down {
+        display: block;
+        float: right;
+        @include media-breakpoint-up(lg) {
+            display: none;
+        }
+    }
+
+    &.expanded h4 .bi-chevron-down {
+        transform: rotate(180deg);
+    }
+
+    ul {
+        display: none;
+        @include media-breakpoint-up(lg) {
+            display: block;
+        }
+    }
+
+    &.expanded ul {
+        display: block;
+    }
+}

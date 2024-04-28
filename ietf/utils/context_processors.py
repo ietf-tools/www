@@ -1,7 +1,7 @@
 from collections.abc import Iterable
 from operator import attrgetter
 
-from ietf.utils.models import MainMenuItem
+from ietf.utils.models import FooterColumn, MainMenuItem
 
 
 class MainMenu:
@@ -17,33 +17,6 @@ class MainMenu:
 
         return ""
 
-    def get_link_url(self, link):
-        if external_url := link.get("external_url"):
-            return external_url
-
-        if page := link.get("page"):
-            return page.get_url(current_site=self.site)
-
-        return ""
-
-    def get_link_title(self, link):
-        if title := link.get("title"):
-            return title
-
-        if page := link.get("page"):
-            return page.title
-
-        return link.get("external_url")
-
-    def get_section_links(self, section):
-        for link in section.value.get("links"):
-            item = {
-                "title": self.get_link_title(link),
-                "url": self.get_link_url(link),
-            }
-            if item["title"] and item["url"]:
-                yield item
-
     def get_menu_item(self, item):
         main_section_links = [
             {
@@ -55,7 +28,11 @@ class MainMenu:
         secondary_sections = [
             {
                 "title": section.value.get("title"),
-                "links": list(self.get_section_links(section)),
+                "links": [
+                    link
+                    for link in section.value.get("links")
+                    if link.text and link.url
+                ],
             }
             for section in item.secondary_sections
         ]
@@ -71,10 +48,7 @@ class MainMenu:
         }
 
     def get_menu(self):
-        return [
-            self.get_menu_item(item)
-            for item in self.get_items()
-        ]
+        return [self.get_menu_item(item) for item in self.get_items()]
 
 
 class PreviewMainMenu(MainMenu):
@@ -108,3 +82,17 @@ def get_main_menu(site):
         return get_iab_main_menu(site)
 
     return MainMenu(site).get_menu()
+
+
+def get_footer():
+    return FooterColumn.objects.all()
+
+
+def get_preview_footer(current):
+    items = [
+        current if item == current else item
+        for item in FooterColumn.objects.all()
+    ]
+    if not current.pk:
+        items.append(current)
+    return sorted(items, key=attrgetter("sort_order"))

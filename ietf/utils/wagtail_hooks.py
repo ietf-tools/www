@@ -6,10 +6,10 @@ from wagtail.snippets.models import register_snippet
 from wagtail_modeladmin.options import ModelAdmin, modeladmin_register
 from wagtailorderable.modeladmin.mixins import OrderableMixin
 
-from ietf.utils.models import MainMenuItem, SecondaryMenuItem
+from .models import FooterColumn, MainMenuItem, SecondaryMenuItem
 
 
-@hooks.register("insert_global_admin_css")
+@hooks.register("insert_global_admin_css")  # type: ignore
 def editor_css():
     return format_html(
         '<link rel="stylesheet" href="'
@@ -22,13 +22,13 @@ class MainMenuViewSet(SnippetViewSet):
     list_display = [
         "__str__",
         "sort_order",
-    ]
+    ]  # type: ignore
 
 
 register_snippet(MainMenuItem, viewset=MainMenuViewSet)
 
 
-class MenuItemAdmin(OrderableMixin, ModelAdmin):
+class MenuItemAdmin(OrderableMixin, ModelAdmin):  # type: ignore
     model = SecondaryMenuItem
     menu_order = 900
     menu_label = "Secondary Menu"
@@ -40,3 +40,13 @@ class MenuItemAdmin(OrderableMixin, ModelAdmin):
 
 
 modeladmin_register(MenuItemAdmin)
+
+
+class FooterColumnViewSet(SnippetViewSet):
+    list_display = [
+        "__str__",
+        "sort_order",
+    ]  # type: ignore
+
+
+register_snippet(FooterColumn, viewset=MainMenuViewSet)
