@@ -102,6 +102,7 @@ wagtail:
     name: ""
 
   startupProbe:
+    initialDelaySeconds: 5
     timeoutSeconds: 5
     periodSeconds: 10
     failureThreshold: 6
