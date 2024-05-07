@@ -1,5 +1,6 @@
 from django.contrib.syndication.views import Feed
 from django.db.models.functions import Coalesce
+from django.utils.functional import cached_property
 from wagtail.models import Site
 
 from ..blog.models import BlogPage
@@ -9,10 +10,13 @@ from ..utils.models import FeedSettings
 class BlogFeed(Feed):
     link = "/blog/"
 
+    def get_title(self):
+        return self.feed_settings.blog_feed_title
+
     def __call__(self, request, *args, **kwargs):
-        settings = FeedSettings.for_site(Site.find_for_request(request))
-        self.title = settings.blog_feed_title
-        self.description = settings.blog_feed_description
+        self.feed_settings = FeedSettings.for_site(Site.find_for_request(request))
+        self.title = self.get_title()
+        self.description = self.feed_settings.blog_feed_description
         return super().__call__(request, *args, **kwargs)
 
     def items(self):
@@ -38,9 +42,15 @@ class BlogFeed(Feed):
         return item.date
 
 class TopicBlogFeed(BlogFeed):
-    def __call__(self, request, *args, **kwargs):
-        self.topic = kwargs.get('topic')
-        return super().__call__(request, *args, **kwargs)
+    def __init__(self, topic):
+        self.topic = topic
+        return super().__init__()
+
+    def get_title(self):
+        title = super().get_title()
+        if title:
+            title = f"{title} – {self.topic}"
+        return title
 
     def items(self):
         return (
@@ -55,6 +65,12 @@ class AuthorBlogFeed(BlogFeed):
         self.person = person
         self.queryset = queryset
         return super().__init__()
+
+    def get_title(self):
+        title = super().get_title()
+        if title:
+            title = f"{title} – {self.person.name}"
+        return title
 
     def items(self):
         return self.queryset

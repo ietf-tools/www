@@ -8,6 +8,7 @@ import pytest
 from ietf.snippets.factories import PersonFactory, TopicFactory
 from ietf.home.models import HomePage
 from ietf.snippets.models import Topic
+from ietf.utils.models import FeedSettings
 from .factories import BlogIndexPageFactory, BlogPageFactory
 from .models import (
     IESG_STATEMENT_TOPIC_ID,
@@ -72,6 +73,11 @@ class TestBlog:
         BlogPageAuthor.objects.create(page=self.prev_blog_page, author=self.bob)
         BlogPageAuthor.objects.create(page=self.next_blog_page, author=self.bob)
 
+        self.feed_settings = FeedSettings.for_site(self.home.get_site())
+        self.feed_settings.blog_feed_title = "Blog Feed Title"
+        self.feed_settings.blog_feed_description = "Blog Feed Description"
+        self.feed_settings.save()
+
     def test_blog(self):
         index_response = self.client.get(path=self.blog_index.url)
         assert index_response.status_code == 200
@@ -111,27 +117,30 @@ class TestBlog:
     def test_blog_feed(self):
         response = self.client.get(path="/blog/feed/")
         assert response.status_code == 200
-        html = response.content.decode()
+        feed = response.content.decode()
 
-        assert self.blog_page.url in html
-        assert self.other_blog_page.url in html
+        assert f"<title>{self.feed_settings.blog_feed_title}</title>" in feed
+        assert self.blog_page.url in feed
+        assert self.other_blog_page.url in feed
 
     def test_topic_feed(self):
         iab_response = self.client.get(path="/blog/iab/feed/")
         assert iab_response.status_code == 200
-        iab_html = iab_response.content.decode()
+        iab_feed = iab_response.content.decode()
 
-        assert self.other_blog_page.url in iab_html
-        assert self.blog_page.url not in iab_html
-        assert self.next_blog_page.url not in iab_html
+        assert f"<title>{self.feed_settings.blog_feed_title} – iab</title>" in iab_feed
+        assert self.other_blog_page.url in iab_feed
+        assert self.blog_page.url not in iab_feed
+        assert self.next_blog_page.url not in iab_feed
 
-        ietf_response = self.client.get(path="/blog/iesg/feed/")
-        assert ietf_response.status_code == 200
-        ietf_html = ietf_response.content.decode()
+        iesg_response = self.client.get(path="/blog/iesg/feed/")
+        assert iesg_response.status_code == 200
+        iesg_feed = iesg_response.content.decode()
 
-        assert self.next_blog_page.url in ietf_html
-        assert self.blog_page.url not in ietf_html
-        assert self.other_blog_page.url not in ietf_html
+        assert f"<title>{self.feed_settings.blog_feed_title} – iesg</title>" in iesg_feed
+        assert self.next_blog_page.url in iesg_feed
+        assert self.blog_page.url not in iesg_feed
+        assert self.other_blog_page.url not in iesg_feed
 
     def test_author_feed(self):
         alice_url = self.blog_index.reverse_subpage(
@@ -141,6 +150,7 @@ class TestBlog:
         alice_resp = self.client.get(self.blog_index.url + alice_url)
         assert alice_resp.status_code == 200
         feed = alice_resp.content.decode("utf8")
+        assert f"<title>{self.feed_settings.blog_feed_title} – Alice</title>" in feed
         assert self.other_blog_page.url in feed
         assert self.prev_blog_page.url in feed
         assert self.next_blog_page.url not in feed
