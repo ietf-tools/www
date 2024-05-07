@@ -11,3 +11,5 @@ $custom-spacers: (
 );
 
 $spacers: map-merge($spacers, $custom-spacers);
+
+$enable-negative-margins: true;

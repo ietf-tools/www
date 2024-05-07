@@ -21,3 +21,9 @@
 .fw-semibold {
     font-weight: 600 !important;
 }
+
+.u-border-lg-bottom-0 {
+    @include media-breakpoint-up(lg) {
+        border-bottom: 0 !important;
+    }
+}

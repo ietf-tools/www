@@ -1,3 +1,4 @@
+from django.utils.functional import cached_property
 from wagtail.blocks import (
     CharBlock,
     FloatBlock,
@@ -7,6 +8,7 @@ from wagtail.blocks import (
     RichTextBlock,
     StreamBlock,
     StructBlock,
+    StructValue,
     URLBlock,
 )
 from wagtail.contrib.table_block.blocks import TableBlock
@@ -28,10 +30,35 @@ class NoteWellBlock(StructBlock):
         template = "blocks/note_well_block.html"
 
 
+class LinkStructValue(StructValue):
+    @cached_property
+    def url(self):
+        if external_url := self.get("external_url"):
+            return external_url
+
+        if page := self.get("page"):
+            return page.url
+
+        return ""
+
+    @cached_property
+    def text(self):
+        if title := self.get("title"):
+            return title
+
+        if page := self.get("page"):
+            return page.title
+
+        return self.get("external_url")
+
+
 class LinkBlock(StructBlock):
     page = PageChooserBlock(label="Page", required=False)
     title = CharBlock(label="Link text", required=False)
     external_url = URLBlock(label="External URL", required=False)
+
+    class Meta:  # type: ignore
+        value_class = LinkStructValue
 
 
 class MainMenuSection(StructBlock):
@@ -51,10 +78,10 @@ class StandardBlock(StreamBlock):
     )
     typed_table = TypedTableBlock(
         [
-            ("text", CharBlock()),
-            ("numeric", FloatBlock()),
-            ("rich_text", RichTextBlock()),
-            ("image", ImageChooserBlock()),
+            ("text", CharBlock(required=False)),
+            ("numeric", FloatBlock(required=False, template="blocks/float_block.html")),
+            ("rich_text", RichTextBlock(required=False)),
+            ("image", ImageChooserBlock(required=False)),
         ]
     )
     note_well = NoteWellBlock(icon="placeholder", label="Note Well Text")

@@ -95,14 +95,6 @@ Create the name of the service account to use
 {{- end -}}
 {{- end }}
 
-{{- define "wagtail.serviceAccountName.celery" -}}
-{{- if .Values.serviceAccounts.celery.create -}}
-  {{ default (include "wagtail.celery.fullname" .) .Values.serviceAccounts.celery.name }}
-{{- else -}}
-  {{ default "default" .Values.serviceAccounts.celery.name }}
-{{- end -}}
-{{- end }}
-
 {{- define "wagtail.serviceAccountName.memcached" -}}
 {{- if .Values.serviceAccounts.memcached.create -}}
   {{ default (include "wagtail.memcached.fullname" .) .Values.serviceAccounts.memcached.name }}
