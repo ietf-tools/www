@@ -207,6 +207,7 @@ cronjob:
   crons:
     - name: mgmt-hourly
       schedule: "0 * * * *"
+      timeZone: "Etc/UTC"
       image:
         repository: "ghcr.io/ietf-tools/www"
         pullPolicy: IfNotPresent
@@ -214,6 +215,7 @@ cronjob:
       command: ["python", "/app/manage.py", "publish_scheduled"]
     - name: mgmt-weekly
       schedule: "0 0 * * 0"
+      timeZone: "Etc/UTC"
       image:
         repository: "ghcr.io/ietf-tools/www"
         pullPolicy: IfNotPresent
