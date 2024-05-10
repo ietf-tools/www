@@ -206,7 +206,7 @@ memcached:
 cronjob:
   crons:
     - name: mgmt-hourly
-      schedule: "0 * * * *"
+      schedule: "0 * * * *" # "At minute 0."
       timeZone: "Etc/UTC"
       image:
         repository: "ghcr.io/ietf-tools/www"
@@ -214,7 +214,7 @@ cronjob:
         # tag: "v2.1.10"
       command: ["python", "/app/manage.py", "publish_scheduled"]
     - name: mgmt-weekly
-      schedule: "0 0 * * 0"
+      schedule: "30 0 * * 0" # "At 00:30 on Sunday."
       timeZone: "Etc/UTC"
       image:
         repository: "ghcr.io/ietf-tools/www"
