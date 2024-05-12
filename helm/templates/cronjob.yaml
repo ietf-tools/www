@@ -7,8 +7,10 @@ metadata:
 spec:
   schedule: {{ .schedule | quote }}
   timeZone: {{ .timeZone | quote }}
+  concurrencyPolicy: Forbid
   jobTemplate:
     spec:
+      backoffLimit: 0 # No retries
       template:
         spec:
           restartPolicy: Never
