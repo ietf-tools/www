@@ -67,7 +67,7 @@ openpyxl==3.1.2
     # via wagtail
 packaging==23.2
     # via bleach
-pillow==10.1.0
+pillow==10.3.0
     # via
     #   pillow-heif
     #   wagtail
@@ -122,4 +122,6 @@ webencodings==0.5.1
     #   bleach
     #   html5lib
 willow[heif]==1.6.3
-    # via wagtail
+    # via
+    #   wagtail
+    #   willow
