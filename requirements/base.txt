@@ -91,7 +91,7 @@ six==1.16.0
     #   l18n
 soupsieve==2.5
     # via beautifulsoup4
-sqlparse==0.4.4
+sqlparse==0.5.0
     # via django
 telepath==0.3.1
     # via wagtail
@@ -122,4 +122,6 @@ webencodings==0.5.1
     #   bleach
     #   html5lib
 willow[heif]==1.6.3
-    # via wagtail
+    # via
+    #   wagtail
+    #   willow
