@@ -6,6 +6,7 @@ from wagtail import urls as wagtail_urls
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.contrib.sitemaps.views import sitemap
 from wagtail.documents import urls as wagtaildocs_urls
+from wagtail_ab_testing import urls as ab_testing_urls
 
 from ietf.bibliography import urls as bibliography_urls
 from ietf.blog.feeds import BlogFeed
@@ -26,6 +27,7 @@ urlpatterns = [
     re_path(r"^admin/", include(wagtailadmin_urls)),
     re_path(r"^documents/", include(wagtaildocs_urls)),
     re_path(r"^search/$", search, name="search"),
+    path("abtesting/", include(ab_testing_urls)),
 ]
 
 
