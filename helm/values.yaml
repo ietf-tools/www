@@ -24,7 +24,7 @@ wagtail:
     repository: "ghcr.io/ietf-tools/www"
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    # tag: "v2.1.3"
+    # tag: "v2.1.10"
 
   imagePullSecrets: []
   nameOverride: ""
@@ -198,6 +198,29 @@ memcached:
   nodeSelector: {}
 
   affinity: {}
+
+# -------------------------------------------------------------
+# SCHEDULED JOBS
+# -------------------------------------------------------------
+
+cronjob:
+  crons:
+    - name: mgmt-hourly
+      schedule: "0 * * * *" # "At minute 0."
+      timeZone: "Etc/UTC"
+      image:
+        repository: "ghcr.io/ietf-tools/www"
+        pullPolicy: IfNotPresent
+        # tag: "v2.1.10"
+      command: ["python", "/app/manage.py", "publish_scheduled"]
+    - name: mgmt-weekly
+      schedule: "30 0 * * 0" # "At 00:30 on Sunday."
+      timeZone: "Etc/UTC"
+      image:
+        repository: "ghcr.io/ietf-tools/www"
+        pullPolicy: IfNotPresent
+        # tag: "v2.1.10"
+      command: ["python", "/app/manage.py", "update_index"]
 
 # -------------------------------------------------------------
 # COMMON
