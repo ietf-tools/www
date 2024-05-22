@@ -1,0 +1,13 @@
+namespace: ietfweb
+namePrefix: ietfweb-
+configMapGenerator:
+  - name: files-cfgmap
+    files:
+      - local.py
+  - name: files-supervisor-cfg
+    files:
+      - supervisord.conf
+resources:
+  - ietfweb.yaml
+  - django-config.yaml
+  - memcached.yaml
