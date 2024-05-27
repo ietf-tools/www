@@ -95,7 +95,7 @@ sqlparse==0.5.0
     # via django
 telepath==0.3.1
     # via wagtail
-tqdm==4.66.1
+tqdm==4.66.3
     # via -r base.in
 typed-environment-configuration==0.1.5
     # via -r base.in
