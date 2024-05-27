@@ -1,56 +1,49 @@
-from django.test import TestCase
+import pytest
+from django.test import Client
 from django.urls import reverse
-from wagtail.models import Page, Site
+from wagtail.models import Page
 
-from ..blog.models import BlogIndexPage, BlogPage
-from ..home.models import HomePage
+from ietf.home.models import HomePage
+from ietf.standard.factories import StandardPageFactory
+from ietf.standard.models import StandardPage
+
+pytestmark = pytest.mark.django_db
 
 
-class SearchTests(TestCase):
+class TestSearch:
+    @pytest.fixture(autouse=True)
+    def set_up(self, home: HomePage, client: Client):
+        self.home = home
+        self.client = client
+
+        self.standard_page: StandardPage = StandardPageFactory(
+            parent=self.home,
+            introduction="Some random introduction text",
+        )  # type: ignore
+
     def test_search(self):
+        query = "random"
+        resp = self.client.get(f"{reverse('search')}?query={query}")
+        assert resp.status_code == 200
 
-        root = Page.get_first_root_node()
+        assert resp.context["search_query"] == query
+        assert list(resp.context["search_results"]) == \
+            [Page.objects.get(pk=self.standard_page.pk)]
 
-        home = HomePage(
-            slug="homepageslug",
-            title="home page title",
-            heading="home page heading",
-            introduction="home page introduction",
-        )
+    def test_empty_query(self):
+        resp = self.client.get(f"{reverse('search')}?query=")
+        assert resp.status_code == 200
 
-        root.add_child(instance=home)
+    def test_empty_page(self):
+        query = "random"
+        resp = self.client.get(f"{reverse('search')}?query={query}&page=100")
+        assert resp.status_code == 200
+        assert list(resp.context["search_results"]) == \
+            [Page.objects.get(pk=self.standard_page.pk)]
 
-        Site.objects.all().delete()
-
-        Site.objects.create(
-            hostname="localhost",
-            root_page=home,
-            is_default_site=True,
-            site_name="testingsitename",
-        )
-
-        blogindex = BlogIndexPage(
-            slug="blog",
-            title="blog index title",
-        )
-        home.add_child(instance=blogindex)
-
-        blog = BlogPage(
-            slug="blogpost",
-            title="blog title",
-            introduction="blog introduction",
-            body='[{"id": "1", "type": "rich_text", "value": "<p>blog body</p>"}]',
-        )
-        blogindex.add_child(instance=blog)
-
-        home.button_text = "blog button text"
-        home.button_link = blog
-        home.save()
-
-        resp = self.client.get(f"{reverse('search')}?query=introduction")
-
-        self.assertEqual(resp.context["search_query"], "introduction")
-        self.assertEqual(
-            list(resp.context["search_results"]),
-            [Page.objects.get(pk=blog.pk)],
-        )
+    def test_non_integer_page(self):
+        query = "random"
+        resp = self.client.get(f"{reverse('search')}?query={query}&page=foo")
+        assert resp.status_code == 200
+        assert list(resp.context["search_results"]) == \
+            [Page.objects.get(pk=self.standard_page.pk)]

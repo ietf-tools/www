@@ -17,36 +17,7 @@ from ..announcements.models import IABAnnouncementIndexPage, IABAnnouncementPage
 from ..events.models import EventListingPage, EventPage
 
 
-class HomePageBase:
-    def upcoming_events(self):
-        return (
-            EventPage.objects.filter(end_date__gte=datetime.today())
-            .live()
-            .descendant_of(self)
-            .order_by("start_date")[:2]
-        )
-
-    def event_index(self):
-        return EventListingPage.objects.live().descendant_of(self).first()
-
-    def blog_index(self):
-        return BlogIndexPage.objects.live().first()
-
-    def blogs(self, bp_kwargs={}):
-        return (
-            BlogPage.objects.live()
-            .filter(**bp_kwargs)
-            .annotate(
-                date_sql=RawSQL(
-                    "CASE WHEN (date_published IS NOT NULL) THEN date_published ELSE first_published_at END",
-                    (),
-                )
-            )
-            .order_by("-date_sql")[:2]
-        )
-
-
-class HomePage(Page, HomePageBase):
+class HomePage(Page):
     heading = models.CharField(max_length=255)
     introduction = models.CharField(max_length=255)
     main_image = models.ForeignKey(
@@ -157,9 +128,6 @@ class IABHomePage(Page):
 
     def announcement_index(self):
         return IABAnnouncementIndexPage.objects.live().first()
-
-    def blog_index(self):
-        return BlogIndexPage.objects.live().first()
 
     def blogs(self, bp_kwargs={}):
         entries = []

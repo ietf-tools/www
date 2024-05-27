@@ -38,7 +38,7 @@ class Charter(models.Model, index.Indexed):
         index.AutocompleteField("abstract"),
     ]
 
-    def __str__(self):
+    def __str__(self):  # pragma: no cover
         return self.title
 
     @property
@@ -80,7 +80,7 @@ class WorkingGroup(models.Model, index.Indexed):
     def charter_url(self):
         return self.url + "/charter/"
 
-    def __str__(self):
+    def __str__(self):  # pragma: no cover
         return self.name
 
     class Meta:
@@ -118,7 +118,7 @@ class RFC(models.Model, index.Indexed):
         index.AutocompleteField("abstract"),
     ]
 
-    def __str__(self):
+    def __str__(self):  # pragma: no cover
         return "RFC {}".format(self.rfc)
 
     @property
@@ -149,7 +149,7 @@ class Person(models.Model, Indexed):
         FieldPanel("slug", widget=SlugInput),
     ]
 
-    def __str__(self):
+    def __str__(self):  # pragma: no cover
         return self.name
 
     class Meta:
@@ -167,7 +167,7 @@ class Role(models.Model, Indexed):
 
     panels = [FieldPanel("name")]
 
-    def __str__(self):
+    def __str__(self):  # pragma: no cover
         return self.name
 
     class Meta:
@@ -221,7 +221,7 @@ class Group(models.Model, Indexed, RenderableSnippetMixin):
         FieldPanel("image"),
     ]
 
-    def __str__(self):
+    def __str__(self):  # pragma: no cover
         return self.name
 
     TEMPLATE_NAME = "snippets/group.html"
@@ -258,7 +258,7 @@ class CallToAction(Indexed, RelatedLink, RenderableSnippetMixin):
         FieldPanel("button_text"),
     ]
 
-    def __str__(self):
+    def __str__(self):  # pragma: no cover
         return self.title
 
     TEMPLATE_NAME = "snippets/call_to_action.html"
@@ -335,7 +335,7 @@ class MailingListSignup(models.Model, Indexed, RenderableSnippetMixin):
 
     TEMPLATE_NAME = "snippets/mailing_list_signup.html"
 
-    def __str__(self):
+    def __str__(self):  # pragma: no cover
         return self.title
 
     class Meta:
@@ -363,7 +363,7 @@ class Topic(models.Model, Indexed):
         FieldPanel("slug", widget=SlugInput),
     ]
 
-    def __str__(self):
+    def __str__(self):  # pragma: no cover
         return self.title
 
     class Meta:
@@ -392,7 +392,7 @@ class Sponsor(models.Model, Indexed):
 
     panels = [FieldPanel("title"), FieldPanel("logo"), FieldPanel("link")]
 
-    def __str__(self):
+    def __str__(self):  # pragma: no cover
         return self.title
 
     class Meta:
@@ -423,7 +423,7 @@ class GlossaryItem(models.Model, Indexed):
         FieldPanel("link"),
     ]
 
-    def __str__(self):
+    def __str__(self):  # pragma: no cover
         return self.title
 
     @property

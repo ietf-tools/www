@@ -9,7 +9,7 @@ from wagtail.fields import StreamField
 from wagtail.models import Orderable, PreviewableMixin, Site
 from wagtailorderable.models import Orderable as WagtailOrderable
 
-from ietf.utils.blocks import MainMenuSection
+from ietf.utils.blocks import LinkBlock, MainMenuSection
 
 
 class LinkFields(models.Model):
@@ -126,19 +126,19 @@ class MainMenuItem(PreviewableMixin, models.Model):
     class Meta:
         ordering = ["sort_order"]
 
-    def __str__(self):
+    def __str__(self):  # pragma: no cover
         return self.page.title
 
-    def get_preview_template(self, request, model_name):
+    def get_preview_template(self, request, mode_name):
         return "previews/main_menu_item.html"
 
-    def get_preview_context(self, request, model_name):
+    def get_preview_context(self, request, mode_name):
         from .context_processors import PreviewMainMenu
 
         site = Site.find_for_request(request)
 
         return {
-            **super().get_preview_context(request, model_name),
+            **super().get_preview_context(request, mode_name),
             "MENU": PreviewMainMenu(site, self).get_menu(),
             "MENU_PREVIEW": self,
         }
@@ -195,6 +195,35 @@ class SecondaryMenuItem(ClusterableModel, WagtailOrderable):
 
     class Meta:
         verbose_name_plural = "Secondary Menu"
+
+
+class FooterColumn(PreviewableMixin, models.Model):
+    title = models.CharField(max_length=255)
+    links = StreamField(
+        [
+            ("link", LinkBlock()),
+        ],
+        blank=True,
+        use_json_field=True,
+    )
+    sort_order = models.PositiveSmallIntegerField()
+
+    class Meta:
+        ordering = ["sort_order"]
+
+    def __str__(self):  # pragma: no cover
+        return self.title
+
+    def get_preview_template(self, request, mode_name):
+        return "previews/footer_column.html"
+
+    def get_preview_context(self, request, mode_name):
+        from .context_processors import get_preview_footer
+
+        return {
+            **super().get_preview_context(request, mode_name),
+            "FOOTER": get_preview_footer(current=self),
+        }
 
 
 @register_setting
@@ -319,7 +348,7 @@ class LayoutSettings(BaseSiteSetting):
         max_length=255,
         blank=True,
         choices=BASE_TEMPLATE_CHOICES,
-        default="base.html",
+        default=DEFAULT_BASE,
     )
 
 

@@ -1,0 +1,10 @@
+blockquote {
+    color: #666666;
+    border-left: 5px solid #bebebe;
+    padding-left: 1rem;
+    font-weight: 500;
+
+    p:last-child {
+        padding-bottom: 0;
+    }
+}

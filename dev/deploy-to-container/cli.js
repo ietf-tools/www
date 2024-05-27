@@ -154,7 +154,7 @@ async function main () {
       `VIRTUAL_PORT=80`,
       `DJANGO_SETTINGS_MODULE=ietf.settings.production`,
       `PGHOST=ws-db-${branch}`,
-      `PGDATABASE=torchbox`,
+      `PGDATABASE=torchbox_temp`,
       `PGUSER=postgres`,
       `PGPASSWORD=password`,
       `SECRET_KEY=${nanoid(36)}`,

@@ -1,168 +1,250 @@
 from datetime import timedelta
+from bs4 import BeautifulSoup
+from django.test import Client
 from django.utils import timezone
 
-from django.test import TestCase
-from wagtail.models import Page, Site
+import pytest
 
-from ..home.models import HomePage
-from ..snippets.models import Person, Topic
-from .models import BlogIndexPage, BlogPage, BlogPageAuthor, BlogPageTopic
+from ietf.snippets.factories import PersonFactory, TopicFactory
+from ietf.home.models import HomePage
+from ietf.snippets.models import Topic
+from ietf.utils.models import FeedSettings
+from .factories import BlogIndexPageFactory, BlogPageFactory
+from .models import (
+    IESG_STATEMENT_TOPIC_ID,
+    BlogIndexPage,
+    BlogPage,
+    BlogPageAuthor,
+    BlogPageTopic,
+)
+
+pytestmark = pytest.mark.django_db
 
 
-class BlogTests(TestCase):
-    def setUp(self):
-        root = Page.get_first_root_node()
+def datefmt(value):
+    return value.strftime("%d/%m/%Y")
 
-        home = HomePage(
-            slug="homepageslug",
-            title="home page title",
-            heading="home page heading",
-            introduction="home page introduction",
-        )
 
-        root.add_child(instance=home)
+class TestBlog:
+    @pytest.fixture(autouse=True)
+    def set_up(self, home: HomePage, client: Client):
+        self.home = home
+        self.client = client
 
-        Site.objects.all().delete()
-
-        Site.objects.create(
-            hostname="localhost",
-            root_page=home,
-            is_default_site=True,
-            site_name="testingsitename",
-        )
-
-        self.blog_index = BlogIndexPage(
+        self.blog_index: BlogIndexPage = BlogIndexPageFactory(
+            parent=self.home,
             slug="blog",
-            title="blog index title",
-        )
-        home.add_child(instance=self.blog_index)
+        )  # type: ignore
 
-        now = timezone.now()
+        self.now = timezone.now()
 
-        self.otherblog = BlogPage(
-            slug="otherpost",
-            title="other title",
-            introduction="other introduction",
-            body='[{"id": "1", "type": "rich_text", "value": "<p>other body</p>"}]',
-            date_published=(now - timedelta(minutes=10)),
-        )
-        self.blog_index.add_child(instance=self.otherblog)
-        self.otherblog.save
+        self.iab_topic: Topic = TopicFactory(title="iab")  # type: ignore
+        self.iesg_topic: Topic = TopicFactory(title="iesg")  # type: ignore
 
-        self.prevblog = BlogPage(
-            slug="prevpost",
-            title="prev title",
-            introduction="prev introduction",
-            body='[{"id": "2", "type": "rich_text", "value": "<p>prev body</p>"}]',
-            date_published=(now - timedelta(minutes=5)),
-        )
-        self.blog_index.add_child(instance=self.prevblog)
-        self.prevblog.save()
+        self.other_blog_page: BlogPage = BlogPageFactory(
+            parent=self.blog_index,
+            date_published=self.now - timedelta(days=10),
+            topics=[BlogPageTopic(topic=self.iab_topic)],
+        )  # type: ignore
 
-        self.blog = BlogPage(
-            slug="blogpost",
-            title="blog title",
-            introduction="blog introduction",
-            body='[{"id": "3", "type": "rich_text", "value": "<p>blog body</p>"}]',
-            first_published_at=(now + timedelta(minutes=1)),
-        )
-        self.blog_index.add_child(instance=self.blog)
-        self.blog.save()
+        self.prev_blog_page: BlogPage = BlogPageFactory(
+            parent=self.blog_index,
+            date_published=self.now - timedelta(days=5),
+            topics=[BlogPageTopic(topic=self.iab_topic)],
+        )  # type: ignore
 
-        self.nextblog = BlogPage(
-            slug="nextpost",
-            title="next title",
-            introduction="next introduction",
-            body='[{"id": "4", "type": "rich_text", "value": "<p>next body</p>"}]',
-            first_published_at=(now + timedelta(minutes=5)),
-        )
-        self.blog_index.add_child(instance=self.nextblog)
-        self.nextblog.save()
+        self.blog_page: BlogPage = BlogPageFactory(
+            parent=self.blog_index,
+            first_published_at=self.now + timedelta(days=1),
+            body__0__heading="Heading in body Streamfield",
+        )  # type: ignore
 
-        self.alice = Person.objects.create(name="Alice", slug="alice")
-        self.bob = Person.objects.create(name="Bob", slug="bob")
+        self.next_blog_page: BlogPage = BlogPageFactory(
+            parent=self.blog_index,
+            first_published_at=self.now + timedelta(days=5),
+            topics=[BlogPageTopic(topic=self.iesg_topic)],
+        )  # type: ignore
 
-        BlogPageAuthor.objects.create(page=self.otherblog, author=self.alice)
-        BlogPageAuthor.objects.create(page=self.prevblog, author=self.alice)
-        BlogPageAuthor.objects.create(page=self.prevblog, author=self.bob)
-        BlogPageAuthor.objects.create(page=self.nextblog, author=self.bob)
+        self.alice = PersonFactory(name="Alice")
+        self.bob = PersonFactory(name="Bob")
+
+        BlogPageAuthor.objects.create(page=self.other_blog_page, author=self.alice)
+        BlogPageAuthor.objects.create(page=self.prev_blog_page, author=self.alice)
+        BlogPageAuthor.objects.create(page=self.prev_blog_page, author=self.bob)
+        BlogPageAuthor.objects.create(page=self.next_blog_page, author=self.bob)
+
+        self.feed_settings = FeedSettings.for_site(self.home.get_site())
+        self.feed_settings.blog_feed_title = "Blog Feed Title"
+        self.feed_settings.blog_feed_description = "Blog Feed Description"
+        self.feed_settings.save()
 
     def test_blog(self):
-        r = self.client.get(path=self.blog_index.url)
-        self.assertEqual(r.status_code, 200)
+        index_response = self.client.get(path=self.blog_index.url)
+        assert index_response.status_code == 200
 
-        r = self.client.get(path=self.blog.url)
-        self.assertEqual(r.status_code, 200)
+        response = self.client.get(path=self.blog_page.url)
+        assert response.status_code == 200
+        html = response.content.decode()
 
-        self.assertIn(self.blog.title.encode(), r.content)
-        self.assertIn(self.blog.introduction.encode(), r.content)
-        # self.assertIn(blog.body.raw_text.encode(), r.content)
-        self.assertIn(('href="%s"' % self.nextblog.url).encode(), r.content)
-        self.assertIn(('href="%s"' % self.prevblog.url).encode(), r.content)
-        self.assertIn(('href="%s"' % self.otherblog.url).encode(), r.content)
+        assert self.blog_page.title in html
+        assert self.blog_page.body[0].value in html
+        assert self.blog_page.introduction in html
+        assert ('href="%s"' % self.next_blog_page.url) in html
+        assert ('href="%s"' % self.prev_blog_page.url) in html
+        assert ('href="%s"' % self.other_blog_page.url) in html
 
     def test_previous_next_links_correct(self):
-        self.assertTrue(self.prevblog.date < self.blog.date)
-        self.assertTrue(self.nextblog.date > self.blog.date)
-        blog = BlogPage.objects.get(pk=self.blog.pk)
-        self.assertEqual(self.prevblog, blog.previous)
-        self.assertEqual(self.nextblog, blog.next)
+        assert self.prev_blog_page.date < self.blog_page.date
+        assert self.next_blog_page.date > self.blog_page.date
+        blog = BlogPage.objects.get(pk=self.blog_page.pk)
+        assert self.prev_blog_page == blog.previous
+        assert self.next_blog_page == blog.next
 
     def test_author_index(self):
         alice_url = self.blog_index.reverse_subpage(
             "index_by_author", kwargs={"slug": self.alice.slug}
         )
         alice_resp = self.client.get(self.blog_index.url + alice_url)
-        self.assertEqual(alice_resp.status_code, 200)
+        assert alice_resp.status_code == 200
         html = alice_resp.content.decode("utf8")
-        self.assertIn("<title>IETF  | Articles by Alice</title>", html)
-        self.assertIn("<h1>Articles by Alice</h1>", html)
-        self.assertIn(self.otherblog.url, html)
-        self.assertIn(self.prevblog.url, html)
-        self.assertNotIn(self.nextblog.url, html)
-        self.assertNotIn(self.blog.url, html)
+        assert "<title>IETF  | Articles by Alice</title>" in html
+        assert "<h1>Articles by Alice</h1>" in html
+        assert self.other_blog_page.url in html
+        assert self.prev_blog_page.url in html
+        assert self.next_blog_page.url not in html
+        assert self.blog_page.url not in html
 
     def test_blog_feed(self):
-        r = self.client.get(path='/blog/feed/')
-        self.assertEqual(r.status_code, 200)
-        self.assertIn(self.blog.url.encode(), r.content)
-        self.assertIn(self.otherblog.url.encode(), r.content)
+        response = self.client.get(path="/blog/feed/")
+        assert response.status_code == 200
+        feed = response.content.decode()
+
+        assert f"<title>{self.feed_settings.blog_feed_title}</title>" in feed
+        assert self.blog_page.url in feed
+        assert self.other_blog_page.url in feed
 
     def test_topic_feed(self):
-        iab_topic = Topic(title="iab", slug="iab")
-        iab_topic.save()
-        iab_bptopic = BlogPageTopic(topic=iab_topic, page=self.otherblog)
-        iab_bptopic.save()
-        self.otherblog.topics = [iab_bptopic, ]
-        self.otherblog.save()
-        iesg_topic = Topic(title="iesg", slug="iesg")
-        iesg_topic.save()
-        iesg_bptopic = BlogPageTopic(topic=iesg_topic, page=self.otherblog)
-        iesg_bptopic.save()
-        self.nextblog.topics = [iesg_bptopic, ]
-        self.nextblog.save()
+        iab_response = self.client.get(path="/blog/iab/feed/")
+        assert iab_response.status_code == 200
+        iab_feed = iab_response.content.decode()
 
-        r = self.client.get(path='/blog/iab/feed/')
-        self.assertEqual(r.status_code, 200)
-        self.assertIn(self.otherblog.url.encode(), r.content)
-        self.assertNotIn(self.blog.url.encode(), r.content)
-        self.assertNotIn(self.nextblog.url.encode(), r.content)
+        assert f"<title>{self.feed_settings.blog_feed_title} – iab</title>" in iab_feed
+        assert self.other_blog_page.url in iab_feed
+        assert self.blog_page.url not in iab_feed
+        assert self.next_blog_page.url not in iab_feed
 
-        r = self.client.get(path='/blog/iesg/feed/')
-        self.assertEqual(r.status_code, 200)
-        self.assertIn(self.nextblog.url.encode(), r.content)
-        self.assertNotIn(self.blog.url.encode(), r.content)
-        self.assertNotIn(self.otherblog.url.encode(), r.content)
+        iesg_response = self.client.get(path="/blog/iesg/feed/")
+        assert iesg_response.status_code == 200
+        iesg_feed = iesg_response.content.decode()
+
+        assert f"<title>{self.feed_settings.blog_feed_title} – iesg</title>" in iesg_feed
+        assert self.next_blog_page.url in iesg_feed
+        assert self.blog_page.url not in iesg_feed
+        assert self.other_blog_page.url not in iesg_feed
 
     def test_author_feed(self):
         alice_url = self.blog_index.reverse_subpage(
             "feed_by_author", kwargs={"slug": self.alice.slug}
         )
-        self.assertIn("/feed/", alice_url)
+        assert "/feed/" in alice_url
         alice_resp = self.client.get(self.blog_index.url + alice_url)
-        self.assertEqual(alice_resp.status_code, 200)
+        assert alice_resp.status_code == 200
         feed = alice_resp.content.decode("utf8")
-        self.assertIn(self.otherblog.url, feed)
-        self.assertIn(self.prevblog.url, feed)
-        self.assertNotIn(self.nextblog.url, feed)
-        self.assertNotIn(self.blog.url, feed)
+        assert f"<title>{self.feed_settings.blog_feed_title} – Alice</title>" in feed
+        assert self.other_blog_page.url in feed
+        assert self.prev_blog_page.url in feed
+        assert self.next_blog_page.url not in feed
+        assert self.blog_page.url not in feed
+
+    def test_homepage(self):
+        """ The two most recent blog posts are shown on the homepage. """
+        response = self.client.get(path=self.home.url)
+        assert response.status_code == 200
+        html = response.content.decode()
+
+        assert f'href="{self.blog_page.url}"' in html
+        assert self.blog_page.title in html
+
+    def test_all_page(self):
+        """ The /blog/all/ page shows all the published blog posts. """
+        response = self.client.get(f"{self.blog_index.url}all/")
+        assert response.status_code == 200
+        html = response.content.decode()
+        soup = BeautifulSoup(html, "html.parser")
+        links = [a.get_text().strip() for a in soup.select("main table a")]
+        assert links == [
+            self.next_blog_page.title,
+            self.blog_page.title,
+            self.prev_blog_page.title,
+            self.other_blog_page.title,
+        ]
+
+    def test_filtering(self):
+        """
+        Test the filtering of the blogs page.
+
+        The blog page shows the most recent (filtered) post, along with a list
+        of other posts that match the filter, in descending order of
+        publication date.
+        """
+
+        def get_filtered(days_before=0, days_after=0, topic=None):
+            date_from = self.now + timedelta(days=days_before)
+            date_to = self.now + timedelta(days=days_after)
+            params = f"date_from={datefmt(date_from)}&date_to={datefmt(date_to)}"
+            if topic:
+                params += f"&topic={topic.pk}"
+            response = self.client.get(f"{self.blog_index.url}?{params}", follow=True)
+            assert response.status_code == 200
+            html = response.content.decode()
+            soup = BeautifulSoup(html, "html.parser")
+            featured = soup.select("h1")[0].get_text().strip()
+            others = [
+                a.get_text().strip()
+                for a in soup.select('aside[aria-label="Blog listing"] h2 a')
+            ]
+            return (featured, others)
+
+        assert get_filtered(-10, 10) == (
+            self.next_blog_page.title,
+            [
+                self.blog_page.title,
+                self.prev_blog_page.title,
+                self.other_blog_page.title,
+            ],
+        )
+
+        assert get_filtered(0, 10) == (
+            self.next_blog_page.title,
+            [self.blog_page.title],
+        )
+
+        assert get_filtered(-10, 0) == (
+            self.prev_blog_page.title,
+            [self.other_blog_page.title],
+        )
+
+        assert get_filtered(-10, 10, self.iab_topic) == (
+            self.prev_blog_page.title,
+            [self.other_blog_page.title],
+        )
+
+    def test_iesg_statements_redirect(self):
+        params = "&".join(
+            [
+                f"primary_topic={IESG_STATEMENT_TOPIC_ID}",
+                f"date_from={datefmt(self.now + timedelta(days=-10))}",
+                f"date_to={datefmt(self.now + timedelta(days=10))}",
+                f"secondary_topic={self.iab_topic.pk}",
+            ]
+        )
+        response = self.client.get(f"{self.blog_index.url}?{params}")
+        new_params = "&".join(
+            [
+                f"topic={self.iab_topic.pk}",
+                f"date_from={datefmt(self.now + timedelta(days=-10))}",
+                f"date_to={datefmt(self.now + timedelta(days=10))}",
+            ]
+        )
+        assert response.status_code == 302
+        assert response.url == f"/about/groups/iesg/statements?{new_params}"
