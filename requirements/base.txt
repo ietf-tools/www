@@ -55,7 +55,7 @@ filetype==1.2.0
     # via willow
 html5lib==1.1
     # via wagtail
-idna==3.6
+idna==3.7
     # via requests
 l18n==2021.3
     # via wagtail
