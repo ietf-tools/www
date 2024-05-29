@@ -228,6 +228,7 @@ autoscaling:
 env:
   DJANGO_SETTINGS_MODULE: "ietf.settings.production"
   EMAIL_HOST: "localhost"
+  EMAIL_PORT: "25"
   DBHOST: "host.minikube.internal"
   DBNAME: "www"
   DBUSER: "www_iab"
