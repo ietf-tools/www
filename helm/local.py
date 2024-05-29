@@ -4,6 +4,7 @@ DEFAULT_FROM_EMAIL = "donotreply@ietf.org"
 SERVER_EMAIL = "donotreply@ietf.org"
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = os.environ["EMAIL_HOST"]
+EMAIL_PORT = os.environ["EMAIL_PORT"]
 
 DATABASES = {
     "default": {
