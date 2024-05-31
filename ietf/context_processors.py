@@ -28,11 +28,11 @@ def secondary_menu(site):
 def social_menu(site):
     social = SocialMediaSettings.for_site(site)
     links = [
-        {"url": social.linkedin, "icon": "linkedin"},
-        {"url": social.twitter, "icon": "twitter"},
-        {"url": social.youtube, "icon": "youtube"},
-        {"url": social.mastodon, "icon": "mastodon"},
-        {"url": social.github, "icon": "github"},
+        {"url": social.linkedin, "icon": "linkedin", "title": "LinkedIn"},
+        {"url": social.twitter, "icon": "twitter", "title": "Twitter"},
+        {"url": social.youtube, "icon": "youtube", "title": "YouTube"},
+        {"url": social.mastodon, "icon": "mastodon", "title": "Mastodon"},
+        {"url": social.github, "icon": "github", "title": "GitHub"},
     ]
     return filter(itemgetter("url"), links)
 
