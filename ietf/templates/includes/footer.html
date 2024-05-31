@@ -31,7 +31,7 @@
         <div class="d-lg-flex justify-content-between align-items-start lh-1">
             <div class="d-flex fs-4 my-5 my-lg-0 ms-n2 my-5 me-3">
                 {% for item in SOCIAL_MENU %}
-                    <a class="d-block text-light px-2" href="{{ item.url }}" rel="me">
+                    <a class="d-block text-light px-2" href="{{ item.url }}" rel="me" title="{{ item.title }}">
                         <i class="bi bi-{{ item.icon }}"></i>
                     </a>
                 {% endfor %}
