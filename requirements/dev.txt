@@ -29,14 +29,12 @@ charset-normalizer==3.3.2
 click==8.1.7
     # via pip-tools
 coverage[toml]==7.3.2
-    # via
-    #   coverage
-    #   pytest-cov
+    # via pytest-cov
 defusedxml==0.7.1
     # via
     #   -c base.txt
     #   willow
-django==4.2.7
+django==4.2.11
     # via
     #   -c base.txt
     #   django-filter
@@ -90,7 +88,7 @@ html5lib==1.1
     # via
     #   -c base.txt
     #   wagtail
-idna==3.6
+idna==3.7
     # via
     #   -c base.txt
     #   requests
@@ -109,7 +107,7 @@ packaging==23.2
     #   -c base.txt
     #   build
     #   pytest
-pillow==10.1.0
+pillow==10.3.0
     # via
     #   -c base.txt
     #   pillow-heif
@@ -140,7 +138,7 @@ pytz==2023.3.post1
     #   django-modelcluster
     #   djangorestframework
     #   l18n
-requests==2.31.0
+requests==2.32.2
     # via
     #   -c base.txt
     #   wagtail
@@ -154,7 +152,7 @@ soupsieve==2.5
     # via
     #   -c base.txt
     #   beautifulsoup4
-sqlparse==0.4.4
+sqlparse==0.5.0
     # via
     #   -c base.txt
     #   django
