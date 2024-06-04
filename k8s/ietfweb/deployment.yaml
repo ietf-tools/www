@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: deployment
+spec:
+  template:
+    spec:
+      containers:
+         - image: "ghcr.io/ietf-tools/www:$APP_IMAGE_TAG"
+           name: ietfwww
+           volumeMounts:
+            - name: dt-vol
+              mountPath: /a
+            - name: www-media
+              mountPath: /app/media
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+volumeClaimTemplates:
+  - metadata:
+    name: dt-vol
+    spec:
+      accessModes:
+      - ReadOnlyMany
+  - metadata:
+    name: www-media
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 5Gi
+      storageClassName: "generic"
+
