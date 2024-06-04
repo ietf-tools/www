@@ -33,6 +33,10 @@ spec:
               mountPath: /a
             - name: www-tmp
               mountPath: /tmp
+            - name: www-static
+              mountPath: /app/static
+            - name: www-media
+              mountPath: /app/media
             - name: www-supervisor-cfg
               mountPath: /app/supervisord.conf
               subPath: supervisord.conf
@@ -62,6 +66,10 @@ spec:
         - name: www-tmp
           emptyDir:
             sizeLimit: "2Gi"
+        - name: www-static
+          emptyDir:
+            sizeLimit: "2Gi"
+        - name: www-media
         - name: www-cfg
           configMap:
             name: files-cfgmap
