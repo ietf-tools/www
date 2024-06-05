@@ -44,6 +44,8 @@ spec:
           env:
             - name: "CONTAINER_ROLE"
               value: "ietfweb"
+            - name: "DJANGO_SETTINGS_MODULE"
+              value: "ietf.settings.production"
           envFrom:
             - configMapRef:
                 name: django-config
