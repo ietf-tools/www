@@ -8,8 +8,6 @@ spec:
   selector:
     matchLabels:
       app: wagtail
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
