@@ -4,18 +4,18 @@ metadata:
   name: django-config
 data:
     # n.b., these are debug values / non-secret secrets
-  IETFWEB_SERVER_MODE: "development"  # development for staging, production for production
-  IETFWEB_ADMINS: |-
+  IETFWWW_SERVER_MODE: "development"  # development for staging, production for production
+  IETFWWW_ADMINS: |-
     Robert Sparks <rjsparks@nostrum.com>
     Kesara Rathnayake <kesara@staff.ietf.org>
-  IETFWEB_ALLOWED_HOSTS: ".ietf.org"  # newline-separated list also allowed
+  IETFWWW_ALLOWED_HOSTS: ".ietf.org"  # newline-separated list also allowed
 
-  IETFWEB_DJANGO_SECRET_KEY: "PDwXboUq!=hPjnrtG2=ge#N$Dwy+wn@uivrugwpic8mxyPfHk"  # secret
+  IETFWWW_DJANGO_SECRET_KEY: "PDwXboUq!=hPjnrtG2=ge#N$Dwy+wn@uivrugwpic8mxyPfHk"  # secret
 
 
-  # IETFWEB_MATOMO_SITE_ID: "1"  # must be present to enable Matomo
-  # IETFWEB_MATOMO_DOMAIN_PATH: "analytics.ietf.org"
+  # IETFWWW_MATOMO_SITE_ID: "1"  # must be present to enable Matomo
+  # IETFWWW_MATOMO_DOMAIN_PATH: "analytics.ietf.org"
 
   # use this to override default - one entry per line
-  # IETFWEB_CSRF_TRUSTED_ORIGINS: |-
+  # IETFWWW_CSRF_TRUSTED_ORIGINS: |-
   #   https://www.staging.ietf.org
