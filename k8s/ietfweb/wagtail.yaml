@@ -1,27 +1,27 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  name: ietfweb
+  name: wagtail
 spec:
   replicas: 1
   revisionHistoryLimit: 2
   selector:
     matchLabels:
-      app: ietfweb
+      app: wagtail
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: ietfweb
+        app: wagtail
     spec:
       securityContext:
         runAsNonRoot: true
       containers:
         # -----------------------------------------------------
-        # ietfweb Container
+        # wagtail Container
         # -----------------------------------------------------
-        - name: ietfweb
+        - name: wagtail
           image: "ghcr.io/ietf-tools/www:$APP_IMAGE_TAG"
           imagePullPolicy: Always
           ports:
@@ -37,7 +37,7 @@ spec:
               mountPath: /app/static
             - name: www-media
               mountPath: /app/media
-            - name: www-supervisor-cfg
+            - name: www-cfg
               mountPath: /app/supervisord.conf
               subPath: supervisord.conf
             - name: www-cfg
@@ -60,27 +60,34 @@ spec:
       volumes:
         # To be overriden with the actual shared volume
         - name: dt-vol
-        - name: www-supervisor-cfg
-          configMap:
-            name: files-supervisor-cfg
+        # ---
         - name: www-tmp
           emptyDir:
             sizeLimit: "2Gi"
         - name: www-static
           emptyDir:
             sizeLimit: "2Gi"
-        - name: www-media
         - name: www-cfg
           configMap:
             name: files-cfgmap
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
+  volumeClaimTemplates:
+  - metadata:
+      name: www-media
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 5Gi
+      storageClassName: "generic"
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: ietfweb
+  name: wagtail
 spec:
   type: ClusterIP
   ports:
@@ -89,4 +96,4 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app: ietfweb
+    app: wagtail
