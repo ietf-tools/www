@@ -23,7 +23,7 @@ spec:
           image: "ghcr.io/ietf-tools/www:$APP_IMAGE_TAG"
           imagePullPolicy: Always
           ports:
-            - containerPort: 8000
+            - containerPort: 8080
               name: http
               protocol: TCP
           volumeMounts:
@@ -31,6 +31,8 @@ spec:
               mountPath: /a
             - name: www-tmp
               mountPath: /tmp
+            - name: www-nginx
+              mountPath: /var/lib/nginx
             - name: www-static
               mountPath: /app/static
             - name: www-media
@@ -41,6 +43,12 @@ spec:
             - name: www-cfg
               mountPath: /app/ietf/settings/local.py
               subPath: local.py
+            - name: www-cfg
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+            - name: www-cfg
+              mountPath: /etc/nginx/sites-enabled/default
+              subPath: nginx-default.conf
           env:
             - name: "CONTAINER_ROLE"
               value: "ietfweb"
@@ -63,7 +71,10 @@ spec:
         # ---
         - name: www-tmp
           emptyDir:
-            sizeLimit: "2Gi"
+            sizeLimit: "1Gi"
+        - name: www-nginx
+          emptyDir:
+            sizeLimit: "1Gi"
         - name: www-static
           emptyDir:
             sizeLimit: "2Gi"

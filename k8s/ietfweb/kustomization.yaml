@@ -5,6 +5,8 @@ configMapGenerator:
     files:
       - local.py
       - supervisord.conf
+      - nginx-default.conf
+      - nginx.conf
 resources:
   - django-config.yaml
   - memcached.yaml
