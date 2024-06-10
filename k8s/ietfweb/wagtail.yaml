@@ -33,8 +33,6 @@ spec:
               mountPath: /tmp
             - name: www-nginx
               mountPath: /var/lib/nginx
-            - name: www-static
-              mountPath: /app/static
             - name: www-media
               mountPath: /app/media
             - name: www-cfg
@@ -75,9 +73,6 @@ spec:
         - name: www-nginx
           emptyDir:
             sizeLimit: "1Gi"
-        - name: www-static
-          emptyDir:
-            sizeLimit: "2Gi"
         - name: www-cfg
           configMap:
             name: files-cfgmap
