@@ -26,7 +26,7 @@ else:
     raise RuntimeError("IETFWWW_DJANGO_SECRET_KEY must be set")
 
 
-_csrf_trusted_origins_str = os.environ.get("IETFWWW_CSRF_TRUSTED_ORIGINS")
+_csrf_trusted_origins_str = os.environ.get("IETFWWW_CSRF_TRUSTED_ORIGINS", None)
 if _csrf_trusted_origins_str is not None:
     CSRF_TRUSTED_ORIGINS = _multiline_to_list(_csrf_trusted_origins_str)
 
@@ -67,7 +67,7 @@ else:
 # Leave IETFWWW_MATOMO_SITE_ID unset to disable Matomo reporting
 if "IETFWWW_MATOMO_SITE_ID" in os.environ:
     MATOMO_DOMAIN_PATH = os.environ.get("IETFWWW_MATOMO_DOMAIN_PATH", "analytics.ietf.org")
-    MATOMO_SITE_ID = os.environ.get("IETFWWW_MATOMO_SITE_ID")
+    MATOMO_SITE_ID = os.environ.get("IETFWWW_MATOMO_SITE_ID", None)
     MATOMO_DISABLE_COOKIES = True
 
 # Duplicating production cache from settings.py and using it whether we're in production mode or not
