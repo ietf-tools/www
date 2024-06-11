@@ -15,9 +15,6 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = os.environ.get("IETFWWW_EMAIL_HOST", "localhost")
 EMAIL_PORT = int(os.environ.get("IETFWWW_EMAIL_PORT", "2025"))
 
-# Default to "development". Production _must_ set IETFWWW_SERVER_MODE="production" in the env!
-SERVER_MODE = os.environ.get("IETFWWW_SERVER_MODE", "development")
-
 # Secrets
 _SECRET_KEY = os.environ.get("IETFWWW_DJANGO_SECRET_KEY", None)
 if _SECRET_KEY is not None:

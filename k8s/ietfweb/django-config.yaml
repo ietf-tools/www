@@ -3,8 +3,6 @@ kind: ConfigMap
 metadata:
   name: django-config
 data:
-    # n.b., these are debug values / non-secret secrets
-  IETFWWW_SERVER_MODE: "development"  # development for staging, production for production
   IETFWWW_ADMINS: |-
     Robert Sparks <rjsparks@nostrum.com>
     Kesara Rathnayake <kesara@staff.ietf.org>
