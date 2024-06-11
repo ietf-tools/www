@@ -26,9 +26,9 @@ else:
     raise RuntimeError("IETFWWW_DJANGO_SECRET_KEY must be set")
 
 
-_csrf_trusted_origins_str = os.environ.get("IETFWWW_CSRF_TRUSTED_ORIGINS", None)
-if _csrf_trusted_origins_str is not None:
-    CSRF_TRUSTED_ORIGINS = _multiline_to_list(_csrf_trusted_origins_str)
+_CSRF_TRUSTED_ORIGINS_STR = os.environ.get("IETFWWW_CSRF_TRUSTED_ORIGINS", None)
+if _CSRF_TRUSTED_ORIGINS_STR is not None:
+    CSRF_TRUSTED_ORIGINS = _multiline_to_list(_CSRF_TRUSTED_ORIGINS_STR)
 
 FILE_UPLOAD_PERMISSIONS = 0o664
 _WAGTAILADMIN_BASE_URL = os.environ.get("WAGTAILADMIN_BASE_URL", None)
@@ -41,9 +41,9 @@ else:
 DEBUG = os.environ.get("IETFWWW_DEBUG", "false").lower() == "true"
 
 # IETFWWW_ALLOWED_HOSTS env var is a comma-separated list of allowed hosts
-_allowed_hosts_str = os.environ.get("IETFWWW_ALLOWED_HOSTS", None)
-if _allowed_hosts_str is not None:
-    ALLOWED_HOSTS = _multiline_to_list(_allowed_hosts_str)
+_ALLOWED_HOSTS_STR = os.environ.get("IETFWWW_ALLOWED_HOSTS", None)
+if _ALLOWED_HOSTS_STR is not None:
+    ALLOWED_HOSTS = _multiline_to_list(_ALLOWED_HOSTS_STR)
 
 DATABASES = {
     "default": {
