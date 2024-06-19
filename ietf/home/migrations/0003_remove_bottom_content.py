@@ -6,42 +6,42 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('home', '0002_iabhomepage'),
+        ("home", "0002_iabhomepage"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='workinggroupssectionlinks',
-            name='link_document',
+            model_name="workinggroupssectionlinks",
+            name="link_document",
         ),
         migrations.RemoveField(
-            model_name='workinggroupssectionlinks',
-            name='link_page',
+            model_name="workinggroupssectionlinks",
+            name="link_page",
         ),
         migrations.RemoveField(
-            model_name='workinggroupssectionlinks',
-            name='page',
+            model_name="workinggroupssectionlinks",
+            name="page",
         ),
         migrations.RemoveField(
-            model_name='homepage',
-            name='highlighted_request_for_comment',
+            model_name="homepage",
+            name="highlighted_request_for_comment",
         ),
         migrations.RemoveField(
-            model_name='homepage',
-            name='highlighted_working_group',
+            model_name="homepage",
+            name="highlighted_working_group",
         ),
         migrations.RemoveField(
-            model_name='homepage',
-            name='request_for_comments_section_body',
+            model_name="homepage",
+            name="request_for_comments_section_body",
         ),
         migrations.RemoveField(
-            model_name='homepage',
-            name='working_groups_section_body',
+            model_name="homepage",
+            name="working_groups_section_body",
         ),
         migrations.DeleteModel(
-            name='RequestForCommentsSectionLinks',
+            name="RequestForCommentsSectionLinks",
         ),
         migrations.DeleteModel(
-            name='WorkingGroupsSectionLinks',
+            name="WorkingGroupsSectionLinks",
         ),
     ]

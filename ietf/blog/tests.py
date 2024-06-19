@@ -137,7 +137,9 @@ class TestBlog:
         assert iesg_response.status_code == 200
         iesg_feed = iesg_response.content.decode()
 
-        assert f"<title>{self.feed_settings.blog_feed_title} – iesg</title>" in iesg_feed
+        assert (
+            f"<title>{self.feed_settings.blog_feed_title} – iesg</title>" in iesg_feed
+        )
         assert self.next_blog_page.url in iesg_feed
         assert self.blog_page.url not in iesg_feed
         assert self.other_blog_page.url not in iesg_feed
@@ -157,7 +159,7 @@ class TestBlog:
         assert self.blog_page.url not in feed
 
     def test_homepage(self):
-        """ The two most recent blog posts are shown on the homepage. """
+        """The two most recent blog posts are shown on the homepage."""
         response = self.client.get(path=self.home.url)
         assert response.status_code == 200
         html = response.content.decode()
@@ -166,7 +168,7 @@ class TestBlog:
         assert self.blog_page.title in html
 
     def test_all_page(self):
-        """ The /blog/all/ page shows all the published blog posts. """
+        """The /blog/all/ page shows all the published blog posts."""
         response = self.client.get(f"{self.blog_index.url}all/")
         assert response.status_code == 200
         html = response.content.decode()

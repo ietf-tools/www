@@ -7,18 +7,27 @@ import wagtail.images.models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('images', '0002_alter_ietfimage_file_hash'),
+        ("images", "0002_alter_ietfimage_file_hash"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='ietfimage',
-            name='file',
-            field=wagtail.images.models.WagtailImageField(height_field='height', upload_to=wagtail.images.models.get_upload_to, verbose_name='file', width_field='width'),
+            model_name="ietfimage",
+            name="file",
+            field=wagtail.images.models.WagtailImageField(
+                height_field="height",
+                upload_to=wagtail.images.models.get_upload_to,
+                verbose_name="file",
+                width_field="width",
+            ),
         ),
         migrations.AlterField(
-            model_name='ietfrendition',
-            name='file',
-            field=wagtail.images.models.WagtailImageField(height_field='height', upload_to=wagtail.images.models.get_rendition_upload_to, width_field='width'),
+            model_name="ietfrendition",
+            name="file",
+            field=wagtail.images.models.WagtailImageField(
+                height_field="height",
+                upload_to=wagtail.images.models.get_rendition_upload_to,
+                width_field="width",
+            ),
         ),
     ]

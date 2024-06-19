@@ -6,14 +6,14 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('snippets', '0003_alter_workinggroup_list_subscribe'),
-        ('snippets', '0003_person_slug'),
+        ("snippets", "0003_alter_workinggroup_list_subscribe"),
+        ("snippets", "0003_person_slug"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='person',
-            name='slug',
+            model_name="person",
+            name="slug",
             field=models.SlugField(max_length=511, unique=True),
         ),
     ]

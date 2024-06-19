@@ -15,13 +15,15 @@ def bibliography(page):
 
     items = []
     if page.pk is not None:
-        for item in page.bibliography_items.all().order_by('ordering'):
-            items.append({
-                'title': item.render_title(),
-                'long_title': item.content_long_title,
-                'content': item.render(),
-                'ordering': item.ordering,
-                'uri': item.render_uri
-            })
+        for item in page.bibliography_items.all().order_by("ordering"):
+            items.append(
+                {
+                    "title": item.render_title(),
+                    "long_title": item.content_long_title,
+                    "content": item.render(),
+                    "ordering": item.ordering,
+                    "uri": item.render_uri,
+                }
+            )
 
-    return {'items': items}
+    return {"items": items}

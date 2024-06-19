@@ -230,7 +230,8 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
         return [
             {
                 "name": author.author.name,
-                "url": index_page.url + index_page.reverse_subpage(
+                "url": index_page.url
+                + index_page.reverse_subpage(
                     "index_by_author", kwargs={"slug": author.author.slug}
                 ),
                 "role": author.role,
@@ -352,7 +353,11 @@ class BlogIndexByAuthorPage:
         return self.parent.get_ancestors(inclusive=True)
 
     def get_entries_queryset(self):
-        qs = BlogPage.objects.child_of(self.parent).filter(authors__author=self.person).live()
+        qs = (
+            BlogPage.objects.child_of(self.parent)
+            .filter(authors__author=self.person)
+            .live()
+        )
         qs = qs.annotate(
             coalesced_published_date=Coalesce("date_published", "first_published_at")
         ).order_by("-coalesced_published_date")

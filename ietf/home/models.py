@@ -120,11 +120,7 @@ class IABHomePage(Page):
     blog_index_url = settings.IAB_IETF_BLOG_URL
 
     def announcements(self):
-        return (
-            IABAnnouncementPage.objects.all()
-            .live()
-            .order_by("-date")[:2]
-        )
+        return IABAnnouncementPage.objects.all().live().order_by("-date")[:2]
 
     def announcement_index(self):
         return IABAnnouncementIndexPage.objects.live().first()
@@ -136,17 +132,19 @@ class IABHomePage(Page):
             xml_data = response.text
 
             root = ElementTree.fromstring(xml_data)
-            for item in root.iter('item'):
-                title = item.find('title').text
-                description = item.find('description').text
-                link = item.find('link').text
-                published_date = datetime.strptime(item.find('pubDate').text, '%a, %d %b %Y %H:%M:%S %z')
+            for item in root.iter("item"):
+                title = item.find("title").text
+                description = item.find("description").text
+                link = item.find("link").text
+                published_date = datetime.strptime(
+                    item.find("pubDate").text, "%a, %d %b %Y %H:%M:%S %z"
+                )
 
                 entry_data = {
-                    'title': title,
-                    'description': description,
-                    'link': link,
-                    'published_date': published_date,
+                    "title": title,
+                    "description": description,
+                    "link": link,
+                    "published_date": published_date,
                 }
                 entries.append(entry_data)
         except Exception as _:
