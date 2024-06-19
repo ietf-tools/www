@@ -33,7 +33,7 @@ class FormPage(AbstractEmailForm):
             super().send_mail(form)
         except Exception as ex:
             logger.error(f"Failed to send email with exception: {ex}")
-            raise EmailException
+            raise EmailException from ex
 
     def serve(self, request, *args, **kwargs):
         try:
@@ -42,7 +42,7 @@ class FormPage(AbstractEmailForm):
             messages.add_message(
                 request, messages.ERROR, message="Failed to send email"
             )
-            raise EmailException
+            raise
 
 
 FormPage.content_panels = [

@@ -298,7 +298,7 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
             try:
                 topic_id = int(topic_id)
             except ValueError:
-                raise Http404
+                raise Http404 from None
             filter_topic = get_object_or_404(Topic, id=topic_id)
             query_string_segments = []
             for parameter, _function in parameter_functions_map.items():

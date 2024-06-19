@@ -5,7 +5,7 @@ from typed_environment_configuration import (
     StringVariable,
 )
 
-from ..base import *
+from ..base import *  # noqa: F403
 
 _ENVVARS = [
     StringVariable(
@@ -31,4 +31,4 @@ _DJANGO_ENVVARS = [
 
 FillVars(_ENVVARS, vars())
 FillVars(_DJANGO_ENVVARS, vars(), "DJANGO_")
-ALLOWED_HOSTS = ADDRESSES
+ALLOWED_HOSTS = ADDRESSES  # noqa: F405
