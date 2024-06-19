@@ -127,7 +127,7 @@ class BibliographyMixin(models.Model):
             ]
             prepared_fields_being_updated = [
                 prepared_field in update_fields
-                for prepared_field in self.CONTENT_FIELD_MAP.keys()
+                for prepared_field in self.CONTENT_FIELD_MAP
             ]
 
             if any(source_fields_being_updated) or any(prepared_fields_being_updated):
@@ -147,7 +147,7 @@ class BibliographyMixin(models.Model):
             all_content = "".join(
                 [
                     str(getattr(self, content_field)) or ""
-                    for content_field in self.CONTENT_FIELD_MAP.keys()
+                    for content_field in self.CONTENT_FIELD_MAP
                 ]
             )
             all_soup = BeautifulSoup(all_content, "html.parser")
@@ -208,7 +208,7 @@ class BibliographyMixin(models.Model):
             for prepared_content_field, prepared_soup in subsoups.items():
                 setattr(self, prepared_content_field, prepared_soup.__unicode__())
 
-        return super(BibliographyMixin, self).save(*args, **kwargs)
+        return super().save(*args, **kwargs)
 
     class Meta:
         abstract = True

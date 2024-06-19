@@ -45,7 +45,7 @@ class GlossaryPage(Page, PromoteMixin):
         return self.get_siblings().live().public().filter(show_in_menus=True).specific()
 
     def get_context(self, request, *args, **kwargs):
-        context = super(GlossaryPage, self).get_context(request, *args, **kwargs)
+        context = super().get_context(request, *args, **kwargs)
         glossary_items = GlossaryItem.objects.all()
 
         if request.GET.get("query"):
@@ -54,7 +54,7 @@ class GlossaryPage(Page, PromoteMixin):
 
         context["glossary_items"] = {}
         for item in glossary_items:
-            if item.title[0:1].upper() not in context["glossary_items"].keys():
+            if item.title[0:1].upper() not in context["glossary_items"]:
                 context["glossary_items"][item.title[0:1].upper()] = [item]
             else:
                 context["glossary_items"][item.title[0:1].upper()].append(item)

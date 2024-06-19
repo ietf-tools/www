@@ -323,10 +323,7 @@ class MailingListSignup(models.Model, Indexed, RenderableSnippetMixin):
 
     @property
     def link(self):
-        if self.sign_up:
-            link = self.sign_up
-        else:
-            link = self.working_group.list_subscribe
+        link = self.sign_up if self.sign_up else self.working_group.list_subscribe
 
         if "@" in link:
             return f"mailto:{link}"
