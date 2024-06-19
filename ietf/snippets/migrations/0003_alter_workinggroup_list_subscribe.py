@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('snippets', '0002_auto_20200414_2027'),
+        ("snippets", "0002_auto_20200414_2027"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='workinggroup',
-            name='list_subscribe',
+            model_name="workinggroup",
+            name="list_subscribe",
             field=models.URLField(blank=True),
         ),
     ]

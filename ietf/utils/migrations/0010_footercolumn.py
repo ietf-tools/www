@@ -9,20 +9,61 @@ import wagtail.models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('utils', '0009_megamenu'),
+        ("utils", "0009_megamenu"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='FooterColumn',
+            name="FooterColumn",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=255)),
-                ('links', wagtail.fields.StreamField([('link', wagtail.blocks.StructBlock([('page', wagtail.blocks.PageChooserBlock(label='Page', required=False)), ('title', wagtail.blocks.CharBlock(label='Link text', required=False)), ('external_url', wagtail.blocks.URLBlock(label='External URL', required=False))]))], blank=True, use_json_field=True)),
-                ('sort_order', models.PositiveSmallIntegerField()),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=255)),
+                (
+                    "links",
+                    wagtail.fields.StreamField(
+                        [
+                            (
+                                "link",
+                                wagtail.blocks.StructBlock(
+                                    [
+                                        (
+                                            "page",
+                                            wagtail.blocks.PageChooserBlock(
+                                                label="Page", required=False
+                                            ),
+                                        ),
+                                        (
+                                            "title",
+                                            wagtail.blocks.CharBlock(
+                                                label="Link text", required=False
+                                            ),
+                                        ),
+                                        (
+                                            "external_url",
+                                            wagtail.blocks.URLBlock(
+                                                label="External URL", required=False
+                                            ),
+                                        ),
+                                    ]
+                                ),
+                            )
+                        ],
+                        blank=True,
+                        use_json_field=True,
+                    ),
+                ),
+                ("sort_order", models.PositiveSmallIntegerField()),
             ],
             options={
-                'ordering': ['sort_order'],
+                "ordering": ["sort_order"],
             },
             bases=(wagtail.models.PreviewableMixin, models.Model),
         ),

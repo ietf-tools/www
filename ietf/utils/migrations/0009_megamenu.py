@@ -18,7 +18,11 @@ def populate_main_menu(apps, schema_editor):
         if not page:
             return Page.objects.none()
         # path of children is path of parent with 4 more characters at the end
-        return Page.objects.filter(path__regex=f"^{page.path}....$").filter(live=True).order_by("path")
+        return (
+            Page.objects.filter(path__regex=f"^{page.path}....$")
+            .filter(live=True)
+            .order_by("path")
+        )
 
     homepage = HomePage.objects.first()
     if not homepage:
@@ -62,27 +66,102 @@ def populate_main_menu(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('images', '0004_django_42_rendition_storage'),
-        ('wagtailcore', '0089_log_entry_data_json_null_to_object'),
-        ('utils', '0008_socialmediasettings_github_and_more'),
+        ("images", "0004_django_42_rendition_storage"),
+        ("wagtailcore", "0089_log_entry_data_json_null_to_object"),
+        ("utils", "0008_socialmediasettings_github_and_more"),
     ]
 
     operations = [
         migrations.RenameModel(
-            old_name='MenuItem',
-            new_name='SecondaryMenuItem',
+            old_name="MenuItem",
+            new_name="SecondaryMenuItem",
         ),
         migrations.CreateModel(
-            name='MainMenuItem',
+            name="MainMenuItem",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('secondary_sections', wagtail.fields.StreamField([('section', wagtail.blocks.StructBlock([('title', wagtail.blocks.CharBlock(label='Section title', required=True)), ('links', wagtail.blocks.ListBlock(wagtail.blocks.StructBlock([('page', wagtail.blocks.PageChooserBlock(label='Page', required=False)), ('title', wagtail.blocks.CharBlock(label='Link text', required=False)), ('external_url', wagtail.blocks.URLBlock(label='External URL', required=False))])))]))], blank=True, use_json_field=True)),
-                ('sort_order', models.PositiveSmallIntegerField()),
-                ('image', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='images.ietfimage')),
-                ('page', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='+', to='wagtailcore.page')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "secondary_sections",
+                    wagtail.fields.StreamField(
+                        [
+                            (
+                                "section",
+                                wagtail.blocks.StructBlock(
+                                    [
+                                        (
+                                            "title",
+                                            wagtail.blocks.CharBlock(
+                                                label="Section title", required=True
+                                            ),
+                                        ),
+                                        (
+                                            "links",
+                                            wagtail.blocks.ListBlock(
+                                                wagtail.blocks.StructBlock(
+                                                    [
+                                                        (
+                                                            "page",
+                                                            wagtail.blocks.PageChooserBlock(
+                                                                label="Page",
+                                                                required=False,
+                                                            ),
+                                                        ),
+                                                        (
+                                                            "title",
+                                                            wagtail.blocks.CharBlock(
+                                                                label="Link text",
+                                                                required=False,
+                                                            ),
+                                                        ),
+                                                        (
+                                                            "external_url",
+                                                            wagtail.blocks.URLBlock(
+                                                                label="External URL",
+                                                                required=False,
+                                                            ),
+                                                        ),
+                                                    ]
+                                                )
+                                            ),
+                                        ),
+                                    ]
+                                ),
+                            )
+                        ],
+                        blank=True,
+                        use_json_field=True,
+                    ),
+                ),
+                ("sort_order", models.PositiveSmallIntegerField()),
+                (
+                    "image",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="+",
+                        to="images.ietfimage",
+                    ),
+                ),
+                (
+                    "page",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="+",
+                        to="wagtailcore.page",
+                    ),
+                ),
             ],
             options={
-                'ordering': ['sort_order'],
+                "ordering": ["sort_order"],
             },
             bases=(wagtail.models.PreviewableMixin, models.Model),
         ),

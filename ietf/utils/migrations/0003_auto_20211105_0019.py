@@ -2,23 +2,23 @@
 
 from django.db import migrations, models
 
+
 def add_missing_menu(apps, schema_editor):
-    MenuItem = apps.get_model('utils', 'MenuItem')
-    Page = apps.get_model('wagtailcore', 'Page')
+    MenuItem = apps.get_model("utils", "MenuItem")
+    Page = apps.get_model("wagtailcore", "Page")
     page = Page.objects.filter(pk=42).first()
     if page:
-        MenuItem.objects.create(page=page, sort_order=0, text='News & blog')
+        MenuItem.objects.create(page=page, sort_order=0, text="News & blog")
     tools_menu = MenuItem.objects.filter(page__title="Links").first()
     if tools_menu:
         tools_menu.text = "Tools"
         tools_menu.save()
 
+
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('utils', '0002_auto_20211101_0113'),
+        ("utils", "0002_auto_20211101_0113"),
     ]
 
-    operations = [
-        migrations.RunPython(add_missing_menu)
-    ]
+    operations = [migrations.RunPython(add_missing_menu)]

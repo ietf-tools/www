@@ -12,18 +12,64 @@ import wagtailmarkdown.blocks
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('topics', '0003_auto_20211101_0113'),
+        ("topics", "0003_auto_20211101_0113"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='primarytopicpage',
-            name='in_depth',
-            field=wagtail.fields.StreamField([('heading', wagtail.blocks.CharBlock(icon='title')), ('paragraph', wagtail.blocks.RichTextBlock(icon='pilcrow')), ('image', wagtail.images.blocks.ImageChooserBlock(icon='image', template='includes/imageblock.html')), ('markdown', wagtailmarkdown.blocks.MarkdownBlock(icon='code')), ('embed', wagtail.embeds.blocks.EmbedBlock(icon='code')), ('raw_html', wagtail.blocks.RawHTMLBlock(icon='placeholder')), ('table', wagtail.contrib.table_block.blocks.TableBlock(table_options={'renderer': 'html'}, template='includes/tableblock.html'))], blank=True, use_json_field=True),
+            model_name="primarytopicpage",
+            name="in_depth",
+            field=wagtail.fields.StreamField(
+                [
+                    ("heading", wagtail.blocks.CharBlock(icon="title")),
+                    ("paragraph", wagtail.blocks.RichTextBlock(icon="pilcrow")),
+                    (
+                        "image",
+                        wagtail.images.blocks.ImageChooserBlock(
+                            icon="image", template="includes/imageblock.html"
+                        ),
+                    ),
+                    ("markdown", wagtailmarkdown.blocks.MarkdownBlock(icon="code")),
+                    ("embed", wagtail.embeds.blocks.EmbedBlock(icon="code")),
+                    ("raw_html", wagtail.blocks.RawHTMLBlock(icon="placeholder")),
+                    (
+                        "table",
+                        wagtail.contrib.table_block.blocks.TableBlock(
+                            table_options={"renderer": "html"},
+                            template="includes/tableblock.html",
+                        ),
+                    ),
+                ],
+                blank=True,
+                use_json_field=True,
+            ),
         ),
         migrations.AlterField(
-            model_name='primarytopicpage',
-            name='key_info',
-            field=wagtail.fields.StreamField([('heading', wagtail.blocks.CharBlock(icon='title')), ('paragraph', wagtail.blocks.RichTextBlock(icon='pilcrow')), ('image', wagtail.images.blocks.ImageChooserBlock(icon='image', template='includes/imageblock.html')), ('markdown', wagtailmarkdown.blocks.MarkdownBlock(icon='code')), ('embed', wagtail.embeds.blocks.EmbedBlock(icon='code')), ('raw_html', wagtail.blocks.RawHTMLBlock(icon='placeholder')), ('table', wagtail.contrib.table_block.blocks.TableBlock(table_options={'renderer': 'html'}, template='includes/tableblock.html'))], blank=True, use_json_field=True),
+            model_name="primarytopicpage",
+            name="key_info",
+            field=wagtail.fields.StreamField(
+                [
+                    ("heading", wagtail.blocks.CharBlock(icon="title")),
+                    ("paragraph", wagtail.blocks.RichTextBlock(icon="pilcrow")),
+                    (
+                        "image",
+                        wagtail.images.blocks.ImageChooserBlock(
+                            icon="image", template="includes/imageblock.html"
+                        ),
+                    ),
+                    ("markdown", wagtailmarkdown.blocks.MarkdownBlock(icon="code")),
+                    ("embed", wagtail.embeds.blocks.EmbedBlock(icon="code")),
+                    ("raw_html", wagtail.blocks.RawHTMLBlock(icon="placeholder")),
+                    (
+                        "table",
+                        wagtail.contrib.table_block.blocks.TableBlock(
+                            table_options={"renderer": "html"},
+                            template="includes/tableblock.html",
+                        ),
+                    ),
+                ],
+                blank=True,
+                use_json_field=True,
+            ),
         ),
     ]

@@ -15,43 +15,177 @@ import wagtailmarkdown.blocks
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('events', '0004_auto_20211101_0113'),
+        ("events", "0004_auto_20211101_0113"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='eventpage',
-            name='body',
-            field=wagtail.fields.StreamField([('heading', wagtail.blocks.CharBlock(icon='title')), ('paragraph', wagtail.blocks.RichTextBlock(icon='pilcrow')), ('image', wagtail.images.blocks.ImageChooserBlock(icon='image', template='includes/imageblock.html')), ('markdown', wagtailmarkdown.blocks.MarkdownBlock(icon='code')), ('embed', wagtail.embeds.blocks.EmbedBlock(icon='code')), ('raw_html', wagtail.blocks.RawHTMLBlock(icon='placeholder')), ('table', wagtail.contrib.table_block.blocks.TableBlock(table_options={'renderer': 'html'}, template='includes/tableblock.html'))], use_json_field=True),
+            model_name="eventpage",
+            name="body",
+            field=wagtail.fields.StreamField(
+                [
+                    ("heading", wagtail.blocks.CharBlock(icon="title")),
+                    ("paragraph", wagtail.blocks.RichTextBlock(icon="pilcrow")),
+                    (
+                        "image",
+                        wagtail.images.blocks.ImageChooserBlock(
+                            icon="image", template="includes/imageblock.html"
+                        ),
+                    ),
+                    ("markdown", wagtailmarkdown.blocks.MarkdownBlock(icon="code")),
+                    ("embed", wagtail.embeds.blocks.EmbedBlock(icon="code")),
+                    ("raw_html", wagtail.blocks.RawHTMLBlock(icon="placeholder")),
+                    (
+                        "table",
+                        wagtail.contrib.table_block.blocks.TableBlock(
+                            table_options={"renderer": "html"},
+                            template="includes/tableblock.html",
+                        ),
+                    ),
+                ],
+                use_json_field=True,
+            ),
         ),
         migrations.AlterField(
-            model_name='eventpage',
-            name='contact_details',
-            field=wagtail.fields.StreamField([('contact_detail', wagtail.blocks.CharBlock(form_classname='full title'))], blank=True, use_json_field=True),
+            model_name="eventpage",
+            name="contact_details",
+            field=wagtail.fields.StreamField(
+                [
+                    (
+                        "contact_detail",
+                        wagtail.blocks.CharBlock(form_classname="full title"),
+                    )
+                ],
+                blank=True,
+                use_json_field=True,
+            ),
         ),
         migrations.AlterField(
-            model_name='eventpage',
-            name='extras',
-            field=wagtail.fields.StreamField([('extra', wagtail.blocks.CharBlock(form_classname='full title'))], blank=True, use_json_field=True),
+            model_name="eventpage",
+            name="extras",
+            field=wagtail.fields.StreamField(
+                [("extra", wagtail.blocks.CharBlock(form_classname="full title"))],
+                blank=True,
+                use_json_field=True,
+            ),
         ),
         migrations.AlterField(
-            model_name='eventpage',
-            name='key_details',
-            field=wagtail.fields.StreamField([('item', wagtail.blocks.StructBlock([('title', wagtail.blocks.CharBlock()), ('link_group', wagtail.blocks.StreamBlock([('link', wagtail.blocks.StructBlock([('title', wagtail.blocks.CharBlock()), ('link_external', wagtail.blocks.URLBlock(required=False)), ('link_page', wagtail.blocks.PageChooserBlock(required=False)), ('link_document', wagtail.documents.blocks.DocumentChooserBlock(required=False))]))]))]))], blank=True, use_json_field=True),
+            model_name="eventpage",
+            name="key_details",
+            field=wagtail.fields.StreamField(
+                [
+                    (
+                        "item",
+                        wagtail.blocks.StructBlock(
+                            [
+                                ("title", wagtail.blocks.CharBlock()),
+                                (
+                                    "link_group",
+                                    wagtail.blocks.StreamBlock(
+                                        [
+                                            (
+                                                "link",
+                                                wagtail.blocks.StructBlock(
+                                                    [
+                                                        (
+                                                            "title",
+                                                            wagtail.blocks.CharBlock(),
+                                                        ),
+                                                        (
+                                                            "link_external",
+                                                            wagtail.blocks.URLBlock(
+                                                                required=False
+                                                            ),
+                                                        ),
+                                                        (
+                                                            "link_page",
+                                                            wagtail.blocks.PageChooserBlock(
+                                                                required=False
+                                                            ),
+                                                        ),
+                                                        (
+                                                            "link_document",
+                                                            wagtail.documents.blocks.DocumentChooserBlock(
+                                                                required=False
+                                                            ),
+                                                        ),
+                                                    ]
+                                                ),
+                                            )
+                                        ]
+                                    ),
+                                ),
+                            ]
+                        ),
+                    )
+                ],
+                blank=True,
+                use_json_field=True,
+            ),
         ),
         migrations.AlterField(
-            model_name='eventpage',
-            name='room_rates',
-            field=wagtail.fields.StreamField([('room_rate', wagtail.blocks.CharBlock(form_classname='full title')), ('table', wagtail.contrib.table_block.blocks.TableBlock(table_options={'renderer': 'html'}))], blank=True, use_json_field=True),
+            model_name="eventpage",
+            name="room_rates",
+            field=wagtail.fields.StreamField(
+                [
+                    (
+                        "room_rate",
+                        wagtail.blocks.CharBlock(form_classname="full title"),
+                    ),
+                    (
+                        "table",
+                        wagtail.contrib.table_block.blocks.TableBlock(
+                            table_options={"renderer": "html"}
+                        ),
+                    ),
+                ],
+                blank=True,
+                use_json_field=True,
+            ),
         ),
         migrations.AlterField(
-            model_name='eventpage',
-            name='sponsors',
-            field=wagtail.fields.StreamField([('sponsor_category', wagtail.blocks.StructBlock([('category_title', wagtail.blocks.CharBlock()), ('sponsor_group', wagtail.blocks.StreamBlock([('sponsor', wagtail.snippets.blocks.SnippetChooserBlock(ietf.snippets.models.Sponsor))]))]))], blank=True, use_json_field=True),
+            model_name="eventpage",
+            name="sponsors",
+            field=wagtail.fields.StreamField(
+                [
+                    (
+                        "sponsor_category",
+                        wagtail.blocks.StructBlock(
+                            [
+                                ("category_title", wagtail.blocks.CharBlock()),
+                                (
+                                    "sponsor_group",
+                                    wagtail.blocks.StreamBlock(
+                                        [
+                                            (
+                                                "sponsor",
+                                                wagtail.snippets.blocks.SnippetChooserBlock(
+                                                    ietf.snippets.models.Sponsor
+                                                ),
+                                            )
+                                        ]
+                                    ),
+                                ),
+                            ]
+                        ),
+                    )
+                ],
+                blank=True,
+                use_json_field=True,
+            ),
         ),
         migrations.AlterField(
-            model_name='eventpage',
-            name='venue',
-            field=wagtail.fields.StreamField([('address_line', wagtail.blocks.CharBlock(form_classname='full title'))], blank=True, use_json_field=True),
+            model_name="eventpage",
+            name="venue",
+            field=wagtail.fields.StreamField(
+                [
+                    (
+                        "address_line",
+                        wagtail.blocks.CharBlock(form_classname="full title"),
+                    )
+                ],
+                blank=True,
+                use_json_field=True,
+            ),
         ),
     ]
