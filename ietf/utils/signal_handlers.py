@@ -11,7 +11,7 @@ def register_signal_handlers():
         home_page = instance.get_site().root_page
         purge_pages = set()
 
-        if not instance.pk == home_page.pk:
+        if instance.pk != home_page.pk:
             parent = instance.get_parent()
             purge_pages.add(parent)
 

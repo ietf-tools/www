@@ -5,6 +5,7 @@ from django.test import Client
 from django.utils import timezone
 
 from ietf.home.models import HomePage
+
 from .factories import EventListingPageFactory, EventPageFactory
 from .models import EventListingPage, EventPage
 

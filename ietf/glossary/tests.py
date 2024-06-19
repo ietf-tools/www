@@ -2,6 +2,7 @@ import pytest
 from django.test import Client
 
 from ietf.home.models import HomePage
+
 from .factories import GlossaryPageFactory
 from .models import GlossaryPage
 

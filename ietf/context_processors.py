@@ -3,8 +3,8 @@ from operator import itemgetter
 from wagtail.models import Site
 
 from ietf.home.models import HomePage, IABHomePage
-from ietf.utils.models import SecondaryMenuItem, SocialMediaSettings
 from ietf.utils.context_processors import get_footer, get_main_menu
+from ietf.utils.models import SecondaryMenuItem, SocialMediaSettings
 
 
 def home_page(site):

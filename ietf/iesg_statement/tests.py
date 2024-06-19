@@ -1,12 +1,12 @@
 from datetime import timedelta
 
-import factory
 import pytest
 from bs4 import BeautifulSoup
 from django.test import Client
 from django.utils import timezone
 
 from ietf.home.models import HomePage
+
 from .factories import IESGStatementIndexPageFactory, IESGStatementPageFactory
 from .models import IESGStatementIndexPage, IESGStatementPage
 
