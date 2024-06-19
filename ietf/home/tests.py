@@ -1,5 +1,5 @@
-from django.test import Client
 import pytest
+from django.test import Client
 
 from ietf.standard.factories import IABStandardPageFactory, StandardPageFactory
 from ietf.standard.models import StandardPage

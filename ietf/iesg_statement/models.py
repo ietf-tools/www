@@ -18,7 +18,6 @@ from wagtail.search import index
 from ..bibliography.models import BibliographyMixin
 from ..snippets.models import Topic
 from ..utils.blocks import StandardBlock
-
 from ..utils.models import PromoteMixin
 
 

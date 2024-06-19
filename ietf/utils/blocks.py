@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.utils.functional import cached_property
 from wagtail.blocks import (
     CharBlock,
@@ -16,8 +17,6 @@ from wagtail.contrib.typed_table_block.blocks import TypedTableBlock
 from wagtail.embeds.blocks import EmbedBlock
 from wagtail.images.blocks import ImageChooserBlock
 from wagtailmarkdown.blocks import MarkdownBlock
-
-from django.conf import settings
 
 
 class NoteWellBlock(StructBlock):

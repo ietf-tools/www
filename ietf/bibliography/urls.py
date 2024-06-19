@@ -1,11 +1,10 @@
 from django.urls import re_path
 
 from .views import (
-    referenced_types,
     referenced_objects,
+    referenced_types,
     referencing_pages,
 )
-
 
 urlpatterns = [
     re_path(r"^referenced_types/$", referenced_types, name="referenced_types"),

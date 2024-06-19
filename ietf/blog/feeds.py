@@ -1,6 +1,5 @@
 from django.contrib.syndication.views import Feed
 from django.db.models.functions import Coalesce
-from django.utils.functional import cached_property
 from wagtail.models import Site
 
 from ..blog.models import BlogPage

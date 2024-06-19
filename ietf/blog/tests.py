@@ -1,14 +1,15 @@
 from datetime import timedelta
+
+import pytest
 from bs4 import BeautifulSoup
 from django.test import Client
 from django.utils import timezone
 
-import pytest
-
-from ietf.snippets.factories import PersonFactory, TopicFactory
 from ietf.home.models import HomePage
+from ietf.snippets.factories import PersonFactory, TopicFactory
 from ietf.snippets.models import Topic
 from ietf.utils.models import FeedSettings
+
 from .factories import BlogIndexPageFactory, BlogPageFactory
 from .models import (
     IESG_STATEMENT_TOPIC_ID,

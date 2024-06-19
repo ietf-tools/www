@@ -1,6 +1,6 @@
+import pytest
 from bs4 import BeautifulSoup
 from django.test import Client
-import pytest
 
 from ietf.home.models import IABHomePage
 from ietf.standard.factories import IABStandardPageFactory

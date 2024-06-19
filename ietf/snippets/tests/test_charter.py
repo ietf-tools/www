@@ -1,4 +1,5 @@
 import pytest
+
 from ietf.snippets.factories import CharterFactory, WorkingGroupFactory
 
 pytestmark = pytest.mark.django_db

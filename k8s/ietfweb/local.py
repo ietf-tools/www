@@ -1,8 +1,7 @@
 # Copyright The IETF Trust 2007-2024, All Rights Reserved
-# -*- coding: utf-8 -*-
 
-from email.utils import parseaddr
 import os
+from email.utils import parseaddr
 
 
 def _multiline_to_list(s):
