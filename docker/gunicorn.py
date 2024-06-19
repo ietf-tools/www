@@ -1,5 +1,7 @@
 import json
 
+import gunicorn
+
 accesslog = "-"
 errorlog = "-"
 access_log_format = json.dumps(
@@ -27,6 +29,4 @@ keep_alive = 75
 chdir = "/app"
 
 # Obfuscate the Server header (to the md5sum of "Springload")
-import gunicorn
-
 gunicorn.SERVER_SOFTWARE = "04e96149a2f64d6135c82d199ab62122"
