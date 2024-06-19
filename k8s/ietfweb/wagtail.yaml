@@ -53,6 +53,9 @@ spec:
               value: "ietfweb"
             - name: "DJANGO_SETTINGS_MODULE"
               value: "ietf.settings.production"
+            # ensures the pod gets recreated on every deploy:
+            - name: "DEPLOY_UID"
+              value: "$DEPLOY_UID"
           envFrom:
             - configMapRef:
                 name: django-config
