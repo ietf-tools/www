@@ -105,7 +105,9 @@ class PromoteMixin(models.Model):
 
 
 class MainMenuItem(PreviewableMixin, models.Model):
-    page = models.ForeignKey("wagtailcore.Page", related_name="+", on_delete=models.CASCADE)
+    page = models.ForeignKey(
+        "wagtailcore.Page", related_name="+", on_delete=models.CASCADE
+    )
     image = models.ForeignKey(
         "images.IETFImage",
         null=True,
@@ -262,33 +264,33 @@ class SocialMediaSettings(BaseSiteSetting):
         max_length=255,
         help_text="Link to LinkedIn profile",
         blank="True",
-        verbose_name="LinkedIn link"
+        verbose_name="LinkedIn link",
     )
     twitter = models.CharField(
         max_length=255,
         help_text="Link to Twitter profile",
         blank="True",
-        verbose_name="Twitter link"
+        verbose_name="Twitter link",
     )
     youtube = models.CharField(
         max_length=255,
         help_text="Link to YouTube account",
         blank="True",
-        verbose_name="Youtube link"
+        verbose_name="Youtube link",
     )
     mastodon = models.CharField(
         max_length=255,
         help_text="Link to Mastodon profile",
         blank="True",
-        verbose_name="Mastodon link"
+        verbose_name="Mastodon link",
     )
     github = models.CharField(
         max_length=255,
         help_text="Link to GitHub profile",
         blank="True",
-        verbose_name="GitHub link"
+        verbose_name="GitHub link",
     )
-    
+
     panels = [
         FieldPanel("twitter_handle"),
         FieldPanel("facebook_app_id"),

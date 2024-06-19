@@ -246,7 +246,7 @@ NOTE_WELL_REPO = "https://raw.githubusercontent.com/ietf/note-well/main/note-wel
 _cf_purge_bearer_token = os.environ.get("CLOUDFLARE_CACHE_PURGE_BEARER_TOKEN")
 _cf_purge_zone_id = os.environ.get("CLOUDFLARE_CACHE_PURGE_ZONE_ID")
 if _cf_purge_bearer_token and _cf_purge_zone_id:  # pragma: no cover
-    INSTALLED_APPS += ( "wagtail.contrib.frontend_cache", )
+    INSTALLED_APPS += ("wagtail.contrib.frontend_cache",)
     WAGTAILFRONTENDCACHE = {
         "cloudflare": {
             "BACKEND": "wagtail.contrib.frontend_cache.backends.CloudflareBackend",

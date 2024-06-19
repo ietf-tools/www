@@ -12,59 +12,186 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('images', '0001_initial'),
-        ('snippets', '0001_initial'),
-        ('wagtaildocs', '0008_document_file_size'),
-        ('wagtailcore', '0040_page_draft_title'),
+        ("images", "0001_initial"),
+        ("snippets", "0001_initial"),
+        ("wagtaildocs", "0008_document_file_size"),
+        ("wagtailcore", "0040_page_draft_title"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='HomePage',
+            name="HomePage",
             fields=[
-                ('page_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='wagtailcore.Page')),
-                ('heading', models.CharField(max_length=255)),
-                ('introduction', models.CharField(max_length=255)),
-                ('button_text', models.CharField(blank=True, max_length=255)),
-                ('request_for_comments_section_body', models.CharField(max_length=500)),
-                ('working_groups_section_body', models.CharField(max_length=500)),
-                ('button_link', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='wagtailcore.Page')),
-                ('call_to_action', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='snippets.CallToAction')),
-                ('highlighted_request_for_comment', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='snippets.RFC')),
-                ('highlighted_working_group', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='snippets.WorkingGroup')),
-                ('main_image', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='images.IETFImage')),
+                (
+                    "page_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="wagtailcore.Page",
+                    ),
+                ),
+                ("heading", models.CharField(max_length=255)),
+                ("introduction", models.CharField(max_length=255)),
+                ("button_text", models.CharField(blank=True, max_length=255)),
+                ("request_for_comments_section_body", models.CharField(max_length=500)),
+                ("working_groups_section_body", models.CharField(max_length=500)),
+                (
+                    "button_link",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="+",
+                        to="wagtailcore.Page",
+                    ),
+                ),
+                (
+                    "call_to_action",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="+",
+                        to="snippets.CallToAction",
+                    ),
+                ),
+                (
+                    "highlighted_request_for_comment",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="+",
+                        to="snippets.RFC",
+                    ),
+                ),
+                (
+                    "highlighted_working_group",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="+",
+                        to="snippets.WorkingGroup",
+                    ),
+                ),
+                (
+                    "main_image",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="+",
+                        to="images.IETFImage",
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
-            bases=('wagtailcore.page',),
+            bases=("wagtailcore.page",),
         ),
         migrations.CreateModel(
-            name='RequestForCommentsSectionLinks',
+            name="RequestForCommentsSectionLinks",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('link_external', models.URLField(blank=True, verbose_name='External link')),
-                ('title', models.CharField(help_text='Link title', max_length=255)),
-                ('link_document', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='+', to='wagtaildocs.Document')),
-                ('link_page', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='+', to='wagtailcore.Page')),
-                ('page', modelcluster.fields.ParentalKey(on_delete=django.db.models.deletion.CASCADE, related_name='request_for_comments_section_links', to='home.HomePage')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "link_external",
+                    models.URLField(blank=True, verbose_name="External link"),
+                ),
+                ("title", models.CharField(help_text="Link title", max_length=255)),
+                (
+                    "link_document",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="+",
+                        to="wagtaildocs.Document",
+                    ),
+                ),
+                (
+                    "link_page",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="+",
+                        to="wagtailcore.Page",
+                    ),
+                ),
+                (
+                    "page",
+                    modelcluster.fields.ParentalKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="request_for_comments_section_links",
+                        to="home.HomePage",
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         migrations.CreateModel(
-            name='WorkingGroupsSectionLinks',
+            name="WorkingGroupsSectionLinks",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('link_external', models.URLField(blank=True, verbose_name='External link')),
-                ('title', models.CharField(help_text='Link title', max_length=255)),
-                ('link_document', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='+', to='wagtaildocs.Document')),
-                ('link_page', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='+', to='wagtailcore.Page')),
-                ('page', modelcluster.fields.ParentalKey(on_delete=django.db.models.deletion.CASCADE, related_name='working_groups_section_links', to='home.HomePage')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "link_external",
+                    models.URLField(blank=True, verbose_name="External link"),
+                ),
+                ("title", models.CharField(help_text="Link title", max_length=255)),
+                (
+                    "link_document",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="+",
+                        to="wagtaildocs.Document",
+                    ),
+                ),
+                (
+                    "link_page",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="+",
+                        to="wagtailcore.Page",
+                    ),
+                ),
+                (
+                    "page",
+                    modelcluster.fields.ParentalKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="working_groups_section_links",
+                        to="home.HomePage",
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
     ]

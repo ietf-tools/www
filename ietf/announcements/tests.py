@@ -55,7 +55,7 @@ class TestIABAnnouncement:
         assert self.announcement_3.introduction in html
 
     def test_homepage(self):
-        """ The two most recent announcements are shown on the homepage """
+        """The two most recent announcements are shown on the homepage"""
         response = self.client.get(self.home.url)
         assert response.status_code == 200
         html = response.content.decode()

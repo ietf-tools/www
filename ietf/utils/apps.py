@@ -2,7 +2,7 @@ from django.apps import AppConfig
 
 
 class UtilsAppConfig(AppConfig):
-    name = 'ietf.utils'
+    name = "ietf.utils"
     verbose_name = "IETF Website Utils"
 
     def ready(self):

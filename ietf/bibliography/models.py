@@ -161,7 +161,9 @@ class BibliographyMixin(models.Model):
             # Look for <a> nodes that are tagged with bibliographic markup,
             # create BibliographyItem records, and turn the <a> nodes into
             # footnote links.
-            for index, tag in enumerate(all_soup.find_all("a", attrs={"data-app": True})):
+            for index, tag in enumerate(
+                all_soup.find_all("a", attrs={"data-app": True})
+            ):
                 app = tag["data-app"]
                 model = tag["data-linktype"]
                 obj_id = tag["data-id"]

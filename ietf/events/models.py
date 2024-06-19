@@ -120,10 +120,14 @@ class EventPage(Page, PromoteMixin):
         max_length=255, default="Meeting venue information", blank=True
     )
     venue = StreamField(
-        [("address_line", blocks.CharBlock(classname="full title"))], blank=True, use_json_field=True
+        [("address_line", blocks.CharBlock(classname="full title"))],
+        blank=True,
+        use_json_field=True,
     )
     extras = StreamField(
-        [("extra", blocks.CharBlock(classname="full title"))], blank=True, use_json_field=True
+        [("extra", blocks.CharBlock(classname="full title"))],
+        blank=True,
+        use_json_field=True,
     )
     reservation_name = models.CharField(max_length=255, blank=True)
     room_rates = StreamField(
@@ -136,15 +140,21 @@ class EventPage(Page, PromoteMixin):
     )
     reservations_open = models.DateField(null=True, blank=True)
     contact_details = StreamField(
-        [("contact_detail", blocks.CharBlock(classname="full title"))], blank=True, use_json_field=True
+        [("contact_detail", blocks.CharBlock(classname="full title"))],
+        blank=True,
+        use_json_field=True,
     )
 
-    key_details = StreamField([("item", NamedLinkGroupBlock())], blank=True, use_json_field=True)
+    key_details = StreamField(
+        [("item", NamedLinkGroupBlock())], blank=True, use_json_field=True
+    )
     key_details_expanded = models.BooleanField(
         default=False,
         help_text="Show the key details items expanded when the page first loads",
     )
-    sponsors = StreamField([("sponsor_category", SponsorCategoryBlock())], blank=True, use_json_field=True)
+    sponsors = StreamField(
+        [("sponsor_category", SponsorCategoryBlock())], blank=True, use_json_field=True
+    )
     listing_location = models.CharField(
         max_length=255,
         blank=True,
