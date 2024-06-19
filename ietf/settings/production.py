@@ -1,6 +1,7 @@
+import contextlib
 import os
 
-from .base import *
+from .base import *  # noqa: F403
 
 # Do not set SECRET_KEY, Postgres or LDAP password or any other sensitive data here.
 # Instead, create a local.py file on the server.
@@ -40,7 +41,7 @@ if "SERVER_EMAIL" in env:
     SERVER_EMAIL = env["SERVER_EMAIL"]
 
 if "CACHE_PURGE_URL" in env:
-    INSTALLED_APPS += ("wagtail.contrib.frontend_cache",)
+    INSTALLED_APPS += ("wagtail.contrib.frontend_cache",)  # noqa: F405
     WAGTAILFRONTENDCACHE = {
         "default": {
             "BACKEND": "wagtail.contrib.frontend_cache.backends.HTTPBackend",
@@ -75,10 +76,10 @@ DATABASES = {
 # Caches
 
 if "CACHE_DEFAULT" in env:
-    CACHES["default"]["LOCATION"] = env.get("CACHE_DEFAULT")
+    CACHES["default"]["LOCATION"] = env.get("CACHE_DEFAULT")  # noqa: F405
 
 if "CACHE_SESSIONS" in env:
-    CACHES["sessions"]["LOCATION"] = env.get("CACHE_SESSIONS")
+    CACHES["sessions"]["LOCATION"] = env.get("CACHE_SESSIONS")  # noqa: F405
 
 
 # Logging
@@ -119,7 +120,5 @@ if "ERROR_LOG" in env:
     LOGGING["loggers"]["django.request"]["handlers"].append("errors_file")
     LOGGING["loggers"]["django.security"]["handlers"].append("errors_file")
 
-try:
-    from .local import *  # pyflakes:ignore
-except ImportError:
-    pass
+with contextlib.suppress(ImportError):
+    from .local import *  # noqa: F403
