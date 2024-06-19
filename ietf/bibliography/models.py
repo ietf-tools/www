@@ -86,7 +86,7 @@ class BibliographyItem(models.Model):
         else:
             try:
                 template = get_template(
-                    "bibliography/item_{}.html".format(self.content_key)
+                    f"bibliography/item_{self.content_key}.html"
                 )
             except TemplateDoesNotExist:
                 template = None
@@ -100,7 +100,7 @@ class BibliographyItem(models.Model):
             return str(object)
 
     def __str__(self):  # pragma: no cover
-        return "Bibliography Item #{}: {}".format(self.ordering, self.content_object)
+        return f"Bibliography Item #{self.ordering}: {self.content_object}"
 
 
 class BibliographyMixin(models.Model):

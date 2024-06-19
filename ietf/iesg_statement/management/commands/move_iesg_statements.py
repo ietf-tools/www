@@ -1,16 +1,15 @@
-from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
-
+from django.core.management.base import BaseCommand
 from wagtail.contrib.redirects.models import Redirect
 
 from ietf.blog.models import BlogPage
 from ietf.iesg_statement.models import (
-    IESGStatementPage,
     IESGStatementIndexPage,
+    IESGStatementPage,
     IESGStatementTopic,
 )
-from ietf.standard.models import StandardPage
 from ietf.snippets.models import PrimaryTopic
+from ietf.standard.models import StandardPage
 
 slug_map = {
     "iesg-statement-maximizing-encrypted-access-ietf-information": "maximizing-encrypted-access",

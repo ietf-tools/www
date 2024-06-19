@@ -1,5 +1,5 @@
-from django.test import Client
 import pytest
+from django.test import Client
 from wagtail.test.utils import WagtailTestUtils
 
 from ietf.events.factories import EventListingPageFactory, EventPageFactory

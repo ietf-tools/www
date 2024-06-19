@@ -1,11 +1,12 @@
 from datetime import timedelta
+
+import pytest
 from bs4 import BeautifulSoup
 from django.test import Client
 from django.utils import timezone
 
-import pytest
-
 from ietf.home.models import IABHomePage
+
 from .factories import IABAnnouncementIndexPageFactory, IABAnnouncementPageFactory
 from .models import IABAnnouncementIndexPage, IABAnnouncementPage
 

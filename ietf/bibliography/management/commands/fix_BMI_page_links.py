@@ -23,7 +23,7 @@ def change_links(page):
     for fieldname in page.CONTENT_FIELD_MAP.keys():
         field = getattr(page, fieldname)
         for item in field.stream_data:
-            if not item["type"] in ("paragraph", "raw_html"):
+            if item["type"] not in ("paragraph", "raw_html"):
                 continue
             soup = BeautifulSoup(item["value"], "html.parser")
             for tag in soup.find_all("a", string=rfc_pattern):

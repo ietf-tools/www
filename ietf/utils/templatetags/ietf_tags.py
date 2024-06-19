@@ -1,7 +1,6 @@
 from urllib.parse import quote
 
 from django.template import Library
-from wagtail.models import Site
 
 from ..models import PromoteMixin, SocialMediaSettings
 

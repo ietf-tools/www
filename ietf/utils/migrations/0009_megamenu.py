@@ -2,11 +2,11 @@
 
 import uuid
 
-from django.db import migrations, models
 import django.db.models.deletion
 import wagtail.blocks
 import wagtail.fields
 import wagtail.models
+from django.db import migrations, models
 
 
 def populate_main_menu(apps, schema_editor):

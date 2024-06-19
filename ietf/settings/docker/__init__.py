@@ -1,9 +1,10 @@
 from typed_environment_configuration import (
     BoolVariable,
-    StringVariable,
-    StringListVariable,
     FillVars,
+    StringListVariable,
+    StringVariable,
 )
+
 from ..base import *
 
 _ENVVARS = [

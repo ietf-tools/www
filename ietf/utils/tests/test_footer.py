@@ -1,5 +1,5 @@
-from bs4 import BeautifulSoup
 import pytest
+from bs4 import BeautifulSoup
 from django.test import Client, RequestFactory
 
 from ietf.home.models import HomePage
