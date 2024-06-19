@@ -34,7 +34,7 @@ class LinkBlock(StructBlock):
     link_document = DocumentChooserBlock(required=False)
 
     def get_context(self, value, parent_context=None):
-        context = super(LinkBlock, self).get_context(value, parent_context)
+        context = super().get_context(value, parent_context)
         if value["link_page"]:
             link = value["link_page"].url
         elif value["link_document"]:

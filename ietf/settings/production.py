@@ -34,7 +34,7 @@ if "CSRF_TRUSTED_ORIGINS" in env:
     CSRF_TRUSTED_ORIGINS = env["CSRF_TRUSTED_ORIGINS"].split(",")
 
 if "PRIMARY_HOST" in env:
-    WAGTAILADMIN_BASE_URL = "http://%s/" % env["PRIMARY_HOST"]
+    WAGTAILADMIN_BASE_URL = "http://{}/".format(env["PRIMARY_HOST"])
 
 if "SERVER_EMAIL" in env:
     SERVER_EMAIL = env["SERVER_EMAIL"]

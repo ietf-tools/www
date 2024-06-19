@@ -90,9 +90,9 @@ class TestBlog:
         assert self.blog_page.title in html
         assert self.blog_page.body[0].value in html
         assert self.blog_page.introduction in html
-        assert ('href="%s"' % self.next_blog_page.url) in html
-        assert ('href="%s"' % self.prev_blog_page.url) in html
-        assert ('href="%s"' % self.other_blog_page.url) in html
+        assert (f'href="{self.next_blog_page.url}"') in html
+        assert (f'href="{self.prev_blog_page.url}"') in html
+        assert (f'href="{self.other_blog_page.url}"') in html
 
     def test_previous_next_links_correct(self):
         assert self.prev_blog_page.date < self.blog_page.date

@@ -16,9 +16,8 @@ def register_signal_handlers():
             purge_pages.add(parent)
 
         for obj, _ in ReferenceIndex.get_grouped_references_to(instance):
-            if isinstance(obj, Page):
-                if obj.live:
-                    purge_pages.add(obj)
+            if isinstance(obj, Page) and obj.live:
+                purge_pages.add(obj)
 
             if isinstance(obj, MainMenuItem):
                 purge_pages.add(home_page)
