@@ -85,9 +85,7 @@ class BibliographyItem(models.Model):
             template = BibliographyItem.TEMPLATE_CACHE[self.content_key]
         else:
             try:
-                template = get_template(
-                    f"bibliography/item_{self.content_key}.html"
-                )
+                template = get_template(f"bibliography/item_{self.content_key}.html")
             except TemplateDoesNotExist:
                 template = None
             BibliographyItem.TEMPLATE_CACHE[self.content_key] = template
@@ -192,7 +190,7 @@ class BibliographyMixin(models.Model):
                     ordering=index + 1,
                     content_key=model,
                     content_identifier=obj_id,
-                    **object_details
+                    **object_details,
                 )
                 for soup in subsoups.values():
                     for t in soup.find_all(
