@@ -9,6 +9,11 @@ on:
         default: false
         required: true
         type: boolean
+      sandbox:
+        description: 'Deploy to Sandbox'
+        default: true
+        required: true
+        type: boolean
       deploy:
         description: 'Deploy to K8S'
         default: 'Skip'
@@ -26,11 +31,6 @@ on:
         options:
           - iabwww
           - ietfwww
-      sandbox:
-        description: 'Deploy to Sandbox'
-        default: true
-        required: true
-        type: boolean
 
 jobs:
   # -----------------------------------------------------------------
