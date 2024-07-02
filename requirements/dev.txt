@@ -160,7 +160,7 @@ telepath==0.3.1
     # via
     #   -c base.txt
     #   wagtail
-urllib3==2.1.0
+urllib3==2.2.2
     # via
     #   -c base.txt
     #   requests

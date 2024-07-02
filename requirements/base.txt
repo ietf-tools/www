@@ -103,7 +103,7 @@ typepy==1.3.0
     # via typed-environment-configuration
 typing-extensions==4.8.0
     # via dj-database-url
-urllib3==2.1.0
+urllib3==2.2.2
     # via requests
 wagtail==5.2.1
     # via
