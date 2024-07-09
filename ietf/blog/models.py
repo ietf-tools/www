@@ -443,7 +443,7 @@ class BlogIndexPage(RoutablePageMixin, Page):
                 self.filter_topic = Topic.objects.filter(slug=slug).first()
                 if not self.filter_topic:
                     blog_page = get_object_or_404(
-                        BlogPage.objects.prefetch_related("authors"), slug=slug
+                        BlogPage.objects.live().prefetch_related("authors"), slug=slug
                     )
                     return blog_page.serve(request, *args, **kwargs)
 
