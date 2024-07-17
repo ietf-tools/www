@@ -16,4 +16,4 @@ data:
 
   # use this to override default - one entry per line
   # IABWWW_CSRF_TRUSTED_ORIGINS: |-
-  #   https://www.staging.ietf.org
+  #   https://www.staging.iab.org
