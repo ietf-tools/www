@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: django-config
+data:
+  IETFWWW_ADMINS: |-
+    Robert Sparks <rjsparks@nostrum.com>
+    Kesara Rathnayake <kesara@staff.ietf.org>
+  IETFWWW_ALLOWED_HOSTS: ".ietf.org"  # newline-separated list also allowed
+
+  IETFWWW_DJANGO_SECRET_KEY: "PDwXboUq!=hPjnrtG2=ge#N$Dwy+wn@uivrugwpic8mxyPfHk"  # secret
+
+
+  # IETFWWW_MATOMO_SITE_ID: "1"  # must be present to enable Matomo
+  # IETFWWW_MATOMO_DOMAIN_PATH: "analytics.ietf.org"
+
+  # use this to override default - one entry per line
+  # IETFWWW_CSRF_TRUSTED_ORIGINS: |-
+  #   https://www.staging.ietf.org

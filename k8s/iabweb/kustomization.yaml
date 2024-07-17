@@ -1,0 +1,13 @@
+namespace: ietfwww
+namePrefix: ietfwww-
+configMapGenerator:
+  - name: files-cfgmap
+    files:
+      - local.py
+      - supervisord.conf
+      - nginx-default.conf
+      - nginx.conf
+resources:
+  - django-config.yaml
+  - memcached.yaml
+  - wagtail.yaml
