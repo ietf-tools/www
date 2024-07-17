@@ -1,5 +1,5 @@
-namespace: ietfwww
-namePrefix: ietfwww-
+namespace: iabwww
+namePrefix: iabwww-
 configMapGenerator:
   - name: files-cfgmap
     files:
