@@ -9,8 +9,8 @@ def _multiline_to_list(s):
     return [item.strip() for item in s.split("\n")]
 
 
-DEFAULT_FROM_EMAIL = "donotreply@ietf.org"
-SERVER_EMAIL = "donotreply@ietf.org"
+DEFAULT_FROM_EMAIL = "donotreply@iab.org"
+SERVER_EMAIL = "donotreply@iab.org"
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = os.environ.get("IABWWW_EMAIL_HOST", "localhost")
 EMAIL_PORT = int(os.environ.get("IABWWW_EMAIL_PORT", "2025"))
