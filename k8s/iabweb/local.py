@@ -47,7 +47,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
         "HOST": os.environ.get("IABWWW_DB_HOST", "db"),
         "PORT": os.environ.get("IABWWW_DB_PORT", "5432"),
-        "NAME": os.environ.get("IABWWW_DB_NAME", "ietfweb"),
+        "NAME": os.environ.get("IABWWW_DB_NAME", "iabweb"),
         "USER": os.environ.get("IABWWW_DB_USER", "django"),
         "PASSWORD": os.environ.get("IABWWW_DB_PASS", ""),
         "CONN_MAX_AGE": 600,  # number of seconds database connections should persist for
