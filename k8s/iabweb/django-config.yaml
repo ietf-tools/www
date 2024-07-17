@@ -6,7 +6,7 @@ data:
   IABWWW_ADMINS: |-
     Robert Sparks <rjsparks@nostrum.com>
     Kesara Rathnayake <kesara@staff.ietf.org>
-  IABWWW_ALLOWED_HOSTS: ".ietf.org"  # newline-separated list also allowed
+  IABWWW_ALLOWED_HOSTS: ".iab.org"  # newline-separated list also allowed
 
   IABWWW_DJANGO_SECRET_KEY: "PDwXboUq!=hPjnrtG2=ge#N$Dwy+wn@uivrugwpic8mxyPfHk"  # secret
 
