@@ -50,7 +50,7 @@ spec:
               subPath: nginx-default.conf
           env:
             - name: "CONTAINER_ROLE"
-              value: "ietfweb"
+              value: "iabweb"
             - name: "DJANGO_SETTINGS_MODULE"
               value: "ietf.settings.production"
             # ensures the pod gets recreated on every deploy:
