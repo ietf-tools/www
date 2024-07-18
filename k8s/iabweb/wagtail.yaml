@@ -68,6 +68,9 @@ spec:
             runAsUser: 1000
             runAsGroup: 1000
       volumes:
+        - name: www-tmp
+          emptyDir:
+            sizeLimit: "1Gi"
         - name: www-nginx
           emptyDir:
             sizeLimit: "1Gi"
