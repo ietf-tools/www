@@ -28,8 +28,6 @@ spec:
               name: http
               protocol: TCP
           volumeMounts:
-            - name: dt-vol
-              mountPath: /a
             - name: www-tmp
               mountPath: /tmp
             - name: www-nginx
