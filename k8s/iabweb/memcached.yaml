@@ -33,7 +33,7 @@ spec:
             runAsGroup: 65534  # nobody
         - image: "memcached:1.6-alpine"
           imagePullPolicy: IfNotPresent
-          args: ["-m", "1024"]
+          args: ["-m", "256"]
           name: memcached
           ports:
             - name: memcached
