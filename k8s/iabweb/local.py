@@ -70,7 +70,7 @@ if "IABWWW_MATOMO_SITE_ID" in os.environ:
 # Duplicating production cache from settings.py and using it whether we're in production mode or not
 MEMCACHED_HOST = os.environ.get("IABWWW_MEMCACHED_SERVICE_HOST", "127.0.0.1")
 MEMCACHED_PORT = os.environ.get("IABWWW_MEMCACHED_SERVICE_PORT", "11211")
-MEMCACHED_KEY_PREFIX = "ietf"
+MEMCACHED_KEY_PREFIX = "iab"
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.memcached.PyMemcacheCache",
