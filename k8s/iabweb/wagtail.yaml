@@ -57,6 +57,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: django-config
+            - secretRef:
+                name: iabwww-secrets-env
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
