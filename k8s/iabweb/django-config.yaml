@@ -7,5 +7,3 @@ data:
     Robert Sparks <rjsparks@nostrum.com>
     Kesara Rathnayake <kesara@staff.ietf.org>
   IABWWW_ALLOWED_HOSTS: ".iab.org"  # newline-separated list also allowed
-
-  IABWWW_DJANGO_SECRET_KEY: "E6a_yN@bE0-Wu5XyNb=qJT.1+>InMuUD!-zYX01t.%qp>~O*?"  # secret
