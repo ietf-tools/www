@@ -28,22 +28,22 @@ spec:
               name: http
               protocol: TCP
           volumeMounts:
-            - name: www-tmp
+            - name: iabwww-tmp
               mountPath: /tmp
-            - name: www-nginx
+            - name: iabwww-nginx
               mountPath: /var/lib/nginx
-            - name: www-media
+            - name: iabwww-media
               mountPath: /app/media
-            - name: www-cfg
+            - name: iabwww-cfg
               mountPath: /app/supervisord.conf
               subPath: supervisord.conf
-            - name: www-cfg
+            - name: iabwww-cfg
               mountPath: /app/ietf/settings/local.py
               subPath: local.py
-            - name: www-cfg
+            - name: iabwww-cfg
               mountPath: /etc/nginx/nginx.conf
               subPath: nginx.conf
-            - name: www-cfg
+            - name: iabwww-cfg
               mountPath: /etc/nginx/sites-enabled/default
               subPath: nginx-default.conf
           env:
@@ -56,7 +56,7 @@ spec:
               value: "$DEPLOY_UID"
           envFrom:
             - configMapRef:
-                name: django-config
+                name: iabwww-django-config
             - secretRef:
                 name: iabwww-secrets-env
           securityContext:
@@ -68,13 +68,13 @@ spec:
             runAsUser: 1000
             runAsGroup: 1000
       volumes:
-        - name: www-tmp
+        - name: iabwww-tmp
           emptyDir:
             sizeLimit: "1Gi"
-        - name: www-nginx
+        - name: iabwww-nginx
           emptyDir:
             sizeLimit: "1Gi"
-        - name: www-cfg
+        - name: iabwww-cfg
           configMap:
             name: files-cfgmap
       dnsPolicy: ClusterFirst
@@ -82,7 +82,7 @@ spec:
       terminationGracePeriodSeconds: 30
   volumeClaimTemplates:
   - metadata:
-      name: www-media
+      name: iabwww-media
     spec:
       accessModes:
       - ReadWriteOnce
