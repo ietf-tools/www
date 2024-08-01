@@ -9,11 +9,3 @@ data:
   IABWWW_ALLOWED_HOSTS: ".iab.org"  # newline-separated list also allowed
 
   IABWWW_DJANGO_SECRET_KEY: "E6a_yN@bE0-Wu5XyNb=qJT.1+>InMuUD!-zYX01t.%qp>~O*?"  # secret
-
-
-  # IABWWW_MATOMO_SITE_ID: "1"  # must be present to enable Matomo
-  # IABWWW_MATOMO_DOMAIN_PATH: "analytics.ietf.org"
-
-  # use this to override default - one entry per line
-  # IABWWW_CSRF_TRUSTED_ORIGINS: |-
-  #   https://www.staging.iab.org
