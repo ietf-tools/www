@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: iabwww-django-config
+  name: django-config
 data:
   IABWWW_ADMINS: |-
     Robert Sparks <rjsparks@nostrum.com>
