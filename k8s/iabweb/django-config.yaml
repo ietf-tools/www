@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: django-config
-data:
-  IABWWW_ADMINS: |-
-    Robert Sparks <rjsparks@nostrum.com>
-    Kesara Rathnayake <kesara@staff.ietf.org>
-  IABWWW_ALLOWED_HOSTS: ".iab.org"  # newline-separated list also allowed

@@ -8,6 +8,5 @@ configMapGenerator:
       - nginx-default.conf
       - nginx.conf
 resources:
-  - django-config.yaml
   - memcached.yaml
   - wagtail.yaml

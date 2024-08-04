@@ -55,8 +55,6 @@ spec:
             - name: "DEPLOY_UID"
               value: "$DEPLOY_UID"
           envFrom:
-            - configMapRef:
-                name: iabwww-django-config
             - secretRef:
                 name: iabwww-secrets-env
           securityContext:
