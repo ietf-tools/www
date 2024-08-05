@@ -1,0 +1,104 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: wagtail
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: wagtail
+  template:
+    metadata:
+      labels:
+        app: wagtail
+    spec:
+      securityContext:
+        fsGroup: 1000
+        runAsNonRoot: true
+      containers:
+        # -----------------------------------------------------
+        # wagtail Container
+        # -----------------------------------------------------
+        - name: wagtail
+          image: "ghcr.io/ietf-tools/www:$APP_IMAGE_TAG"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          volumeMounts:
+            - name: iabwww-tmp
+              mountPath: /tmp
+            - name: iabwww-nginx
+              mountPath: /var/lib/nginx
+            - name: iabwww-media
+              mountPath: /app/media
+            - name: iabwww-cfg
+              mountPath: /app/supervisord.conf
+              subPath: supervisord.conf
+            - name: iabwww-cfg
+              mountPath: /app/ietf/settings/local.py
+              subPath: local.py
+            - name: iabwww-cfg
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+            - name: iabwww-cfg
+              mountPath: /etc/nginx/sites-enabled/default
+              subPath: nginx-default.conf
+          env:
+            - name: "CONTAINER_ROLE"
+              value: "iabweb"
+            - name: "DJANGO_SETTINGS_MODULE"
+              value: "ietf.settings.production"
+            # ensures the pod gets recreated on every deploy:
+            - name: "DEPLOY_UID"
+              value: "$DEPLOY_UID"
+          envFrom:
+            - secretRef:
+                name: iabwww-secrets-env
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+            runAsUser: 1000
+            runAsGroup: 1000
+      volumes:
+        - name: iabwww-tmp
+          emptyDir:
+            sizeLimit: "1Gi"
+        - name: iabwww-nginx
+          emptyDir:
+            sizeLimit: "1Gi"
+        - name: iabwww-cfg
+          configMap:
+            name: files-cfgmap
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+  volumeClaimTemplates:
+  - metadata:
+      name: iabwww-media
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 5Gi
+      storageClassName: "generic"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wagtail
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: wagtail
