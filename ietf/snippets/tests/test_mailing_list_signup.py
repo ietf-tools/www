@@ -1,11 +1,11 @@
-from bs4 import BeautifulSoup
-from django.urls import reverse
 import pytest
+from bs4 import BeautifulSoup
 from django.test import Client
+from django.urls import reverse
 
 from ietf.home.models import HomePage
-from ietf.standard.factories import StandardPageFactory
 from ietf.snippets.factories import MailingListSignupFactory, WorkingGroupFactory
+from ietf.standard.factories import StandardPageFactory
 
 pytestmark = pytest.mark.django_db
 

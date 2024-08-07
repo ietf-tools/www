@@ -1,5 +1,5 @@
-
 from wagtail.documents.models import Document
+
 
 class IetfDocument(Document):
 

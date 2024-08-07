@@ -6,33 +6,58 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('utils', '0007_auto_20230524_0551'),
+        ("utils", "0007_auto_20230524_0551"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='socialmediasettings',
-            name='github',
-            field=models.CharField(blank='True', help_text='Link to GitHub profile', max_length=255, verbose_name='GitHub link'),
+            model_name="socialmediasettings",
+            name="github",
+            field=models.CharField(
+                blank="True",
+                help_text="Link to GitHub profile",
+                max_length=255,
+                verbose_name="GitHub link",
+            ),
         ),
         migrations.AlterField(
-            model_name='socialmediasettings',
-            name='linkedin',
-            field=models.CharField(blank='True', help_text='Link to LinkedIn profile', max_length=255, verbose_name='LinkedIn link'),
+            model_name="socialmediasettings",
+            name="linkedin",
+            field=models.CharField(
+                blank="True",
+                help_text="Link to LinkedIn profile",
+                max_length=255,
+                verbose_name="LinkedIn link",
+            ),
         ),
         migrations.AlterField(
-            model_name='socialmediasettings',
-            name='mastodon',
-            field=models.CharField(blank='True', help_text='Link to Mastodon profile', max_length=255, verbose_name='Mastodon link'),
+            model_name="socialmediasettings",
+            name="mastodon",
+            field=models.CharField(
+                blank="True",
+                help_text="Link to Mastodon profile",
+                max_length=255,
+                verbose_name="Mastodon link",
+            ),
         ),
         migrations.AlterField(
-            model_name='socialmediasettings',
-            name='twitter',
-            field=models.CharField(blank='True', help_text='Link to Twitter profile', max_length=255, verbose_name='Twitter link'),
+            model_name="socialmediasettings",
+            name="twitter",
+            field=models.CharField(
+                blank="True",
+                help_text="Link to Twitter profile",
+                max_length=255,
+                verbose_name="Twitter link",
+            ),
         ),
         migrations.AlterField(
-            model_name='socialmediasettings',
-            name='youtube',
-            field=models.CharField(blank='True', help_text='Link to YouTube account', max_length=255, verbose_name='Youtube link'),
+            model_name="socialmediasettings",
+            name="youtube",
+            field=models.CharField(
+                blank="True",
+                help_text="Link to YouTube account",
+                max_length=255,
+                verbose_name="Youtube link",
+            ),
         ),
     ]

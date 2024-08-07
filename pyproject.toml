@@ -7,3 +7,20 @@ filterwarnings = [
     "ignore:'index_together'.*'taggit.TaggedItem':django.utils.deprecation.RemovedInDjango51Warning:",
     "ignore::UserWarning",
 ]
+
+[tool.ruff]
+target-version = "py312"
+
+[tool.ruff.lint]
+extend-select = [
+    "E",   # pycodestyle
+    "F",   # Pyflakes
+    "UP",  # pyupgrade
+    "B",   # flake8-bugbear
+    "SIM", # flake8-simplify
+    "I",   # isort
+]
+
+extend-ignore = [
+    "E501",  # no line length errors
+]

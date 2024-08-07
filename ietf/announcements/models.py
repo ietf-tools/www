@@ -68,7 +68,11 @@ class IABAnnouncementIndexPage(Page):
     @property
     def children(self):
         announcements = self.get_children().live().specific()
-        return sorted(announcements, key=lambda announcement: announcement.specific.date, reverse=True)
+        return sorted(
+            announcements,
+            key=lambda announcement: announcement.specific.date,
+            reverse=True,
+        )
 
 
 IABAnnouncementIndexPage.content_panels = Page.content_panels + [

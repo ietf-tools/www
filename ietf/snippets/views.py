@@ -1,5 +1,5 @@
-from django.shortcuts import get_object_or_404, render
 from django.conf import settings
+from django.shortcuts import get_object_or_404, render
 
 from .models import MailingListSignup
 

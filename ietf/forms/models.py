@@ -1,13 +1,10 @@
 from logging import Logger
 
 from django.contrib import messages
-from django.views.defaults import server_error
 from modelcluster.fields import ParentalKey
 from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
 from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
 from wagtail.fields import RichTextField
-
-from ietf.views import server_error
 
 logger = Logger(__name__)
 
@@ -35,17 +32,17 @@ class FormPage(AbstractEmailForm):
         try:
             super().send_mail(form)
         except Exception as ex:
-            logger.error("Failed to send email with exception: {}".format(ex))
-            raise EmailException
+            logger.error(f"Failed to send email with exception: {ex}")
+            raise EmailException from ex
 
     def serve(self, request, *args, **kwargs):
         try:
             return super().serve(request, *args, **kwargs)
-        except EmailException as Ex:
+        except EmailException:
             messages.add_message(
                 request, messages.ERROR, message="Failed to send email"
             )
-            raise EmailException
+            raise
 
 
 FormPage.content_panels = [

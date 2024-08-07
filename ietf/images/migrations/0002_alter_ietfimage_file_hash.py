@@ -6,13 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('images', '0001_initial'),
+        ("images", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='ietfimage',
-            name='file_hash',
-            field=models.CharField(blank=True, db_index=True, editable=False, max_length=40),
+            model_name="ietfimage",
+            name="file_hash",
+            field=models.CharField(
+                blank=True, db_index=True, editable=False, max_length=40
+            ),
         ),
     ]

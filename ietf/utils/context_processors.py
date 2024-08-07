@@ -90,8 +90,7 @@ def get_footer():
 
 def get_preview_footer(current):
     items = [
-        current if item == current else item
-        for item in FooterColumn.objects.all()
+        current if item == current else item for item in FooterColumn.objects.all()
     ]
     if not current.pk:
         items.append(current)
