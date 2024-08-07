@@ -6,7 +6,7 @@
 #
 gunicorn==22.0.0
     # via -r docker.in
-packaging==23.2
+packaging==24.1
     # via
     #   -c base.txt
     #   gunicorn
