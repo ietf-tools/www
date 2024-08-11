@@ -108,24 +108,6 @@ jobs:
         push: true
         tags: ${{ steps.buildvars.outputs.image_tags }}
 
-    - name: Set Helm Chart Version
-      env:
-        DEBIAN_FRONTEND: noninteractive
-      if: ${{ github.event.inputs.publish == 'true' }}
-      run: |
-        echo "Setting version ${{ steps.semver.outputs.nextStrict }}..."
-        sed -i -r -e "s|^version: .*$|version: '${{ steps.semver.outputs.nextStrict }}'|" helm/Chart.yaml
-        sed -i -r -e "s|^appVersion: ".*"$|appVersion: '${{ steps.semver.outputs.nextStrict }}'|" helm/Chart.yaml
-
-
-    - name: Package and Push Chart
-      if: ${{ github.event.inputs.publish == 'true' }}
-      run: |
-        helm plugin install https://github.com/chartmuseum/helm-push.git
-        helm repo add chartmuseum https://charts.ietf.org
-        helm cm-push --version="${{ steps.semver.outputs.nextStrict }}" --username="${{ secrets.HELM_REPO_USERNAME }}" --password="${{ secrets.HELM_REPO_PASSWORD }}" helm/ chartmuseum
-        helm repo remove chartmuseum
-        
     - name: Update CHANGELOG
       id: changelog
       uses: Requarks/changelog-action@v1
