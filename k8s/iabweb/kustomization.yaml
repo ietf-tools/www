@@ -10,3 +10,4 @@ configMapGenerator:
 resources:
   - memcached.yaml
   - wagtail.yaml
+  - cron.yaml
