@@ -1,0 +1,38 @@
+name: Run tests
+on:
+  push:
+    branches:
+      - '*'
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Download latest DB / media dump
+        env:
+          DEBIAN_FRONTEND: noninteractive
+          AWS_ACCESS_KEY_ID: ${{ secrets.DO_SPACES_DEV_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.DO_SPACES_DEV_ACCESS_KEY }}
+        run: |
+          aws s3 cp --quiet --endpoint-url=${{ secrets.DO_SPACES_DEV_ENDPOINT }} s3://wagtail/ietfa.torchbox.latest.gz ietfa.torchbox.latest.gz
+          aws s3 cp --quiet --endpoint-url=${{ secrets.DO_SPACES_DEV_ENDPOINT }} s3://wagtail/media.tgz media.tgz
+
+      - name: Unarchive media files
+        run: |
+          mkdir -p ./media
+          tar -xzf media.tgz -C media
+
+      - name: Docker Compose up
+        run: docker compose up --build -d
+
+      - name: Wait for services to be up
+        run: sleep 10
+
+      - name: Run accessibility tests
+        run: docker exec www-frontend-1 sh -c 'yarn test $APP_SERVER_URL'
