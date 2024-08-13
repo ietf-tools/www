@@ -8,6 +8,7 @@
     "private": true,
     "cms": "django",
     "devDependencies": {
+        "@axe-core/puppeteer": "^4.9.1",
         "@babel/core": "^7.14.6",
         "@babel/preset-env": "^7.14.7",
         "@babel/preset-typescript": "^7.14.5",
@@ -20,6 +21,7 @@
         "mini-css-extract-plugin": "^1.6.2",
         "postcss-loader": "^6.1.0",
         "prettier": "^2.3.2",
+        "puppeteer": "^23.0.2",
         "sass-loader": "^12.1.0",
         "style-loader": "^3.0.0",
         "svgo": "^2.3.1",
@@ -39,7 +41,6 @@
         "test": "yarn test:accessibility"
     },
     "dependencies": {
-        "@axe-core/puppeteer": "^4.4.2",
         "@buzuli/json": "^2.1.0",
         "@ietf-tools/common-bootstrap-theme": "^0.0.3",
         "@popperjs/core": "^2.10.1",
@@ -56,7 +57,6 @@
         "normalize.css": "^8.0.1",
         "postcss": "^8.2.15",
         "postcss-normalize": "^10.0.0",
-        "puppeteer": "^13.6.0",
         "sass": "^1.35.1",
         "ts-node": "^10.0.0",
         "typescript": "^4.3.4"
