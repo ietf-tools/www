@@ -130,9 +130,9 @@ docker compose run --rm application requirements/compile -U
 
 ## Deployment
 
-Production: [IETF](https://www.ietf.org/), [IAB](https://temporary.iab.org/)
+Production: [IETF](https://www.ietf.org/), [IAB](https://www.iab.org/)
 
-Staging: [IETF](https://wwwstaging.ietf.org/), [IAB](https://wwwstaging.iab.org/)
+Staging: [IETF](https://www.staging.ietf.org/), [IAB](https://iab.staging.ietf.org/)
 
 Dev _(automatically build from **main** branch)_: https://ws-main.dev.ietf.org/
 
