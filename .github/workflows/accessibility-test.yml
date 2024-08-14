@@ -34,4 +34,4 @@ jobs:
 
       - name: Run tests
         run: |
-          yarn test http://www.ietf.org
+          yarn test
