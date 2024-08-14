@@ -6,34 +6,14 @@ const { AxePuppeteer } = require('@axe-core/puppeteer');
 const puppeteer = require('puppeteer');
 const colorJson = require('color-json');
 
-const baseUrl = process.argv[2]; // use the first argument
+const baseUrl = 'https://www.ietf.org/'; // test on prod
 
 const testPaths = [
     '/',
-    '/calintest-homepage-1/calin-topic-page-list/', 
-    '/calintest-homepage-1/calintest-topic-page1/',
-    '/calintest-homepage-1/calintest-topic-page-empty/',
-    '/calintest-homepage-1/calintest-standard-page/',
-    '/calintest-homepage-1/calintest-standard-page-empty/',
-    '/calintest-homepage-1/calintest-index-page-1/',
-    '/calintest-homepage-1/calintest-index-page-empty/',
-    '/calintest-homepage-1/calintest-iesg-statements-index-page/',
-    '/calintest-homepage-1/calintest-glossary-page-1/',
-    '/calintest-homepage-1/calintest-glossary-page-empty/',
-    '/calintest-homepage-1/calintest-form-page-1/',
-    '/calintest-homepage-1/calintest-form-page-empty/',
-    '/calintest-homepage-1/calintest-event-page-1/',
-    '/calintest-homepage-1/calintest-event-page-empty/',
-    '/calintest-homepage-1/calintest-event-listing-page-max1/',
-    '/calintest-homepage-1/calintest-event-listing-empty/',
-    '/calintest-homepage-1/calintest-event-listing-page-1/',
-    '/calintest-homepage-1/titletitletitletitletitletitletitletitletitletitle/',
-    '/calintest-homepage-1/calintest-homepage/',
-    '/calintest-homepage-1/calintest-iesg-statements-index-page/calintest-iesg-statement-page-1/',
-    '/calintest-homepage-1/calintest-iesg-statements-index-page/calintest-iesg-statement-page-empty/',
-    '/calintest-homepage-1/titletitletitletitletitletitletitletitletitletitle/calintest-blog-page-title1/',
-    '/calintest-homepage-1/titletitletitletitletitletitletitletitletitletitle/calintest-blog-page-title2/',
-    '/calintest-homepage-1/titletitletitletitletitletitletitletitletitletitle/blog-page-empty/',
+    '/about/introduction/', 
+    '/blog/',
+    '/blog/ietf120-new-topics/',
+    '/process/process/',
 ];
 
 const violationImpactsThatFail = ['serious', 'critical'];
@@ -125,5 +105,9 @@ const rulesToDisable: string[] = [
         hasViolationsThatFail = true;
     }
 
+    if (hasViolationsThatFail) {
+        console.error(`Tests failed`)
+    }
+    
     process.exit(hasViolationsThatFail ? 1 : 0);
 })();
