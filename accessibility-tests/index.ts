@@ -6,34 +6,14 @@ const { AxePuppeteer } = require('@axe-core/puppeteer');
 const puppeteer = require('puppeteer');
 const colorJson = require('color-json');
 
-const baseUrl = process.argv[2]; // use the first argument
-
-const testPaths = [
-    '/',
-    '/calintest-homepage-1/calin-topic-page-list/', 
-    '/calintest-homepage-1/calintest-topic-page1/',
-    '/calintest-homepage-1/calintest-topic-page-empty/',
-    '/calintest-homepage-1/calintest-standard-page/',
-    '/calintest-homepage-1/calintest-standard-page-empty/',
-    '/calintest-homepage-1/calintest-index-page-1/',
-    '/calintest-homepage-1/calintest-index-page-empty/',
-    '/calintest-homepage-1/calintest-iesg-statements-index-page/',
-    '/calintest-homepage-1/calintest-glossary-page-1/',
-    '/calintest-homepage-1/calintest-glossary-page-empty/',
-    '/calintest-homepage-1/calintest-form-page-1/',
-    '/calintest-homepage-1/calintest-form-page-empty/',
-    '/calintest-homepage-1/calintest-event-page-1/',
-    '/calintest-homepage-1/calintest-event-page-empty/',
-    '/calintest-homepage-1/calintest-event-listing-page-max1/',
-    '/calintest-homepage-1/calintest-event-listing-empty/',
-    '/calintest-homepage-1/calintest-event-listing-page-1/',
-    '/calintest-homepage-1/titletitletitletitletitletitletitletitletitletitle/',
-    '/calintest-homepage-1/calintest-homepage/',
-    '/calintest-homepage-1/calintest-iesg-statements-index-page/calintest-iesg-statement-page-1/',
-    '/calintest-homepage-1/calintest-iesg-statements-index-page/calintest-iesg-statement-page-empty/',
-    '/calintest-homepage-1/titletitletitletitletitletitletitletitletitletitle/calintest-blog-page-title1/',
-    '/calintest-homepage-1/titletitletitletitletitletitletitletitletitletitle/calintest-blog-page-title2/',
-    '/calintest-homepage-1/titletitletitletitletitletitletitletitletitletitle/blog-page-empty/',
+const testUrls = [
+    'https://www.ietf.org/',
+    'https://www.ietf.org/about/introduction/', 
+    'https://www.ietf.org/blog/',
+    'https://www.ietf.org/blog/ietf120-new-topics/',
+    'https://www.ietf.org/process/process/',
+//    'https://www.iab.org/',              // FIXME: this fails colour contrast
+//    'https://www.iab.org/about/members/' // FIXME: this fails colour contrast
 ];
 
 const violationImpactsThatFail = ['serious', 'critical'];
@@ -44,7 +24,6 @@ const rulesToDisable: string[] = [
 ];
 
 (async () => {
-    console.log(`Testing ${baseUrl}`);
     const browser = await puppeteer.launch({
         args: ['--no-sandbox', '--disable-setuid-sandbox'],
     });
@@ -60,9 +39,9 @@ const rulesToDisable: string[] = [
     let hasViolationsThatFail = false;
 
     try {
-        for (let i = 0; i < testPaths.length; i++) {
-            const testPath = testPaths[i];
-            const url = new URL(testPath, baseUrl).toString();
+        for (let i = 0; i < testUrls.length; i++) {
+            const testUrl = testUrls[i];
+            const url = new URL(testUrl).toString();
             console.log(`Testing URL: ${url}`);
             await page.goto(url), { waitUntil: 'networkidle0' };
             const allResults = await new AxePuppeteer(page)
@@ -125,5 +104,9 @@ const rulesToDisable: string[] = [
         hasViolationsThatFail = true;
     }
 
+    if (hasViolationsThatFail) {
+        console.error(`Tests failed`)
+    }
+    
     process.exit(hasViolationsThatFail ? 1 : 0);
 })();

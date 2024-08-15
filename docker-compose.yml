@@ -1,5 +1,3 @@
-version: "3.7"
-
 services:
     application:
         restart: on-failure
@@ -27,6 +25,10 @@ services:
             target: frontend
         volumes:
             - ".:/app"
+        environment:
+            APP_SERVER_URL: "http://application:8000"
+        depends_on:
+            - application
 
     database:
         restart: on-failure
