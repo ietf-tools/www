@@ -57,8 +57,8 @@ spec:
             - name: "DEPLOY_UID"
               value: "$DEPLOY_UID"
           envFrom:
-            - configMapRef:
-                name: django-config
+            - secretRef:
+                name: ietfwww-secrets-env
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
