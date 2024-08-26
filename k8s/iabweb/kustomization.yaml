@@ -1,7 +1,6 @@
 namespace: iabwww
-namePrefix: iabwww-
 configMapGenerator:
-  - name: files-cfgmap
+  - name: iabwww-files-cfgmap
     files:
       - local.py
       - supervisord.conf

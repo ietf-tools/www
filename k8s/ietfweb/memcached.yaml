@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: memcached
+  name: ietfwww-memcached
 spec:
   replicas: 1
   revisionHistoryLimit: 2
   selector:
     matchLabels:
-      app: memcached
+      app: ietfwww-memcached
   template:
     metadata:
       labels:
-        app: memcached
+        app: ietfwww-memcached
     spec:
       securityContext:
         runAsNonRoot: true
       containers:
         - image: "quay.io/prometheus/memcached-exporter:v0.14.3"
           imagePullPolicy: IfNotPresent
-          name: memcached-exporter
+          name: ietfwww-memcached-exporter
           ports:
             - name: metrics
               containerPort: 9150
@@ -34,7 +34,7 @@ spec:
         - image: "memcached:1.6-alpine"
           imagePullPolicy: IfNotPresent
           args: ["-m", "1024"]
-          name: memcached
+          name: ietfwww-memcached
           ports:
             - name: memcached
               containerPort: 11211
@@ -51,11 +51,21 @@ spec:
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - ietfwww-wagtail
+            topologyKey: "kubernetes.io/hostname"
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: memcached
+  name: ietfwww-memcached
   annotations:
     k8s.grafana.com/scrape: "true"  # this is not a bool
     k8s.grafana.com/metrics.portName: "metrics"
@@ -71,4 +81,4 @@ spec:
       protocol: TCP
       name: metrics
   selector:
-    app: memcached
+    app: ietfwww-memcached
