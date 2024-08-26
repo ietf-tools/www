@@ -1,7 +1,6 @@
 namespace: ietfwww
-namePrefix: ietfwww-
 configMapGenerator:
-  - name: files-cfgmap
+  - name: ietfwww-files-cfgmap
     files:
       - local.py
       - supervisord.conf

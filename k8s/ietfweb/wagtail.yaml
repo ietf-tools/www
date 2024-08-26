@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: wagtail
+  name: ietfwww-wagtail
 spec:
   replicas: 1
   revisionHistoryLimit: 2
   selector:
     matchLabels:
-      app: wagtail
+      app: ietfwww-wagtail
   template:
     metadata:
       labels:
-        app: wagtail
+        app: ietfwww-wagtail
     spec:
       securityContext:
         fsGroup: 1000
@@ -20,7 +20,7 @@ spec:
         # -----------------------------------------------------
         # wagtail Container
         # -----------------------------------------------------
-        - name: wagtail
+        - name: ietfwww-wagtail
           image: "ghcr.io/ietf-tools/www:$APP_IMAGE_TAG"
           imagePullPolicy: Always
           ports:
@@ -83,6 +83,16 @@ spec:
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - iabwww-wagtail
+            topologyKey: "kubernetes.io/hostname"
   volumeClaimTemplates:
   - metadata:
       name: www-media
@@ -97,7 +107,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: wagtail
+  name: ietfwww-wagtail
 spec:
   type: ClusterIP
   ports:
@@ -106,4 +116,4 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app: wagtail
+    app: ietfwww-wagtail
