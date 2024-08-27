@@ -7,11 +7,15 @@ spec:
   revisionHistoryLimit: 2
   selector:
     matchLabels:
-      app: iabwww-wagtail
+      app.kubernetes.io/instance: iabwww-wagtail
   template:
     metadata:
       labels:
-        app: iabwww-wagtail
+        app.kubernetes.io/name: wagtail
+        app.kubernetes.io/instance: iabwww-wagtail
+        app.kubernetes.io/version: "$APP_IMAGE_TAG"
+        app.kubernetes.io/component: website
+        app.kubernetes.io/part-of: iabwww
     spec:
       securityContext:
         fsGroup: 1000
@@ -74,20 +78,22 @@ spec:
             sizeLimit: "1Gi"
         - name: iabwww-cfg
           configMap:
-            name: files-cfgmap
+            name: iabwww-files-cfgmap
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
+      # ensures we don't schedule this pod on the same node as ietfwww:
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
           - labelSelector:
               matchExpressions:
-              - key: app
+              - key: app.kubernetes.io/instance
                 operator: In
                 values:
-                - ietfwww-wagtail
+                - ietfwww
             topologyKey: "kubernetes.io/hostname"
+            namespaceSelector: {}
   volumeClaimTemplates:
   - metadata:
       name: iabwww-media
@@ -111,4 +117,4 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app: iabwww-wagtail
+    app.kubernetes.io/instance: iabwww-wagtail
