@@ -5,7 +5,7 @@ metadata:
   labels:
     app.kubernetes.io/name: memcached
     app.kubernetes.io/instance: iabwww-memcached
-    app.kubernetes.io/version: "0.14.4"
+    app.kubernetes.io/version: "0.14.3"
     app.kubernetes.io/component: memcached
 spec:
   replicas: 1
@@ -18,7 +18,7 @@ spec:
       labels:
         app.kubernetes.io/name: memcached
         app.kubernetes.io/instance: iabwww-memcached
-        app.kubernetes.io/version: "0.14.4"
+        app.kubernetes.io/version: "0.14.3"
         app.kubernetes.io/component: memcached
     spec:
       securityContext:
@@ -81,7 +81,7 @@ metadata:
   labels:
     app.kubernetes.io/name: memcached
     app.kubernetes.io/instance: iabwww-memcached
-    app.kubernetes.io/version: "0.14.4"
+    app.kubernetes.io/version: "0.14.3"
     app.kubernetes.io/component: memcached
 spec:
   type: ClusterIP
