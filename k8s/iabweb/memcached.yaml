@@ -2,6 +2,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: iabwww-memcached
+  labels:
+    app.kubernetes.io/name: memcached
+    app.kubernetes.io/instance: iabwww-memcached
+    app.kubernetes.io/version: "0.14.3"
+    app.kubernetes.io/component: memcached
 spec:
   replicas: 1
   revisionHistoryLimit: 2
@@ -15,7 +20,6 @@ spec:
         app.kubernetes.io/instance: iabwww-memcached
         app.kubernetes.io/version: "0.14.3"
         app.kubernetes.io/component: memcached
-        app.kubernetes.io/part-of: iabwww
     spec:
       securityContext:
         runAsNonRoot: true
@@ -74,6 +78,11 @@ metadata:
   annotations:
     k8s.grafana.com/scrape: "true"  # this is not a bool
     k8s.grafana.com/metrics.portName: "metrics"
+  labels:
+    app.kubernetes.io/name: memcached
+    app.kubernetes.io/instance: iabwww-memcached
+    app.kubernetes.io/version: "0.14.3"
+    app.kubernetes.io/component: memcached
 spec:
   type: ClusterIP
   ports:

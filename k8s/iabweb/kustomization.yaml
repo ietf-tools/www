@@ -1,4 +1,7 @@
 namespace: iabwww
+commonLabels:
+  app.kubernetes.io/part-of: iabwww
+  io.portainer.kubernetes.application.stack: iabwww
 configMapGenerator:
   - name: iabwww-files-cfgmap
     files:

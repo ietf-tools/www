@@ -1,4 +1,7 @@
 namespace: ietfwww
+commonLabels:
+  app.kubernetes.io/part-of: ietfwww
+  io.portainer.kubernetes.application.stack: ietfwww
 configMapGenerator:
   - name: ietfwww-files-cfgmap
     files:

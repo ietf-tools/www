@@ -2,16 +2,24 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ietfwww-memcached
+  labels:
+    app.kubernetes.io/name: memcached
+    app.kubernetes.io/instance: ietfwww-memcached
+    app.kubernetes.io/version: "0.14.3"
+    app.kubernetes.io/component: memcached
 spec:
   replicas: 1
   revisionHistoryLimit: 2
   selector:
     matchLabels:
-      app: ietfwww-memcached
+      app.kubernetes.io/instance: ietfwww-memcached
   template:
     metadata:
       labels:
-        app: ietfwww-memcached
+        app.kubernetes.io/name: memcached
+        app.kubernetes.io/instance: ietfwww-memcached
+        app.kubernetes.io/version: "0.14.3"
+        app.kubernetes.io/component: memcached
     spec:
       securityContext:
         runAsNonRoot: true
@@ -51,12 +59,13 @@ spec:
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
+      # ensures pod gets scheduled on the same node as wagtail:
       affinity:
         podAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
           - labelSelector:
               matchExpressions:
-              - key: app
+              - key: app.kubernetes.io/instance
                 operator: In
                 values:
                 - ietfwww-wagtail
@@ -69,6 +78,11 @@ metadata:
   annotations:
     k8s.grafana.com/scrape: "true"  # this is not a bool
     k8s.grafana.com/metrics.portName: "metrics"
+  labels:
+    app.kubernetes.io/name: memcached
+    app.kubernetes.io/instance: ietfwww-memcached
+    app.kubernetes.io/version: "0.14.3"
+    app.kubernetes.io/component: memcached
 spec:
   type: ClusterIP
   ports:
@@ -81,4 +95,4 @@ spec:
       protocol: TCP
       name: metrics
   selector:
-    app: ietfwww-memcached
+    app.kubernetes.io/instance: ietfwww-memcached
