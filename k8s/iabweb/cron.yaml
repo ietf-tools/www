@@ -2,6 +2,10 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: iabwww-cron-weekly
+  labels:
+    app.kubernetes.io/name: cron-weekly
+    app.kubernetes.io/instance: iabwww-cron-weekly
+    app.kubernetes.io/component: cronjob
 spec:
   schedule: "30 0 * * 0" # "At 00:30 on Sunday."
   timeZone: "Etc/UTC"
