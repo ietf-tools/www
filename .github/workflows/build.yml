@@ -64,19 +64,19 @@ jobs:
         prerelease: true
         draft: false
         commit: ${{ github.sha }}
-        tag: ${{ steps.semver.outputs.next }}
-        name: ${{ steps.semver.outputs.next }}
+        tag: ${{ steps.semver.outputs.nextStrict }}
+        name: ${{ steps.semver.outputs.nextStrict }}
         body: '*pending*'
         token: ${{ secrets.GITHUB_TOKEN }}
     
     - name: Set Build Variables
       id: buildvars
       run: |
-        if [[ $next ]]; then
-          echo "Using AUTO SEMVER mode: $next"
-          echo "pkg_version=$next" >> $GITHUB_OUTPUT
-          echo "image_tags=ghcr.io/${{ github.repository }}:$next,ghcr.io/${{ github.repository }}:latest" >> $GITHUB_OUTPUT
-          echo "::notice::Release $next created using branch $GITHUB_REF_NAME"
+        if [[ $nextStrict ]]; then
+          echo "Using AUTO SEMVER mode: $nextStrict"
+          echo "pkg_version=$nextStrict" >> $GITHUB_OUTPUT
+          echo "image_tags=ghcr.io/${{ github.repository }}:$nextStrict,ghcr.io/${{ github.repository }}:latest" >> $GITHUB_OUTPUT
+          echo "::notice::Release $nextStrict created using branch $GITHUB_REF_NAME"
         else
           PKG_VERSION=v1.0.0-dev.$GITHUB_RUN_NUMBER
           echo "Using TEST mode: $PKG_VERSION"
@@ -114,7 +114,7 @@ jobs:
       if: ${{ github.event.inputs.publish == 'true' }}
       with:
         token: ${{ github.token }}
-        fromTag: ${{ steps.semver.outputs.next }}
+        fromTag: ${{ steps.semver.outputs.nextStrict }}
         toTag: ${{ steps.semver.outputs.current }}
         writeToFile: false
         
@@ -125,8 +125,8 @@ jobs:
         makeLatest: true
         allowUpdates: true
         draft: false
-        tag: ${{ steps.semver.outputs.next }}
-        name: ${{ steps.semver.outputs.next }}
+        tag: ${{ steps.semver.outputs.nextStrict }}
+        name: ${{ steps.semver.outputs.nextStrict }}
         body: ${{ steps.changelog.outputs.changes }}
         token: ${{ secrets.GITHUB_TOKEN }}
         
