@@ -29,7 +29,7 @@ CMD ["yarn", "start"]
 # BASE
 # ---------------------------------------------------------------------
 # Base backend
-FROM python:3.12-slim-bookworm as base
+FROM python:3.12-bookworm as base
 ENV PYCURL_SSL_LIBRARY openssl
 ENV APT_BUILD_DEPS "build-essential libpq-dev"
 
