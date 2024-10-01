@@ -47,7 +47,7 @@ async function main () {
     src: [
       'docker/db.Dockerfile',
       'docker/scripts/db-import.sh',
-      'ietfa.torchbox.latest.gz'
+      'ietfwww.dump'
     ]
   }, {
     dockerfile: 'docker/db.Dockerfile',
@@ -154,7 +154,7 @@ async function main () {
       `VIRTUAL_PORT=80`,
       `DJANGO_SETTINGS_MODULE=ietf.settings.production`,
       `PGHOST=ws-db-${branch}`,
-      `PGDATABASE=torchbox_temp`,
+      `PGDATABASE=ietfwww`,
       `PGUSER=postgres`,
       `PGPASSWORD=password`,
       `SECRET_KEY=${nanoid(36)}`,
