@@ -47,11 +47,13 @@ async function main () {
     src: [
       'docker/db.Dockerfile',
       'docker/scripts/db-import.sh',
-      'ietfwww.dump'
+      'docker/database/ietfwww.dump'
     ]
   }, {
     dockerfile: 'docker/db.Dockerfile',
-    t: 'ws-db:latest'
+    t: 'ws-db:latest',
+    rm: true,
+    forcerm: true
   })
   await new Promise((resolve, reject) => {
     dock.modem.followProgress(dbImageBuildStream, (err, res) => err ? reject(err) : resolve(res))

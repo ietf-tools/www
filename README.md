@@ -36,7 +36,7 @@ So the only requirement to run it locally is a recent version of Docker with doc
 
 ##### How to run (with a database dump)
 
-1. Obtain a recent database dump with name like `ietfa.*.gz` and place in `docker/database/` directory. Otherwise, it will start with a fresh database.
+1. Obtain a recent database dump with name like `ietf*.dump` and place in `docker/database/` directory. Otherwise, it will start with a fresh database.
 2. Obtain and unarchive media files into `media/` folder.
 3. Run `docker compose up`. It will build and start the frontend builder (`yarn run start`) and the backend (`python manage.py runserver` analog), along with a Postgresql database. The first run will take a while because the database dump needs to be restored.
 4. After the frontend compilation finishes, the website should become available at http://localhost:8001
