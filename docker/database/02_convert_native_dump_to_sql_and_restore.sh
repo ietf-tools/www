@@ -5,7 +5,7 @@
 cd /docker-entrypoint-initdb.d
 
 set +e
-FILE=$(ls -1 ietfa.*.gz | head)
+FILE=$(ls -1 *.dump | head)
 
 set -e
 
@@ -16,13 +16,7 @@ restore_dump() {
 }
 
 if [ -s "${FILE}" ]; then
-	echo "Found ${FILE}, converting..."
 	case $FILE in
-		*.gz)
-		echo "Restoring the gzipped archive..."
-		gzip -d -c $FILE | restore_dump
-		;;
-		*)
 		echo "Restoring the archive..."
 		cat $FILE | restore_dump
 		;;
