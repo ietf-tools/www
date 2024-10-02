@@ -168,7 +168,7 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ secrets.DO_SPACES_DEV_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.DO_SPACES_DEV_ACCESS_KEY }}
       run: |
-        aws s3 cp --quiet --endpoint-url=${{ secrets.DO_SPACES_DEV_ENDPOINT }} s3://wagtail/ietfwww.dump ietfwww.dump
+        aws s3 cp --quiet --endpoint-url=${{ secrets.DO_SPACES_DEV_ENDPOINT }} s3://wagtail/ietfwww.dump ./docker/database/ietfwww.dump
         aws s3 cp --quiet --endpoint-url=${{ secrets.DO_SPACES_DEV_ENDPOINT }} s3://wagtail/media.tgz media.tgz
         
     - name: Deploy to containers

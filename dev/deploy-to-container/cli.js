@@ -47,7 +47,7 @@ async function main () {
     src: [
       'docker/db.Dockerfile',
       'docker/scripts/db-import.sh',
-      'ietfwww.dump'
+      'docker/database/ietfwww.dump'
     ]
   }, {
     dockerfile: 'docker/db.Dockerfile',
