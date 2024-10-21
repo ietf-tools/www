@@ -14,6 +14,7 @@ def search(request):
         Query.get(search_query).add_hit()
 
     else:
+        search_query = search_query.replace("\x00", "")
         search_results = Page.objects.none()
 
     # Pagination
