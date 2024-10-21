@@ -1,4 +1,5 @@
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.http import HttpResponseBadRequest
 from django.shortcuts import render
 from wagtail.models import Page
 from wagtail.contrib.search_promotions.models import Query
@@ -13,6 +14,8 @@ def search(request):
         search_results = Page.objects.live().search(search_query)
         Query.get(search_query).add_hit()
 
+    elif search_query and "\x00" in search_query:
+        return HttpResponseBadRequest("Invalid search query")
     else:
         search_results = Page.objects.none()
 

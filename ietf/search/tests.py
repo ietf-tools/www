@@ -34,6 +34,10 @@ class TestSearch:
         resp = self.client.get(f"{reverse('search')}?query=")
         assert resp.status_code == 200
 
+    def test_null_query(self):
+        resp = self.client.get(f"{reverse('search')}?query=%00")
+        assert resp.status_code == 400
+
     def test_empty_page(self):
         query = "random"
         resp = self.client.get(f"{reverse('search')}?query={query}&page=100")
