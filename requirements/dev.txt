@@ -16,27 +16,25 @@ beautifulsoup4==4.11.2
     # via
     #   -c base.txt
     #   wagtail
-build==1.2.1
+build==1.2.2.post1
     # via pip-tools
-certifi==2024.7.4
+certifi==2024.8.30
     # via
     #   -c base.txt
     #   requests
-charset-normalizer==3.3.2
+charset-normalizer==3.4.0
     # via
     #   -c base.txt
     #   requests
 click==8.1.7
     # via pip-tools
-coverage[toml]==7.6.1
-    # via
-    #   coverage
-    #   pytest-cov
+coverage[toml]==7.6.4
+    # via pytest-cov
 defusedxml==0.7.1
     # via
     #   -c base.txt
     #   willow
-django==4.2.15
+django==4.2.16
     # via
     #   -c base.txt
     #   django-filter
@@ -78,9 +76,9 @@ et-xmlfile==1.1.0
     # via
     #   -c base.txt
     #   openpyxl
-factory-boy==3.3.0
+factory-boy==3.3.1
     # via wagtail-factories
-faker==26.3.0
+faker==30.8.0
     # via factory-boy
 filetype==1.2.0
     # via
@@ -90,7 +88,7 @@ html5lib==1.1
     # via
     #   -c base.txt
     #   wagtail
-idna==3.7
+idna==3.10
     # via
     #   -c base.txt
     #   requests
@@ -114,7 +112,7 @@ pillow==10.4.0
     #   -c base.txt
     #   pillow-heif
     #   wagtail
-pillow-heif==0.18.0
+pillow-heif==0.20.0
     # via
     #   -c base.txt
     #   willow
@@ -122,21 +120,21 @@ pip-tools==7.4.1
     # via -r dev.in
 pluggy==1.5.0
     # via pytest
-pyproject-hooks==1.1.0
+pyproject-hooks==1.2.0
     # via
     #   build
     #   pip-tools
-pytest==8.3.2
+pytest==8.3.3
     # via
     #   pytest-cov
     #   pytest-django
 pytest-cov==5.0.0
     # via -r dev.in
-pytest-django==4.8.0
+pytest-django==4.9.0
     # via -r dev.in
 python-dateutil==2.9.0.post0
     # via faker
-pytz==2024.1
+pytz==2024.2
     # via
     #   -c base.txt
     #   django-modelcluster
@@ -151,7 +149,7 @@ six==1.16.0
     #   html5lib
     #   l18n
     #   python-dateutil
-soupsieve==2.5
+soupsieve==2.6
     # via
     #   -c base.txt
     #   beautifulsoup4
@@ -163,7 +161,11 @@ telepath==0.3.1
     # via
     #   -c base.txt
     #   wagtail
-urllib3==2.2.2
+typing-extensions==4.12.2
+    # via
+    #   -c base.txt
+    #   faker
+urllib3==2.2.3
     # via
     #   -c base.txt
     #   requests
