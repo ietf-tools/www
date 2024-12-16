@@ -3,7 +3,7 @@
   "type": "module",
   "dependencies": {
     "dockerode": "3.3.3",
-    "nanoid": "4.0.0",
+    "nanoid": "5.0.9",
     "slugify": "1.6.5",
     "yargs": "17.5.1"
   },
