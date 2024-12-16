@@ -12,13 +12,13 @@ asgiref==3.8.1
     # via
     #   -c /app/requirements/base.txt
     #   django
-beautifulsoup4==4.11.2
+beautifulsoup4==4.12.3
     # via
     #   -c /app/requirements/base.txt
     #   wagtail
 build==1.2.2.post1
     # via pip-tools
-certifi==2024.8.30
+certifi==2024.12.14
     # via
     #   -c /app/requirements/base.txt
     #   requests
@@ -43,8 +43,9 @@ django==4.2.17
     #   django-taggit
     #   django-treebeard
     #   djangorestframework
+    #   laces
     #   wagtail
-django-filter==23.5
+django-filter==24.3
     # via
     #   -c /app/requirements/base.txt
     #   wagtail
@@ -56,7 +57,7 @@ django-permissionedforms==0.1
     # via
     #   -c /app/requirements/base.txt
     #   wagtail
-django-taggit==4.0.0
+django-taggit==6.1.0
     # via
     #   -c /app/requirements/base.txt
     #   wagtail
@@ -68,7 +69,7 @@ djangorestframework==3.15.2
     # via
     #   -c /app/requirements/base.txt
     #   wagtail
-draftjs-exporter==2.1.7
+draftjs-exporter==5.0.0
     # via
     #   -c /app/requirements/base.txt
     #   wagtail
@@ -84,10 +85,6 @@ filetype==1.2.0
     # via
     #   -c /app/requirements/base.txt
     #   willow
-html5lib==1.1
-    # via
-    #   -c /app/requirements/base.txt
-    #   wagtail
 idna==3.10
     # via
     #   -c /app/requirements/base.txt
@@ -95,6 +92,10 @@ idna==3.10
 iniconfig==2.0.0
     # via pytest
 l18n==2021.3
+    # via
+    #   -c /app/requirements/base.txt
+    #   wagtail
+laces==0.1.1
     # via
     #   -c /app/requirements/base.txt
     #   wagtail
@@ -107,7 +108,7 @@ packaging==24.2
     #   -c /app/requirements/base.txt
     #   build
     #   pytest
-pillow==10.4.0
+pillow==11.0.0
     # via
     #   -c /app/requirements/base.txt
     #   pillow-heif
@@ -146,14 +147,13 @@ requests==2.32.3
 six==1.17.0
     # via
     #   -c /app/requirements/base.txt
-    #   html5lib
     #   l18n
     #   python-dateutil
 soupsieve==2.6
     # via
     #   -c /app/requirements/base.txt
     #   beautifulsoup4
-sqlparse==0.5.2
+sqlparse==0.5.3
     # via
     #   -c /app/requirements/base.txt
     #   django
@@ -169,19 +169,15 @@ urllib3==2.2.3
     # via
     #   -c /app/requirements/base.txt
     #   requests
-wagtail==5.2.7
+wagtail==6.3.1
     # via
     #   -c /app/requirements/base.txt
     #   wagtail-factories
 wagtail-factories==4.2.1
     # via -r dev.in
-webencodings==0.5.1
-    # via
-    #   -c /app/requirements/base.txt
-    #   html5lib
 wheel==0.45.1
     # via pip-tools
-willow[heif]==1.6.3
+willow[heif]==1.9.0
     # via
     #   -c /app/requirements/base.txt
     #   wagtail
