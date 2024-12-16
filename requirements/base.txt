@@ -8,11 +8,11 @@ anyascii==0.3.2
     # via wagtail
 asgiref==3.8.1
     # via django
-beautifulsoup4==4.11.2
+beautifulsoup4==4.12.3
     # via wagtail
 bleach==4.1.0
     # via wagtail-markdown
-certifi==2024.8.30
+certifi==2024.12.14
     # via requests
 chardet==5.2.0
     # via mbstrdecoder
@@ -32,32 +32,35 @@ django==4.2.17
     #   django-taggit
     #   django-treebeard
     #   djangorestframework
+    #   laces
     #   wagtail
 django-analytical==3.1.0
     # via -r base.in
-django-filter==23.5
+django-filter==24.3
     # via wagtail
 django-modelcluster==6.3
     # via wagtail
 django-permissionedforms==0.1
     # via wagtail
-django-taggit==4.0.0
+django-taggit==6.1.0
     # via wagtail
 django-treebeard==4.7.1
     # via wagtail
 djangorestframework==3.15.2
     # via wagtail
-draftjs-exporter==2.1.7
+draftjs-exporter==5.0.0
     # via wagtail
 et-xmlfile==2.0.0
     # via openpyxl
 filetype==1.2.0
     # via willow
 html5lib==1.1
-    # via wagtail
+    # via -r base.in
 idna==3.10
     # via requests
 l18n==2021.3
+    # via wagtail
+laces==0.1.1
     # via wagtail
 markdown==3.7
     # via wagtail-markdown
@@ -67,7 +70,7 @@ openpyxl==3.1.5
     # via wagtail
 packaging==24.2
     # via bleach
-pillow==10.4.0
+pillow==11.0.0
     # via
     #   pillow-heif
     #   wagtail
@@ -90,7 +93,7 @@ six==1.17.0
     #   l18n
 soupsieve==2.6
     # via beautifulsoup4
-sqlparse==0.5.2
+sqlparse==0.5.3
     # via django
 telepath==0.3.1
     # via wagtail
@@ -104,7 +107,7 @@ typing-extensions==4.12.2
     # via dj-database-url
 urllib3==2.2.3
     # via requests
-wagtail==5.2.7
+wagtail==6.3.1
     # via
     #   -r base.in
     #   wagtail-markdown
@@ -120,7 +123,7 @@ webencodings==0.5.1
     # via
     #   bleach
     #   html5lib
-willow[heif]==1.6.3
+willow[heif]==1.9.0
     # via
     #   wagtail
     #   willow
