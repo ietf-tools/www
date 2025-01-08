@@ -19,13 +19,7 @@ access_log_format = json.dumps(
 capture_output = True
 forwarded_allow_ips = "*"
 secure_scheme_headers = {"X-CLOUDFRONT": "yes"}
-workers = 2
+workers = 8
 worker_class = "gthread"
-worker_connections = 5
 bind = ":8000"
-keep_alive = 75
 chdir = "/app"
-
-# Obfuscate the Server header (to the md5sum of "Springload")
-import gunicorn
-gunicorn.SERVER_SOFTWARE = "04e96149a2f64d6135c82d199ab62122"
