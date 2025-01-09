@@ -18,8 +18,9 @@ access_log_format = json.dumps(
 )
 capture_output = True
 forwarded_allow_ips = "*"
+# setting workers + threads = 2 * number of cores
 workers = 4
-threads = 2
+threads = 4
 worker_class = "gthread"
 bind = ":8000"
 chdir = "/app"
