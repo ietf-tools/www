@@ -18,7 +18,6 @@ access_log_format = json.dumps(
 )
 capture_output = True
 forwarded_allow_ips = "*"
-secure_scheme_headers = {"X-CLOUDFRONT": "yes"}
 workers = 8
 worker_class = "gthread"
 bind = ":8000"
