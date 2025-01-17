@@ -43,19 +43,21 @@
           <h2 class="visually-hidden">Search results{% if search_query %} for "{{ search_query }}"{% endif %}</h2>
           <ul class="list-unstyled">
             {% for result in search_picks %}
-            <li class="mb-4">
-              <h3 class="h5">
-                <a href="{% pageurl result.page %}">
-                  {{ result.page }}
-                </a>
-              </h3>
-              {% if result.description %}
-                <p>{{ result.description|safe }}</p>
+              {% if result.page.live %}
+                <li class="mb-4">
+                  <h3 class="h5">
+                    <a href="{% pageurl result.page %}">
+                      {{ result.page }}
+                    </a>
+                  </h3>
+                  {% if result.description %}
+                    <p>{{ result.description|safe }}</p>
+                  {% endif %}
+                  {% if result.page.search_description %}
+                    <p>{{ result.page.search_description|safe }}</p>
+                  {% endif %}
+                </li>
               {% endif %}
-              {% if result.page.search_description %}
-                <p>{{ result.page.search_description|safe }}</p>
-              {% endif %}
-            </li>
             {% endfor %}
           </ul>
           {% endif %}
