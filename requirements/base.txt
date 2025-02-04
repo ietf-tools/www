@@ -12,7 +12,7 @@ beautifulsoup4==4.12.3
     # via wagtail
 bleach==4.1.0
     # via wagtail-markdown
-certifi==2024.12.14
+certifi==2025.1.31
     # via requests
 chardet==5.2.0
     # via mbstrdecoder
@@ -60,11 +60,11 @@ idna==3.10
     # via requests
 l18n==2021.3
     # via wagtail
-laces==0.1.1
+laces==0.1.2
     # via wagtail
 markdown==3.7
     # via wagtail-markdown
-mbstrdecoder==1.1.3
+mbstrdecoder==1.1.4
     # via typepy
 openpyxl==3.1.5
     # via wagtail
@@ -80,7 +80,7 @@ psycopg2==2.9.10
     # via -r base.in
 pymemcache==4.0.0
     # via -r base.in
-pytz==2024.2
+pytz==2025.1
     # via l18n
 requests==2.32.3
     # via wagtail
@@ -105,7 +105,7 @@ typing-extensions==4.12.2
     # via dj-database-url
 urllib3==2.3.0
     # via requests
-wagtail==6.3.2
+wagtail==6.3.3
     # via
     #   -r base.in
     #   wagtail-markdown
