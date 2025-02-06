@@ -6,25 +6,25 @@
 #
 anyascii==0.3.2
     # via
-    #   -c base.txt
+    #   -c /app/requirements/base.txt
     #   wagtail
 asgiref==3.8.1
     # via
-    #   -c base.txt
+    #   -c /app/requirements/base.txt
     #   django
 beautifulsoup4==4.12.3
     # via
-    #   -c base.txt
+    #   -c /app/requirements/base.txt
     #   wagtail
 build==1.2.2.post1
     # via pip-tools
-certifi==2024.12.14
+certifi==2025.1.31
     # via
-    #   -c base.txt
+    #   -c /app/requirements/base.txt
     #   requests
 charset-normalizer==3.4.1
     # via
-    #   -c base.txt
+    #   -c /app/requirements/base.txt
     #   requests
 click==8.1.8
     # via pip-tools
@@ -32,11 +32,11 @@ coverage[toml]==7.6.10
     # via pytest-cov
 defusedxml==0.7.1
     # via
-    #   -c base.txt
+    #   -c /app/requirements/base.txt
     #   willow
 django==4.2.18
     # via
-    #   -c base.txt
+    #   -c /app/requirements/base.txt
     #   django-filter
     #   django-modelcluster
     #   django-permissionedforms
@@ -47,75 +47,75 @@ django==4.2.18
     #   wagtail
 django-filter==24.3
     # via
-    #   -c base.txt
+    #   -c /app/requirements/base.txt
     #   wagtail
 django-modelcluster==6.4
     # via
-    #   -c base.txt
+    #   -c /app/requirements/base.txt
     #   wagtail
 django-permissionedforms==0.1
     # via
-    #   -c base.txt
+    #   -c /app/requirements/base.txt
     #   wagtail
 django-taggit==6.1.0
     # via
-    #   -c base.txt
+    #   -c /app/requirements/base.txt
     #   wagtail
 django-treebeard==4.7.1
     # via
-    #   -c base.txt
+    #   -c /app/requirements/base.txt
     #   wagtail
 djangorestframework==3.15.2
     # via
-    #   -c base.txt
+    #   -c /app/requirements/base.txt
     #   wagtail
 draftjs-exporter==5.0.0
     # via
-    #   -c base.txt
+    #   -c /app/requirements/base.txt
     #   wagtail
 et-xmlfile==2.0.0
     # via
-    #   -c base.txt
+    #   -c /app/requirements/base.txt
     #   openpyxl
-factory-boy==3.3.1
+factory-boy==3.3.3
     # via wagtail-factories
-faker==33.3.0
+faker==35.2.0
     # via factory-boy
 filetype==1.2.0
     # via
-    #   -c base.txt
+    #   -c /app/requirements/base.txt
     #   willow
 idna==3.10
     # via
-    #   -c base.txt
+    #   -c /app/requirements/base.txt
     #   requests
 iniconfig==2.0.0
     # via pytest
 l18n==2021.3
     # via
-    #   -c base.txt
+    #   -c /app/requirements/base.txt
     #   wagtail
-laces==0.1.1
+laces==0.1.2
     # via
-    #   -c base.txt
+    #   -c /app/requirements/base.txt
     #   wagtail
 openpyxl==3.1.5
     # via
-    #   -c base.txt
+    #   -c /app/requirements/base.txt
     #   wagtail
 packaging==24.2
     # via
-    #   -c base.txt
+    #   -c /app/requirements/base.txt
     #   build
     #   pytest
 pillow==11.1.0
     # via
-    #   -c base.txt
+    #   -c /app/requirements/base.txt
     #   pillow-heif
     #   wagtail
 pillow-heif==0.21.0
     # via
-    #   -c base.txt
+    #   -c /app/requirements/base.txt
     #   willow
 pip-tools==7.4.1
     # via -r dev.in
@@ -135,42 +135,42 @@ pytest-django==4.9.0
     # via -r dev.in
 python-dateutil==2.9.0.post0
     # via faker
-pytz==2024.2
+pytz==2025.1
     # via
-    #   -c base.txt
+    #   -c /app/requirements/base.txt
     #   l18n
 requests==2.32.3
     # via
-    #   -c base.txt
+    #   -c /app/requirements/base.txt
     #   wagtail
 six==1.17.0
     # via
-    #   -c base.txt
+    #   -c /app/requirements/base.txt
     #   l18n
     #   python-dateutil
 soupsieve==2.6
     # via
-    #   -c base.txt
+    #   -c /app/requirements/base.txt
     #   beautifulsoup4
 sqlparse==0.5.3
     # via
-    #   -c base.txt
+    #   -c /app/requirements/base.txt
     #   django
 telepath==0.3.1
     # via
-    #   -c base.txt
+    #   -c /app/requirements/base.txt
     #   wagtail
 typing-extensions==4.12.2
     # via
-    #   -c base.txt
+    #   -c /app/requirements/base.txt
     #   faker
 urllib3==2.3.0
     # via
-    #   -c base.txt
+    #   -c /app/requirements/base.txt
     #   requests
-wagtail==6.3.2
+wagtail==6.3.3
     # via
-    #   -c base.txt
+    #   -c /app/requirements/base.txt
     #   wagtail-factories
 wagtail-factories==4.2.1
     # via -r dev.in
@@ -178,7 +178,7 @@ wheel==0.45.1
     # via pip-tools
 willow[heif]==1.9.0
     # via
-    #   -c base.txt
+    #   -c /app/requirements/base.txt
     #   wagtail
     #   willow
 
