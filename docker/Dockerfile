@@ -2,7 +2,7 @@
 # FRONTEND
 # ---------------------------------------------------------------------
 # Frontend assets get compiled first
-FROM node:20-alpine as frontend
+FROM node:20-alpine AS frontend
 
 ENV NODE_PATH=/node_modules
 ENV PATH="${PATH}:/node_modules/.bin"
@@ -29,9 +29,9 @@ CMD ["yarn", "start"]
 # BASE
 # ---------------------------------------------------------------------
 # Base backend
-FROM python:3.12-bookworm as base
-ENV PYCURL_SSL_LIBRARY openssl
-ENV APT_BUILD_DEPS "build-essential libpq-dev"
+FROM python:3.12-bookworm AS base
+ENV PYCURL_SSL_LIBRARY="openssl"
+ENV APT_BUILD_DEPS="build-essential libpq-dev"
 
 WORKDIR /app
 
@@ -63,10 +63,10 @@ COPY --from=frontend /app/ /app/
 
 ARG VERSION=dev
 ENV APPLICATION_VERSION=${VERSION}
-ENV DJANGO_SETTINGS_MODULE ietf.settings.docker.base
+ENV DJANGO_SETTINGS_MODULE="ietf.settings.docker.base"
 ENV VERSION=${VERSION}
-ENV ENVIRONMENT unknown
-ENV PROJECT www
+ENV ENVIRONMENT="unknown"
+ENV PROJECT="www"
 
 USER www
 
@@ -74,15 +74,15 @@ USER www
 # APP
 # ---------------------------------------------------------------------
 # base app (hosted elsewhere, not on AWS)
-FROM base as app
+FROM base AS app
 CMD ["/usr/local/bin/gunicorn", "--config", "/app/docker/gunicorn.py", "ietf.wsgi" ]
 
 # ---------------------------------------------------------------------
 # APP - DEV
 # ---------------------------------------------------------------------
 # development stage
-FROM base as app-dev
-ENV DJANGO_SETTINGS_MODULE ietf.settings.docker.dev
+FROM base AS app-dev
+ENV DJANGO_SETTINGS_MODULE="ietf.settings.docker.dev"
 COPY docker/init-dev.sh /app/docker/
 
 ADD https://raw.githubusercontent.com/mrako/wait-for/d9699cb9fe8a4622f05c4ee32adf2fd93239d005/wait-for /usr/local/bin/
@@ -105,8 +105,8 @@ CMD ["/app/docker/init-dev.sh"]
 # APP - TEST
 # ---------------------------------------------------------------------
 # test stage
-FROM base as app-test
-ENV DJANGO_SETTINGS_MODULE ietf.settings.docker.dev
+FROM base AS app-test
+ENV DJANGO_SETTINGS_MODULE="ietf.settings.docker.dev"
 COPY docker/init-test.sh /app/docker/
 
 ADD https://raw.githubusercontent.com/mrako/wait-for/d9699cb9fe8a4622f05c4ee32adf2fd93239d005/wait-for /usr/local/bin/
@@ -124,7 +124,7 @@ CMD ["/app/docker/init-test.sh"]
 # APP - SANDBOX
 # ---------------------------------------------------------------------
 # sandbox stage
-FROM base as app-sandbox
+FROM base AS app-sandbox
 
 USER root
 
