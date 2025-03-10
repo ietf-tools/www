@@ -16,24 +16,32 @@ beautifulsoup4==4.12.3
     # via
     #   -c base.txt
     #   wagtail
+black==25.1.0
+    # via -r dev.in
 build==1.2.2.post1
     # via pip-tools
 certifi==2025.1.31
     # via
     #   -c base.txt
     #   requests
+cfgv==3.4.0
+    # via pre-commit
 charset-normalizer==3.4.1
     # via
     #   -c base.txt
     #   requests
 click==8.1.8
-    # via pip-tools
+    # via
+    #   black
+    #   pip-tools
 coverage[toml]==7.6.10
     # via pytest-cov
 defusedxml==0.7.1
     # via
     #   -c base.txt
     #   willow
+distlib==0.3.9
+    # via virtualenv
 django==4.2.20
     # via
     #   -c base.txt
@@ -81,10 +89,14 @@ factory-boy==3.3.3
     # via wagtail-factories
 faker==35.2.0
     # via factory-boy
+filelock==3.17.0
+    # via virtualenv
 filetype==1.2.0
     # via
     #   -c base.txt
     #   willow
+identify==2.6.9
+    # via pre-commit
 idna==3.10
     # via
     #   -c base.txt
@@ -99,15 +111,20 @@ laces==0.1.2
     # via
     #   -c base.txt
     #   wagtail
+mypy-extensions==1.0.0
+    # via black
+nodeenv==1.9.1
+    # via pre-commit
 openpyxl==3.1.5
     # via
     #   -c base.txt
     #   wagtail
 packaging==24.2
     # via
-    #   -c base.txt
-    #   build
-    #   pytest
+    #   -c /app/requirements/base.txt
+    #   black
+pathspec==0.12.1
+    # via black
 pillow==11.1.0
     # via
     #   -c base.txt
@@ -119,8 +136,14 @@ pillow-heif==0.21.0
     #   willow
 pip-tools==7.4.1
     # via -r dev.in
+platformdirs==4.3.6
+    # via
+    #   black
+    #   virtualenv
 pluggy==1.5.0
     # via pytest
+pre-commit==4.1.0
+    # via -r dev.in
 pyproject-hooks==1.2.0
     # via
     #   build
@@ -139,10 +162,14 @@ pytz==2025.1
     # via
     #   -c base.txt
     #   l18n
+pyyaml==6.0.2
+    # via pre-commit
 requests==2.32.3
     # via
     #   -c base.txt
     #   wagtail
+ruff==0.9.10
+    # via -r dev.in
 six==1.17.0
     # via
     #   -c base.txt
@@ -168,6 +195,8 @@ urllib3==2.3.0
     # via
     #   -c base.txt
     #   requests
+virtualenv==20.29.3
+    # via pre-commit
 wagtail==6.3.3
     # via
     #   -c base.txt
