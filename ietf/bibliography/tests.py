@@ -74,9 +74,10 @@ class TestBibliography:
         )
         assert response.status_code == 200
         html = response.content.decode()
-        assert reverse(
-            "referencing_pages", args=[rfc_content_type.pk, self.rfc_2026.pk]
-        ) in html
+        assert (
+            reverse("referencing_pages", args=[rfc_content_type.pk, self.rfc_2026.pk])
+            in html
+        )
         assert "RFC 2026" in html
 
     def test_referencing_pages(self, admin_client):
@@ -132,6 +133,9 @@ class TestBibliography:
         """
         self.standard_page.save(
             update_fields=[
-                "key_info", "in_depth", "prepared_key_info", "prepared_in_depth"
+                "key_info",
+                "in_depth",
+                "prepared_key_info",
+                "prepared_in_depth",
             ]
         )

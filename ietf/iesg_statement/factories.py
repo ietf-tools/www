@@ -2,6 +2,7 @@ import factory
 import wagtail_factories
 
 from ietf.utils.factories import StandardBlockFactory
+
 from .models import IESGStatementIndexPage, IESGStatementPage
 
 

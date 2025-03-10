@@ -1,7 +1,7 @@
 import factory
 import wagtail_factories
 
-from .models import TopicIndexPage, PrimaryTopicPage
+from .models import PrimaryTopicPage, TopicIndexPage
 
 
 class PrimaryTopicPageFactory(wagtail_factories.PageFactory):

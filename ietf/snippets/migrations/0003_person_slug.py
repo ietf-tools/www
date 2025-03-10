@@ -14,14 +14,14 @@ def generate_person_slugs(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('snippets', '0002_auto_20200414_2027'),
+        ("snippets", "0002_auto_20200414_2027"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='person',
-            name='slug',
-            field=models.SlugField(default='', max_length=511),
+            model_name="person",
+            name="slug",
+            field=models.SlugField(default="", max_length=511),
             preserve_default=False,
         ),
         migrations.RunPython(generate_person_slugs, migrations.RunPython.noop),

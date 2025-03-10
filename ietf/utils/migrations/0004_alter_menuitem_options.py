@@ -6,12 +6,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('utils', '0003_auto_20211105_0019'),
+        ("utils", "0003_auto_20211105_0019"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='menuitem',
-            options={'verbose_name_plural': 'Secondary Menu'},
+            name="menuitem",
+            options={"verbose_name_plural": "Secondary Menu"},
         ),
     ]

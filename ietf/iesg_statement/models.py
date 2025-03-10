@@ -18,7 +18,6 @@ from wagtail.search import index
 from ..bibliography.models import BibliographyMixin
 from ..snippets.models import Topic
 from ..utils.blocks import StandardBlock
-
 from ..utils.models import PromoteMixin
 
 
@@ -159,7 +158,7 @@ class IESGStatementPage(Page, BibliographyMixin, PromoteMixin):
         )
 
     def get_context(self, request, *args, **kwargs):
-        context = super(IESGStatementPage, self).get_context(request, *args, **kwargs)
+        context = super().get_context(request, *args, **kwargs)
         siblings = self.siblings
         query_string = "?"
         filter_text_builder = build_filter_text
@@ -170,7 +169,7 @@ class IESGStatementPage(Page, BibliographyMixin, PromoteMixin):
                 try:
                     related_object = functions[0](search_query)
                     siblings = functions[1](siblings, related_object)
-                    query_string += "%s=%s&" % (parameter, search_query)
+                    query_string += f"{parameter}={search_query}&"
                     filter_text_builder = partial(
                         filter_text_builder, **{parameter: related_object.__str__()}
                     )
@@ -258,7 +257,7 @@ class IESGStatementIndexPage(RoutablePageMixin, Page):
                     try:
                         related_object = functions[0](search_query)
                         statements = functions[1](statements, related_object)
-                        query_string += "%s=%s&" % (parameter, search_query)
+                        query_string += f"{parameter}={search_query}&"
                     except (ValueError, ObjectDoesNotExist):
                         pass
             if statements:

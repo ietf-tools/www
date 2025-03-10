@@ -6,12 +6,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('documents', '0001_initial'),
+        ("documents", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='ietfdocument',
-            options={'verbose_name': 'document', 'verbose_name_plural': 'documents'},
+            name="ietfdocument",
+            options={"verbose_name": "document", "verbose_name_plural": "documents"},
         ),
     ]

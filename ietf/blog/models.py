@@ -230,7 +230,8 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
         return [
             {
                 "name": author.author.name,
-                "url": index_page.url + index_page.reverse_subpage(
+                "url": index_page.url
+                + index_page.reverse_subpage(
                     "index_by_author", kwargs={"slug": author.author.slug}
                 ),
                 "role": author.role,
@@ -239,7 +240,7 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
         ]
 
     def get_context(self, request, *args, **kwargs):
-        context = super(BlogPage, self).get_context(request, *args, **kwargs)
+        context = super().get_context(request, *args, **kwargs)
         siblings = self.siblings
         max_siblings_to_show = 5
         query_string = "?"
@@ -253,7 +254,7 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
                 try:
                     related_object = functions[0](search_query)
                     siblings = functions[1](siblings, related_object)
-                    query_string += "%s=%s&" % (parameter, search_query)
+                    query_string += f"{parameter}={search_query}&"
                     filter_text_builder = partial(
                         filter_text_builder, **{parameter: related_object.__str__()}
                     )
@@ -297,13 +298,13 @@ class BlogPage(Page, BibliographyMixin, PromoteMixin):
             try:
                 topic_id = int(topic_id)
             except ValueError:
-                raise Http404
+                raise Http404 from None
             filter_topic = get_object_or_404(Topic, id=topic_id)
             query_string_segments = []
-            for parameter, function in parameter_functions_map.items():
+            for parameter, _function in parameter_functions_map.items():
                 search_query = request.GET.get(parameter)
                 if search_query:
-                    query_string_segments.append("%s=%s" % (parameter, search_query))
+                    query_string_segments.append(f"{parameter}={search_query}")
             query_string = "&".join(query_string_segments)
             target_url = self.get_parent().specific.reverse_subpage(
                 "redirect_first", args=(filter_topic.slug,)
@@ -352,7 +353,11 @@ class BlogIndexByAuthorPage:
         return self.parent.get_ancestors(inclusive=True)
 
     def get_entries_queryset(self):
-        qs = BlogPage.objects.child_of(self.parent).filter(authors__author=self.person).live()
+        qs = (
+            BlogPage.objects.child_of(self.parent)
+            .filter(authors__author=self.person)
+            .live()
+        )
         qs = qs.annotate(
             coalesced_published_date=Coalesce("date_published", "first_published_at")
         ).order_by("-coalesced_published_date")
@@ -462,7 +467,7 @@ class BlogIndexPage(RoutablePageMixin, Page):
                     try:
                         related_object = functions[0](search_query)
                         blogs = functions[1](blogs, related_object)
-                        query_string += "%s=%s&" % (parameter, search_query)
+                        query_string += f"{parameter}={search_query}&"
                     except (ValueError, ObjectDoesNotExist):
                         pass
 

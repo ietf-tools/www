@@ -27,8 +27,9 @@ class TestSearch:
         assert resp.status_code == 200
 
         assert resp.context["search_query"] == query
-        assert list(resp.context["search_results"]) == \
-            [Page.objects.get(pk=self.standard_page.pk)]
+        assert list(resp.context["search_results"]) == [
+            Page.objects.get(pk=self.standard_page.pk)
+        ]
 
     def test_empty_query(self):
         resp = self.client.get(f"{reverse('search')}?query=")
@@ -42,12 +43,14 @@ class TestSearch:
         query = "random"
         resp = self.client.get(f"{reverse('search')}?query={query}&page=100")
         assert resp.status_code == 200
-        assert list(resp.context["search_results"]) == \
-            [Page.objects.get(pk=self.standard_page.pk)]
+        assert list(resp.context["search_results"]) == [
+            Page.objects.get(pk=self.standard_page.pk)
+        ]
 
     def test_non_integer_page(self):
         query = "random"
         resp = self.client.get(f"{reverse('search')}?query={query}&page=foo")
         assert resp.status_code == 200
-        assert list(resp.context["search_results"]) == \
-            [Page.objects.get(pk=self.standard_page.pk)]
+        assert list(resp.context["search_results"]) == [
+            Page.objects.get(pk=self.standard_page.pk)
+        ]
