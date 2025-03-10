@@ -1,7 +1,5 @@
 import json
 
-import gunicorn
-
 accesslog = "-"
 errorlog = "-"
 access_log_format = json.dumps(
