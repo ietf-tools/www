@@ -4,6 +4,7 @@
 from email.utils import parseaddr
 import os
 
+
 def _multiline_to_list(s):
     """Helper to split at newlines and conver to list"""
     return [item.strip() for item in s.split("\n")]
@@ -63,7 +64,9 @@ else:
 
 # Leave IABWWW_MATOMO_SITE_ID unset to disable Matomo reporting
 if "IABWWW_MATOMO_SITE_ID" in os.environ:
-    MATOMO_DOMAIN_PATH = os.environ.get("IABWWW_MATOMO_DOMAIN_PATH", "analytics.ietf.org")
+    MATOMO_DOMAIN_PATH = os.environ.get(
+        "IABWWW_MATOMO_DOMAIN_PATH", "analytics.ietf.org"
+    )
     MATOMO_SITE_ID = os.environ.get("IABWWW_MATOMO_SITE_ID", None)
     MATOMO_DISABLE_COOKIES = True
 
