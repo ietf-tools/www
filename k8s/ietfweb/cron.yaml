@@ -1,0 +1,54 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: ietfwww-cron-weekly
+  labels:
+    app.kubernetes.io/name: cron-weekly
+    app.kubernetes.io/instance: ietfwww-cron-weekly
+    app.kubernetes.io/component: cronjob
+spec:
+  schedule: "30 0 * * 0" # "At 00:30 on Sunday."
+  timeZone: "Etc/UTC"
+  concurrencyPolicy: Forbid # No concurrent runs
+  jobTemplate:
+    spec:
+      backoffLimit: 0 # No retries
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: ietfwww-cron-weekly
+              image: "ghcr.io/ietf-tools/www:$APP_IMAGE_TAG"
+              imagePullPolicy: Always
+              volumeMounts:
+                - name: ietfwww-cfg
+                  mountPath: /app/ietf/settings/local.py
+                  subPath: local.py
+              env:
+                - name: "DJANGO_SETTINGS_MODULE"
+                  value: "ietf.settings.production"
+                # ensures the pod gets recreated on every deploy:
+                - name: "DEPLOY_UID"
+                  value: "$DEPLOY_UID"
+              envFrom:
+                - secretRef:
+                    name: ietfwww-secrets-env
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                  - ALL
+                readOnlyRootFilesystem: true
+                runAsUser: 1000
+                runAsGroup: 1000
+                command:
+                  - /bin/sh
+                  - -c
+                  - |
+                    python /app/manage.py update_index &&
+                    python /app/manage.py rebuild_references_index
+              command: ["python", "/app/manage.py", "update_index"]
+          volumes:
+            - name: ietfwww-cfg
+              configMap:
+                name: ietfwww-files-cfgmap
