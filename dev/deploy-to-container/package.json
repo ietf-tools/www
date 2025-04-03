@@ -2,7 +2,7 @@
   "name": "deploy-to-container",
   "type": "module",
   "dependencies": {
-    "dockerode": "3.3.3",
+    "dockerode": "4.0.5",
     "nanoid": "5.0.9",
     "slugify": "1.6.5",
     "yargs": "17.5.1"
