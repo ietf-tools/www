@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.utils.functional import cached_property
 from wagtail.blocks import (
     CharBlock,
@@ -17,13 +18,11 @@ from wagtail.embeds.blocks import EmbedBlock
 from wagtail.images.blocks import ImageChooserBlock
 from wagtailmarkdown.blocks import MarkdownBlock
 
-from django.conf import settings
-
 
 class NoteWellBlock(StructBlock):
     def get_context(self, value):
         context = super().get_context(value)
-        context['note_well_git_url'] = settings.NOTE_WELL_REPO
+        context["note_well_git_url"] = settings.NOTE_WELL_REPO
         return context
 
     class Meta:

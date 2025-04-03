@@ -119,7 +119,7 @@ class RFC(models.Model, index.Indexed):
     ]
 
     def __str__(self):  # pragma: no cover
-        return "RFC {}".format(self.rfc)
+        return f"RFC {self.rfc}"
 
     @property
     def long_title(self):
@@ -323,13 +323,10 @@ class MailingListSignup(models.Model, Indexed, RenderableSnippetMixin):
 
     @property
     def link(self):
-        if self.sign_up:
-            link = self.sign_up
-        else:
-            link = self.working_group.list_subscribe
+        link = self.sign_up if self.sign_up else self.working_group.list_subscribe
 
         if "@" in link:
-            return "mailto:{}".format(link)
+            return f"mailto:{link}"
         else:
             return link
 
@@ -430,7 +427,7 @@ class GlossaryItem(models.Model, Indexed):
     def url(self):
         from ietf.glossary.models import GlossaryPage
 
-        return "{}?query={}".format(GlossaryPage.objects.first().url, self.title)
+        return f"{GlossaryPage.objects.first().url}?query={self.title}"
 
     class Meta:
         ordering = ["title"]

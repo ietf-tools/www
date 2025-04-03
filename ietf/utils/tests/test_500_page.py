@@ -1,6 +1,7 @@
 from unittest.mock import Mock
-from django.test import Client
+
 import pytest
+from django.test import Client
 
 pytestmark = pytest.mark.django_db
 

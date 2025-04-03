@@ -20,10 +20,10 @@ def change_links(page):
     group_pattern1 = re.compile("\((\w+)\)\\xa0[Ww]orking [Gg]roup$")
     group_pattern2 = re.compile(" *(\w+) +[Ww]orking [Gg]roup$")
 
-    for fieldname in page.CONTENT_FIELD_MAP.keys():
+    for fieldname in page.CONTENT_FIELD_MAP:
         field = getattr(page, fieldname)
         for item in field.stream_data:
-            if not item["type"] in ("paragraph", "raw_html"):
+            if item["type"] not in ("paragraph", "raw_html"):
                 continue
             soup = BeautifulSoup(item["value"], "html.parser")
             for tag in soup.find_all("a", string=rfc_pattern):

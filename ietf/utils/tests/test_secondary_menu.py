@@ -1,5 +1,5 @@
-from django.test import Client
 import pytest
+from django.test import Client
 from wagtail.test.utils import WagtailTestUtils
 
 from ietf.events.factories import EventListingPageFactory, EventPageFactory
@@ -21,8 +21,12 @@ class TestMenu(WagtailTestUtils):
         )
 
     def _build_menu(self):
-        SecondaryMenuItem.objects.create(page=self.eventlisting, text="Menu One", sort_order=0)
-        SecondaryMenuItem.objects.create(page=self.eventpage, text="Menu Two", sort_order=1)
+        SecondaryMenuItem.objects.create(
+            page=self.eventlisting, text="Menu One", sort_order=0
+        )
+        SecondaryMenuItem.objects.create(
+            page=self.eventpage, text="Menu Two", sort_order=1
+        )
 
     def test_admin_menu_item_index(self, admin_client):
         response = admin_client.get("/admin/utils/secondarymenuitem/")

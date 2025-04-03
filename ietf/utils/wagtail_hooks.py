@@ -1,8 +1,8 @@
 from django.conf import settings
 from django.utils.html import format_html
 from wagtail import hooks
-from wagtail.snippets.views.snippets import SnippetViewSet
 from wagtail.snippets.models import register_snippet
+from wagtail.snippets.views.snippets import SnippetViewSet
 from wagtail_modeladmin.options import ModelAdmin, modeladmin_register
 from wagtailorderable.modeladmin.mixins import OrderableMixin
 

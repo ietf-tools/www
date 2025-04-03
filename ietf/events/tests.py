@@ -5,6 +5,7 @@ from django.test import Client
 from django.utils import timezone
 
 from ietf.home.models import HomePage
+
 from .factories import EventListingPageFactory, EventPageFactory
 from .models import EventListingPage, EventPage
 
@@ -45,7 +46,7 @@ class TestEventPage:
         assert f'href="{self.event_listing.url}"' in html
 
     def test_home_page(self):
-        """ The first two upcoming events are shown on the homepage. """
+        """The first two upcoming events are shown on the homepage."""
         response = self.client.get(path=self.home.url)
         assert response.status_code == 200
         html = response.content.decode()

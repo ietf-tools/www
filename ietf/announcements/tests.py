@@ -1,11 +1,12 @@
 from datetime import timedelta
+
+import pytest
 from bs4 import BeautifulSoup
 from django.test import Client
 from django.utils import timezone
 
-import pytest
-
 from ietf.home.models import IABHomePage
+
 from .factories import IABAnnouncementIndexPageFactory, IABAnnouncementPageFactory
 from .models import IABAnnouncementIndexPage, IABAnnouncementPage
 
@@ -55,7 +56,7 @@ class TestIABAnnouncement:
         assert self.announcement_3.introduction in html
 
     def test_homepage(self):
-        """ The two most recent announcements are shown on the homepage """
+        """The two most recent announcements are shown on the homepage"""
         response = self.client.get(self.home.url)
         assert response.status_code == 200
         html = response.content.decode()

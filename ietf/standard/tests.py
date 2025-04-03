@@ -1,8 +1,13 @@
-from django.test import Client
 import pytest
+from django.test import Client
 
 from ietf.home.models import HomePage, IABHomePage
-from .factories import IABStandardPageFactory, StandardIndexPageFactory, StandardPageFactory
+
+from .factories import (
+    IABStandardPageFactory,
+    StandardIndexPageFactory,
+    StandardPageFactory,
+)
 from .models import IABStandardPage, StandardIndexPage, StandardPage
 
 pytestmark = pytest.mark.django_db

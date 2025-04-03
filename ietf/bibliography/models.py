@@ -85,9 +85,7 @@ class BibliographyItem(models.Model):
             template = BibliographyItem.TEMPLATE_CACHE[self.content_key]
         else:
             try:
-                template = get_template(
-                    "bibliography/item_{}.html".format(self.content_key)
-                )
+                template = get_template(f"bibliography/item_{self.content_key}.html")
             except TemplateDoesNotExist:
                 template = None
             BibliographyItem.TEMPLATE_CACHE[self.content_key] = template
@@ -100,7 +98,7 @@ class BibliographyItem(models.Model):
             return str(object)
 
     def __str__(self):  # pragma: no cover
-        return "Bibliography Item #{}: {}".format(self.ordering, self.content_object)
+        return f"Bibliography Item #{self.ordering}: {self.content_object}"
 
 
 class BibliographyMixin(models.Model):
@@ -127,7 +125,7 @@ class BibliographyMixin(models.Model):
             ]
             prepared_fields_being_updated = [
                 prepared_field in update_fields
-                for prepared_field in self.CONTENT_FIELD_MAP.keys()
+                for prepared_field in self.CONTENT_FIELD_MAP
             ]
 
             if any(source_fields_being_updated) or any(prepared_fields_being_updated):
@@ -147,7 +145,7 @@ class BibliographyMixin(models.Model):
             all_content = "".join(
                 [
                     str(getattr(self, content_field)) or ""
-                    for content_field in self.CONTENT_FIELD_MAP.keys()
+                    for content_field in self.CONTENT_FIELD_MAP
                 ]
             )
             all_soup = BeautifulSoup(all_content, "html.parser")
@@ -161,7 +159,9 @@ class BibliographyMixin(models.Model):
             # Look for <a> nodes that are tagged with bibliographic markup,
             # create BibliographyItem records, and turn the <a> nodes into
             # footnote links.
-            for index, tag in enumerate(all_soup.find_all("a", attrs={"data-app": True})):
+            for index, tag in enumerate(
+                all_soup.find_all("a", attrs={"data-app": True})
+            ):
                 app = tag["data-app"]
                 model = tag["data-linktype"]
                 obj_id = tag["data-id"]
@@ -190,7 +190,7 @@ class BibliographyMixin(models.Model):
                     ordering=index + 1,
                     content_key=model,
                     content_identifier=obj_id,
-                    **object_details
+                    **object_details,
                 )
                 for soup in subsoups.values():
                     for t in soup.find_all(
@@ -206,7 +206,7 @@ class BibliographyMixin(models.Model):
             for prepared_content_field, prepared_soup in subsoups.items():
                 setattr(self, prepared_content_field, prepared_soup.__unicode__())
 
-        return super(BibliographyMixin, self).save(*args, **kwargs)
+        return super().save(*args, **kwargs)
 
     class Meta:
         abstract = True

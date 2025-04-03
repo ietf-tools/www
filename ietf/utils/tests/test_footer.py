@@ -1,5 +1,5 @@
-from bs4 import BeautifulSoup
 import pytest
+from bs4 import BeautifulSoup
 from django.test import Client, RequestFactory
 
 from ietf.home.models import HomePage
@@ -85,14 +85,14 @@ class TestFooterColumns:
 
     def test_order_in_preview(self):
         item1 = FooterColumn.objects.create(title="One", sort_order=10)
-        item2 = FooterColumn.objects.create(title="Two", sort_order=20)
+        FooterColumn.objects.create(title="Two", sort_order=20)
 
         item1.sort_order = 30
         context = item1.get_preview_context(RequestFactory().get("/"), "")
         assert [i.title for i in context["FOOTER"]] == ["Two", "One"]
 
     def test_order_in_preview_new_object(self):
-        item1 = FooterColumn.objects.create(title="One", sort_order=10)
+        FooterColumn.objects.create(title="One", sort_order=10)
         item2 = FooterColumn(title="Two", sort_order=5)
 
         context = item2.get_preview_context(RequestFactory().get("/"), "")

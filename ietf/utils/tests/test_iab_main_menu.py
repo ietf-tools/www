@@ -1,6 +1,6 @@
+import pytest
 from bs4 import BeautifulSoup
 from django.test import Client
-import pytest
 
 from ietf.home.models import IABHomePage
 from ietf.standard.factories import IABStandardPageFactory
@@ -28,7 +28,7 @@ class TestIABHome:
         soup = BeautifulSoup(html, "html.parser")
 
         def get_nav_item(item):
-            """ Get the menu item link, and the links within the menu. """
+            """Get the menu item link, and the links within the menu."""
             [main_link] = item.select("a.nav-link")
             child_links = item.select("ul.dropdown-menu > li > a")
             return (
@@ -40,5 +40,5 @@ class TestIABHome:
         assert menu == [
             (page1.url, [page1a.url, page1b.url]),
             (page2.url, [page2a.url, page2b.url]),
-            ('/search', []),
+            ("/search", []),
         ]

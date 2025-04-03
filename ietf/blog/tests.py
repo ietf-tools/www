@@ -1,14 +1,15 @@
 from datetime import timedelta
+
+import pytest
 from bs4 import BeautifulSoup
 from django.test import Client
 from django.utils import timezone
 
-import pytest
-
-from ietf.snippets.factories import PersonFactory, TopicFactory
 from ietf.home.models import HomePage
+from ietf.snippets.factories import PersonFactory, TopicFactory
 from ietf.snippets.models import Topic
 from ietf.utils.models import FeedSettings
+
 from .factories import BlogIndexPageFactory, BlogPageFactory
 from .models import (
     IESG_STATEMENT_TOPIC_ID,
@@ -89,9 +90,9 @@ class TestBlog:
         assert self.blog_page.title in html
         assert self.blog_page.body[0].value in html
         assert self.blog_page.introduction in html
-        assert ('href="%s"' % self.next_blog_page.url) in html
-        assert ('href="%s"' % self.prev_blog_page.url) in html
-        assert ('href="%s"' % self.other_blog_page.url) in html
+        assert (f'href="{self.next_blog_page.url}"') in html
+        assert (f'href="{self.prev_blog_page.url}"') in html
+        assert (f'href="{self.other_blog_page.url}"') in html
 
     def test_previous_next_links_correct(self):
         assert self.prev_blog_page.date < self.blog_page.date
@@ -137,7 +138,9 @@ class TestBlog:
         assert iesg_response.status_code == 200
         iesg_feed = iesg_response.content.decode()
 
-        assert f"<title>{self.feed_settings.blog_feed_title} – iesg</title>" in iesg_feed
+        assert (
+            f"<title>{self.feed_settings.blog_feed_title} – iesg</title>" in iesg_feed
+        )
         assert self.next_blog_page.url in iesg_feed
         assert self.blog_page.url not in iesg_feed
         assert self.other_blog_page.url not in iesg_feed
@@ -157,7 +160,7 @@ class TestBlog:
         assert self.blog_page.url not in feed
 
     def test_homepage(self):
-        """ The two most recent blog posts are shown on the homepage. """
+        """The two most recent blog posts are shown on the homepage."""
         response = self.client.get(path=self.home.url)
         assert response.status_code == 200
         html = response.content.decode()
@@ -166,7 +169,7 @@ class TestBlog:
         assert self.blog_page.title in html
 
     def test_all_page(self):
-        """ The /blog/all/ page shows all the published blog posts. """
+        """The /blog/all/ page shows all the published blog posts."""
         response = self.client.get(f"{self.blog_index.url}all/")
         assert response.status_code == 200
         html = response.content.decode()
