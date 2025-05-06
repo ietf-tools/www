@@ -41,6 +41,10 @@ spec:
                 readOnlyRootFilesystem: true
                 runAsUser: 1000
                 runAsGroup: 1000
+              resources:
+                limits:
+                  memory: "2Gi"
+                  cpu: "1000m"
               command:
                 - /bin/sh
                 - -c
