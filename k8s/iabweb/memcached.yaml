@@ -39,6 +39,10 @@ spec:
             readOnlyRootFilesystem: true
             runAsUser: 65534  # nobody
             runAsGroup: 65534  # nobody
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
         - image: "memcached:1.6-alpine"
           imagePullPolicy: IfNotPresent
           args: ["-m", "256"]
@@ -56,7 +60,10 @@ spec:
             # memcached image sets up uid/gid 11211
             runAsUser: 11211
             runAsGroup: 11211
-      dnsPolicy: ClusterFirst
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
       # ensures pod gets scheduled on the same node as wagtail:

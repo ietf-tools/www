@@ -73,6 +73,10 @@ spec:
             readOnlyRootFilesystem: true
             runAsUser: 1000
             runAsGroup: 1000
+          resources:
+            limits:
+              memory: "2Gi"
+              cpu: "1000m"
       volumes:
         - name: iabwww-tmp
           emptyDir:
@@ -83,7 +87,6 @@ spec:
         - name: iabwww-cfg
           configMap:
             name: iabwww-files-cfgmap
-      dnsPolicy: ClusterFirst
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
       # ensures we don't schedule this pod on the same node as ietfwww:
@@ -107,7 +110,7 @@ spec:
       resources:
         requests:
           storage: 5Gi
-      storageClassName: "generic"
+      storageClassName: generic
 ---
 apiVersion: v1
 kind: Service
