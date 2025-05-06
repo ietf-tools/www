@@ -89,18 +89,6 @@ spec:
             name: iabwww-files-cfgmap
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
-      # ensures we don't schedule this pod on the same node as ietfwww:
-      affinity:
-        podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: app.kubernetes.io/instance
-                operator: In
-                values:
-                - ietfwww
-            topologyKey: "kubernetes.io/hostname"
-            namespaceSelector: {}
   volumeClaimTemplates:
   - metadata:
       name: iabwww-media
