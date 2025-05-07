@@ -97,7 +97,7 @@ spec:
       - ReadWriteOnce
       resources:
         requests:
-          storage: 5Gi
+          storage: 4Gi
       storageClassName: generic
 ---
 apiVersion: v1
