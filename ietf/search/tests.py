@@ -4,9 +4,9 @@ from django.urls import reverse
 from wagtail.models import Page
 
 from ietf.home.models import HomePage
+from ietf.search.views import MAX_SEARCH_TERMS
 from ietf.standard.factories import StandardPageFactory
 from ietf.standard.models import StandardPage
-from ietf.search.views import MAX_SEARCH_TERMS
 
 pytestmark = pytest.mark.django_db
 
