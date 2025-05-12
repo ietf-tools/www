@@ -6,6 +6,7 @@ from wagtail.models import Page
 from ietf.home.models import HomePage
 from ietf.standard.factories import StandardPageFactory
 from ietf.standard.models import StandardPage
+from ietf.search.views import MAX_SEARCH_TERMS
 
 pytestmark = pytest.mark.django_db
 
@@ -54,3 +55,13 @@ class TestSearch:
         assert list(resp.context["search_results"]) == [
             Page.objects.get(pk=self.standard_page.pk)
         ]
+
+    def test_long_enough_queries(self):
+        query = "s " * MAX_SEARCH_TERMS
+        resp = self.client.get(f"{reverse('search')}?query={query}")
+        assert resp.status_code == 200
+
+    def test_long_queries(self):
+        query = "s " * (MAX_SEARCH_TERMS + 1)
+        resp = self.client.get(f"{reverse('search')}?query={query}")
+        assert resp.status_code == 400
