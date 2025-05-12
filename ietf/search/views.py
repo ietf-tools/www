@@ -12,10 +12,8 @@ def search(request):
     page = request.GET.get("page", 1)
 
     # Search
-    if (
-        search_query
-        and search_query.count(" ") > MAX_SEARCH_TERMS
-        or "\x00" in search_query
+    if search_query and (
+        search_query.count(" ") > MAX_SEARCH_TERMS or "\x00" in search_query
     ):
         return HttpResponseBadRequest("Invalid search query")
     elif search_query:
