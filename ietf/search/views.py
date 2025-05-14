@@ -4,18 +4,21 @@ from django.shortcuts import render
 from wagtail.contrib.search_promotions.models import Query
 from wagtail.models import Page
 
+MAX_SEARCH_TERMS = 200
+
 
 def search(request):
     search_query = request.GET.get("query", None)
     page = request.GET.get("page", 1)
 
     # Search
-    if search_query and "\x00" not in search_query:
+    if search_query and (
+        search_query.count(" ") > MAX_SEARCH_TERMS or "\x00" in search_query
+    ):
+        return HttpResponseBadRequest("Invalid search query")
+    elif search_query:
         search_results = Page.objects.live().search(search_query)
         Query.get(search_query).add_hit()
-
-    elif search_query and "\x00" in search_query:
-        return HttpResponseBadRequest("Invalid search query")
     else:
         search_results = Page.objects.none()
 
