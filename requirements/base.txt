@@ -12,11 +12,11 @@ beautifulsoup4==4.12.3
     # via wagtail
 bleach==4.1.0
     # via wagtail-markdown
-certifi==2025.1.31
+certifi==2025.4.26
     # via requests
 chardet==5.2.0
     # via mbstrdecoder
-charset-normalizer==3.4.1
+charset-normalizer==3.4.2
     # via requests
 defusedxml==0.7.1
     # via willow
@@ -36,7 +36,7 @@ django==4.2.20
     #   wagtail
 django-analytical==3.1.0
     # via -r base.in
-django-filter==24.3
+django-filter==25.1
     # via wagtail
 django-modelcluster==6.4
     # via wagtail
@@ -46,9 +46,9 @@ django-taggit==6.1.0
     # via wagtail
 django-treebeard==4.7.1
     # via wagtail
-djangorestframework==3.15.2
+djangorestframework==3.16.0
     # via wagtail
-draftjs-exporter==5.0.0
+draftjs-exporter==5.1.0
     # via wagtail
 et-xmlfile==2.0.0
     # via openpyxl
@@ -62,15 +62,15 @@ l18n==2021.3
     # via wagtail
 laces==0.1.2
     # via wagtail
-markdown==3.7
+markdown==3.8
     # via wagtail-markdown
 mbstrdecoder==1.1.4
     # via typepy
 openpyxl==3.1.5
     # via wagtail
-packaging==24.2
+packaging==25.0
     # via bleach
-pillow==11.1.0
+pillow==11.2.1
     # via
     #   pillow-heif
     #   wagtail
@@ -80,7 +80,7 @@ psycopg2==2.9.10
     # via -r base.in
 pymemcache==4.0.0
     # via -r base.in
-pytz==2025.1
+pytz==2025.2
     # via l18n
 requests==2.32.3
     # via wagtail
@@ -89,7 +89,7 @@ six==1.17.0
     #   bleach
     #   html5lib
     #   l18n
-soupsieve==2.6
+soupsieve==2.7
     # via beautifulsoup4
 sqlparse==0.5.3
     # via django
@@ -101,11 +101,11 @@ typed-environment-configuration==0.1.5
     # via -r base.in
 typepy==1.3.0
     # via typed-environment-configuration
-typing-extensions==4.12.2
+typing-extensions==4.13.2
     # via dj-database-url
-urllib3==2.3.0
+urllib3==2.4.0
     # via requests
-wagtail==6.3.3
+wagtail==6.3.4
     # via
     #   -r base.in
     #   wagtail-markdown
@@ -113,7 +113,7 @@ wagtail==6.3.3
     #   wagtail-orderable
 wagtail-markdown==0.12.1
     # via -r base.in
-wagtail-modeladmin==2.1.0
+wagtail-modeladmin==2.2.0
     # via -r base.in
 wagtail-orderable==1.2.0
     # via -r base.in
@@ -121,7 +121,7 @@ webencodings==0.5.1
     # via
     #   bleach
     #   html5lib
-willow[heif]==1.9.0
+willow[heif]==1.10.0
     # via
     #   wagtail
     #   willow
