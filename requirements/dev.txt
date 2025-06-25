@@ -164,7 +164,7 @@ pytz==2025.2
     #   l18n
 pyyaml==6.0.2
     # via pre-commit
-requests==2.32.3
+requests==2.32.4
     # via
     #   -c base.txt
     #   wagtail

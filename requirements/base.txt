@@ -82,7 +82,7 @@ pymemcache==4.0.0
     # via -r base.in
 pytz==2025.2
     # via l18n
-requests==2.32.3
+requests==2.32.4
     # via wagtail
 six==1.17.0
     # via
