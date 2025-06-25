@@ -22,7 +22,7 @@ defusedxml==0.7.1
     # via willow
 dj-database-url==2.3.0
     # via -r base.in
-django==4.2.21
+django==4.2.22
     # via
     #   -r base.in
     #   dj-database-url
