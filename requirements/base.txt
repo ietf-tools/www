@@ -70,7 +70,7 @@ openpyxl==3.1.5
     # via wagtail
 packaging==25.0
     # via bleach
-pillow==11.2.1
+pillow==11.3.0
     # via
     #   pillow-heif
     #   wagtail
