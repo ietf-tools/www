@@ -127,7 +127,7 @@ packaging==25.0
     #   pytest
 pathspec==0.12.1
     # via black
-pillow==11.2.1
+pillow==11.3.0
     # via
     #   -c base.txt
     #   pillow-heif
