@@ -3,8 +3,7 @@ addopts = "--reuse-db"
 python_files = "ietf/*/test*.py"
 filterwarnings = [
     "error",
-    "ignore::DeprecationWarning:l18n.translation",
-    "ignore:'index_together'.*'taggit.TaggedItem':django.utils.deprecation.RemovedInDjango51Warning:",
+    "ignore::django.utils.deprecation.RemovedInDjango60Warning",
     "ignore::UserWarning",
 ]
 
