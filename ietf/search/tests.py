@@ -24,8 +24,7 @@ class TestSearch:
         )  # type: ignore
 
         # Update index
-        call_command('update_index')
-
+        call_command("update_index")
 
     def test_search(self):
         query = "random"
