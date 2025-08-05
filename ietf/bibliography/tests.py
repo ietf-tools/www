@@ -61,7 +61,7 @@ class TestBibliography:
         assert response.status_code == 200
         html = response.content.decode()
         assert reverse("referenced_objects", args=[rfc_content_type.pk]) in html
-        assert "snippets | RFC" in html
+        assert "Snippets | RFC" in html
 
     def test_referenced_objects(self, admin_client):
         """
