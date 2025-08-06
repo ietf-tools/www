@@ -201,7 +201,7 @@ class BibliographyMixin(models.Model):
                             "data-id": obj_id,
                         },
                     ):
-                        t.replaceWith(item.link)
+                        t.replace_with(item.link)
 
             for prepared_content_field, prepared_soup in subsoups.items():
                 setattr(self, prepared_content_field, prepared_soup.__unicode__())

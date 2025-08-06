@@ -1,4 +1,5 @@
 import pytest
+from django.core.management import call_command
 from django.test import Client
 from django.urls import reverse
 from wagtail.models import Page
@@ -21,6 +22,9 @@ class TestSearch:
             parent=self.home,
             introduction="Some random introduction text",
         )  # type: ignore
+
+        # Update index
+        call_command("update_index")
 
     def test_search(self):
         query = "random"

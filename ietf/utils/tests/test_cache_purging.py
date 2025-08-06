@@ -1,6 +1,7 @@
 from unittest.mock import Mock, call
 
 import pytest
+from django.core.management import call_command
 from django.test import Client
 from wagtail.models import Page
 
@@ -47,6 +48,7 @@ class TestPagePurging:
             },
         ]
         self.standard_page.save()
+        call_command("rebuild_references_index", verbosity=0)
         self.home.save_revision().publish()
 
         # Wagtail already purges the page itself
@@ -64,6 +66,7 @@ class TestPagePurging:
     def test_main_menu_reference_updates_homepage(self):
         MainMenuItem.objects.create(page=self.standard_page, sort_order=1)
         self.mock_purge.reset_mock()
+        call_command("rebuild_references_index", verbosity=0)
         self.standard_page.save_revision().publish()
 
         assert self.mock_purge.call_args_list == [
