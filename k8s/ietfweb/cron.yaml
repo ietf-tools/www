@@ -1,10 +1,10 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: ietfwww-cron-weekly
+  name: ietfwww-cron-hourly
   labels:
-    app.kubernetes.io/name: cron-weekly
-    app.kubernetes.io/instance: ietfwww-cron-weekly
+    app.kubernetes.io/name: cron-hourly
+    app.kubernetes.io/instance: ietfwww-cron-hourly
     app.kubernetes.io/component: cronjob
 spec:
   schedule: "44 * * * *"  # "At minute 44 of every hour."
@@ -17,7 +17,7 @@ spec:
         spec:
           restartPolicy: Never
           containers:
-            - name: ietfwww-cron-weekly
+            - name: ietfwww-cron-hourly
               image: "ghcr.io/ietf-tools/www:$APP_IMAGE_TAG"
               imagePullPolicy: Always
               volumeMounts:
