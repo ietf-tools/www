@@ -45,9 +45,9 @@ spec:
                 - /bin/sh
                 - -c
                 - |
+                  python /app/manage.py publish_scheduled &&
                   python /app/manage.py update_index &&
-                  python /app/manage.py rebuild_references_index &&
-                  python /app/manage.py publish_scheduled
+                  python /app/manage.py rebuild_references_index
           volumes:
             - name: ietfwww-cfg
               configMap:
