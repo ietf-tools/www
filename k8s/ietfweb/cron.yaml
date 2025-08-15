@@ -7,7 +7,7 @@ metadata:
     app.kubernetes.io/instance: ietfwww-cron-weekly
     app.kubernetes.io/component: cronjob
 spec:
-  schedule: "30 0 * * 0" # "At 00:30 on Sunday."
+  schedule: "44 * * * *"  # "At minute 44 of every hour."
   timeZone: "Etc/UTC"
   concurrencyPolicy: Forbid # No concurrent runs
   jobTemplate:
@@ -46,7 +46,8 @@ spec:
                 - -c
                 - |
                   python /app/manage.py update_index &&
-                  python /app/manage.py rebuild_references_index
+                  python /app/manage.py rebuild_references_index &&
+                  python /app/manage.py publish_scheduled
           volumes:
             - name: ietfwww-cfg
               configMap:
