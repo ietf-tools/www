@@ -21,6 +21,8 @@ spec:
               image: "ghcr.io/ietf-tools/www:$APP_IMAGE_TAG"
               imagePullPolicy: Always
               volumeMounts:
+                - name: www-media
+                  mountPath: /app/media
                 - name: ietfwww-cfg
                   mountPath: /app/ietf/settings/local.py
                   subPath: local.py
