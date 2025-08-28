@@ -1,13 +1,13 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: iabwww-cron-weekly
+  name: iabwww-cron-hourly
   labels:
-    app.kubernetes.io/name: cron-weekly
-    app.kubernetes.io/instance: iabwww-cron-weekly
+    app.kubernetes.io/name: cron-hourly
+    app.kubernetes.io/instance: iabwww-cron-hourly
     app.kubernetes.io/component: cronjob
 spec:
-  schedule: "30 0 * * 0" # "At 00:30 on Sunday."
+  schedule: "32 * * * *"  # "At minute 32 of every hour."
   timeZone: "Etc/UTC"
   concurrencyPolicy: Forbid # No concurrent runs
   jobTemplate:
@@ -17,7 +17,7 @@ spec:
         spec:
           restartPolicy: Never
           containers:
-            - name: iabwww-cron-weekly
+            - name: iabwww-cron-hourly
               image: "ghcr.io/ietf-tools/www:$APP_IMAGE_TAG"
               imagePullPolicy: Always
               volumeMounts:
@@ -52,6 +52,7 @@ spec:
                 - /bin/sh
                 - -c
                 - |
+                  python /app/manage.py publish_scheduled &&
                   python /app/manage.py update_index &&
                   python /app/manage.py rebuild_references_index
           volumes:
