@@ -57,6 +57,20 @@
                     <p>{{ result.page.search_description|safe }}</p>
                   {% endif %}
                 </li>
+              {% else %}
+                <li class="mb-4">
+                  <h3 class="h5">
+                    <a href="{{ result.external_link_url }}">
+                      {{ result.external_link_text }}
+                    </a>
+                  </h3>
+                  {% if result.description %}
+                    <p>{{ result.description|safe }}</p>
+                  {% endif %}
+                  {% if result.page.search_description %}
+                    <p>{{ result.page.search_description|safe }}</p>
+                  {% endif %}
+                </li>
               {% endif %}
             {% endfor %}
           </ul>
