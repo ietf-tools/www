@@ -108,7 +108,7 @@ typing-extensions==4.15.0
     #   beautifulsoup4
     #   django-stubs-ext
     #   django-tasks
-urllib3==2.5.0
+urllib3==2.6.0
     # via requests
 wagtail==7.0.3
     # via
