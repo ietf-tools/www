@@ -18,7 +18,8 @@ access_log_format = json.dumps(
 )
 capture_output = True
 forwarded_allow_ips = "*"
-limit_request_line = 2048
+# set request limit to django limit - len("/admin/login/?next=") - 1
+limit_request_line = 2028
 # setting workers + threads = 2 * number of cores
 workers = 4
 threads = 4
