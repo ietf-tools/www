@@ -99,7 +99,7 @@ factory-boy==3.3.3
     # via wagtail-factories
 faker==37.6.0
     # via factory-boy
-filelock==3.19.1
+filelock==3.20.3
     # via virtualenv
 filetype==1.2.0
     # via
