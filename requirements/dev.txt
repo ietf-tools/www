@@ -131,6 +131,7 @@ packaging==25.0
     #   black
     #   build
     #   pytest
+    #   wheel
 pathspec==0.12.1
     # via black
 pillow==11.3.0
@@ -208,7 +209,7 @@ wagtail==7.0.3
     #   wagtail-factories
 wagtail-factories==4.3.0
     # via -r dev.in
-wheel==0.45.1
+wheel==0.46.2
     # via pip-tools
 willow[heif]==1.11.0
     # via
