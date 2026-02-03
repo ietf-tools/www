@@ -110,7 +110,7 @@ typing-extensions==4.15.0
     #   django-tasks
 urllib3==2.6.3
     # via requests
-wagtail==7.0.3
+wagtail==7.0.4
     # via
     #   -r base.in
     #   wagtail-markdown

@@ -203,7 +203,7 @@ urllib3==2.6.3
     #   requests
 virtualenv==20.36.1
     # via pre-commit
-wagtail==7.0.3
+wagtail==7.0.4
     # via
     #   -c base.txt
     #   wagtail-factories
