@@ -295,6 +295,12 @@ class SocialMediaSettings(BaseSiteSetting):
         blank="True",
         verbose_name="bluesky link",
     )
+    facebook = models.CharField(
+        max_length=255,
+        help_text="Link to Facebook profile",
+        blank="True",
+        verbose_name="facebook link",
+    )
 
     panels = [
         FieldPanel("twitter_handle"),
@@ -308,6 +314,7 @@ class SocialMediaSettings(BaseSiteSetting):
         FieldPanel("mastodon"),
         FieldPanel("github"),
         FieldPanel("bluesky"),
+        FieldPanel("facebook"),
     ]
 
 

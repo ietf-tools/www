@@ -47,6 +47,13 @@ style="background-image: url({% static 'img/background-dark.jpg' %});"
                         </a>
                     </li>
                 {% endif %}
+                {% if social_media_settings.facebook %}
+                    <li class="iab-navbar-text iab-footer-link p-2">
+                        <a href="{{ social_media_settings.facebook }}" aria-label="facebook" rel="me">
+                            <img src="{% static 'img/facebook-icon.svg' %}" alt="" />
+                        </a>
+                    </li>
+                {% endif %}
             {% endwith %}
         </ul>
     </div>

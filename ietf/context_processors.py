@@ -34,6 +34,7 @@ def social_menu(site):
         {"url": social.mastodon, "icon": "mastodon", "title": "Mastodon"},
         {"url": social.github, "icon": "github", "title": "GitHub"},
         {"url": social.bluesky, "icon": "bluesky", "title": "Bluesky"},
+        {"url": social.facebook, "icon": "facebook", "title": "Facebook"},
     ]
     return filter(itemgetter("url"), links)
 
