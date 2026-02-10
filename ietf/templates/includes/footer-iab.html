@@ -12,13 +12,6 @@ style="background-image: url({% static 'img/background-dark.jpg' %});"
             {% endfor %}
                 <li class="ms-auto"></li>
             {% with settings.utils.SocialMediaSettings as social_media_settings %}
-                {% if social_media_settings.twitter %}
-                    <li class="iab-navbar-text iab-footer-link p-2">
-                        <a href="{{ social_media_settings.twitter }}" aria-label="twitter" rel="me">
-                            <img src="{% static 'img/twitter-icon.svg' %}" alt="" />
-                        </a>
-                    </li>
-                {% endif %}
                 {% if social_media_settings.linkedin %}
                     <li class="iab-navbar-text iab-footer-link p-2">
                         <a href="{{ social_media_settings.linkedin }}" aria-label="linkedin" rel="me">
@@ -26,17 +19,10 @@ style="background-image: url({% static 'img/background-dark.jpg' %});"
                         </a>
                     </li>
                 {% endif %}
-                {% if social_media_settings.youtube %}
+                {% if social_media_settings.facebook %}
                     <li class="iab-navbar-text iab-footer-link p-2">
-                        <a href="{{ social_media_settings.youtube }}" aria-label="youtube" rel="me">
-                            <img src="{% static 'img/youtube-icon.svg' %}" alt="" />
-                        </a>
-                    </li>
-                {% endif %}
-                {% if social_media_settings.mastodon %}
-                    <li class="iab-navbar-text iab-footer-link p-2">
-                        <a href="{{ social_media_settings.mastodon }}" aria-label="mastodon" rel="me">
-                            <img src="{% static 'img/mastodon-icon.svg' %}" alt="" />
+                        <a href="{{ social_media_settings.facebook }}" aria-label="facebook" rel="me">
+                            <img src="{% static 'img/facebook-icon.svg' %}" alt="" />
                         </a>
                     </li>
                 {% endif %}
@@ -47,10 +33,24 @@ style="background-image: url({% static 'img/background-dark.jpg' %});"
                         </a>
                     </li>
                 {% endif %}
-                {% if social_media_settings.facebook %}
+                {% if social_media_settings.twitter %}
                     <li class="iab-navbar-text iab-footer-link p-2">
-                        <a href="{{ social_media_settings.facebook }}" aria-label="facebook" rel="me">
-                            <img src="{% static 'img/facebook-icon.svg' %}" alt="" />
+                        <a href="{{ social_media_settings.twitter }}" aria-label="twitter" rel="me">
+                            <img src="{% static 'img/twitter-icon.svg' %}" alt="" />
+                        </a>
+                    </li>
+                {% endif %}
+                {% if social_media_settings.mastodon %}
+                    <li class="iab-navbar-text iab-footer-link p-2">
+                        <a href="{{ social_media_settings.mastodon }}" aria-label="mastodon" rel="me">
+                            <img src="{% static 'img/mastodon-icon.svg' %}" alt="" />
+                        </a>
+                    </li>
+                {% endif %}
+                {% if social_media_settings.youtube %}
+                    <li class="iab-navbar-text iab-footer-link p-2">
+                        <a href="{{ social_media_settings.youtube }}" aria-label="youtube" rel="me">
+                            <img src="{% static 'img/youtube-icon.svg' %}" alt="" />
                         </a>
                     </li>
                 {% endif %}
