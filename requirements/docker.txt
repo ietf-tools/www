@@ -4,9 +4,9 @@
 #
 #    pip-compile docker.in
 #
-gunicorn==23.0.0
+gunicorn==25.1.0
     # via -r docker.in
-packaging==25.0
+packaging==26.0
     # via
-    #   -c /app/requirements/base.txt
+    #   -c base.txt
     #   gunicorn
