@@ -16,7 +16,7 @@ beautifulsoup4==4.14.3
     # via
     #   -c base.txt
     #   wagtail
-black==26.1.0
+black==26.3.1
     # via -r dev.in
 build==1.4.0
     # via pip-tools
