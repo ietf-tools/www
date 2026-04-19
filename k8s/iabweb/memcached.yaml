@@ -69,17 +69,6 @@ spec:
               cpu: "500m"
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
-      # ensures pod gets scheduled on the same node as wagtail:
-      affinity:
-        podAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: app.kubernetes.io/instance
-                operator: In
-                values:
-                - iabwww-wagtail
-            topologyKey: "kubernetes.io/hostname"
 ---
 apiVersion: v1
 kind: Service
