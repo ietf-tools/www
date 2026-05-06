@@ -18,23 +18,23 @@ beautifulsoup4==4.14.3
     #   wagtail
 black==26.3.1
     # via -r dev.in
-build==1.4.0
+build==1.5.0
     # via pip-tools
-certifi==2026.1.4
+certifi==2026.4.22
     # via
     #   -c base.txt
     #   requests
 cfgv==3.5.0
     # via pre-commit
-charset-normalizer==3.4.4
+charset-normalizer==3.4.7
     # via
     #   -c base.txt
     #   requests
-click==8.3.1
+click==8.3.3
     # via
     #   black
     #   pip-tools
-coverage[toml]==7.13.4
+coverage[toml]==7.13.5
     # via pytest-cov
 defusedxml==0.7.1
     # via
@@ -42,7 +42,7 @@ defusedxml==0.7.1
     #   willow
 distlib==0.4.0
     # via virtualenv
-django==5.2.13
+django==5.2.14
     # via
     #   -c base.txt
     #   django-filter
@@ -59,7 +59,7 @@ django-filter==25.2
     # via
     #   -c base.txt
     #   wagtail
-django-modelcluster==6.4.1
+django-modelcluster==6.5
     # via
     #   -c base.txt
     #   wagtail
@@ -67,7 +67,7 @@ django-permissionedforms==0.1
     # via
     #   -c base.txt
     #   wagtail
-django-stubs-ext==5.2.9
+django-stubs-ext==6.0.3
     # via
     #   -c base.txt
     #   django-tasks
@@ -83,7 +83,7 @@ django-treebeard==4.8.0
     # via
     #   -c base.txt
     #   wagtail
-djangorestframework==3.16.1
+djangorestframework==3.17.1
     # via
     #   -c base.txt
     #   wagtail
@@ -97,17 +97,19 @@ et-xmlfile==2.0.0
     #   openpyxl
 factory-boy==3.3.3
     # via wagtail-factories
-faker==40.4.0
+faker==40.15.0
     # via factory-boy
-filelock==3.24.0
-    # via virtualenv
+filelock==3.29.0
+    # via
+    #   python-discovery
+    #   virtualenv
 filetype==1.2.0
     # via
     #   -c base.txt
     #   willow
-identify==2.6.16
+identify==2.6.19
     # via pre-commit
-idna==3.11
+idna==3.13
     # via
     #   -c base.txt
     #   requests
@@ -125,35 +127,36 @@ openpyxl==3.1.5
     # via
     #   -c base.txt
     #   wagtail
-packaging==26.0
+packaging==26.2
     # via
     #   -c base.txt
     #   black
     #   build
     #   pytest
     #   wheel
-pathspec==1.0.4
+pathspec==1.1.1
     # via black
 pillow==12.2.0
     # via
     #   -c base.txt
     #   pillow-heif
     #   wagtail
-pillow-heif==1.2.0
+pillow-heif==1.3.0
     # via
     #   -c base.txt
     #   willow
 pip-tools==7.5.3
     # via -r dev.in
-platformdirs==4.9.1
+platformdirs==4.9.6
     # via
     #   black
+    #   python-discovery
     #   virtualenv
 pluggy==1.6.0
     # via
     #   pytest
     #   pytest-cov
-pre-commit==4.5.1
+pre-commit==4.6.0
     # via -r dev.in
 pygments==2.20.0
     # via pytest
@@ -161,23 +164,25 @@ pyproject-hooks==1.2.0
     # via
     #   build
     #   pip-tools
-pytest==9.0.2
+pytest==9.0.3
     # via
     #   pytest-cov
     #   pytest-django
-pytest-cov==7.0.0
+pytest-cov==7.1.0
     # via -r dev.in
 pytest-django==4.12.0
     # via -r dev.in
+python-discovery==1.3.0
+    # via virtualenv
 pytokens==0.4.1
     # via black
 pyyaml==6.0.3
     # via pre-commit
-requests==2.33.0
+requests==2.33.1
     # via
     #   -c base.txt
     #   wagtail
-ruff==0.15.1
+ruff==0.15.12
     # via -r dev.in
 soupsieve==2.8.3
     # via
@@ -201,15 +206,15 @@ urllib3==2.6.3
     # via
     #   -c base.txt
     #   requests
-virtualenv==20.36.1
+virtualenv==21.3.1
     # via pre-commit
-wagtail==7.0.6
+wagtail==7.0.7
     # via
     #   -c base.txt
     #   wagtail-factories
 wagtail-factories==4.4.0
     # via -r dev.in
-wheel==0.46.3
+wheel==0.47.0
     # via pip-tools
 willow[heif]==1.12.0
     # via
