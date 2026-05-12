@@ -34,7 +34,7 @@ click==8.3.3
     # via
     #   black
     #   pip-tools
-coverage[toml]==7.13.5
+coverage[toml]==7.14.0
     # via pytest-cov
 defusedxml==0.7.1
     # via
@@ -54,6 +54,7 @@ django==5.2.14
     #   django-treebeard
     #   djangorestframework
     #   laces
+    #   modelsearch
     #   wagtail
 django-filter==25.2
     # via
@@ -67,7 +68,7 @@ django-permissionedforms==0.1
     # via
     #   -c base.txt
     #   wagtail
-django-stubs-ext==6.0.3
+django-stubs-ext==6.0.4
     # via
     #   -c base.txt
     #   django-tasks
@@ -75,11 +76,12 @@ django-taggit==6.1.0
     # via
     #   -c base.txt
     #   wagtail
-django-tasks==0.7.0
+django-tasks==0.12.0
     # via
     #   -c base.txt
+    #   modelsearch
     #   wagtail
-django-treebeard==4.8.0
+django-treebeard==5.1.0
     # via
     #   -c base.txt
     #   wagtail
@@ -109,13 +111,17 @@ filetype==1.2.0
     #   willow
 identify==2.6.19
     # via pre-commit
-idna==3.13
+idna==3.14
     # via
     #   -c base.txt
     #   requests
 iniconfig==2.3.0
     # via pytest
 laces==0.1.2
+    # via
+    #   -c base.txt
+    #   wagtail
+modelsearch==1.3.1
     # via
     #   -c base.txt
     #   wagtail
@@ -172,13 +178,13 @@ pytest-cov==7.1.0
     # via -r dev.in
 pytest-django==4.12.0
     # via -r dev.in
-python-discovery==1.3.0
+python-discovery==1.3.1
     # via virtualenv
 pytokens==0.4.1
     # via black
 pyyaml==6.0.3
     # via pre-commit
-requests==2.33.1
+requests==2.34.0
     # via
     #   -c base.txt
     #   wagtail
@@ -202,13 +208,13 @@ typing-extensions==4.15.0
     #   beautifulsoup4
     #   django-stubs-ext
     #   django-tasks
-urllib3==2.6.3
+urllib3==2.7.0
     # via
     #   -c base.txt
     #   requests
-virtualenv==21.3.1
+virtualenv==21.3.2
     # via pre-commit
-wagtail==7.0.7
+wagtail==7.4
     # via
     #   -c base.txt
     #   wagtail-factories
