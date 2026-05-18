@@ -55,7 +55,7 @@
         "jquery": "^3.6.0",
         "jquery-ui": "^1.13.2",
         "normalize.css": "^8.0.1",
-        "postcss": "^8.2.15",
+        "postcss": "^8.5.10",
         "postcss-normalize": "^10.0.0",
         "sass": "^1.35.1",
         "ts-node": "^10.0.0",
