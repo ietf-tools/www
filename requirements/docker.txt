@@ -7,6 +7,4 @@
 gunicorn==26.0.0
     # via -r docker.in
 packaging==26.2
-    # via
-    #   -c base.txt
-    #   gunicorn
+    # via gunicorn
