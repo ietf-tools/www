@@ -14,7 +14,9 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <title>IAB {% block title %}{% if self.seo_title %} | {{ self.seo_title }}{% else %} | {{ self.title }}{% endif %}{% endblock %}{% block title_suffix %}{% endblock %}</title>
         {% if self.search_description %}
-            <meta name="description" content="" />
+        <meta name="description" content="{{ self.search_description }}" />
+        {% else %}
+        <meta name="description" content="{% social_text page current_site %}" />
         {% endif %}
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
