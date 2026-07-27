@@ -141,7 +141,7 @@ packaging==26.2
     #   wheel
 pathspec==1.1.1
     # via black
-pillow==12.2.0
+pillow==12.3.0
     # via
     #   -c base.txt
     #   pillow-heif

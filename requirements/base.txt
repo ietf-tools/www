@@ -78,7 +78,7 @@ nh3==0.3.6
     # via wagtail-markdown
 openpyxl==3.1.5
     # via wagtail
-pillow==12.2.0
+pillow==12.3.0
     # via
     #   pillow-heif
     #   wagtail
