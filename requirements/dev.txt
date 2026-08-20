@@ -193,7 +193,7 @@ soupsieve==2.8.4
     # via
     #   -c base.txt
     #   beautifulsoup4
-sqlparse==0.5.5
+sqlparse==0.6.0
     # via
     #   -c base.txt
     #   django
