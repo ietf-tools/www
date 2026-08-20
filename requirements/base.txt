@@ -94,7 +94,7 @@ six==1.17.0
     # via html5lib
 soupsieve==2.8.4
     # via beautifulsoup4
-sqlparse==0.5.5
+sqlparse==0.6.0
     # via django
 telepath==0.3.1
     # via wagtail
