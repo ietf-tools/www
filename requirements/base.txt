@@ -54,7 +54,7 @@ django-tasks==0.12.0
     #   wagtail
 django-treebeard==5.2.2
     # via wagtail
-djangorestframework==3.17.1
+djangorestframework==3.17.2
     # via wagtail
 draftjs-exporter==5.2.0
     # via wagtail

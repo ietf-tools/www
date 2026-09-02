@@ -85,7 +85,7 @@ django-treebeard==5.2.2
     # via
     #   -c base.txt
     #   wagtail
-djangorestframework==3.17.1
+djangorestframework==3.17.2
     # via
     #   -c base.txt
     #   wagtail
