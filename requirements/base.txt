@@ -92,7 +92,7 @@ requests==2.34.2
     # via wagtail
 six==1.17.0
     # via html5lib
-soupsieve==2.8.4
+soupsieve==2.9
     # via beautifulsoup4
 sqlparse==0.6.0
     # via django

@@ -189,7 +189,7 @@ requests==2.34.2
     #   wagtail
 ruff==0.15.18
     # via -r dev.in
-soupsieve==2.8.4
+soupsieve==2.9
     # via
     #   -c base.txt
     #   beautifulsoup4
