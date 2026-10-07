@@ -4,7 +4,5 @@
 #
 #    pip-compile docker.in
 #
-gunicorn==26.0.0
+gunicorn==26.2.0
     # via -r docker.in
-packaging==26.2
-    # via gunicorn
