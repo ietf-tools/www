@@ -10,7 +10,7 @@ asgiref==3.12.1
     # via django
 beautifulsoup4==4.15.0
     # via wagtail
-certifi==2026.7.22
+certifi==2026.10.19
     # via requests
 chardet==6.0.0.post1
     # via mbstrdecoder
@@ -68,7 +68,7 @@ idna==3.20
     # via requests
 laces==0.1.2
     # via wagtail
-markdown==3.11
+markdown==3.11.2
     # via wagtail-markdown
 mbstrdecoder==1.1.5
     # via typepy
@@ -78,11 +78,11 @@ nh3==0.3.7
     # via wagtail-markdown
 openpyxl==3.1.5
     # via wagtail
-pillow==12.3.0
+pillow==13.0.0
     # via
     #   pillow-heif
     #   wagtail
-pillow-heif==1.8.0
+pillow-heif==1.8.1
     # via willow
 psycopg2==2.9.13
     # via -r base.in
@@ -92,7 +92,7 @@ requests==2.34.2
     # via wagtail
 six==1.17.0
     # via html5lib
-soupsieve==2.10
+soupsieve==3.0.3
     # via beautifulsoup4
 sqlparse==0.6.0
     # via django
@@ -111,7 +111,7 @@ typing-extensions==4.16.0
     #   django-tasks
 urllib3==2.8.0
     # via requests
-wagtail==7.4.3
+wagtail==7.4.4
     # via
     #   -r base.in
     #   wagtail-markdown
