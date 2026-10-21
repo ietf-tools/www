@@ -10,6 +10,7 @@ const cssnano = require('cssnano');
 module.exports = (env, options) => {
     return {
         mode: options.mode,
+        optimization: { minimizeOptions: { html: false } },
         devtool:
             options.mode !== 'production' ? 'eval-source-map' : undefined,
         entry: './ietf/static_src/index.js',
