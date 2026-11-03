@@ -211,7 +211,7 @@ urllib3==2.8.0
     # via
     #   -c base.txt
     #   requests
-virtualenv==21.14.11
+virtualenv==21.14.13
     # via pre-commit
 wagtail==7.4.4
     # via
