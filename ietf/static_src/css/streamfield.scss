@@ -55,10 +55,15 @@ $border-colour: #bebebe;
 .block-table,
 .block-typed_table {
     margin: 30px 0;
+    overflow-wrap: anywhere;
 
     @include media-breakpoint-up(sm) {
         border: 0;
         max-width: 902px;
+    }
+
+    @include media-breakpoint-up(md) {
+        overflow-wrap: normal;
     }
 }
 .block-table,
